@@ -32,7 +32,7 @@ def make_dataframe(input_folder, labels_folder=None):
         labels = labels.set_index('id')
 
         #JOIN
-        df = labels.join(df_text)[['text','type']]
+        df = labels.join(df_text)[['text', 'type']]
 
     return df
 

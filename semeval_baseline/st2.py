@@ -21,7 +21,7 @@ def make_dataframe(input_folder, labels_folder=None):
         iD, txt = fil[7:].split('.')[0], open(input_folder +fil, 'r', encoding='utf-8').read()
         text.append((iD, txt))
 
-    df_text = pd.DataFrame(text, columns=['id','text']).set_index('id')
+    df_text = pd.DataFrame(text, columns=['id', 'text']).set_index('id')
     df = df_text
     
     #MAKE LABEL DATAFRAME
@@ -33,9 +33,9 @@ def make_dataframe(input_folder, labels_folder=None):
 
         #JOIN
         df = labels.join(df_text)[['text','frames']]
-        
     
     return df
+
 
 def main():
     
