@@ -5,10 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3359b6ce-9e44-4da3-956d-9609d831df93" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/documentation/analyses/Behavior of labels.ipynb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/InputDataset.py" beforeDir="false" afterPath="$PROJECT_DIR$/InputDataset.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/documentation/analyses/content and structure of documents.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/documentation/analyses/content and structure of documents.ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/draft_tf_idf pipeline.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/draft_tf_idf pipeline.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/documentation/analyses/Are there duplicates?.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/documentation/analyses/Are there duplicates?.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/documentation/analyses/content and structure of documents.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/documentation/analyses/Content and structure of documents.ipynb" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -141,7 +142,7 @@
       <workItem from="1665057185627" duration="5498000" />
       <workItem from="1665064446837" duration="11268000" />
       <workItem from="1665307645662" duration="6000" />
-      <workItem from="1665647139911" duration="26418000" />
+      <workItem from="1665647139911" duration="28024000" />
     </task>
     <servers />
   </component>
@@ -158,6 +159,17 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/InputDataset.py</url>
+          <line>162</line>
+          <option name="timeStamp" value="17" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/Framing$basic_preprocessing.coverage" NAME="basic_preprocessing Coverage Results" MODIFIED="1665060979164" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />

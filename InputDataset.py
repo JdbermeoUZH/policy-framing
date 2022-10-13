@@ -40,9 +40,9 @@ class BaseArticleDataset:
         text = []
 
         for fil in tqdm(filter(lambda x: x.endswith('.txt'), os.listdir(self.article_dir_path))):
-            id, txt = fil[7:].split('.')[0], \
-                      open(os.path.join(self.article_dir_path, fil), 'r', encoding='utf-8').read()
-            text.append((id, txt))
+            id_, txt = fil[7:].split('.')[0], \
+                       open(os.path.join(self.article_dir_path, fil), 'r', encoding='utf-8').read()
+            text.append((id_, txt))
 
         return pd.DataFrame(text, columns=['id', 'raw_text']) \
             .astype({'id': 'int', 'raw_text': 'str'}) \
@@ -107,7 +107,8 @@ class FramingArticleDataset(BaseArticleDataset):
             self.df.content.map(lambda content: extract_n_sentences(
                 content, nlp, n_sentences=n_sentences, break_pattern='\n'))
 
-    def extract_title_and_first_paragraph(self, nlp: spacy.Language, min_token_paragraph: int = 40, min_sentences_paragraph: int = 1) -> None:
+    def extract_title_and_first_paragraph(self, nlp: spacy.Language,
+                                          min_token_paragraph: int = 40, min_sentences_paragraph: int = 1) -> None:
         first_paragraph = self.df.content.str.split('\n').str[0]
         second_paragraph = self.df.content.str.split('\n').str[1]
 
@@ -150,14 +151,14 @@ def main(language: str, input_data_dir: str, subtask: int, output_path_dir: str)
     train_data.extract_all_units_of_analysis(nlp=nlp)
     train_data.save_dataset(os.path.join(output_path_dir, f'input_{language}_train.csv'))
 
-    test_data = FramingArticleDataset(data_dir=input_data_dir, language=language, subtask=subtask, split='test')
+    test_data = FramingArticleDataset(data_dir=input_data_dir, language=language, subtask=subtask, split='dev')
     test_data.extract_all_units_of_analysis(nlp=nlp)
-    train_data.save_dataset(os.path.join(output_path_dir, f'input_{language}_test.csv'))
+    train_data.save_dataset(os.path.join(output_path_dir, f'input_{language}_dev.csv'))
 
 
 if __name__ == "__main__":
-    output_path = os.path.join('data', 'preprocessed')
-    os.makedirs(output_path, exist_ok=True)
-    main(language='en', input_data_dir='data', subtask=2, output_path_dir=output_path)
-    main(language='ru', input_data_dir='data', subtask=2, output_path_dir=output_path)
-    main(language='it', input_data_dir='data', subtask=2, output_path_dir=output_path)
+    output_path_ = os.path.join('data', 'preprocessed')
+    os.makedirs(output_path_, exist_ok=True)
+    main(language='en', input_data_dir='data', subtask=2, output_path_dir=output_path_)
+    main(language='ru', input_data_dir='data', subtask=2, output_path_dir=output_path_)
+    main(language='it', input_data_dir='data', subtask=2, output_path_dir=output_path_)
