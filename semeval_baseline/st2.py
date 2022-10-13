@@ -39,7 +39,6 @@ def make_dataframe(input_folder, labels_folder=None):
 
 def main():
     
-    
     parser = argparse.ArgumentParser(description='Subtask-2')
     parser.add_argument('train_folder',  type=str, nargs=1,
                         help='Path to training articles')
@@ -49,8 +48,9 @@ def main():
                     help='Path to training labels')
     parser.add_argument('-o', "--output",  type=str, nargs=1,
                 help='Path to output predictions on dev (mandatory)')
-    
+
     args = parser.parse_args()
+
     if not args.output:
         print("argument -o is mandatory")
         sys.exit(1)

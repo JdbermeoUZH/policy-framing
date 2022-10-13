@@ -1,0 +1,13 @@
+dataset:
+  language: 'en'                     # en, ru, it
+  subtask: 2                         # 1, 2, 3
+  analysis_unit: 'title'             # 'title', 't + 1paragraph', 't + 5sentences', 't + 10sentences'
+                                     # 'title + 1st sentence per paragraph', 'whole document'
+  train:
+    data_dir: 'data'
+
+preprocessing:
+  spacy_model_size: 'small'          # sm
+  max_df: 0.95                       # [0, 1.0] maximum document frequency for a term to be included
+  min_df: 0.05                       # [0, 1.0] minimum document frequency for a term to be included
+  max_features: 10000                # Maximum number of features
