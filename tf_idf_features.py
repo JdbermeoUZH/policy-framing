@@ -8,7 +8,7 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 
 def basic_cleaning(text: str, spacy_nlp_model: spacy.Language) -> List[str]:
     """
-    Lemmatize, remove punctutation, and stopwords of a sting
+    Lemmatize, remove punctutation, and stopwords of a string
     :return:
     """
     return [token.lemma_ for token in spacy_nlp_model(text) if not token.is_punct and not token.is_stop]
