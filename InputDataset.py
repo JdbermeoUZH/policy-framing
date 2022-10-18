@@ -97,7 +97,6 @@ class FramingArticleDataset(BaseArticleDataset):
         if self.language == 'en' and self.subtask == 2 and self.split == 'train':
             self.df.drop([999000878, 833032367], axis=0, inplace=True)
 
-    # TODO: Add the units of analyses proposed by Meysam
     def extract_title_and_first_n_sentences(self, nlp: spacy.Language, n_sentences: int) -> None:
         if 'title' not in self.df.columns:
             self.separate_title_content()
