@@ -9,6 +9,9 @@
  * Articles seem to come from fringe rather unreliable sources of news. This is probably because they reflect a specific frame and bias more strongly.
  * Structure/parsing is overall stable, with russian seeming to have the least number of edge cases. Articles in english sometimes have the wrong paragraph order or parsed ads or links to other articles within the document.
  * A couple of exact duplicates where found in the english dataset.
+    * No other exact duplicates were detected at the other 4 units of analysis (title_and_5_sentences, title_and_10_sentences, title_and_first_paragraph, title_and_first_sentence_each_paragraph).
+    * Fuzzy matching for possible duplicates is pending, but is probably more of an edge case for English given the size of the dataset.
+    * 
 
 
 ## Labels

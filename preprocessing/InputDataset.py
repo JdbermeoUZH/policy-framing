@@ -156,8 +156,8 @@ def main(language: str, input_data_dir: str, subtask: int, output_path_dir: str)
 
 
 if __name__ == "__main__":
-    output_path_ = os.path.join('data', 'preprocessed')
+    output_path_ = os.path.join('../data', 'preprocessed')
     os.makedirs(output_path_, exist_ok=True)
-    main(language='en', input_data_dir='data', subtask=2, output_path_dir=output_path_)
-    main(language='ru', input_data_dir='data', subtask=2, output_path_dir=output_path_)
-    main(language='it', input_data_dir='data', subtask=2, output_path_dir=output_path_)
+    main(language='en', input_data_dir='../data', subtask=2, output_path_dir=output_path_)
+    main(language='ru', input_data_dir='../data', subtask=2, output_path_dir=output_path_)
+    main(language='it', input_data_dir='../data', subtask=2, output_path_dir=output_path_)
