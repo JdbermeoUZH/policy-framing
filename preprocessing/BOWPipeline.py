@@ -25,7 +25,9 @@ class BOWPipeline:
                  min_df: float = 0.05,
                  max_df: float = 0.95,
                  ngram_range: Tuple[int, int] = (1, 1),
-                 max_features: Optional[int] = 10000
+                 max_features: Optional[int] = 10000,
+                 min_var: float = 1e-4,
+                 corr_threshold: float = 0.9
                  ):
         self.tokenizer = tokenizer
         self.vectorizer = TfidfVectorizer() if use_tfidf else CountVectorizer()
@@ -39,10 +41,22 @@ class BOWPipeline:
 
         self.pipeline = Pipeline([('vectorizer', self.vectorizer)])
 
+        if min_var:
+            self.add_low_var_threshold(min_var=min_var)
+        else:
+            self.min_var = None
+
+        if corr_threshold:
+            self.add_corr_filter(corr_threshold=corr_threshold)
+        else:
+            self.corr_threshold = None
+
     def add_low_var_threshold(self, min_var: float = 1e-4):
+        self.min_var = min_var
         self.pipeline.steps.append(('low_var_filter', VarianceThreshold(min_var)))
 
     def add_corr_filter(self, corr_threshold: float = 0.9):
+        self.corr_threshold = corr_threshold
         self.pipeline.steps.append(('corr_filter', CorrelationFilter(corr_threshold)))
 
 

@@ -3,6 +3,8 @@ import os
 import pandas as pd
 import spacy
 from tqdm import tqdm
+from sklearn.preprocessing import MultiLabelBinarizer
+
 
 """
 Helper Functions
@@ -72,6 +74,13 @@ class BaseArticleDataset:
 
 
 class FramingArticleDataset(BaseArticleDataset):
+    labels = ('fairness_and_equality', 'security_and_defense', 'crime_and_punishment', 'morality',
+              'policy_prescription_and_evaluation', 'capacity_and_resources', 'economic', 'cultural_identity',
+              'health_and_safety', 'quality_of_life', 'legality_constitutionality_and_jurisprudence',
+              'political', 'public_opinion', 'external_regulation_and_reputation')
+    multilabel_binarizer = MultiLabelBinarizer()
+    multilabel_binarizer.fit([labels])
+
     def __init__(self, data_dir: str = 'data', language: str = 'en', subtask: int = 2, split: str = 'train',
                  load_preprocessed_units_of_analysis: bool = False,
                  units_of_analysis_dir: str = os.path.join('data', 'preprocessed'),
@@ -142,6 +151,12 @@ class FramingArticleDataset(BaseArticleDataset):
         self.extract_title_and_first_n_sentences(nlp=nlp, n_sentences=10)
         self.extract_title_and_first_paragraph(nlp=nlp)
         self.extract_title_and_first_sentence_each_paragraph(nlp=nlp)
+
+    def vectorize_multilabels(self, y=None):
+        if not y:
+            y = self.df.frames
+
+        return self.multilabel_binarizer.transform(y.str.lower().str.split(','))
 
     def save_dataset(self, output_path: str) -> None:
         if output_path.split('.')[-1] == 'csv':
