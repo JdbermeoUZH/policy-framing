@@ -72,11 +72,20 @@ class BaseArticleDataset:
 
 
 class FramingArticleDataset(BaseArticleDataset):
-    def __init__(self, data_dir: str = 'data', language: str = 'en', subtask: int = 2, split: str = 'train'):
+    def __init__(self, data_dir: str = 'data', language: str = 'en', subtask: int = 2, split: str = 'train',
+                 load_preprocessed_units_of_analysis: bool = False,
+                 units_of_analysis_dir: str = os.path.join('data', 'preprocessed'),
+                 units_of_analysis_format: str = 'csv'):
         super().__init__(data_dir=data_dir, language=language, subtask=subtask, split=split)
         if split == 'train':
             self._add_labels()
             self._remove_duplicates()
+
+        if load_preprocessed_units_of_analysis:
+            self.df = pd.read_csv(
+                os.path.join(units_of_analysis_dir, f'input_{language}_{split}.{units_of_analysis_format}'),
+                index_col='id'
+            )
 
         self.separate_title_content()
 

@@ -10,7 +10,7 @@ from sklearn.pipeline import Pipeline
 from preprocessing.CorrelationFilter import CorrelationFilter
 
 
-def basic_cleaning(text: str, spacy_nlp_model: spacy.Language) -> List[str]:
+def basic_tokenizing_and_cleaning(text: str, spacy_nlp_model: spacy.Language) -> List[str]:
     """
     Lemmatize, remove punctutation, and stopwords of a string
     :return:
@@ -46,7 +46,6 @@ class BOWPipeline:
         self.pipeline.steps.append(('corr_filter', CorrelationFilter(corr_threshold)))
 
 
-
 if __name__ == "__main__":
     # Load example dataset
     DATA_DIR = os.path.join('data', 'preprocessed')
@@ -55,7 +54,7 @@ if __name__ == "__main__":
     # Use the pipeline on a dataset
     en_nlp = spacy.load('en_core_web_sm')
     preproc_pipeline = BOWPipeline(
-        tokenizer=lambda string: basic_cleaning(string, spacy_nlp_model=en_nlp),
+        tokenizer=lambda string: basic_tokenizing_and_cleaning(string, spacy_nlp_model=en_nlp),
         use_tfidf=True,
         min_df=0.05,
         max_df=0.95,
