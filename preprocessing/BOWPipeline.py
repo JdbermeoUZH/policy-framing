@@ -26,9 +26,10 @@ class BOWPipeline:
                  max_df: float = 0.95,
                  ngram_range: Tuple[int, int] = (1, 1),
                  max_features: Optional[int] = 10000,
-                 min_var: float = 1e-4,
-                 corr_threshold: float = 0.9
+                 min_var: Optional[float] = 1e-4,
+                 corr_threshold: Optional[float] = 0.9
                  ):
+        self.use_tfidf = use_tfidf
         self.tokenizer = tokenizer
         self.vectorizer = TfidfVectorizer() if use_tfidf else CountVectorizer()
         self.vectorizer.set_params(
@@ -73,9 +74,9 @@ if __name__ == "__main__":
         min_df=0.05,
         max_df=0.95,
         ngram_range=(1, 1),
-        max_features=None
+        max_features=None,
+        min_var=1e-3,
+        corr_threshold=.9
     )
 
-    preproc_pipeline.add_low_var_threshold(min_var=1e-3)
-    preproc_pipeline.add_corr_filter(corr_threshold=0.9)
     train_df = preproc_pipeline.pipeline.fit_transform(en_train_df.title_and_first_paragraph)

@@ -15,7 +15,7 @@ DEFAULT_SCORING_FUNCTIONS = ('f1_micro', 'f1_macro', 'accuracy', 'precision_micr
                              'precision_macro', 'recall_micro', 'recall_macro')
 
 
-class Estimator:
+class MultiLabelEstimator:
 
     def __init__(
             self,
@@ -40,6 +40,9 @@ class Estimator:
             ranking_score: str = 'f1_micro',
             scoring_functions: Optional[Union[Tuple[str], List[str]]] = None
     ) -> dict:
+        # Verify dimensions match
+        assert X.shape[0] == y.shape[0]
+
         print(f"Running Nested Cross Validation for {self.base_estimator_name}")
         print(f"Total number of training runs is: "
               f"{k_outer * (hyperparam_samples_per_outer_fold * k_inner + 1)}")
@@ -67,27 +70,82 @@ class Estimator:
 
         return nested_cv_results
 
+    def get_model_name(self) -> str:
+        return self.base_estimator_name
 
-if __name__ == '__main__':
+    def get_multilabel_model_type(self) -> str:
+        return self.estimator_type
+
+
+def main() -> dict:
+    from sklearn.svm import SVC
+    from sklearn.preprocessing import MultiLabelBinarizer
     DATA_DIR = os.path.join('..', 'data')
-    print('a')
+
     # Test with dataset in english of subtask 2
+
+    # Load the data
     en_train = FramingArticleDataset(data_dir=DATA_DIR, language='en', subtask=2, split='train',
                                      load_preprocessed_units_of_analysis=True,
                                      units_of_analysis_dir=os.path.join(DATA_DIR, 'preprocessed'))
-    print('b')
+
+    # Preprocess text data
+    en_nlp = spacy.load('en_core_web_sm')
     vectorizing_pipeline = BOWPipeline(
-        tokenizer=lambda string: basic_tokenizing_and_cleaning(string, spacy_nlp_model=spacy.load('en_core_web_sm')),
+        tokenizer=lambda string: basic_tokenizing_and_cleaning(string, spacy_nlp_model=en_nlp),
         use_tfidf=True,
         min_df=0.05,
         max_df=0.95,
         ngram_range=(1, 1),
-        max_features=1000,
+        max_features=None,
         min_var=1e-3,
-        corr_threshold=0.9
+        corr_threshold=.9
     )
 
-    print('c')
     X_train = vectorizing_pipeline.pipeline.fit_transform(en_train.df.title_and_first_paragraph)
-    print('d')
-    y_train = FramingArticleDataset.vectorize_multilabels()
+
+    # Preprocess labels
+    labels = ('fairness_and_equality', 'security_and_defense', 'crime_and_punishment', 'morality',
+              'policy_prescription_and_evaluation',
+              'capacity_and_resources', 'economic', 'cultural_identity', 'health_and_safety', 'quality_of_life',
+              'legality_constitutionality_and_jurisprudence',
+              'political', 'public_opinion', 'external_regulation_and_reputation')
+    mlb = MultiLabelBinarizer()
+    mlb.fit([labels])
+    y_tran = y_train = mlb.transform(en_train.df.frames.str.lower().str.split(','))
+
+    # Run the nested cross validation estimator for SVM with RBF kernel
+    svm = SVC()
+    hyperparam_space = params = {
+        'estimator__C': loguniform(1e-2, 1e3),
+        'estimator__gamma': loguniform(1e-4, 1e-1)
+    }
+
+    multilabel_cls = MultiLabelEstimator(
+        base_estimator=svm,
+        base_estimator_hyperparam_dist=hyperparam_space,
+        treat_labels_as_independent=True
+    )
+
+    results_nested_cv = multilabel_cls.nested_cross_validation(
+        X=X_train, y=y_train,
+        k_outer=3,
+        hyperparam_samples_per_outer_fold=3,
+        k_inner=2,
+        ranking_score='f1_micro'
+    )
+
+    main_objects_params = {
+        'unit_of_analysis': 'title_and_first_paragraph',
+        'spacy_model_used': f'{en_nlp.meta["lang"]}_{en_nlp.meta["name"]}',
+        'preprocessing_pipeline': vectorizing_pipeline,
+        'estimator': multilabel_cls,
+        'nested_cv_results': results_nested_cv
+    }
+
+    return main_objects_params
+
+
+if __name__ == '__main__':
+    main_results_dict = main()
+    results_nested_cv_ = main_results_dict['nested_cv_results']
