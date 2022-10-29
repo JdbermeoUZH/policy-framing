@@ -1,7 +1,6 @@
 import os
 from typing import Tuple, Optional, List, Union
 
-import pandas as pd
 import spacy
 from scipy.stats import loguniform
 from sklearn.base import ClassifierMixin
@@ -16,7 +15,6 @@ DEFAULT_SCORING_FUNCTIONS = ('f1_micro', 'f1_macro', 'accuracy', 'precision_micr
 
 
 class MultiLabelEstimator:
-
     def __init__(
             self,
             base_estimator: ClassifierMixin,
@@ -116,7 +114,7 @@ def main() -> dict:
 
     # Run the nested cross validation estimator for SVM with RBF kernel
     svm = SVC()
-    hyperparam_space = params = {
+    hyperparam_space = {
         'estimator__C': loguniform(1e-2, 1e3),
         'estimator__gamma': loguniform(1e-4, 1e-1)
     }

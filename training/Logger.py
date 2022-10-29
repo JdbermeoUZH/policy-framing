@@ -40,6 +40,7 @@ class Logger:
             spacy_model_used: str,
             preprocessing_pipeline: BOWPipeline
     ) -> None:
+        log_param('n_features', len(preprocessing_pipeline.vectorizer.get_feature_names_out()))
         log_param('unit_of_analysis', unit_of_analysis)
         log_param('spacy_model_used', spacy_model_used)
         log_param('tfidf', preprocessing_pipeline.use_tfidf)

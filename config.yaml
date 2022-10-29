@@ -1,13 +1,34 @@
 dataset:
-  language: 'en'                     # en, ru, it
-  subtask: 2                         # 1, 2, 3
-  analysis_unit: 'title'             # 'title', 't + 1paragraph', 't + 5sentences', 't + 10sentences'
-                                     # 'title + 1st sentence per paragraph', 'whole document'
-  train:
-    data_dir: 'data'
+  language: 'en'                    # en, ru, it, po, fr
+  subtask: 2                        # 1, 2, 3
+  data_dir: 'data'                  # Relative path to directory with data
 
 preprocessing:
-  spacy_model_size: 'small'          # sm
-  max_df: 0.95                       # [0, 1.0] maximum document frequency for a term to be included
-  min_df: 0.05                       # [0, 1.0] minimum document frequency for a term to be included
-  max_features: 10000                # Maximum number of features
+  split: 'train'                    # Split of the data to use
+  analysis_unit: 'all'              # 'title', 'title_and_first_paragraph', 'title_and_5_sentences', 'title_and_10_sentences',
+                                    # 'title_and_first_sentence_each_paragraph', 'all'
+  load_preproc_input_data: True     # Whether or not to rerun the script that produces the units of analysis
+
+  spacy_model_size: 'small'         # small or large. small should be enough for preprocessing, it is mostly tokenizing so far
+  use_tfidf: True                   # True := TFIDFVectorizer, False := CountVectorizer
+  min_df: 0.05                      # [0, 1.0] minimum document frequency for a term to be included
+  max_df: 0.95                      # [0, 1.0] maximum document frequency for a term to be included
+  max_features: 10000               # Maximum number of features
+  ngram_range: [1,1]                # ngrams to use around a word. 1 is the word itself
+  min_var: 0.001                    # Minimum variance a vector should have to be used in the trainset
+  corr_threshold: 0.9               # Remove columns that have correlation >= threshold to another higher
+
+training:
+  nested_cv:                        # Total training runs are outer_folds(inner_folds * num_search_iters + 1)
+    outer_folds: 10                 # Number of outer fold: Number of "best" models after tuning
+    inner_folds: 3                  # Number of inner folds: Number of folds to validate each hyperparam combination
+    n_search_iter: 10               # Number of search iterations per outer fold (it is measured with cv of #inner_folds)
+    ranking_score: 'f1_micro'       # Metric to choose best performing model in each inner fold
+  default_params: True              # If True, it runs cross validation with outer_folds folds
+  model_list: ['LogisticRegression', 'LogisticRegressionRidge', 'SVM', 'LinearSVM', 'RandomForest']              # Complete list is: ['LogisticRegression', 'LogisticRegressionRidge', 'LogisticRegressionLasso', 'LogisticRegressionElasticNet', 'RidgeClassifier', 'SVM', 'LinearSVM', 'RandomForest', 'XGBoost', 'RandomForestV2']
+  mlb_model_type: 'independent'     # It can be 'independent' or 'chain'. 'independent' learns probabilities indep. for each class
+
+metric_logging:
+  logging_path: './mlruns'          # Directory to store metrics. Dir must be named 'mlruns'
+  experiment_name: 'default_params' # Name of the experiment under which to store metrics
+
