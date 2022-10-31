@@ -28,7 +28,7 @@ LABELS = ('fairness_and_equality', 'security_and_defense', 'crime_and_punishment
           'political', 'public_opinion', 'external_regulation_and_reputation')
 
 UNITS_OF_ANALYSES = ('title', 'title_and_first_paragraph', 'title_and_5_sentences', 'title_and_10_sentences',
-                     'title_and_first_sentence_each_paragraph')
+                     'title_and_first_sentence_each_paragraph', 'raw_text')
 
 DEFAULT_SCORING_FUNCTIONS = ('f1_micro', 'f1_macro', 'accuracy', 'precision_micro',
                              'precision_macro', 'recall_micro', 'recall_macro')
@@ -53,7 +53,6 @@ def parse_arguments_and_load_config_file() -> Tuple[argparse.Namespace, dict, Mo
 
     # Import '.py' config file with models and their search space
     estimators_config_ = import_module(arguments.config_path_py_models)
-    print(estimators_config_)
 
     return arguments, yaml_config_params, estimators_config_
 
@@ -106,23 +105,23 @@ if __name__ == "__main__":
     )
 
     # Iterate over each family of models in specified in yaml and .py config files
-    for model_name in training_config['model_list']:
-        print(f"Currently running estimates for model: {model_name}")
-        print("#"*40)
-        # Define model
-        multilabel_cls = MultiLabelEstimator(
-            base_estimator=estimators_config.MODEL_LIST[model_name]['model'],
-            base_estimator_hyperparam_dist=estimators_config.MODEL_LIST[model_name]['hyperparam_space'],
-            treat_labels_as_independent=training_config['mlb_cls_independent'],
-            scoring_functions=DEFAULT_SCORING_FUNCTIONS
-        )
+    # Estimate performance on the model using the different units of analysis
+    units_of_analysis = UNITS_OF_ANALYSES if preprocessing_config['analysis_unit'] == 'all' \
+        else [preprocessing_config['analysis_unit']]
 
-        # Estimate performance on the model using the different units of analysis
-        units_of_analysis = UNITS_OF_ANALYSES if preprocessing_config['analysis_unit'] == 'all' \
-            else preprocessing_config['analysis_unit']
+    for unit_of_analysis in units_of_analysis:
+        X_train = vectorizing_pipeline.pipeline.fit_transform(train_data.df[unit_of_analysis])
 
-        for unit_of_analysis in units_of_analysis:
-            X_train = vectorizing_pipeline.pipeline.fit_transform(train_data.df[unit_of_analysis])
+        for model_name in training_config['model_list']:
+            print(f"Currently running estimates for model: {model_name}")
+            print("#"*50)
+            # Define model
+            multilabel_cls = MultiLabelEstimator(
+                base_estimator=estimators_config.MODEL_LIST[model_name]['model'],
+                base_estimator_hyperparam_dist=estimators_config.MODEL_LIST[model_name]['hyperparam_space'],
+                treat_labels_as_independent=training_config['mlb_cls_independent'],
+                scoring_functions=DEFAULT_SCORING_FUNCTIONS
+            )
 
             some_log_params = {
                 'language': dataset_config['language'],
