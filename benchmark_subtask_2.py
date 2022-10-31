@@ -8,9 +8,10 @@ from sklearn.preprocessing import MultiLabelBinarizer
 
 from preprocessing.InputDataset import FramingArticleDataset
 from preprocessing.BOWPipeline import BOWPipeline, basic_tokenizing_and_cleaning
-from training.MultiLabelEstimator import MultiLabelEstimator
-from training.Logger import Logger
 from training import estimators_config
+from training.Logger import Logger
+from training.MultiLabelEstimator import MultiLabelEstimator
+
 
 SPACY_MODELS = {
     'en': {'small': 'en_core_web_sm', 'large': 'en_core_web_trf'},
@@ -27,6 +28,9 @@ LABELS = ('fairness_and_equality', 'security_and_defense', 'crime_and_punishment
 
 UNITS_OF_ANALYSES = ('title', 'title_and_first_paragraph', 'title_and_5_sentences', 'title_and_10_sentences',
                      'title_and_first_sentence_each_paragraph')
+
+DEFAULT_SCORING_FUNCTIONS = ('f1_micro', 'f1_macro', 'accuracy', 'precision_micro',
+                             'precision_macro', 'recall_micro', 'recall_macro')
 
 
 def parse_arguments_and_load_config_file() -> Tuple[argparse.Namespace, dict]:
@@ -85,12 +89,23 @@ if __name__ == "__main__":
 
     y_train = mlb.transform(train_data.df.frames.str.lower().str.split(','))
 
+    # Log performance with MLFlow
+    metric_logger = Logger(
+        logging_dir=metric_log_config['logging_path'],
+        experiment_name=metric_log_config['experiment_name'],
+        rewrite_experiment=metric_log_config['rewrite_experiment']
+    )
+
+    # Iterate over each family of models in specified in yaml and .py config files
     for model_name in training_config['model_list']:
+        print(f"Currently running estimates for model: {model_name}")
+        print("#"*30)
         # Define model
         multilabel_cls = MultiLabelEstimator(
             base_estimator=estimators_config.MODEL_LIST[model_name]['model'],
             base_estimator_hyperparam_dist=estimators_config.MODEL_LIST[model_name]['hyperparam_space'],
-            treat_labels_as_independent=training_config['mlb_model_type']
+            treat_labels_as_independent=training_config['mlb_cls_independent'],
+            scoring_functions=DEFAULT_SCORING_FUNCTIONS
         )
 
         # Estimate performance on the model using the different units of analysis
@@ -100,39 +115,36 @@ if __name__ == "__main__":
         for unit_of_analysis in units_of_analysis:
             X_train = vectorizing_pipeline.pipeline.fit_transform(train_data.df[unit_of_analysis])
 
-            # TODO: Include option to train only with default params (cross validation)
-
-            # Estimate performance with nested cross validation
-            if estimators_config.MODEL_LIST[model_name]['n_search_iter'] is not None:
-                n_search_iter = estimators_config.MODEL_LIST[model_name]['n_search_iter']
-            else:
-                n_search_iter = training_config['nested_cv']['n_search_iter']
-
-            results_nested_cv = multilabel_cls.nested_cross_validation(
-                X=X_train, y=y_train,
-                k_outer=training_config['nested_cv']['outer_folds'],
-                hyperparam_samples_per_outer_fold=n_search_iter,
-                k_inner=training_config['nested_cv']['outer_folds'],
-                ranking_score=training_config['nested_cv']['ranking_score']
-            )
-
-            # Log performance in MLFlow
-            # Log the results of the experiment
-            metric_logger = Logger(
-                logging_dir=metric_log_config['logging_path'],
-                experiment_name=metric_log_config['experiment_name'],
-                rewrite_experiment=False
-            )
-
-            # Log the results of the experiment
-            main_logging_params = {
+            some_log_params = {
+                'language': dataset_config['language'],
                 'unit_of_analysis': unit_of_analysis,
                 'spacy_model_used': SPACY_MODELS[dataset_config['language']][preprocessing_config['spacy_model_size']],
                 'preprocessing_pipeline': vectorizing_pipeline,
-                'estimator': multilabel_cls,
-                'nested_cv_results': results_nested_cv
+                'estimator': multilabel_cls
             }
 
-            metric_logger.log_model_wide_performance(**main_logging_params)
-            metric_logger.log_hyper_param_performance_outer_fold(**main_logging_params)
-            metric_logger.log_hyper_param_performance_inner_fold(**main_logging_params)
+            if training_config['default_params']:
+                cv_results = multilabel_cls.cross_validation(
+                    X=X_train, y=y_train,
+                    k_outer=training_config['nested_cv']['outer_folds'],
+                )
+                metric_logger.log_model_wide_performance(cv_results=cv_results, **some_log_params)
+
+            else:
+                # Estimate performance with nested cross validation
+                model_specific_n_search_iter = estimators_config.MODEL_LIST[model_name]['n_search_iter']
+                n_search_iter = model_specific_n_search_iter if model_specific_n_search_iter is not None \
+                    else training_config['nested_cv']['n_search_iter']
+
+                nested_cv_results = multilabel_cls.nested_cross_validation(
+                    X=X_train, y=y_train,
+                    k_outer=training_config['nested_cv']['outer_folds'],
+                    hyperparam_samples_per_outer_fold=n_search_iter,
+                    k_inner=training_config['nested_cv']['outer_folds'],
+                    ranking_score=training_config['nested_cv']['ranking_score']
+                )
+
+                # Log the results of the experiment
+                metric_logger.log_model_wide_performance(cv_results=nested_cv_results, **some_log_params)
+                metric_logger.log_hyper_param_performance_outer_fold(cv_results=nested_cv_results, **some_log_params)
+                metric_logger.log_hyper_param_performance_inner_fold(cv_results=nested_cv_results, **some_log_params)

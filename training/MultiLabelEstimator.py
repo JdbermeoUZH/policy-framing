@@ -20,10 +20,10 @@ class MultiLabelEstimator:
             base_estimator: ClassifierMixin,
             base_estimator_hyperparam_dist: dict,
             treat_labels_as_independent: bool = True,
-            scoring_functions: Tuple[str] = DEFAULT_SCORING_FUNCTIONS
+            scoring_functions: Tuple[str, ...] = DEFAULT_SCORING_FUNCTIONS
     ):
         self.estimator_type = 'independent' if treat_labels_as_independent else 'chain'
-        self.base_estimator_name = type(base_estimator).__name__
+        self.base_estimator_name = base_estimator.__str__()
         self.multi_label_estimator = \
             MultiOutputClassifier(base_estimator) if treat_labels_as_independent else ClassifierChain(base_estimator)
         self.estimator_hyperparam_dists = base_estimator_hyperparam_dist
@@ -68,8 +68,30 @@ class MultiLabelEstimator:
 
         return nested_cv_results
 
+    def cross_validation(
+            self,
+            X, y,
+            k_outer: int = 10,
+            scoring_functions: Optional[Union[Tuple[str], List[str]]] = None
+    ) -> dict:
+        # If no soring functions are specified, use default ones of the object
+        scoring_functions = self.scoring_functions if not scoring_functions else scoring_functions
+
+        cv_results = cross_validate(
+            self.multi_label_estimator,
+            X, y,
+            scoring=scoring_functions,
+            cv=k_outer,
+            return_estimator=False
+        )
+
+        return cv_results
+
     def get_model_name(self) -> str:
-        return self.base_estimator_name
+        if 'XGB' in self.base_estimator_name:
+            return self.base_estimator_name[:15]
+        else:
+            return self.base_estimator_name
 
     def get_multilabel_model_type(self) -> str:
         return self.estimator_type
@@ -110,7 +132,7 @@ def main() -> dict:
               'political', 'public_opinion', 'external_regulation_and_reputation')
     mlb = MultiLabelBinarizer()
     mlb.fit([labels])
-    y_tran = y_train = mlb.transform(en_train.df.frames.str.lower().str.split(','))
+    y_train = mlb.transform(en_train.df.frames.str.lower().str.split(','))
 
     # Run the nested cross validation estimator for SVM with RBF kernel
     svm = SVC()
@@ -134,6 +156,7 @@ def main() -> dict:
     )
 
     main_objects_params = {
+        'language': 'en',
         'unit_of_analysis': 'title_and_first_paragraph',
         'spacy_model_used': f'{en_nlp.meta["lang"]}_{en_nlp.meta["name"]}',
         'preprocessing_pipeline': vectorizing_pipeline,

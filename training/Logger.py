@@ -6,7 +6,7 @@ import pandas as pd
 from mlflow import log_metric, log_param, set_tracking_uri, create_experiment, get_experiment_by_name
 
 from preprocessing.BOWPipeline import BOWPipeline
-import MultiLabelEstimator
+from training import MultiLabelEstimator
 
 
 class Logger:
@@ -20,19 +20,25 @@ class Logger:
         self.experiment_name = experiment_name
         set_tracking_uri(self.logging_dir)
 
-        if rewrite_experiment:
+        past_test_exp = get_experiment_by_name(name=experiment_name)
+
+        if rewrite_experiment and past_test_exp is not None:
             # Delete experiment if it has been ran before
-            past_test_exp = get_experiment_by_name(name='test_run')
-            if past_test_exp is not None:
-                past_test_exp_id = past_test_exp.experiment_id
-                mlflow.delete_experiment(past_test_exp_id)
-                exp_trash_dir = os.path.join(logging_dir, '.trash', str(past_test_exp_id))
+            past_test_exp_id = past_test_exp.experiment_id
+            mlflow.delete_experiment(past_test_exp_id)
+            past_test_exp = None
+            exp_trash_dir = os.path.join(logging_dir, '.trash', str(past_test_exp_id))
 
-                if os.path.exists(exp_trash_dir):
-                    shutil.rmtree(exp_trash_dir)
+            if os.path.exists(exp_trash_dir):
+                shutil.rmtree(exp_trash_dir)
 
-        self.experiment_id = create_experiment(self.experiment_name)
+        # Try to
+        if past_test_exp is None:
+            self.experiment_id = create_experiment(self.experiment_name)
+        else:
+            self.experiment_id = past_test_exp.experiment_id
 
+        mlflow.set_experiment(experiment_id=self.experiment_id)
 
     def _log_preprocessing_params(
             self,
@@ -57,18 +63,20 @@ class Logger:
             estimator: MultiLabelEstimator
     ) -> None:
         log_param('model_type', estimator.get_model_name())
-        log_param('multilabel_type', estimator.get_model_name())
+        log_param('multilabel_type', estimator.get_multilabel_model_type())
 
     def log_model_wide_performance(
             self,
+            language: str,
             unit_of_analysis: str,
             spacy_model_used: str,
             preprocessing_pipeline: BOWPipeline,
             estimator: MultiLabelEstimator,
-            nested_cv_results: pd.DataFrame
+            cv_results: dict
     ) -> None:
         with mlflow.start_run(experiment_id=self.experiment_id):
             # Log preprocessing params
+            log_param('language', language)
             self._log_preprocessing_params(unit_of_analysis=unit_of_analysis, spacy_model_used=spacy_model_used,
                                            preprocessing_pipeline=preprocessing_pipeline)
             # Log model information
@@ -76,27 +84,27 @@ class Logger:
 
             # Log model wide performance
             log_param('analysis_level', 'model_wide')
-            for metric in [key for key in nested_cv_results.keys() if 'test_' in key]:
-                log_metric(f'{metric.split("test_")[1]}_mean', nested_cv_results[metric].mean())
-                log_metric(f'{metric.split("test_")[1]}_std', nested_cv_results[metric].std())
-                print(f'{metric.split("test_")[1]}_mean', nested_cv_results[metric].mean())
-                print(f'{metric.split("test_")[1]}_std', nested_cv_results[metric].std())
+            for metric in [key for key in cv_results.keys() if 'test_' in key]:
+                log_metric(f'{metric.split("test_")[1]}_mean', cv_results[metric].mean())
+                log_metric(f'{metric.split("test_")[1]}_std', cv_results[metric].std())
         mlflow.end_run()
 
     def log_hyper_param_performance_outer_fold(
             self,
+            language: str,
             unit_of_analysis: str,
             spacy_model_used: str,
             preprocessing_pipeline: BOWPipeline,
             estimator: MultiLabelEstimator,
-            nested_cv_results: pd.DataFrame
+            cv_results: dict
     ) -> None:
-        n_outer_fold = len(nested_cv_results['estimator'])
+        n_outer_fold = len(cv_results['estimator'])
 
         for outer_fold_i in range(n_outer_fold):
 
             with mlflow.start_run(experiment_id=self.experiment_id):
                 # Log preprocessing params
+                log_param('language', language)
                 self._log_preprocessing_params(unit_of_analysis=unit_of_analysis, spacy_model_used=spacy_model_used,
                                                preprocessing_pipeline=preprocessing_pipeline)
                 # Log model information
@@ -105,26 +113,27 @@ class Logger:
                 log_param('analysis_level', 'outer_cv')
 
                 # Log the best hyper-params found for the outer fold_i values
-                for key, value in nested_cv_results['estimator'][outer_fold_i].best_params_.items():
+                for key, value in cv_results['estimator'][outer_fold_i].best_params_.items():
                     log_param(key.split('__')[-1], value)
 
                 # Log the metrics
-                for metric in [key for key in nested_cv_results.keys() if 'test_' in key]:
-                    log_metric(metric.split('test_')[1], nested_cv_results[metric][outer_fold_i])
+                for metric in [key for key in cv_results.keys() if 'test_' in key]:
+                    log_metric(metric.split('test_')[1], cv_results[metric][outer_fold_i])
 
             mlflow.end_run()
 
     def log_hyper_param_performance_inner_fold(
             self,
+            language: str,
             unit_of_analysis: str,
             spacy_model_used: str,
             preprocessing_pipeline: BOWPipeline,
             estimator: MultiLabelEstimator,
-            nested_cv_results: pd.DataFrame
+            cv_results: dict
     ) -> None:
 
         # Average performance across inner folds of the different hyper-param samples
-        outer_fold_hyperparam_searches = nested_cv_results['estimator']
+        outer_fold_hyperparam_searches = cv_results['estimator']
 
         for hyperparam_search in outer_fold_hyperparam_searches:
             results_df = pd.DataFrame(hyperparam_search.cv_results_)
@@ -133,6 +142,7 @@ class Logger:
 
             for sample_i, hyperparam_sample_results in results_df.iterrows():
                 with mlflow.start_run(experiment_id=self.experiment_id):
+                    log_param('language', language)
                     # Log preprocessing params
                     self._log_preprocessing_params(unit_of_analysis=unit_of_analysis, spacy_model_used=spacy_model_used,
                                                    preprocessing_pipeline=preprocessing_pipeline)
@@ -160,7 +170,7 @@ if __name__ == '__main__':
     multilabel_nested_cv_objects = MultiLabelEstimator.main()
 
     # Log the results of the experiment
-    metric_logger = Logger(logging_path, experiment_name='test_run', rewrite_experiment=True)
+    metric_logger = Logger(logging_path, experiment_name='test_run', rewrite_experiment=False)
 
     # Log the results of the experiment
     metric_logger.log_model_wide_performance(**multilabel_nested_cv_objects)

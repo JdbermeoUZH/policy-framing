@@ -19,16 +19,18 @@ preprocessing:
   corr_threshold: 0.9               # Remove columns that have correlation >= threshold to another higher
 
 training:
+  default_params: True              # If True, it runs cross validation with outer_folds folds. If False, it runs nested cross valdiation
   nested_cv:                        # Total training runs are outer_folds(inner_folds * num_search_iters + 1)
     outer_folds: 10                 # Number of outer fold: Number of "best" models after tuning
     inner_folds: 3                  # Number of inner folds: Number of folds to validate each hyperparam combination
     n_search_iter: 10               # Number of search iterations per outer fold (it is measured with cv of #inner_folds)
     ranking_score: 'f1_micro'       # Metric to choose best performing model in each inner fold
-  default_params: True              # If True, it runs cross validation with outer_folds folds
-  model_list: ['LogisticRegression', 'LogisticRegressionRidge', 'SVM', 'LinearSVM', 'RandomForest']              # Complete list is: ['LogisticRegression', 'LogisticRegressionRidge', 'LogisticRegressionLasso', 'LogisticRegressionElasticNet', 'RidgeClassifier', 'SVM', 'LinearSVM', 'RandomForest', 'XGBoost', 'RandomForestV2']
-  mlb_model_type: 'independent'     # It can be 'independent' or 'chain'. 'independent' learns probabilities indep. for each class
+  model_list: ['XGBoost', 'RandomForestV2']               # Complete list is: ['LogisticRegression', 'LogisticRegressionRidge', 'LogisticRegressionLasso', 'LogisticRegressionElasticNet', 'RidgeClassifier', 'SVM', 'LinearSVM', 'RandomForest', 'XGBoost', 'RandomForestV2']
+  hyper-param_congfig_path: 'training/benchmark_subtask_2.py'                                                     # .py file with models and distribution of hyperparams to tune and benchmark
+  mlb_cls_independent: True         # If True, and 'independent' multilabel model is used. If False, a 'chain' mlb model is used. 'independent' learns probabilities indep. for each class
 
 metric_logging:
   logging_path: './mlruns'          # Directory to store metrics. Dir must be named 'mlruns'
   experiment_name: 'default_params' # Name of the experiment under which to store metrics
+  rewrite_experiment: False         # Whether to delete/overwrite runs under experiment_name. In most of the cases it should be False
 

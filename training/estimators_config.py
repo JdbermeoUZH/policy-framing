@@ -9,42 +9,38 @@ from sklearn.linear_model import LogisticRegression, RidgeClassifier
 MODEL_LIST = \
     {
         'LogisticRegression': {
-            'model': LogisticRegression(),
+            'model': LogisticRegression(penalty='none'),
             'n_search_iter': 10,
             'hyperparam_space': {
                 'estimator__C': loguniform(1e-2, 1e3),
-                'estimator__dual': [True, False],
-                'estimator__penalty': ['none']
+                'estimator__dual': [True, False]
             }
         },
 
         'LogisticRegressionRidge': {
-            'model': LogisticRegression(),
+            'model': LogisticRegression(penalty='l2'),
             'n_search_iter': 10,
             'hyperparam_space': {
                 'estimator__C': loguniform(1e-2, 1e3),
-                'estimator__dual': [True, False],
-                'estimator__penalty': ['l2']
+                'estimator__dual': [True, False]
             }
         },
 
         'LogisticRegressionLasso': {
-            'model': LogisticRegression(),
+            'model': LogisticRegression(penalty='l1', solver='liblinear'),
             'n_search_iter': 10,
             'hyperparam_space': {
                 'estimator__C': loguniform(1e-2, 1e3),
-                'estimator__dual': [True, False],
-                'estimator__penalty': ['l1']
+                'estimator__dual': [True, False]
             }
         },
 
         'LogisticRegressionElasticNet': {
-            'model': LogisticRegression(),
+            'model': LogisticRegression(penalty='elasticnet', solver='saga', l1_ratio=0.5),
             'n_search_iter': 10,
             'hyperparam_space': {
                 'estimator__C': loguniform(1e-2, 1e3),
-                'estimator__dual': [True, False],
-                'estimator__penalty': ['elasticnet']
+                'estimator__dual': [True, False]
             }
         },
 
