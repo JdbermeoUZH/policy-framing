@@ -1,13 +1,20 @@
-import os
-
 from scipy.stats import loguniform, randint
 from xgboost import XGBClassifier, XGBRFClassifier
+from sklearn.dummy import DummyClassifier
 from sklearn.svm import SVC, LinearSVC
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.linear_model import LogisticRegression, RidgeClassifier
 
 MODEL_LIST = \
     {
+        'Dummy': {
+            'model': DummyClassifier(strategy='stratified'),
+            'n_search_iter': 1,
+            'hyperparam_space': {
+                'estimator__strategy': ['stratified', 'prior', 'uniform'],
+            }
+        },
+
         'LogisticRegression': {
             'model': LogisticRegression(penalty='none'),
             'n_search_iter': 10,

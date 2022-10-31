@@ -25,8 +25,8 @@ training:
     inner_folds: 3                  # Number of inner folds: Number of folds to validate each hyperparam combination
     n_search_iter: 10               # Number of search iterations per outer fold (it is measured with cv of #inner_folds)
     ranking_score: 'f1_micro'       # Metric to choose best performing model in each inner fold
-  model_list: ['XGBoost', 'RandomForestV2']               # Complete list is: ['LogisticRegression', 'LogisticRegressionRidge', 'LogisticRegressionLasso', 'LogisticRegressionElasticNet', 'RidgeClassifier', 'SVM', 'LinearSVM', 'RandomForest', 'XGBoost', 'RandomForestV2']
-  hyper-param_congfig_path: 'training/benchmark_subtask_2.py'                                                     # .py file with models and distribution of hyperparams to tune and benchmark
+  model_list: ['Dummy']                             # Complete list is: ['LogisticRegression', 'LogisticRegressionRidge', 'LogisticRegressionLasso', 'LogisticRegressionElasticNet', 'RidgeClassifier', 'SVM', 'LinearSVM', 'RandomForest', 'XGBoost', 'RandomForestV2']
+  hyper-param_congfig_path: 'training/benchmark_subtask_2.py'           # .py file with models and distribution of hyperparams to tune and benchmark
   mlb_cls_independent: True         # If True, and 'independent' multilabel model is used. If False, a 'chain' mlb model is used. 'independent' learns probabilities indep. for each class
 
 metric_logging:

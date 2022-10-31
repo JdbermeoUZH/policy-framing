@@ -108,7 +108,7 @@ if __name__ == "__main__":
     # Iterate over each family of models in specified in yaml and .py config files
     for model_name in training_config['model_list']:
         print(f"Currently running estimates for model: {model_name}")
-        print("#"*30)
+        print("#"*40)
         # Define model
         multilabel_cls = MultiLabelEstimator(
             base_estimator=estimators_config.MODEL_LIST[model_name]['model'],
