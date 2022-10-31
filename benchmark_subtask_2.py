@@ -1,17 +1,18 @@
 import os
+from types import ModuleType
+
 import yaml
 import argparse
 from typing import Tuple
+from importlib import import_module
 
 import spacy
 from sklearn.preprocessing import MultiLabelBinarizer
 
 from preprocessing.InputDataset import FramingArticleDataset
 from preprocessing.BOWPipeline import BOWPipeline, basic_tokenizing_and_cleaning
-from training import estimators_config
 from training.Logger import Logger
 from training.MultiLabelEstimator import MultiLabelEstimator
-
 
 SPACY_MODELS = {
     'en': {'small': 'en_core_web_sm', 'large': 'en_core_web_trf'},
@@ -33,25 +34,33 @@ DEFAULT_SCORING_FUNCTIONS = ('f1_micro', 'f1_macro', 'accuracy', 'precision_micr
                              'precision_macro', 'recall_micro', 'recall_macro')
 
 
-def parse_arguments_and_load_config_file() -> Tuple[argparse.Namespace, dict]:
+def parse_arguments_and_load_config_file() -> Tuple[argparse.Namespace, dict, ModuleType]:
     parser = argparse.ArgumentParser(description='Subtask-2')
-    parser.add_argument('--config_path', type=str, help='Path to configuration file with parameters to use')
+    parser.add_argument('--config_path_yaml', type=str,
+                        help='Path to YAML configuration file overall benchmarking parameters')
+    parser.add_argument('--config_path_py_models', type=str,
+                        help="Path to '.py' configuration file with model implementations and "
+                             "hyper-parameter distributions to search with RandomSearch")
     arguments = parser.parse_args()
 
     # Load parameters of configuration file
-    with open(arguments.config_path, "r") as stream:
+    with open(arguments.config_path_yaml, "r") as stream:
         try:
-            config_params = yaml.safe_load(stream)
+            yaml_config_params = yaml.safe_load(stream)
         except yaml.YAMLError as exc:
             print(exc)
             raise exc
 
-    return arguments, config_params
+    # Import '.py' config file with models and their search space
+    estimators_config_ = import_module(arguments.config_path_py_models)
+    print(estimators_config_)
+
+    return arguments, yaml_config_params, estimators_config_
 
 
 if __name__ == "__main__":
     # Load script arguments and configuration file
-    args, config = parse_arguments_and_load_config_file()
+    args, config, estimators_config = parse_arguments_and_load_config_file()
     dataset_config = config['dataset']
     preprocessing_config = config['preprocessing']
     training_config = config['training']
