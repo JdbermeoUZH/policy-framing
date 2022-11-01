@@ -5,12 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3359b6ce-9e44-4da3-956d-9609d831df93" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/documentation/analyses/Default classifiers/Default classifier performance.ipynb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/documentation/analyses/Default classifiers/runs.csv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/benchmark_subtask_2.py" beforeDir="false" afterPath="$PROJECT_DIR$/benchmark_subtask_2.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/config.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/documentation/analyses/Are there duplicates?.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/documentation/analyses/Dataset structure and quality/Are there duplicates?.ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/documentation/analyses/Content and structure of documents.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/documentation/analyses/Dataset structure and quality/Content and structure of documents.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/documentation/analyses/Default classifiers/Default classifier performance.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/documentation/analyses/Default classifiers/Default classifier performance.ipynb" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -64,7 +61,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "/home/juanbermeo/SynologyDrive/Framing",
+    "last_opened_file_path": "/home/juanbermeo/SynologyDrive/Framing/documentation/analyses/Default classifiers",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -76,6 +73,7 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/documentation/analyses/Default classifiers" />
       <recent name="$PROJECT_DIR$/mlruns/5" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
@@ -179,6 +177,9 @@
       <module name="Framing" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
       <option name="SDK_HOME" value="" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <option name="IS_MODULE_SDK" value="true" />
@@ -274,7 +275,8 @@
       <workItem from="1666207782120" duration="23782000" />
       <workItem from="1666880902324" duration="11782000" />
       <workItem from="1667051662633" duration="24412000" />
-      <workItem from="1667223026633" duration="7295000" />
+      <workItem from="1667223026633" duration="7622000" />
+      <workItem from="1667304297183" duration="5151000" />
     </task>
     <servers />
   </component>
@@ -302,7 +304,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/benchmark_subtask_2.py</url>
-          <line>111</line>
+          <line>118</line>
           <option name="timeStamp" value="31" />
         </line-breakpoint>
       </breakpoints>
