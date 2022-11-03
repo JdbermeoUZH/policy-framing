@@ -1,0 +1,23 @@
+
+name: Build
+
+on:
+  push:
+    branches:
+      - master
+      - main
+
+
+jobs:
+  sonarqube:
+    name: SonarQube
+    runs-on: ubuntu-latest
+    env:
+      SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
+    steps:
+    - name: checkout repository code
+      uses: actions/checkout@v1
+
+    - name: SonarQube Scan
+      uses: SonarSource/sonarqube-scan-action@master

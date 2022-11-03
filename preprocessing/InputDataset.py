@@ -166,22 +166,29 @@ class FramingArticleDataset(BaseArticleDataset):
             self.df.to_pickle(output_path)
 
 
-def main(language: str, input_data_dir: str, subtask: int, output_path_dir: str):
-    spacy_models = {'en': 'en_core_web_sm', 'ru': 'ru_core_news_sm', 'it': 'it_core_news_sm'}
-    nlp = spacy.load(spacy_models[language])
+def main(input_data_dir: str, subtask: int, output_path_dir: str):
+    languages = ('en', 'ru', 'it', 'fr', 'po')
 
-    train_data = FramingArticleDataset(data_dir=input_data_dir, language=language, subtask=subtask, split='train')
-    train_data.extract_all_units_of_analysis(nlp=nlp)
-    train_data.save_dataset(os.path.join(output_path_dir, f'input_{language}_train.csv'))
+    SPACY_MODELS = {
+        'en': {'small': 'en_core_web_sm', 'large': 'en_core_web_trf'},
+        'ru': {'small': 'ru_core_news_sm', 'large': 'ru_core_news_lg'},
+        'it': {'small': 'it_core_news_sm', 'large': 'it_core_news_lg'},
+        'fr': {'small': 'fr_core_news_sm', 'large': 'fr_dep_news_trf'},
+        'po': {'small': 'pl_core_news_sm', 'large': 'pl_core_news_lg'}
+    }
 
-    test_data = FramingArticleDataset(data_dir=input_data_dir, language=language, subtask=subtask, split='dev')
-    test_data.extract_all_units_of_analysis(nlp=nlp)
-    train_data.save_dataset(os.path.join(output_path_dir, f'input_{language}_dev.csv'))
+    for language in languages:
+        nlp = spacy.load(SPACY_MODELS[language]['small'])
+        for split in ['train', 'dev']:
+            dataset = FramingArticleDataset(
+                data_dir=input_data_dir,
+                language=language, subtask=subtask, split=split)
+            dataset.extract_all_units_of_analysis(nlp=nlp)
+            dataset.save_dataset(os.path.join(output_path_dir, f'input_{language}_{split}.csv'))
 
 
 if __name__ == "__main__":
-    output_path_ = os.path.join('../data', 'preprocessed')
+    output_path_ = os.path.join('..', 'data', 'preprocessed')
     os.makedirs(output_path_, exist_ok=True)
-    main(language='en', input_data_dir='../data', subtask=2, output_path_dir=output_path_)
-    main(language='ru', input_data_dir='../data', subtask=2, output_path_dir=output_path_)
-    main(language='it', input_data_dir='../data', subtask=2, output_path_dir=output_path_)
+    # Extract units of analyses for all languages
+    main(input_data_dir='../data', subtask=2, output_path_dir=output_path_)
