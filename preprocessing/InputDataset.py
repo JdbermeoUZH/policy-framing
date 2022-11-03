@@ -19,7 +19,7 @@ def extract_n_sentences(text: str, nlp: spacy.Language, n_sentences: int, break_
     sent_list = []
     for sentence in sentence_list:
         sent_list += [sentence for sentence in sentence.text.split(break_pattern) if
-                      not sentence.isspace() and not len(sentence) == 0]
+                      not sentence.isspace() and len(sentence) != 0]
 
     return ' '.join(sent_list[: min(len(sent_list), n_sentences)])
 

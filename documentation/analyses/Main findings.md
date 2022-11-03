@@ -27,5 +27,6 @@
    * Out of $2^{14}$ (16,384) combinations, all the datasets combined have 610. That is, we do not have 15,774 of them.
    * 72% of the combinations we do have show only once.
    * As labels have a low correlation between them, we probably cannot break them up to cleanly.
+ * After visualizing co-occurences of the labels in a graph, in effect **there does not seem to be a subgroup or community of labels**. 
 
 ## Base Performance 
