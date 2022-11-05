@@ -53,7 +53,7 @@ class BaseArticleDataset:
     def separate_title_content(self, remove_raw_data_col: bool = False) -> None:
         """
            1) Remove trailing whitespaces and breaklines
-           2) Separate on single breakline "\n"
+           2) Separate on single breakline "\n". No titles had single breaklines inside the title (before the '/n/n')
            3) Remove trailing whitespaces and breaklines for title and content again
         :param remove_raw_data_col:
         :return:
@@ -84,11 +84,13 @@ class FramingArticleDataset(BaseArticleDataset):
     def __init__(self, data_dir: str = 'data', language: str = 'en', subtask: int = 2, split: str = 'train',
                  load_preprocessed_units_of_analysis: bool = False,
                  units_of_analysis_dir: str = os.path.join('data', 'preprocessed'),
-                 units_of_analysis_format: str = 'csv'):
+                 units_of_analysis_format: str = 'csv',
+                 remove_duplicates: bool = True):
         super().__init__(data_dir=data_dir, language=language, subtask=subtask, split=split)
         if split == 'train':
             self._add_labels()
-            self._remove_duplicates()
+            if remove_duplicates:
+                self._remove_duplicates()
 
         if load_preprocessed_units_of_analysis:
             self.df = pd.read_csv(
@@ -114,6 +116,10 @@ class FramingArticleDataset(BaseArticleDataset):
         """
         if self.language == 'en' and self.subtask == 2 and self.split == 'train':
             self.df.drop([999000878, 833032367], axis=0, inplace=True)
+
+        if self.language == 'ge' and self.subtask == 2 and self.split == 'train':
+            self.df.drop([224], axis=0, inplace=True)
+
 
     def extract_title_and_first_n_sentences(self, nlp: spacy.Language, n_sentences: int) -> None:
         if 'title' not in self.df.columns:
@@ -167,14 +173,15 @@ class FramingArticleDataset(BaseArticleDataset):
 
 
 def main(input_data_dir: str, subtask: int, output_path_dir: str):
-    languages = ('en', 'ru', 'it', 'fr', 'po')
+    languages = ('en', 'ru', 'it', 'fr', 'po', 'ge')
 
     SPACY_MODELS = {
         'en': {'small': 'en_core_web_sm', 'large': 'en_core_web_trf'},
         'ru': {'small': 'ru_core_news_sm', 'large': 'ru_core_news_lg'},
         'it': {'small': 'it_core_news_sm', 'large': 'it_core_news_lg'},
         'fr': {'small': 'fr_core_news_sm', 'large': 'fr_dep_news_trf'},
-        'po': {'small': 'pl_core_news_sm', 'large': 'pl_core_news_lg'}
+        'po': {'small': 'pl_core_news_sm', 'large': 'pl_core_news_lg'},
+        'ge': {'small': 'de_core_news_sm', 'large': 'de_dep_news_trf'}
     }
 
     for language in languages:

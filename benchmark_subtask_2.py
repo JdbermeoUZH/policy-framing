@@ -19,7 +19,8 @@ SPACY_MODELS = {
     'ru': {'small': 'ru_core_news_sm', 'large': 'ru_core_news_lg'},
     'it': {'small': 'it_core_news_sm', 'large': 'it_core_news_lg'},
     'fr': {'small': 'fr_core_news_sm', 'large': 'fr_dep_news_trf'},
-    'po': {'small': 'pl_core_news_sm', 'large': 'pl_core_news_lg'}
+    'po': {'small': 'pl_core_news_sm', 'large': 'pl_core_news_lg'},
+    'ge': {'small': 'de_core_news_sm', 'large': 'de_dep_news_trf'}
 }
 
 LABELS = ('fairness_and_equality', 'security_and_defense', 'crime_and_punishment', 'morality',

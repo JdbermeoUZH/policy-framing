@@ -24,8 +24,8 @@
  * Number of labels per document also has a different behaviour per dataset. Each one has a different skew and spread. Russian is skewed towards 1-3 frames, english 3-4, and italian 2-5.  
 
  * **There is no chance to treat this as a powerset multiclass classification problem unless we break up the powerset into small groups of labels**
-   * Out of $2^{14}$ (16,384) combinations, all the datasets combined have 610. That is, we do not have 15,774 of them.
-   * 72% of the combinations we do have show only once.
+   * Out of $2^{14}$ (16,384) combinations, all the datasets combined have 680. That is, we do not have 15,704 of them.
+   * 73.6% of the combinations we do have show only once.
    * As labels have a low correlation between them, we probably cannot break them up to cleanly.
  * After visualizing co-occurences of the labels in a graph, in effect **there does not seem to be a subgroup or community of labels**. 
 
