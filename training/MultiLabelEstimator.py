@@ -6,6 +6,7 @@ from scipy.stats import loguniform
 from sklearn.base import ClassifierMixin
 from sklearn.model_selection import RandomizedSearchCV, cross_validate
 from sklearn.multioutput import MultiOutputClassifier, ClassifierChain
+from iterstrat.ml_stratifiers import MultilabelStratifiedKFold
 
 from preprocessing.InputDataset import FramingArticleDataset
 from preprocessing.BOWPipeline import BOWPipeline, basic_tokenizing_and_cleaning
@@ -20,7 +21,8 @@ class MultiLabelEstimator:
             base_estimator: ClassifierMixin,
             base_estimator_hyperparam_dist: dict,
             treat_labels_as_independent: bool = True,
-            scoring_functions: Tuple[str, ...] = DEFAULT_SCORING_FUNCTIONS
+            scoring_functions: Tuple[str, ...] = DEFAULT_SCORING_FUNCTIONS,
+            random_seed: str = 123
     ):
         self.estimator_type = 'independent' if treat_labels_as_independent else 'chain'
         self.base_estimator_name = base_estimator.__str__()
@@ -28,6 +30,7 @@ class MultiLabelEstimator:
             MultiOutputClassifier(base_estimator) if treat_labels_as_independent else ClassifierChain(base_estimator)
         self.estimator_hyperparam_dists = base_estimator_hyperparam_dist
         self.scoring_functions = scoring_functions
+        self.random_seed = random_seed
 
     def nested_cross_validation(
             self,
@@ -36,7 +39,9 @@ class MultiLabelEstimator:
             hyperparam_samples_per_outer_fold: int = 10,
             k_inner: int = 5,
             ranking_score: str = 'f1_micro',
-            scoring_functions: Optional[Union[Tuple[str], List[str]]] = None
+            scoring_functions: Optional[Union[Tuple[str], List[str]]] = None,
+            shuffle_folds: bool = True,
+            return_train_score: bool = False
     ) -> dict:
         # Verify dimensions match
         assert X.shape[0] == y.shape[0]
@@ -52,7 +57,7 @@ class MultiLabelEstimator:
             estimator=self.multi_label_estimator,
             param_distributions=self.estimator_hyperparam_dists,
             n_iter=hyperparam_samples_per_outer_fold,
-            cv=k_inner,
+            cv=MultilabelStratifiedKFold(n_splits=k_inner, shuffle=shuffle_folds, random_state=self.random_seed),
             scoring=scoring_functions,
             refit=ranking_score
         )
@@ -62,8 +67,9 @@ class MultiLabelEstimator:
             search_routine,
             X, y,
             scoring=scoring_functions,
-            cv=k_outer,
-            return_estimator=True
+            cv=MultilabelStratifiedKFold(n_splits=k_outer, shuffle=shuffle_folds, random_state=self.random_seed),
+            return_estimator=True,
+            return_train_score=return_train_score
         )
 
         return nested_cv_results
@@ -72,7 +78,9 @@ class MultiLabelEstimator:
             self,
             X, y,
             k_outer: int = 10,
-            scoring_functions: Optional[Union[Tuple[str], List[str]]] = None
+            scoring_functions: Optional[Union[Tuple[str], List[str]]] = None,
+            shuffle_folds: bool = True,
+            return_train_score: bool = False,
     ) -> dict:
         # If no soring functions are specified, use default ones of the object
         scoring_functions = self.scoring_functions if not scoring_functions else scoring_functions
@@ -81,11 +89,21 @@ class MultiLabelEstimator:
             self.multi_label_estimator,
             X, y,
             scoring=scoring_functions,
-            cv=k_outer,
-            return_estimator=False
+            cv=MultilabelStratifiedKFold(n_splits=k_outer, shuffle=shuffle_folds, random_state=self.random_seed),
+            return_estimator=False,
+            return_train_score=return_train_score
         )
 
         return cv_results
+
+    def get_stratified_splits(
+            self,
+            X, y,
+            folds: int = 3,
+            shuffle=True
+    ):
+        mskf = MultilabelStratifiedKFold(n_splits=folds, shuffle=shuffle, random_state=self.random_seed)
+        return mskf.split(X, y)
 
     def get_model_name(self) -> str:
         if 'XGB' in self.base_estimator_name:
@@ -105,7 +123,7 @@ def main() -> dict:
     # Test with dataset in english of subtask 2
 
     # Load the data
-    en_train = FramingArticleDataset(data_dir=DATA_DIR, language='en', subtask=2, split='train',
+    en_train = FramingArticleDataset(data_dir=DATA_DIR, language='ge', subtask=2, split='train',
                                      load_preprocessed_units_of_analysis=True,
                                      units_of_analysis_dir=os.path.join(DATA_DIR, 'preprocessed'))
 
@@ -149,10 +167,17 @@ def main() -> dict:
 
     results_nested_cv = multilabel_cls.nested_cross_validation(
         X=X_train, y=y_train,
-        k_outer=3,
+        k_outer=10,
         hyperparam_samples_per_outer_fold=3,
-        k_inner=2,
-        ranking_score='f1_micro'
+        k_inner=5,
+        ranking_score='f1_micro',
+        shuffle_folds=True
+    )
+
+    default_model_results_cv = multilabel_cls.cross_validation(
+        X=X_train, y=y_train,
+        k_outer=3,
+        shuffle_folds=True
     )
 
     main_objects_params = {
