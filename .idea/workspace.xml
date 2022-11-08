@@ -5,17 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3359b6ce-9e44-4da3-956d-9609d831df93" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/documentation/analyses/Default classifiers/Sanity Check.ipynb" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/documentation/analyses/Default classifiers/runsDefaultCV10.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/documentation/analyses/Default classifiers/runsDefaultCV3.csv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/benchmark_subtask_2.py" beforeDir="false" afterPath="$PROJECT_DIR$/benchmark_subtask_2.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/config.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/documentation/analyses/Default classifiers/Default classifier performance.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/documentation/analyses/Default classifiers/Default classifier performance.ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/draft_tf_idf pipeline.ipynb" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tf_idf_features.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/training/estimators_config.py" beforeDir="false" afterPath="$PROJECT_DIR$/training/estimators_config.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/documentation/analyses/Default classifiers/Sanity Check.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/documentation/analyses/Default classifiers/Sanity Check.ipynb" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -286,7 +277,7 @@
       <workItem from="1667479433225" duration="15110000" />
       <workItem from="1667663154396" duration="14412000" />
       <workItem from="1667827802388" duration="13956000" />
-      <workItem from="1667890015504" duration="5614000" />
+      <workItem from="1667890015504" duration="13236000" />
     </task>
     <servers />
   </component>
