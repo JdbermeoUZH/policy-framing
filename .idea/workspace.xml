@@ -5,8 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3359b6ce-9e44-4da3-956d-9609d831df93" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/documentation/analyses/Default classifiers/.ipynb_checkpoints/test.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/documentation/analyses/Default classifiers/Sanity Check.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/documentation/analyses/Default classifiers/Sanity Check.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/documentation/analyses/Default classifiers/Default classifier performance.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/documentation/analyses/Default classifiers/Default classifier performance.ipynb" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -277,7 +278,7 @@
       <workItem from="1667479433225" duration="15110000" />
       <workItem from="1667663154396" duration="14412000" />
       <workItem from="1667827802388" duration="13956000" />
-      <workItem from="1667890015504" duration="13236000" />
+      <workItem from="1667890015504" duration="15498000" />
     </task>
     <servers />
   </component>
@@ -312,6 +313,11 @@
           <url>file://$PROJECT_DIR$/training/MultiLabelEstimator.py</url>
           <line>176</line>
           <option name="timeStamp" value="33" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="jupyter-line">
+          <url>notebook:///home/juanbermeo/SynologyDriveRA/Framing/documentation/analyses/Default classifiers/Default classifier performance.ipynb</url>
+          <line>1</line>
+          <option name="timeStamp" value="34" />
         </line-breakpoint>
       </breakpoints>
       <default-breakpoints>
