@@ -7,11 +7,27 @@ from sklearn.linear_model import LogisticRegression, RidgeClassifier
 
 MODEL_LIST = \
     {
-        'Dummy': {
+        'DummyProbSampling': {
             'model': DummyClassifier(strategy='stratified'),
             'n_search_iter': 1,
             'hyperparam_space': {
-                'estimator__strategy': ['stratified', 'prior', 'uniform'],
+                'estimator__strategy': ['stratified'],
+            }
+        },
+
+        'DummyUniformSampling': {
+            'model': DummyClassifier(strategy='uniform'),
+            'n_search_iter': 1,
+            'hyperparam_space': {
+                'estimator__strategy': ['uniform'],
+            }
+        },
+
+        'DummyMostFrequent': {
+            'model': DummyClassifier(strategy='prior'),
+            'n_search_iter': 1,
+            'hyperparam_space': {
+                'estimator__strategy': ['prior'],
             }
         },
 

@@ -1,11 +1,11 @@
 dataset:
-  language: 'en'                    # en, ru, it, po, fr
+  language: 'ge'                    # en, ru, it, po, fr, ge
   subtask: 2                        # 1, 2, 3
   data_dir: 'data'                  # Relative path to directory with data
 
 preprocessing:
   split: 'train'                    # Split of the data to use
-  analysis_unit: 'raw_text'         # 'title', 'title_and_first_paragraph', 'title_and_5_sentences', 'title_and_10_sentences',
+  analysis_unit: 'all'         # 'title', 'title_and_first_paragraph', 'title_and_5_sentences', 'title_and_10_sentences',
                                     # 'title_and_first_sentence_each_paragraph', 'raw_text', 'all'
   load_preproc_input_data: True     # Whether or not to rerun the script that produces the units of analysis
 
@@ -21,16 +21,16 @@ preprocessing:
 training:
   default_params: True              # If True, it runs cross validation with outer_folds folds. If False, it runs nested cross valdiation
   nested_cv:                        # Total training runs are outer_folds(inner_folds * num_search_iters + 1)
-    outer_folds: 10                 # Number of outer fold: Number of "best" models after tuning
+    outer_folds: 3                 # Number of outer fold: Number of "best" models after tuning
     inner_folds: 3                  # Number of inner folds: Number of folds to validate each hyperparam combination
     n_search_iter: 10               # Number of search iterations per outer fold (it is measured with cv of #inner_folds)
     ranking_score: 'f1_micro'       # Metric to choose best performing model in each inner fold
-  model_list: ['Dummy', 'LogisticRegression', 'LogisticRegressionRidge', 'LogisticRegressionLasso', 'LogisticRegressionElasticNet', 'RidgeClassifier', 'SVM', 'LinearSVM', 'RandomForest', 'XGBoost', 'RandomForestV2']                             # Complete list is: ['Dummy', 'LogisticRegression', 'LogisticRegressionRidge', 'LogisticRegressionLasso', 'LogisticRegressionElasticNet', 'RidgeClassifier', 'SVM', 'LinearSVM', 'RandomForest', 'XGBoost', 'RandomForestV2']
+  model_list: ['DummyProbSampling', 'DummyUniformSampling', 'DummyMostFrequent', 'LogisticRegression', 'LogisticRegressionRidge', 'LogisticRegressionLasso', 'LogisticRegressionElasticNet', 'RidgeClassifier', 'SVM', 'LinearSVM', 'RandomForest', 'XGBoost', 'RandomForestV2']                             # Complete list is: ['DummyProbSampling', 'DummyUniformSampling', 'DummyMostFrequent', 'LogisticRegression', 'LogisticRegressionRidge', 'LogisticRegressionLasso', 'LogisticRegressionElasticNet', 'RidgeClassifier', 'SVM', 'LinearSVM', 'RandomForest', 'XGBoost', 'RandomForestV2']
   hyper-param_congfig_path: 'training/benchmark_subtask_2.py'           # .py file with models and distribution of hyperparams to tune and benchmark
   mlb_cls_independent: True         # If True, and 'independent' multilabel model is used. If False, a 'chain' mlb model is used. 'independent' learns probabilities indep. for each class
 
 metric_logging:
   logging_path: './mlruns'          # Directory to store metrics. Dir must be named 'mlruns'
-  experiment_name: 'default_params' # Name of the experiment under which to store metrics
+  experiment_name: 'default_paramsCV3' # Name of the experiment under which to store metrics
   rewrite_experiment: False         # Whether to delete/overwrite runs under experiment_name. In most of the cases it should be False
 

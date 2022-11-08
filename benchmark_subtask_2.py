@@ -112,10 +112,17 @@ if __name__ == "__main__":
 
     for unit_of_analysis in units_of_analysis:
         X_train = vectorizing_pipeline.pipeline.fit_transform(train_data.df[unit_of_analysis])
+        notify_current_unit_of_analysis = f"Unit of Analysis: {unit_of_analysis}"
+        print(notify_current_unit_of_analysis)
+        print("#" * len(notify_current_unit_of_analysis))
+        print("#" * len(notify_current_unit_of_analysis))
+        print('\n\n')
 
         for model_name in training_config['model_list']:
-            print(f"Currently running estimates for model: {model_name}")
-            print("#"*50)
+            notify_current_model_str = f"Currently running estimates for model: {model_name}"
+            print(notify_current_model_str)
+            print("#"*len(notify_current_model_str))
+
             # Define model
             multilabel_cls = MultiLabelEstimator(
                 base_estimator=estimators_config.MODEL_LIST[model_name]['model'],
