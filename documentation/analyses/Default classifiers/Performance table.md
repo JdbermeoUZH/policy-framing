@@ -1,6 +1,6 @@
 # Performance in the language: en
 ### f1-micro mean performance
-| model_type                   | title (3 features)   | title_and_first_paragraph (77 features)   | title_and_5_sentences (168 features)   | title_and_10_sentences (328 features)   | title_and_first_sentence_each_paragraph (666 features)   | raw_text (1208 features)   |
+| model_type                   | title (3 features)   | title and first paragraph (77 features)   | title and 5 sentences (168 features)   | title and 10 sentences (328 features)   | title and first sentence each paragraph (666 features)   | raw text (1208 features)   |
 |:-----------------------------|:---------------------|:------------------------------------------|:---------------------------------------|:----------------------------------------|:---------------------------------------------------------|:---------------------------|
 | DummyClassifierMostFrequent  | 0.37 $\pm$ 0.01      | 0.37 $\pm$ 0.01                           | 0.37 $\pm$ 0.01                        | 0.37 $\pm$ 0.01                         | 0.37 $\pm$ 0.01                                          | 0.37 $\pm$ 0.01            |
 | DummyClassifierStratified    | 0.38 $\pm$ 0.03      | 0.38 $\pm$ 0.03                           | 0.38 $\pm$ 0.02                        | 0.40 $\pm$ 0.03                         | 0.37 $\pm$ 0.02                                          | 0.39 $\pm$ 0.03            |
@@ -17,7 +17,7 @@
 
 # Performance in the language: fr
 ### f1-micro mean performance
-| model_type                   | title (9 features)   | title_and_first_paragraph (72 features)   | title_and_5_sentences (107 features)   | title_and_10_sentences (283 features)   | title_and_first_sentence_each_paragraph (405 features)   | raw_text (1190 features)   |
+| model_type                   | title (9 features)   | title and first paragraph (72 features)   | title and 5 sentences (107 features)   | title and 10 sentences (283 features)   | title and first sentence each paragraph (405 features)   | raw text (1190 features)   |
 |:-----------------------------|:---------------------|:------------------------------------------|:---------------------------------------|:----------------------------------------|:---------------------------------------------------------|:---------------------------|
 | DummyClassifierMostFrequent  | 0.00 $\pm$ 0.00      | 0.00 $\pm$ 0.00                           | 0.00 $\pm$ 0.00                        | 0.00 $\pm$ 0.00                         | 0.00 $\pm$ 0.00                                          | 0.00 $\pm$ 0.00            |
 | DummyClassifierStratified    | 0.31 $\pm$ 0.06      | 0.29 $\pm$ 0.05                           | 0.29 $\pm$ 0.05                        | 0.28 $\pm$ 0.04                         | 0.27 $\pm$ 0.07                                          | 0.25 $\pm$ 0.06            |
@@ -34,7 +34,7 @@
 
 # Performance in the language: ge
 ### f1-micro mean performance
-| model_type                   | title (1 features)   | title_and_first_paragraph (40 features)   | title_and_5_sentences (61 features)   | title_and_10_sentences (141 features)   | title_and_first_sentence_each_paragraph (215 features)   | raw_text (731 features)   |
+| model_type                   | title (1 features)   | title and first paragraph (40 features)   | title and 5 sentences (61 features)   | title and 10 sentences (141 features)   | title and first sentence each paragraph (215 features)   | raw text (731 features)   |
 |:-----------------------------|:---------------------|:------------------------------------------|:--------------------------------------|:----------------------------------------|:---------------------------------------------------------|:--------------------------|
 | DummyClassifierMostFrequent  | 0.34 $\pm$ 0.02      | 0.34 $\pm$ 0.02                           | 0.34 $\pm$ 0.02                       | 0.34 $\pm$ 0.02                         | 0.34 $\pm$ 0.02                                          | 0.34 $\pm$ 0.02           |
 | DummyClassifierStratified    | 0.37 $\pm$ 0.06      | 0.34 $\pm$ 0.03                           | 0.40 $\pm$ 0.05                       | 0.39 $\pm$ 0.06                         | 0.40 $\pm$ 0.04                                          | 0.35 $\pm$ 0.05           |
@@ -51,7 +51,7 @@
 
 # Performance in the language: it
 ### f1-micro mean performance
-| model_type                   | title (8 features)   | title_and_first_paragraph (53 features)   | title_and_5_sentences (96 features)   | title_and_10_sentences (296 features)   | title_and_first_sentence_each_paragraph (312 features)   | raw_text (967 features)   |
+| model_type                   | title (8 features)   | title and first paragraph (53 features)   | title and 5 sentences (96 features)   | title and 10 sentences (296 features)   | title and first sentence each paragraph (312 features)   | raw text (967 features)   |
 |:-----------------------------|:---------------------|:------------------------------------------|:--------------------------------------|:----------------------------------------|:---------------------------------------------------------|:--------------------------|
 | DummyClassifierMostFrequent  | 0.22 $\pm$ 0.01      | 0.22 $\pm$ 0.01                           | 0.22 $\pm$ 0.01                       | 0.22 $\pm$ 0.01                         | 0.22 $\pm$ 0.01                                          | 0.22 $\pm$ 0.01           |
 | DummyClassifierStratified    | 0.34 $\pm$ 0.05      | 0.35 $\pm$ 0.04                           | 0.32 $\pm$ 0.02                       | 0.32 $\pm$ 0.04                         | 0.32 $\pm$ 0.04                                          | 0.33 $\pm$ 0.04           |
@@ -68,7 +68,7 @@
 
 # Performance in the language: po
 ### f1-micro mean performance
-| model_type                   | title (8 features)   | title_and_first_paragraph (42 features)   | title_and_5_sentences (114 features)   | title_and_10_sentences (290 features)   | title_and_first_sentence_each_paragraph (462 features)   | raw_text (1336 features)   |
+| model_type                   | title (8 features)   | title and first paragraph (42 features)   | title and 5 sentences (114 features)   | title and 10 sentences (290 features)   | title and first sentence each paragraph (462 features)   | raw text (1336 features)   |
 |:-----------------------------|:---------------------|:------------------------------------------|:---------------------------------------|:----------------------------------------|:---------------------------------------------------------|:---------------------------|
 | DummyClassifierMostFrequent  | 0.43 $\pm$ 0.04      | 0.43 $\pm$ 0.04                           | 0.43 $\pm$ 0.04                        | 0.43 $\pm$ 0.04                         | 0.43 $\pm$ 0.04                                          | 0.43 $\pm$ 0.04            |
 | DummyClassifierStratified    | 0.42 $\pm$ 0.04      | 0.42 $\pm$ 0.04                           | 0.39 $\pm$ 0.06                        | 0.41 $\pm$ 0.05                         | 0.40 $\pm$ 0.05                                          | 0.42 $\pm$ 0.04            |
@@ -85,7 +85,7 @@
 
 # Performance in the language: ru
 ### f1-micro mean performance
-| model_type                   | title (6 features)   | title_and_first_paragraph (40 features)   | title_and_5_sentences (134 features)   | title_and_10_sentences (283 features)   | title_and_first_sentence_each_paragraph (399 features)   | raw_text (961 features)   |
+| model_type                   | title (6 features)   | title and first paragraph (40 features)   | title and 5 sentences (134 features)   | title and 10 sentences (283 features)   | title and first sentence each paragraph (399 features)   | raw text (961 features)   |
 |:-----------------------------|:---------------------|:------------------------------------------|:---------------------------------------|:----------------------------------------|:---------------------------------------------------------|:--------------------------|
 | DummyClassifierMostFrequent  | 0.00 $\pm$ 0.00      | 0.00 $\pm$ 0.00                           | 0.00 $\pm$ 0.00                        | 0.00 $\pm$ 0.00                         | 0.00 $\pm$ 0.00                                          | 0.00 $\pm$ 0.00           |
 | DummyClassifierStratified    | 0.21 $\pm$ 0.09      | 0.22 $\pm$ 0.08                           | 0.22 $\pm$ 0.05                        | 0.21 $\pm$ 0.06                         | 0.21 $\pm$ 0.04                                          | 0.25 $\pm$ 0.06           |
