@@ -40,9 +40,9 @@
  * On the other hand, models like RandomForest and SVC are overfitting, as evidenced by their large train/test gaps and their stronger tendency not to predict minority examples.
 
  * The baseline and best 'f1-micro' performances so far are:
-   * English: Baseline (0.40 $\pm$ 0.3), and LinearSVC (0.66 $\pm$ 0.02)
-   * Italian: Baseline (0.33 $\pm$ 0.4), and LogisticRegression (0.50 $\pm$ 0.04)
-   * French: Baseline (0.31 $\pm$ 0.3), and XGBoost (0.49 $\pm$ 0.05) 
-   * Polish: Baseline (0.41 $\pm$ 0.5), and LogisticRegression (0.65 $\pm$ 0.05)
-   * Russian: Baseline (0.26 $\pm$ 0.6), and XGBoost (0.49 $\pm$ 0.05)
-   * German: Baseline (0.37 $\pm$ 0.5), and LogisticRegression (0.54 $\pm$ 0.06) 
+   * English: Baseline (0.39 $\pm$ 0.1), and LinearSVC (0.65 $\pm$ 0.02)
+   * Italian: Baseline (0.35 $\pm$ 0.2), and ComplementNaiveBayes (0.53 $\pm$ 0.03)
+   * French: Baseline (0.30 $\pm$ 0.2), and LinearSVC (0.48 $\pm$ 0.04) 
+   * Polish: Baseline (0.40 $\pm$ 0.2), and LogisticRegression (0.61 $\pm$ 0.02)
+   * Russian: Baseline (0.27 $\pm$ 0.2), and LogisticRegression (0.45 $\pm$ 0.02)
+   * German: Baseline (0.38 $\pm$ 0.2), and LogisticRegression (0.54 $\pm$ 0.03) 

@@ -4,6 +4,7 @@ from sklearn.dummy import DummyClassifier
 from sklearn.svm import SVC, LinearSVC
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.linear_model import LogisticRegression, RidgeClassifier
+from sklearn.naive_bayes import ComplementNB, GaussianNB, MultinomialNB
 
 MODEL_LIST = \
     {
@@ -128,6 +129,29 @@ MODEL_LIST = \
             'hyperparam_space': {
                 'estimator__n_estimators': [50, 100, 200, 400],
                 'estimator__max_depth': randint(2, 50),
+            }
+        },
+
+        'ComplementNaiveBayes': {
+            'model': ComplementNB(),
+            'hyperparam_space': {
+                'estimator__alpha': loguniform(1e-2, 1e3),
+                'estimator__norm': [True, False]
+            }
+        },
+
+        'GaussianNaiveBayes': {
+            'model': GaussianNB(),
+            'hyperparam_space': {
+                'estimator__var_smoothing': loguniform(1e-10, 1e-8),
+            }
+        },
+
+        'NaiveBayes': {
+            'model': MultinomialNB(),
+            'hyperparam_space': {
+                'estimator__alpha': loguniform(1e-2, 1e3),
+                'estimator__fit_prior': [True, False]
             }
         }
 

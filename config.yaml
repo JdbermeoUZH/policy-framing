@@ -1,5 +1,5 @@
 dataset:
-  language: 'ge'                    # en, ru, it, po, fr, ge
+  language: 'en'                    # en, it, po, fr, ru, ge
   subtask: 2                        # 1, 2, 3
   data_dir: 'data'                  # Relative path to directory with data
 
@@ -25,7 +25,7 @@ training:
     inner_folds: 3                  # Number of inner folds: Number of folds to validate each hyperparam combination
     n_search_iter: 10               # Number of search iterations per outer fold (it is measured with cv of #inner_folds)
     ranking_score: 'f1_micro'       # Metric to choose best performing model in each inner fold
-  model_list: ['DummyProbSampling', 'DummyUniformSampling', 'DummyMostFrequent', 'LogisticRegression', 'LogisticRegressionRidge', 'LogisticRegressionLasso', 'LogisticRegressionElasticNet', 'RidgeClassifier', 'SVM', 'LinearSVM', 'RandomForest', 'XGBoost', 'RandomForestV2']                             # Complete list is: ['DummyProbSampling', 'DummyUniformSampling', 'DummyMostFrequent', 'LogisticRegression', 'LogisticRegressionRidge', 'LogisticRegressionLasso', 'LogisticRegressionElasticNet', 'RidgeClassifier', 'SVM', 'LinearSVM', 'RandomForest', 'XGBoost', 'RandomForestV2']
+  model_list: ['DummyProbSampling', 'DummyUniformSampling', 'DummyMostFrequent', 'LogisticRegression', 'LogisticRegressionRidge', 'LogisticRegressionLasso', 'LogisticRegressionElasticNet', 'RidgeClassifier', 'SVM', 'LinearSVM', 'RandomForest', 'XGBoost', 'RandomForestV2', 'ComplementNaiveBayes', 'GaussianNaiveBayes', 'NaiveBayes']                             # Complete list is: ['DummyProbSampling', 'DummyUniformSampling', 'DummyMostFrequent', 'LogisticRegression', 'LogisticRegressionRidge', 'LogisticRegressionLasso', 'LogisticRegressionElasticNet', 'RidgeClassifier', 'SVM', 'LinearSVM', 'RandomForest', 'XGBoost', 'RandomForestV2', ComplementNaiveBayes, GaussianNaiveBayes, NaiveBayes]
   hyper-param_congfig_path: 'training/benchmark_subtask_2.py'           # .py file with models and distribution of hyperparams to tune and benchmark
   mlb_cls_independent: True         # If True, and 'independent' multilabel model is used. If False, a 'chain' mlb model is used. 'independent' learns probabilities indep. for each class
 
