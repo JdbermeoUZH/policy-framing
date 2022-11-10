@@ -41,7 +41,8 @@ class MultiLabelEstimator:
             ranking_score: str = 'f1_micro',
             scoring_functions: Optional[Union[Tuple[str], List[str]]] = None,
             shuffle_folds: bool = True,
-            return_train_score: bool = False
+            return_train_score: bool = False,
+            n_jobs: int = -1
     ) -> dict:
         # Verify dimensions match
         assert X.shape[0] == y.shape[0]
@@ -59,7 +60,9 @@ class MultiLabelEstimator:
             n_iter=hyperparam_samples_per_outer_fold,
             cv=MultilabelStratifiedKFold(n_splits=k_inner, shuffle=shuffle_folds, random_state=self.random_seed),
             scoring=scoring_functions,
-            refit=ranking_score
+            refit=ranking_score,
+            return_train_score=return_train_score,
+            n_jobs=n_jobs
         )
 
         # Define Outer-loop routine and execute it
@@ -69,7 +72,8 @@ class MultiLabelEstimator:
             scoring=scoring_functions,
             cv=MultilabelStratifiedKFold(n_splits=k_outer, shuffle=shuffle_folds, random_state=self.random_seed),
             return_estimator=True,
-            return_train_score=return_train_score
+            return_train_score=return_train_score,
+            n_jobs=n_jobs
         )
 
         return nested_cv_results
@@ -81,6 +85,7 @@ class MultiLabelEstimator:
             scoring_functions: Optional[Union[Tuple[str], List[str]]] = None,
             shuffle_folds: bool = True,
             return_train_score: bool = False,
+            n_jobs: int = -1,
     ) -> dict:
         # If no soring functions are specified, use default ones of the object
         scoring_functions = self.scoring_functions if not scoring_functions else scoring_functions
@@ -91,7 +96,8 @@ class MultiLabelEstimator:
             scoring=scoring_functions,
             cv=MultilabelStratifiedKFold(n_splits=k_outer, shuffle=shuffle_folds, random_state=self.random_seed),
             return_estimator=False,
-            return_train_score=return_train_score
+            return_train_score=return_train_score,
+            n_jobs=n_jobs
         )
 
         return cv_results

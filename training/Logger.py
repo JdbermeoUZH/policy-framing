@@ -54,7 +54,7 @@ class Logger:
         log_param('corr_threshold', preprocessing_pipeline.corr_threshold)
         log_param('min_df', preprocessing_pipeline.vectorizer.min_df)
         log_param('max_df', preprocessing_pipeline.vectorizer.max_df)
-        log_param('max_features', preprocessing_pipeline.vectorizer.ngram_range[0])
+        log_param('vecorizer_max_features', preprocessing_pipeline.vectorizer.max_features)
         log_param('n_gram_range_start', preprocessing_pipeline.vectorizer.ngram_range[0])
         log_param('n_gram_range_end', preprocessing_pipeline.vectorizer.ngram_range[1])
 
@@ -84,9 +84,9 @@ class Logger:
 
             # Log model wide performance
             log_param('analysis_level', 'model_wide')
-            for metric in [key for key in cv_results.keys() if 'test_' in key]:
-                log_metric(f'{metric.split("test_")[1]}_mean', cv_results[metric].mean())
-                log_metric(f'{metric.split("test_")[1]}_std', cv_results[metric].std())
+            for metric in [key for key in cv_results.keys() if any(x in key for x in ['train', 'test'])]:
+                log_metric(f'{metric}_mean', cv_results[metric].mean())
+                log_metric(f'{metric}_std', cv_results[metric].std())
         mlflow.end_run()
 
     def log_hyper_param_performance_outer_fold(
@@ -117,8 +117,8 @@ class Logger:
                     log_param(key.split('__')[-1], value)
 
                 # Log the metrics
-                for metric in [key for key in cv_results.keys() if 'test_' in key]:
-                    log_metric(metric.split('test_')[1], cv_results[metric][outer_fold_i])
+                for metric in [key for key in cv_results.keys() if any(x in key for x in ['train', 'test'])]:
+                    log_metric(metric, cv_results[metric][outer_fold_i])
 
             mlflow.end_run()
 
@@ -137,11 +137,13 @@ class Logger:
 
         for hyperparam_search in outer_fold_hyperparam_searches:
             results_df = pd.DataFrame(hyperparam_search.cv_results_)
-            metrics_mean_cols = [col for col in results_df.columns if 'mean_test' in col]
-            metrics_std_cols = [col for col in results_df.columns if 'std_test' in col]
+            metrics_mean_cols = [col for col in results_df.columns
+                                 if any(x in col for x in ['mean_train', 'mean_test'])]
+            metrics_std_cols = [col for col in results_df.columns
+                                if any(x in col for x in ['std_train', 'std_test'])]
 
             for sample_i, hyperparam_sample_results in results_df.iterrows():
-                with mlflow.start_run(experiment_id=self.experiment_id):
+                with mlflow.start_run(experiment_id=self.experiment_id, nested=True):
                     log_param('language', language)
                     # Log preprocessing params
                     self._log_preprocessing_params(unit_of_analysis=unit_of_analysis, spacy_model_used=spacy_model_used,

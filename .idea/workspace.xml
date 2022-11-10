@@ -5,9 +5,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3359b6ce-9e44-4da3-956d-9609d831df93" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/documentation/analyses/Default classifiers/.ipynb_checkpoints/test.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/training/metrics_config.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/benchmark_subtask_2.py" beforeDir="false" afterPath="$PROJECT_DIR$/benchmark_subtask_2.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/config.yaml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/documentation/analyses/Default classifiers/Default classifier performance.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/documentation/analyses/Default classifiers/Default classifier performance.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/documentation/analyses/Default classifiers/Performance table.md" beforeDir="false" afterPath="$PROJECT_DIR$/documentation/analyses/Default classifiers/Performance table.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/training/Logger.py" beforeDir="false" afterPath="$PROJECT_DIR$/training/Logger.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/training/MultiLabelEstimator.py" beforeDir="false" afterPath="$PROJECT_DIR$/training/MultiLabelEstimator.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/training/estimators_config.py" beforeDir="false" afterPath="$PROJECT_DIR$/training/estimators_config.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils/helper_fns.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/helper_fns.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -39,12 +46,12 @@
   <component name="GitRewordedCommitMessages">
     <option name="commitMessagesMapping">
       <RewordedCommitMessageMapping>
-        <option name="originalMessage" value="updated EDA with german dataset" />
-        <option name="rewordedMessage" value="added confusion matrix viz for sanity check of best default models&#10;&#10;&#10;automatically generate markdown table of model performance&#10;&#10;&#10;updated EDA with german dataset" />
+        <option name="originalMessage" value="fixed table formatting" />
+        <option name="rewordedMessage" value="&#10;&#10;fixed table formatting&#10;&#10;&#10;fixed table formatting" />
       </RewordedCommitMessageMapping>
     </option>
     <option name="currentCommit" value="1" />
-    <option name="onto" value="4ba15792a7c41df5be04613239af623cceefe78f" />
+    <option name="onto" value="3911b76c9a55d9ec653c79364da81d68c7d468e0" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -247,9 +254,9 @@
     <recent_temporary>
       <list>
         <item itemvalue="Python.benchmark_subtask_2" />
+        <item itemvalue="Python.Logger" />
         <item itemvalue="Python.MultiLabelEstimator" />
         <item itemvalue="Python.InputDataset" />
-        <item itemvalue="Python.Logger" />
         <item itemvalue="Python.BOWPipeline" />
       </list>
     </recent_temporary>
@@ -278,7 +285,8 @@
       <workItem from="1667479433225" duration="15110000" />
       <workItem from="1667663154396" duration="14412000" />
       <workItem from="1667827802388" duration="13956000" />
-      <workItem from="1667890015504" duration="15498000" />
+      <workItem from="1667890015504" duration="23592000" />
+      <workItem from="1668091766816" duration="10175000" />
     </task>
     <servers />
   </component>
@@ -301,18 +309,23 @@
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/training/MultiLabelEstimator.py</url>
-          <line>167</line>
+          <line>173</line>
           <option name="timeStamp" value="27" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/benchmark_subtask_2.py</url>
-          <line>126</line>
-          <option name="timeStamp" value="31" />
+          <url>file://$PROJECT_DIR$/training/MultiLabelEstimator.py</url>
+          <line>182</line>
+          <option name="timeStamp" value="33" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/training/MultiLabelEstimator.py</url>
-          <line>176</line>
-          <option name="timeStamp" value="33" />
+          <line>102</line>
+          <option name="timeStamp" value="37" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/benchmark_subtask_2.py</url>
+          <line>73</line>
+          <option name="timeStamp" value="47" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="jupyter-line">
           <url>notebook:///home/juanbermeo/SynologyDriveRA/Framing/documentation/analyses/Default classifiers/Default classifier performance.ipynb</url>
@@ -331,12 +344,13 @@
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/Framing$BOWPipeline.coverage" NAME="BOWPipeline Coverage Results" MODIFIED="1666182147374" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/Framing$benchmark_subtask_2.coverage" NAME="benchmark_subtask_2 Coverage Results" MODIFIED="1667231366907" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/Framing$benchmark_subtask_2.coverage" NAME="benchmark_subtask_2 Coverage Results" MODIFIED="1668097344854" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/Framing$basic_preprocessing.coverage" NAME="basic_preprocessing Coverage Results" MODIFIED="1665060979164" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/Framing$mlflow_trackin_example.coverage" NAME="mlflow_trackin_example Coverage Results" MODIFIED="1666271883386" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/Framing$InputDataset.coverage" NAME="InputDataset Coverage Results" MODIFIED="1667482561941" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/preprocessing" />
     <SUITE FILE_PATH="coverage/Framing$Estimator.coverage" NAME="Estimator Coverage Results" MODIFIED="1666290540451" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/training" />
     <SUITE FILE_PATH="coverage/Framing$CorrelationFilter.coverage" NAME="CorrelationFilter Coverage Results" MODIFIED="1666189198964" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/preprocessing" />
     <SUITE FILE_PATH="coverage/Framing$MultiLabelEstimator.coverage" NAME="MultiLabelEstimator Coverage Results" MODIFIED="1667837377062" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/training" />
+    <SUITE FILE_PATH="coverage/Framing$Logger.coverage" NAME="Logger Coverage Results" MODIFIED="1668097288240" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/training" />
   </component>
 </project>
