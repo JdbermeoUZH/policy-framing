@@ -5,16 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3359b6ce-9e44-4da3-956d-9609d831df93" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/training/metrics_config.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/utils/metrics_config.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/benchmark_subtask_2.py" beforeDir="false" afterPath="$PROJECT_DIR$/benchmark_subtask_2.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/config.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/config.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/documentation/analyses/Default classifiers/Default classifier performance.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/documentation/analyses/Default classifiers/Default classifier performance.ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/documentation/analyses/Default classifiers/Performance table.md" beforeDir="false" afterPath="$PROJECT_DIR$/documentation/analyses/Default classifiers/Performance table.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/training/Logger.py" beforeDir="false" afterPath="$PROJECT_DIR$/training/Logger.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/training/MultiLabelEstimator.py" beforeDir="false" afterPath="$PROJECT_DIR$/training/MultiLabelEstimator.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/training/estimators_config.py" beforeDir="false" afterPath="$PROJECT_DIR$/training/estimators_config.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/helper_fns.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/helper_fns.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/training/metrics_config.py" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -24,8 +20,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Python Script" />
         <option value="Jupyter Notebook" />
+        <option value="Python Script" />
       </list>
     </option>
   </component>
@@ -84,11 +80,11 @@
       <recent name="$PROJECT_DIR$/mlruns/5" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/utils" />
       <recent name="$PROJECT_DIR$/documentation/analyses/Labels EDA" />
       <recent name="$PROJECT_DIR$/documentation/analyses/Default classifiers" />
       <recent name="$PROJECT_DIR$/documentation/analyses/Dataset structure and quality" />
       <recent name="$PROJECT_DIR$/preprocessing" />
-      <recent name="$PROJECT_DIR$/data" />
     </key>
   </component>
   <component name="RunManager" selected="Python.benchmark_subtask_2">
@@ -286,7 +282,8 @@
       <workItem from="1667663154396" duration="14412000" />
       <workItem from="1667827802388" duration="13956000" />
       <workItem from="1667890015504" duration="23592000" />
-      <workItem from="1668091766816" duration="10175000" />
+      <workItem from="1668091766816" duration="12642000" />
+      <workItem from="1668176526739" duration="1252000" />
     </task>
     <servers />
   </component>
@@ -322,11 +319,6 @@
           <line>102</line>
           <option name="timeStamp" value="37" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/benchmark_subtask_2.py</url>
-          <line>73</line>
-          <option name="timeStamp" value="47" />
-        </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="jupyter-line">
           <url>notebook:///home/juanbermeo/SynologyDriveRA/Framing/documentation/analyses/Default classifiers/Default classifier performance.ipynb</url>
           <line>1</line>
@@ -344,7 +336,7 @@
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/Framing$BOWPipeline.coverage" NAME="BOWPipeline Coverage Results" MODIFIED="1666182147374" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/Framing$benchmark_subtask_2.coverage" NAME="benchmark_subtask_2 Coverage Results" MODIFIED="1668097344854" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/Framing$benchmark_subtask_2.coverage" NAME="benchmark_subtask_2 Coverage Results" MODIFIED="1668176911018" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/Framing$basic_preprocessing.coverage" NAME="basic_preprocessing Coverage Results" MODIFIED="1665060979164" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/Framing$mlflow_trackin_example.coverage" NAME="mlflow_trackin_example Coverage Results" MODIFIED="1666271883386" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/Framing$InputDataset.coverage" NAME="InputDataset Coverage Results" MODIFIED="1667482561941" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/preprocessing" />

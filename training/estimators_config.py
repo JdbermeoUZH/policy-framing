@@ -78,7 +78,7 @@ MODEL_LIST = \
             'hyperparam_space': {
                 'estimator__C': loguniform(1e-2, 1e3),
                 'estimator__class_weight': ['balanced', None],
-                'estimator__max_iter': [500, 1000]
+                'estimator__max_iter': [10000, 20000]
             }
         },
 

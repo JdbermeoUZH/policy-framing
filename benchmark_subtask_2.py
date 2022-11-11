@@ -13,6 +13,7 @@ from preprocessing.InputDataset import FramingArticleDataset
 from preprocessing.BOWPipeline import BOWPipeline, basic_tokenizing_and_cleaning
 from training.Logger import Logger
 from training.MultiLabelEstimator import MultiLabelEstimator
+from utils.metrics_config import scoring_functions
 from utils import helper_fns
 
 LANGUAGES = ('en', 'it', 'fr', 'po', 'ru', 'ge')
@@ -33,9 +34,6 @@ LABELS = ('fairness_and_equality', 'security_and_defense', 'crime_and_punishment
 
 UNITS_OF_ANALYSES = ('title', 'title_and_first_paragraph', 'title_and_5_sentences', 'title_and_10_sentences',
                      'title_and_first_sentence_each_paragraph', 'raw_text')
-
-DEFAULT_SCORING_FUNCTIONS = ('f1_micro', 'f1_macro', 'accuracy', 'precision_micro',
-                             'precision_macro', 'recall_micro', 'recall_macro')
 
 
 def parse_arguments_and_load_config_file() -> Tuple[argparse.Namespace, dict, ModuleType]:
@@ -59,6 +57,19 @@ def parse_arguments_and_load_config_file() -> Tuple[argparse.Namespace, dict, Mo
     estimators_config_ = import_module(arguments.config_path_py_models)
 
     return arguments, yaml_config_params, estimators_config_
+
+
+def report_train_test_performance(results_cv, report_metric: str = 'f1_micro'):
+    mean_score_train = results_cv[f'train_{report_metric}'].mean()
+    std_score_train = results_cv[f'train_{report_metric}'].std()
+    mean_score_test = results_cv[f'test_{report_metric}'].mean()
+    std_score_test = results_cv[f'test_{report_metric}'].std()
+    train_test_mean_diff = mean_score_train - mean_score_test
+    train_test_std_diff = (std_score_train ** 2 + std_score_test ** 2) ** (1/2)
+
+    print(f"Perfromance on trainset ({report_metric}): {mean_score_train: 0.3f} (+-{std_score_train: 0.2f})")
+    print(f"Perfromance on testset ({report_metric}): {mean_score_test: 0.3f} (+-{std_score_test: 0.2f})")
+    print(f"train_score - test_score ({report_metric}): {train_test_mean_diff: 0.3f} (+-{train_test_std_diff: 0.2f})")
 
 
 if __name__ == "__main__":
@@ -150,7 +161,7 @@ if __name__ == "__main__":
                     base_estimator=estimators_config.MODEL_LIST[model_name]['model'],
                     base_estimator_hyperparam_dist=estimators_config.MODEL_LIST[model_name]['hyperparam_space'],
                     treat_labels_as_independent=training_config['mlb_cls_independent'],
-                    scoring_functions=DEFAULT_SCORING_FUNCTIONS
+                    scoring_functions=scoring_functions
                 )
 
                 some_log_params = {
@@ -162,13 +173,13 @@ if __name__ == "__main__":
                 }
 
                 if training_config['default_params']:
-                    cv_results = multilabel_cls.cross_validation(
+                    results_cv = multilabel_cls.cross_validation(
                         X=X_train, y=y_train,
                         k_outer=training_config['nested_cv']['outer_folds'],
                         return_train_score=training_config['return_train_metrics'],
                         n_jobs=run_config['n_jobs']
                     )
-                    metric_logger.log_model_wide_performance(cv_results=cv_results, **some_log_params)
+                    metric_logger.log_model_wide_performance(cv_results=results_cv, **some_log_params)
 
                 else:
                     # Estimate performance with nested cross validation
@@ -176,7 +187,7 @@ if __name__ == "__main__":
                     n_search_iter = estimators_config.MODEL_LIST[model_name]['n_search_iter'] if has_n_search_iter\
                         else training_config['nested_cv']['n_search_iter']
 
-                    nested_cv_results = multilabel_cls.nested_cross_validation(
+                    results_cv = multilabel_cls.nested_cross_validation(
                         X=X_train, y=y_train,
                         k_outer=training_config['nested_cv']['outer_folds'],
                         hyperparam_samples_per_outer_fold=n_search_iter,
@@ -187,8 +198,13 @@ if __name__ == "__main__":
                     )
 
                     # Log the results of the experiment
-                    metric_logger.log_model_wide_performance(cv_results=nested_cv_results, **some_log_params)
-                    metric_logger.log_hyper_param_performance_outer_fold(cv_results=nested_cv_results, **some_log_params)
-                    metric_logger.log_hyper_param_performance_inner_fold(cv_results=nested_cv_results, **some_log_params)
+                    metric_logger.log_model_wide_performance(cv_results=results_cv, **some_log_params)
+                    metric_logger.log_hyper_param_performance_outer_fold(cv_results=results_cv, **some_log_params)
+                    metric_logger.log_hyper_param_performance_inner_fold(cv_results=results_cv, **some_log_params)
+
+                # Print model wide train and test error
+                report_train_test_performance(results_cv=results_cv, report_metric=training_config['metric_to_report'])
+
+                print('\n')
             print('\n')
         print('\n\n')
