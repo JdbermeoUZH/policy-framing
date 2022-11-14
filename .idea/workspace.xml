@@ -4,7 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3359b6ce-9e44-4da3-956d-9609d831df93" name="Changes" comment="" />
+    <list default="true" id="3359b6ce-9e44-4da3-956d-9609d831df93" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -30,6 +32,11 @@
     </option>
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="main" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="GitRewordedCommitMessages">
@@ -277,6 +284,7 @@
       <workItem from="1667890015504" duration="23592000" />
       <workItem from="1668091766816" duration="12642000" />
       <workItem from="1668176526739" duration="1711000" />
+      <workItem from="1668446599084" duration="1127000" />
     </task>
     <servers />
   </component>
