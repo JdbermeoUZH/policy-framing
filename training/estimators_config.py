@@ -34,7 +34,7 @@ MODEL_LIST = \
 
         'LogisticRegression': {
             'model': LogisticRegression(penalty='none'),
-            'n_search_iter': 10,
+            #'n_search_iter': 10,
             'hyperparam_space': {
                 'estimator__class_weight': ['balanced', None],
                 'estimator__max_iter': [100, 200, 500, 1000]
@@ -43,7 +43,7 @@ MODEL_LIST = \
 
         'LogisticRegressionRidge': {
             'model': LogisticRegression(penalty='l2'),
-            'n_search_iter': 10,
+            #'n_search_iter': 10,
             'hyperparam_space': {
                 'estimator__C': loguniform(1e-2, 1e3),
                 'estimator__solver': ['liblinear', 'lbfgs'],
@@ -54,7 +54,7 @@ MODEL_LIST = \
 
         'LogisticRegressionRidgeDual': {
             'model': LogisticRegression(penalty='l2', solver='liblinear', dual=True),
-            'n_search_iter': 10,
+            #'n_search_iter': 10,
             'hyperparam_space': {
                 'estimator__C': loguniform(1e-2, 1e3),
                 'estimator__class_weight': ['balanced', None],
@@ -64,7 +64,7 @@ MODEL_LIST = \
 
         'LogisticRegressionLasso': {
             'model': LogisticRegression(penalty='l1', solver='liblinear'),
-            'n_search_iter': 10,
+            #'n_search_iter': 10,
             'hyperparam_space': {
                 'estimator__C': loguniform(1e-2, 1e3),
                 'estimator__class_weight': ['balanced', None],
@@ -84,7 +84,7 @@ MODEL_LIST = \
 
         'RidgeClassifier': {
             'model': RidgeClassifier(),
-            'n_search_iter': 10,
+            #'n_search_iter': 10,
             'hyperparam_space': {
                 'estimator__alpha': loguniform(1e-2, 1e3),
                 'estimator__class_weight': ['balanced', None],
@@ -94,7 +94,7 @@ MODEL_LIST = \
 
         'SVM': {
             'model': SVC(),
-            'n_search_iter': 10,
+            #'n_search_iter': 10,
             'hyperparam_space': {
                 'estimator__C': loguniform(1e-2, 1e3),
                 'estimator__gamma': loguniform(1e-4, 1e-1),
@@ -104,7 +104,7 @@ MODEL_LIST = \
 
         'LinearSVM': {
             'model': LinearSVC(dual=False),
-            'n_search_iter': 10,
+            #'n_search_iter': 10,
             'hyperparam_space': {
                 'estimator__C': loguniform(1e-2, 1e3),
                 'estimator__penalty': ['l2', 'l1'],
@@ -115,7 +115,7 @@ MODEL_LIST = \
 
         'LinearSVMDual': {
             'model': LinearSVC(dual=True, penalty='l2'),
-            'n_search_iter': 10,
+            #'n_search_iter': 10,
             'hyperparam_space': {
                 'estimator__C': loguniform(1e-2, 1e3),
                 'estimator__class_weight': ['balanced', None],
@@ -125,7 +125,7 @@ MODEL_LIST = \
 
         'RandomForest': {
             'model': RandomForestClassifier(),
-            'n_search_iter': 10,
+            #'n_search_iter': 10,
             'hyperparam_space': {
                 'estimator__max_features': ['sqrt', 'log2'],
                 'estimator__n_estimators': [50, 100, 200, 400],
@@ -137,7 +137,7 @@ MODEL_LIST = \
 
         'XGBoost': {
             'model': XGBClassifier(verbosity=0, silent=True),
-            'n_search_iter': 10,
+            #'n_search_iter': 10,
             'hyperparam_space': {
                 'estimator__max_features': ['sqrt', 'log2'],
                 'estimator__gamma': loguniform(1e-2, 1e3),
@@ -149,7 +149,7 @@ MODEL_LIST = \
 
         'RandomForestV2': {
             'model': XGBRFClassifier(verbosity=0, silent=True),
-            'n_search_iter': 10,
+            #'n_search_iter': 10,
             'hyperparam_space': {
                 'estimator__n_estimators': [50, 100, 200, 400],
                 'estimator__max_depth': randint(2, 50),
@@ -158,7 +158,7 @@ MODEL_LIST = \
 
         'ComplementNaiveBayes': {
             'model': ComplementNB(),
-            'n_search_iter': 10,
+            #'n_search_iter': 10,
             'hyperparam_space': {
                 'estimator__alpha': loguniform(1e-2, 1e3),
                 'estimator__norm': [True, False]
@@ -167,7 +167,7 @@ MODEL_LIST = \
 
         'NaiveBayes': {
             'model': MultinomialNB(),
-            'n_search_iter': 10,
+            #'n_search_iter': 10,
             'hyperparam_space': {
                 'estimator__alpha': loguniform(1e-2, 1e3),
                 'estimator__fit_prior': [True, False]

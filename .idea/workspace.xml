@@ -4,14 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3359b6ce-9e44-4da3-956d-9609d831df93" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/utils/metrics_config.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/benchmark_subtask_2.py" beforeDir="false" afterPath="$PROJECT_DIR$/benchmark_subtask_2.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/config.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/training/estimators_config.py" beforeDir="false" afterPath="$PROJECT_DIR$/training/estimators_config.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/training/metrics_config.py" beforeDir="false" />
-    </list>
+    <list default="true" id="3359b6ce-9e44-4da3-956d-9609d831df93" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -283,7 +276,7 @@
       <workItem from="1667827802388" duration="13956000" />
       <workItem from="1667890015504" duration="23592000" />
       <workItem from="1668091766816" duration="12642000" />
-      <workItem from="1668176526739" duration="1252000" />
+      <workItem from="1668176526739" duration="1711000" />
     </task>
     <servers />
   </component>

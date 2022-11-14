@@ -9,7 +9,7 @@ dataset:
 
 preprocessing:
   split: 'train'                    # Split of the data to use
-  analysis_unit: 'all'              # 'title', 'title_and_first_paragraph', 'title_and_5_sentences', 'title_and_10_sentences',
+  analysis_unit: 'title'              # 'title', 'title_and_first_paragraph', 'title_and_5_sentences', 'title_and_10_sentences',
                                     # 'title_and_first_sentence_each_paragraph', 'raw_text', 'all'
   load_preproc_input_data: True     # Whether or not to rerun the script that produces the units of analysis
 
@@ -37,6 +37,6 @@ training:
 
 metric_logging:
   logging_path: './mlruns'          # Directory to store metrics. Dir must be named 'mlruns'
-  experiment_name: 'test_tunning' # Name of the experiment under which to store metrics
+  experiment_name: 'test_tunning_cluster' # Name of the experiment under which to store metrics
   rewrite_experiment: False         # Whether to delete/overwrite runs under experiment_name. In most of the cases it should be False
 
