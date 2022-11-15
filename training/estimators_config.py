@@ -74,7 +74,7 @@ MODEL_LIST = \
 
         'LogisticRegressionElasticNet': {
             'model': LogisticRegression(penalty='elasticnet', solver='saga', l1_ratio=0.5),
-            'n_search_iter': 10,
+            #'n_search_iter': 10,
             'hyperparam_space': {
                 'estimator__C': loguniform(1e-2, 1e3),
                 'estimator__class_weight': ['balanced', None],
