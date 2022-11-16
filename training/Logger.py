@@ -4,6 +4,7 @@ import shutil
 import mlflow
 import pandas as pd
 from mlflow import log_metric, log_param, set_tracking_uri, create_experiment, get_experiment_by_name
+from sklearn.pipeline import Pipeline
 
 from preprocessing.BOWPipeline import BOWPipeline
 from training import MultiLabelEstimator
@@ -44,19 +45,26 @@ class Logger:
             self,
             unit_of_analysis: str,
             spacy_model_used: str,
-            preprocessing_pipeline: BOWPipeline
+            preprocessing_pipeline: Pipeline
     ) -> None:
-        log_param('n_features', len(preprocessing_pipeline.vectorizer.get_feature_names_out()))
+        log_param('n_features', len(preprocessing_pipeline.get_feature_names_out()))
         log_param('unit_of_analysis', unit_of_analysis)
         log_param('spacy_model_used', spacy_model_used)
-        log_param('tfidf', preprocessing_pipeline.use_tfidf)
-        log_param('min_var', preprocessing_pipeline.min_var)
-        log_param('corr_threshold', preprocessing_pipeline.corr_threshold)
-        log_param('min_df', preprocessing_pipeline.vectorizer.min_df)
-        log_param('max_df', preprocessing_pipeline.vectorizer.max_df)
-        log_param('vecorizer_max_features', preprocessing_pipeline.vectorizer.max_features)
-        log_param('n_gram_range_start', preprocessing_pipeline.vectorizer.ngram_range[0])
-        log_param('n_gram_range_end', preprocessing_pipeline.vectorizer.ngram_range[1])
+
+        is_count_vectorizer = type(preprocessing_pipeline['vectorizer']).__name__ == 'CountVectorizer'
+        log_param('is_count_vectorizer', is_count_vectorizer)
+        log_param('min_df', preprocessing_pipeline['vectorizer'].min_df)
+        log_param('max_df', preprocessing_pipeline['vectorizer'].max_df)
+        log_param('vectorizer_max_features', preprocessing_pipeline['vectorizer'].max_features)
+        log_param('n_gram_range_start', preprocessing_pipeline['vectorizer'].ngram_range[0])
+        log_param('n_gram_range_end', preprocessing_pipeline['vectorizer'].ngram_range[1])
+
+        if not is_count_vectorizer:
+            log_param('tfidf', preprocessing_pipeline['vectorizer'].use_idf)
+
+        log_param('corr_threshold', preprocessing_pipeline['corr_filter'].corr_threshold)
+
+        log_param('min_var', preprocessing_pipeline['low_var_filter'].threshold)
 
     def _log_base_estimator_info(
             self,

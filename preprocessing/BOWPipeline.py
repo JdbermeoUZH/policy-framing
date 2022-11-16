@@ -99,7 +99,8 @@ class BOWPipeline:
         hyperparams_ranges_dict = {
             map_hyperparams(key.split('_range')[0], pipeline_params): value
             for key, value in hyperparams_ranges_dict.items()
-            if map_hyperparams(key.split('_range')[0], pipeline_params) in pipeline_params and isinstance(value, tuple)
+            if map_hyperparams(key.split('_range')[0], pipeline_params) in pipeline_params and (
+                    isinstance(value, tuple) or isinstance(value, list))
         }
 
         # Get the list of the ranges to sample it with LHS

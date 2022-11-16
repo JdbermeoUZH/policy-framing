@@ -1,5 +1,5 @@
 import os
-from types import ModuleType
+from types import ModuleType, GeneratorType
 
 import yaml
 import argparse
@@ -36,13 +36,10 @@ UNITS_OF_ANALYSES = ('title', 'title_and_first_paragraph', 'title_and_5_sentence
                      'title_and_first_sentence_each_paragraph', 'raw_text')
 
 
-def parse_arguments_and_load_config_file() -> Tuple[argparse.Namespace, dict, ModuleType]:
+def parse_arguments_and_load_config_file() -> Tuple[argparse.Namespace, dict]:
     parser = argparse.ArgumentParser(description='Subtask-2')
     parser.add_argument('--config_path_yaml', type=str,
                         help='Path to YAML configuration file overall benchmarking parameters')
-    parser.add_argument('--config_path_py_models', type=str,
-                        help="Path to '.py' configuration file with model implementations and "
-                             "hyper-parameter distributions to search with RandomSearch")
     arguments = parser.parse_args()
 
     # Load parameters of configuration file
@@ -53,10 +50,7 @@ def parse_arguments_and_load_config_file() -> Tuple[argparse.Namespace, dict, Mo
             print(exc)
             raise exc
 
-    # Import '.py' config file with models and their search space
-    estimators_config_ = import_module(arguments.config_path_py_models)
-
-    return arguments, yaml_config_params, estimators_config_
+    return arguments, yaml_config_params
 
 
 def report_train_test_performance(results_cv, report_metric: str = 'f1_micro'):
@@ -74,12 +68,17 @@ def report_train_test_performance(results_cv, report_metric: str = 'f1_micro'):
 
 if __name__ == "__main__":
     # Load script arguments and configuration file
-    args, config, estimators_config = parse_arguments_and_load_config_file()
+    args, config = parse_arguments_and_load_config_file()
     dataset_config = config['dataset']
     preprocessing_config = config['preprocessing']
     training_config = config['training']
+    estimators_config = import_module(config['training']['model_hyperparam_module'])
     metric_log_config = config['metric_logging']
     run_config = config['run']
+
+    preprocessing_tune_config = None
+    if preprocessing_config['tune_preprocessing_params']:
+        preprocessing_tune_config = preprocessing_config['param_search']
 
     if run_config['supress_warnings']:
         helper_fns.supress_all_warnings()
@@ -116,8 +115,8 @@ if __name__ == "__main__":
         # Create additional object that will be used during the experiments
         ###################################################################
 
-        # Define the vectorizing pipeline to use
-        vectorizing_pipeline = BOWPipeline(
+        # Define the vectorizing pipeline(s) to use
+        bow_pipeline = BOWPipeline(
             tokenizer=lambda string: basic_tokenizing_and_cleaning(string, spacy_nlp_model=nlp),
             use_tfidf=preprocessing_config['use_tfidf'],
             min_df=preprocessing_config['min_df'],
@@ -128,6 +127,10 @@ if __name__ == "__main__":
             corr_threshold=preprocessing_config['corr_threshold']
         )
 
+        if preprocessing_tune_config:
+            vectorizing_pipelines = bow_pipeline.sample_pipelines_from_hypeparameter_space(**preprocessing_tune_config)
+        else:
+            vectorizing_pipelines = (bow_pipeline.pipeline, )
         # Define the object that will log performance with MLFlow
         metric_logger = Logger(
             logging_dir=metric_log_config['logging_path'],
@@ -149,63 +152,77 @@ if __name__ == "__main__":
             print("#" * len(notify_current_unit_of_analysis))
 
             # Vectorize the text data
-            # TODO: modify so it loops over specific combinations of hyperparams of the vectorizer
-            X_train = vectorizing_pipeline.pipeline.fit_transform(train_data.df[unit_of_analysis])
+            for i, vectorizing_pipeline_i in enumerate(vectorizing_pipelines):
+                if isinstance(vectorizing_pipelines, GeneratorType):
+                    pipline_i_notification_str = f"Running experiments for preprocessing pipeline: {i}"
+                    print(pipline_i_notification_str)
+                    print('-' * len(pipline_i_notification_str))
+                    print('-' * len(pipline_i_notification_str) + '\n')
 
-            for model_name in training_config['model_list']:
-                notify_current_model_str = f"Currently running estimates for model: {model_name}"
-                print(notify_current_model_str)
-                print("-"*len(notify_current_model_str))
+                try:
+                    X_train = vectorizing_pipeline_i.fit_transform(train_data.df[unit_of_analysis])
+                except ValueError as value_e:
+                    print(f'ERROR: {value_e}')
+                    print('The parameters used where')
+                    print(vectorizing_pipeline_i.get_params())
+                    print('\n\n')
+                    continue
 
-                # Define model
-                multilabel_cls = MultiLabelEstimator(
-                    base_estimator=estimators_config.MODEL_LIST[model_name]['model'],
-                    base_estimator_hyperparam_dist=estimators_config.MODEL_LIST[model_name]['hyperparam_space'],
-                    treat_labels_as_independent=training_config['mlb_cls_independent'],
-                    scoring_functions=scoring_functions
-                )
+                # Iterate over models
+                for model_name in training_config['model_list']:
+                    notify_current_model_str = f"Currently running estimates for model: {model_name}"
+                    print(notify_current_model_str)
+                    print("-"*len(notify_current_model_str))
 
-                some_log_params = {
-                    'language': language,
-                    'unit_of_analysis': unit_of_analysis,
-                    'spacy_model_used': SPACY_MODELS[language][preprocessing_config['spacy_model_size']],
-                    'preprocessing_pipeline': vectorizing_pipeline,
-                    'estimator': multilabel_cls
-                }
-
-                if training_config['default_params']:
-                    results_cv = multilabel_cls.cross_validation(
-                        X=X_train, y=y_train,
-                        k_outer=training_config['nested_cv']['outer_folds'],
-                        return_train_score=training_config['return_train_metrics'],
-                        n_jobs=run_config['n_jobs']
-                    )
-                    metric_logger.log_model_wide_performance(cv_results=results_cv, **some_log_params)
-
-                else:
-                    # Estimate performance with nested cross validation
-                    has_n_search_iter = 'n_search_iter' in estimators_config.MODEL_LIST[model_name].keys()
-                    n_search_iter = estimators_config.MODEL_LIST[model_name]['n_search_iter'] if has_n_search_iter\
-                        else training_config['nested_cv']['n_search_iter']
-
-                    results_cv = multilabel_cls.nested_cross_validation(
-                        X=X_train, y=y_train,
-                        k_outer=training_config['nested_cv']['outer_folds'],
-                        hyperparam_samples_per_outer_fold=n_search_iter,
-                        k_inner=training_config['nested_cv']['outer_folds'],
-                        ranking_score=training_config['nested_cv']['ranking_score'],
-                        return_train_score=training_config['return_train_metrics'],
-                        n_jobs=run_config['n_jobs']
+                    # Define model
+                    multilabel_cls = MultiLabelEstimator(
+                        base_estimator=estimators_config.MODEL_LIST[model_name]['model'],
+                        base_estimator_hyperparam_dist=estimators_config.MODEL_LIST[model_name]['hyperparam_space'],
+                        treat_labels_as_independent=training_config['mlb_cls_independent'],
+                        scoring_functions=scoring_functions
                     )
 
-                    # Log the results of the experiment
-                    metric_logger.log_model_wide_performance(cv_results=results_cv, **some_log_params)
-                    metric_logger.log_hyper_param_performance_outer_fold(cv_results=results_cv, **some_log_params)
-                    metric_logger.log_hyper_param_performance_inner_fold(cv_results=results_cv, **some_log_params)
+                    some_log_params = {
+                        'language': language,
+                        'unit_of_analysis': unit_of_analysis,
+                        'spacy_model_used': SPACY_MODELS[language][preprocessing_config['spacy_model_size']],
+                        'preprocessing_pipeline': vectorizing_pipeline_i,
+                        'estimator': multilabel_cls
+                    }
 
-                # Print model wide train and test error
-                report_train_test_performance(results_cv=results_cv, report_metric=training_config['metric_to_report'])
+                    if training_config['default_params']:
+                        results_cv = multilabel_cls.cross_validation(
+                            X=X_train, y=y_train,
+                            k_outer=training_config['nested_cv']['outer_folds'],
+                            return_train_score=training_config['return_train_metrics'],
+                            n_jobs=run_config['n_jobs']
+                        )
+                        metric_logger.log_model_wide_performance(cv_results=results_cv, **some_log_params)
 
+                    else:
+                        # Estimate performance with nested cross validation
+                        has_n_search_iter = 'n_search_iter' in estimators_config.MODEL_LIST[model_name].keys()
+                        n_search_iter = estimators_config.MODEL_LIST[model_name]['n_search_iter'] if has_n_search_iter\
+                            else training_config['nested_cv']['n_search_iter']
+
+                        results_cv = multilabel_cls.nested_cross_validation(
+                            X=X_train, y=y_train,
+                            k_outer=training_config['nested_cv']['outer_folds'],
+                            hyperparam_samples_per_outer_fold=n_search_iter,
+                            k_inner=training_config['nested_cv']['outer_folds'],
+                            ranking_score=training_config['nested_cv']['ranking_score'],
+                            return_train_score=training_config['return_train_metrics'],
+                            n_jobs=run_config['n_jobs']
+                        )
+
+                        # Log the results of the experiment
+                        metric_logger.log_model_wide_performance(cv_results=results_cv, **some_log_params)
+                        metric_logger.log_hyper_param_performance_outer_fold(cv_results=results_cv, **some_log_params)
+                        metric_logger.log_hyper_param_performance_inner_fold(cv_results=results_cv, **some_log_params)
+
+                    # Print model wide train and test error
+                    report_train_test_performance(results_cv=results_cv, report_metric=training_config['metric_to_report'])
+
+                    print('\n')
                 print('\n')
-            print('\n')
-        print('\n\n')
+            print('\n\n')
