@@ -149,6 +149,7 @@ if __name__ == "__main__":
             print("#" * len(notify_current_unit_of_analysis))
 
             # Vectorize the text data
+            # TODO: modify so it loops over specific combinations of hyperparams of the vectorizer
             X_train = vectorizing_pipeline.pipeline.fit_transform(train_data.df[unit_of_analysis])
 
             for model_name in training_config['model_list']:

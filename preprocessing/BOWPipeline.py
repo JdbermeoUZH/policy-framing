@@ -6,8 +6,18 @@ import spacy
 from sklearn.feature_selection import VarianceThreshold
 from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
 from sklearn.pipeline import Pipeline
+from skopt.space import Space
+from skopt.sampler import Lhs
 
 from preprocessing.CorrelationFilter import CorrelationFilter
+
+
+def map_hyperparams(hyperparam_basename: str, hyperparam_list: list[str]):
+    for hyperparam in hyperparam_list:
+        if hyperparam_basename in hyperparam:
+            return hyperparam
+
+    return None
 
 
 def basic_tokenizing_and_cleaning(text: str, spacy_nlp_model: spacy.Language) -> List[str]:
@@ -60,6 +70,49 @@ class BOWPipeline:
         self.corr_threshold = corr_threshold
         self.pipeline.steps.append(('corr_filter', CorrelationFilter(corr_threshold)))
 
+    def sample_pipelines_from_hypeparameter_space(
+            self,
+            n_samples: int,
+            min_df_range: Optional[Tuple[float, float]] = (0, 0.3),
+            max_df_range: Optional[Tuple[float, float]] = (0.6, 1),
+            max_features_range: Optional[Tuple[int, int]] = (200, 1000),
+            **kwargs
+    ):
+        """
+        Explore the space of hyperparameters using form of sampling that ensures we explore a large portion of the
+        hyperparameter space.
+
+        Note: Specify the exact name of the paramereter followed by _range: <parameter_name>_range and a tuple for it's range
+
+        :param min_df_range:
+        :param max_df_range:
+        :param max_features_range:
+        :return: iterator of pipelines over the sampled hyperparameters
+        """
+        # Merge list of hyperparameter ranges
+        hyperparams_ranges_dict = {**kwargs, **{'min_df_range': min_df_range, 'max_df_range': max_df_range ,
+                                         'max_features_range': max_features_range}}
+
+        # Define hyperpameters that apply
+        pipeline_params = [param for param in self.pipeline.get_params().keys() if len(param.split('__')) > 1]
+
+        hyperparams_ranges_dict = {
+            map_hyperparams(key.split('_range')[0], pipeline_params): value
+            for key, value in hyperparams_ranges_dict.items()
+            if map_hyperparams(key.split('_range')[0], pipeline_params) in pipeline_params and isinstance(value, tuple)
+        }
+
+        # Get the list of the ranges to sample it with LHS
+        hyperparam_vars = [hyperparam_var for hyperparam_var in hyperparams_ranges_dict.values()]
+        lhs = Lhs(criterion="maximin", iterations=10000)
+        hyperparam_samples = lhs.generate(hyperparam_vars, n_samples)
+
+        for hyperparams in hyperparam_samples:
+            yield self.pipeline.set_params(
+                **{hyperparam: hyperparam_value
+                   for hyperparam, hyperparam_value in zip(hyperparams_ranges_dict.keys(), hyperparams)}
+            )
+
 
 if __name__ == "__main__":
     # Load example dataset
@@ -79,4 +132,12 @@ if __name__ == "__main__":
         corr_threshold=.9
     )
 
+    pipeline_generator = preproc_pipeline.sample_pipelines_from_hypeparameter_space(
+        3, corr_threshold_range=(0.8, 1), some_non_valid_hyperparam='sdglk')
+
+    for i, pipeline_i in enumerate(pipeline_generator):
+        print(f'pipeline_{i}')
+        print(pipeline_i)
+
     train_df = preproc_pipeline.pipeline.fit_transform(en_train_df.title_and_first_paragraph)
+
