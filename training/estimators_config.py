@@ -37,7 +37,7 @@ MODEL_LIST = \
             #'n_search_iter': 10,
             'hyperparam_space': {
                 'estimator__class_weight': ['balanced', None],
-                'estimator__max_iter': [100, 200, 500, 1000]
+                'estimator__max_iter': randint(1000, 100000)
             }
         },
 
@@ -48,7 +48,7 @@ MODEL_LIST = \
                 'estimator__C': loguniform(1e-2, 1e3),
                 'estimator__solver': ['liblinear', 'lbfgs'],
                 'estimator__class_weight': ['balanced', None],
-                'estimator__max_iter': [100, 200, 500, 1000]
+                'estimator__max_iter': randint(1000, 100000)
             }
         },
 
@@ -58,7 +58,7 @@ MODEL_LIST = \
             'hyperparam_space': {
                 'estimator__C': loguniform(1e-2, 1e3),
                 'estimator__class_weight': ['balanced', None],
-                'estimator__max_iter': [100, 200, 500, 1000]
+                'estimator__max_iter': randint(1000, 100000)
             }
         },
 
@@ -68,7 +68,7 @@ MODEL_LIST = \
             'hyperparam_space': {
                 'estimator__C': loguniform(1e-2, 1e3),
                 'estimator__class_weight': ['balanced', None],
-                'estimator__max_iter': [100, 200, 500, 1000]
+                'estimator__max_iter': randint(1000, 100000)
             }
         },
 
@@ -78,7 +78,7 @@ MODEL_LIST = \
             'hyperparam_space': {
                 'estimator__C': loguniform(1e-2, 1e3),
                 'estimator__class_weight': ['balanced', None],
-                'estimator__max_iter': [10000, 20000]
+                'estimator__max_iter': randint(30000, 100000)
             }
         },
 
@@ -88,7 +88,7 @@ MODEL_LIST = \
             'hyperparam_space': {
                 'estimator__alpha': loguniform(1e-2, 1e3),
                 'estimator__class_weight': ['balanced', None],
-                'estimator__max_iter': [100, 200, 500, 1000]
+                'estimator__max_iter': randint(1000, 100000)
             }
         },
 
@@ -109,7 +109,7 @@ MODEL_LIST = \
                 'estimator__C': loguniform(1e-2, 1e3),
                 'estimator__penalty': ['l2', 'l1'],
                 'estimator__class_weight': ['balanced', None],
-                'estimator__max_iter': [200, 500, 1000]
+                'estimator__max_iter': randint(2000, 20000)
             }
         },
 
@@ -119,7 +119,7 @@ MODEL_LIST = \
             'hyperparam_space': {
                 'estimator__C': loguniform(1e-2, 1e3),
                 'estimator__class_weight': ['balanced', None],
-                'estimator__max_iter': [500, 1000, 2000]
+                'estimator__max_iter': randint(2000, 20000)
             }
         },
 

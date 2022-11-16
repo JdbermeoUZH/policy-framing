@@ -9,7 +9,7 @@ dataset:
 
 preprocessing:
   split: 'train'                    # Split of the data to use
-  analysis_unit: ['title', 'title_and_first_paragraph']              # 'title', 'title_and_first_paragraph', 'title_and_5_sentences', 'title_and_10_sentences',
+  analysis_unit: ['title_and_5_sentences', 'title_and_10_sentences', 'title_and_first_sentence_each_paragraph', 'raw_text']              # 'title', 'title_and_first_paragraph', 'title_and_5_sentences', 'title_and_10_sentences',
                                     # 'title_and_first_sentence_each_paragraph', 'raw_text', 'all'
   load_preproc_input_data: True     # Whether or not to rerun the script that produces the units of analysis
 
@@ -28,7 +28,7 @@ training:
   nested_cv:                        # Total training runs are outer_folds(inner_folds * num_search_iters + 1)
     outer_folds: 3                  # Number of outer fold: Number of "best" models after tuning
     inner_folds: 3                  # Number of inner folds: Number of folds to validate each hyperparam combination
-    n_search_iter: 1                # Number of search iterations per outer fold (it is measured with cv of #inner_folds)
+    n_search_iter: 100                # Number of search iterations per outer fold (it is measured with cv of #inner_folds)
     ranking_score: 'f1_micro'       # Metric to choose best performing model in each inner fold
   metric_to_report: 'f1_micro'      # Metric to report
   model_list: ['DummyProbSampling'] #, 'DummyUniformSampling', 'DummyMostFrequent', 'LogisticRegression', 'LogisticRegressionRidge', 'LogisticRegressionLasso', 'LogisticRegressionElasticNet', 'RidgeClassifier', 'SVM', 'LinearSVM', 'RandomForest', 'XGBoost', 'RandomForestV2', 'ComplementNaiveBayes', 'NaiveBayes']                             # Complete list is: ['DummyProbSampling', 'DummyUniformSampling', 'DummyMostFrequent', 'LogisticRegression', 'LogisticRegressionRidge', 'LogisticRegressionLasso', 'LogisticRegressionElasticNet', 'RidgeClassifier', 'SVM', 'LinearSVM', 'RandomForest', 'XGBoost', 'RandomForestV2', ComplementNaiveBayes, NaiveBayes]
