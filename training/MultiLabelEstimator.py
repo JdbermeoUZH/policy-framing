@@ -18,12 +18,14 @@ DEFAULT_SCORING_FUNCTIONS = ('f1_micro', 'f1_macro', 'accuracy', 'precision_micr
 class MultiLabelEstimator:
     def __init__(
             self,
+            model_name: str,
             base_estimator: ClassifierMixin,
             base_estimator_hyperparam_dist: dict,
             treat_labels_as_independent: bool = True,
             scoring_functions: Tuple[str, ...] = DEFAULT_SCORING_FUNCTIONS,
             random_seed: str = 123
     ):
+        self.model_name = model_name
         self.estimator_type = 'independent' if treat_labels_as_independent else 'chain'
         self.base_estimator_name = base_estimator.__str__()
         self.multi_label_estimator = \
@@ -111,11 +113,14 @@ class MultiLabelEstimator:
         mskf = MultilabelStratifiedKFold(n_splits=folds, shuffle=shuffle, random_state=self.random_seed)
         return mskf.split(X, y)
 
-    def get_model_name(self) -> str:
+    def get_base_estimator_name(self) -> str:
         if 'XGB' in self.base_estimator_name:
             return self.base_estimator_name[:15]
         else:
             return self.base_estimator_name
+
+    def get_model_name(self) -> str:
+        return self.model_name
 
     def get_multilabel_model_type(self) -> str:
         return self.estimator_type

@@ -176,6 +176,7 @@ if __name__ == "__main__":
 
                     # Define model
                     multilabel_cls = MultiLabelEstimator(
+                        model_name=model_name,
                         base_estimator=estimators_config.MODEL_LIST[model_name]['model'],
                         base_estimator_hyperparam_dist=estimators_config.MODEL_LIST[model_name]['hyperparam_space'],
                         treat_labels_as_independent=training_config['mlb_cls_independent'],
@@ -216,9 +217,17 @@ if __name__ == "__main__":
                         )
 
                         # Log the results of the experiment
-                        metric_logger.log_model_wide_performance(cv_results=results_cv, **some_log_params)
                         metric_logger.log_hyper_param_performance_outer_fold(cv_results=results_cv, **some_log_params)
                         metric_logger.log_hyper_param_performance_inner_fold(cv_results=results_cv, **some_log_params)
+
+                        hyperparam_distrs_filepath = os.path.join(
+                            *config['training']['model_hyperparam_module'].split('.'))
+                        hyperparam_distrs_filepath += '.py'
+                        metric_logger.log_model_wide_performance(
+                            cv_results=results_cv,
+                            hyperparam_distrs_filepath=hyperparam_distrs_filepath,
+                            **some_log_params
+                        )
 
                     # Print model wide train and test error
                     report_train_test_performance(results_cv=results_cv, report_metric=training_config['metric_to_report'])

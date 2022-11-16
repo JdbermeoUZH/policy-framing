@@ -1,9 +1,10 @@
 import os
 import shutil
+from typing import Optional
 
 import mlflow
 import pandas as pd
-from mlflow import log_metric, log_param, set_tracking_uri, create_experiment, get_experiment_by_name
+from mlflow import log_metric, log_param, log_artifact, set_tracking_uri, create_experiment, get_experiment_by_name
 from sklearn.pipeline import Pipeline
 
 from preprocessing.BOWPipeline import BOWPipeline
@@ -70,7 +71,8 @@ class Logger:
             self,
             estimator: MultiLabelEstimator
     ) -> None:
-        log_param('model_type', estimator.get_model_name())
+        log_param('model_name', estimator.get_model_name())
+        log_param('base_estimator_name', estimator.get_base_estimator_name())
         log_param('multilabel_type', estimator.get_multilabel_model_type())
 
     def log_model_wide_performance(
@@ -78,9 +80,10 @@ class Logger:
             language: str,
             unit_of_analysis: str,
             spacy_model_used: str,
-            preprocessing_pipeline: BOWPipeline,
+            preprocessing_pipeline: Pipeline,
             estimator: MultiLabelEstimator,
-            cv_results: dict
+            cv_results: dict,
+            hyperparam_distrs_filepath: Optional[str] = None
     ) -> None:
         with mlflow.start_run(experiment_id=self.experiment_id):
             # Log preprocessing params
@@ -95,6 +98,10 @@ class Logger:
             for metric in [key for key in cv_results.keys() if any(x in key for x in ['train', 'test'])]:
                 log_metric(f'{metric}_mean', cv_results[metric].mean())
                 log_metric(f'{metric}_std', cv_results[metric].std())
+
+            # For nested cross validation, log the hyperparameters space used
+            if hyperparam_distrs_filepath:
+                log_artifact(hyperparam_distrs_filepath)
         mlflow.end_run()
 
     def log_hyper_param_performance_outer_fold(
@@ -102,7 +109,7 @@ class Logger:
             language: str,
             unit_of_analysis: str,
             spacy_model_used: str,
-            preprocessing_pipeline: BOWPipeline,
+            preprocessing_pipeline: Pipeline,
             estimator: MultiLabelEstimator,
             cv_results: dict
     ) -> None:
@@ -135,7 +142,7 @@ class Logger:
             language: str,
             unit_of_analysis: str,
             spacy_model_used: str,
-            preprocessing_pipeline: BOWPipeline,
+            preprocessing_pipeline: Pipeline,
             estimator: MultiLabelEstimator,
             cv_results: dict
     ) -> None:
