@@ -3,13 +3,13 @@ run:
   n_jobs: -1
 
 dataset:
-  languages: ['en']   # 'en, 'it', 'fr', 'po', 'ru', 'ge'
+  languages: ['ge']   # 'en, 'it', 'fr', 'po', 'ru', 'ge'
   subtask: 2                        # 1, 2, 3
   data_dir: 'data'                  # Relative path to directory with data
 
 preprocessing:
   split: 'train'                    # Split of the data to use
-  analysis_unit: ["title"] #['title_and_5_sentences', 'title_and_10_sentences', 'title_and_first_sentence_each_paragraph', 'raw_text']              # 'title', 'title_and_first_paragraph', 'title_and_5_sentences', 'title_and_10_sentences',
+  analysis_unit: ['title_and_5_sentences', 'title_and_10_sentences', 'title_and_first_sentence_each_paragraph', 'raw_text']              # 'title', 'title_and_first_paragraph', 'title_and_5_sentences', 'title_and_10_sentences',
                                     # 'title_and_first_sentence_each_paragraph', 'raw_text', 'all'
   load_preproc_input_data: True     # Whether or not to rerun the script that produces the units of analysis
   spacy_model_size: 'small'         # small or large. small should be enough for preprocessing, it is mostly tokenizing so far
@@ -21,7 +21,7 @@ preprocessing:
   min_var: 0.001                    # Minimum variance a vector should have to be used in the trainset
   corr_threshold: 0.9               # Remove columns that have correlation >= threshold to another higher
 
-  tune_preprocessing_params: True  # If True, will do LHS over the ranges of the parameters next
+  tune_preprocessing_params: False  # If True, will do LHS over the ranges of the parameters next
   param_search:
     n_samples: 4
     min_df_range: [0, 0.3]
@@ -29,12 +29,12 @@ preprocessing:
 
 training:
   default_params: False             # If True, it runs cross validation with outer_folds folds. If False, it runs nested cross validation
-  model_list: [ 'LogisticRegression' ] # ['DummyProbSampling', 'DummyUniformSampling', 'DummyMostFrequent', 'LogisticRegression', 'LogisticRegressionRidge', 'LogisticRegressionRidgeDual', 'LogisticRegressionLasso', 'LogisticRegressionElasticNet', 'RidgeClassifier', 'SVM', 'LinearSVM', 'LinearSVMDual', 'RandomForest', 'XGBoost', 'RandomForestV2', 'ComplementNaiveBayes', 'NaiveBayes'])
+  model_list: ['DummyProbSampling', 'DummyUniformSampling', 'DummyMostFrequent', 'LogisticRegression', 'LogisticRegressionRidge', 'LogisticRegressionRidgeDual', 'LogisticRegressionLasso', 'LogisticRegressionElasticNet', 'RidgeClassifier', 'SVM', 'LinearSVM', 'LinearSVMDual', 'RandomForest', 'XGBoost', 'RandomForestV2', 'ComplementNaiveBayes', 'NaiveBayes']
   model_hyperparam_module: 'training.estimators_hyperparam_space_config'           # .py file with models and distribution of hyperparams to tune and benchmark
   nested_cv:                        # Total training runs are outer_folds(inner_folds * num_search_iters + 1)
     outer_folds: 3                  # Number of outer fold: Number of "best" models after tuning
     inner_folds: 3                  # Number of inner folds: Number of folds to validate each hyperparam combination
-    n_search_iter: 2                # Number of search iterations per outer fold (it is measured with cv of #inner_folds)
+    n_search_iter: 100                # Number of search iterations per outer fold (it is measured with cv of #inner_folds)
     ranking_score: 'f1_micro'       # Metric to choose best performing model in each inner fold
   metric_to_report: 'f1_micro'      # Metric to report
   return_train_metrics: True        # Whether to return the metrics on the train set or not
@@ -43,6 +43,5 @@ training:
 
 metric_logging:
   logging_path: './mlruns'          # Directory to store metrics. Dir must be named 'mlruns'
-  experiment_name: 'test_new_params' # Name of the experiment under which to store metrics
+  experiment_name: 'ge_tunning' # Name of the experiment under which to store metrics
   rewrite_experiment: False         # Whether to delete/overwrite runs under experiment_name. In most of the cases it should be False
-

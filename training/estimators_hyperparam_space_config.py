@@ -45,7 +45,7 @@ MODEL_LIST = \
             'model': LogisticRegression(penalty='l2'),
             #'n_search_iter': 10,
             'hyperparam_space': {
-                'estimator__C': loguniform(1e-2, 1e3),
+                'estimator__C': loguniform(1e-1, 1e4),
                 'estimator__solver': ['liblinear', 'lbfgs'],
                 'estimator__class_weight': ['balanced', None],
                 'estimator__max_iter': randint(1000, 100000)
@@ -56,7 +56,7 @@ MODEL_LIST = \
             'model': LogisticRegression(penalty='l2', solver='liblinear', dual=True),
             #'n_search_iter': 10,
             'hyperparam_space': {
-                'estimator__C': loguniform(1e-2, 1e3),
+                'estimator__C': loguniform(1e-1, 1e4),
                 'estimator__class_weight': ['balanced', None],
                 'estimator__max_iter': randint(1000, 100000)
             }
@@ -66,7 +66,7 @@ MODEL_LIST = \
             'model': LogisticRegression(penalty='l1', solver='liblinear'),
             #'n_search_iter': 10,
             'hyperparam_space': {
-                'estimator__C': loguniform(1e-2, 1e3),
+                'estimator__C': loguniform(1e-1, 1e4),
                 'estimator__class_weight': ['balanced', None],
                 'estimator__max_iter': randint(1000, 100000)
             }
@@ -76,9 +76,9 @@ MODEL_LIST = \
             'model': LogisticRegression(penalty='elasticnet', solver='saga', l1_ratio=0.5),
             #'n_search_iter': 10,
             'hyperparam_space': {
-                'estimator__C': loguniform(1e-2, 1e3),
+                'estimator__C': loguniform(1e-1, 1e4),
                 'estimator__class_weight': ['balanced', None],
-                'estimator__max_iter': randint(30000, 100000)
+                'estimator__max_iter': randint(50000, 150000)
             }
         },
 
@@ -86,7 +86,7 @@ MODEL_LIST = \
             'model': RidgeClassifier(),
             #'n_search_iter': 10,
             'hyperparam_space': {
-                'estimator__alpha': loguniform(1e-2, 1e3),
+                'estimator__alpha': loguniform(1e-1, 1e4),
                 'estimator__class_weight': ['balanced', None],
                 'estimator__max_iter': randint(1000, 100000)
             }
@@ -96,7 +96,7 @@ MODEL_LIST = \
             'model': SVC(),
             #'n_search_iter': 10,
             'hyperparam_space': {
-                'estimator__C': loguniform(1e-2, 1e3),
+                'estimator__C': loguniform(1e-1, 1e4),
                 'estimator__gamma': loguniform(1e-4, 1e-1),
                 'estimator__kernel': ['rbf', 'poly', 'sigmoid']
             }
@@ -106,10 +106,10 @@ MODEL_LIST = \
             'model': LinearSVC(dual=False),
             #'n_search_iter': 10,
             'hyperparam_space': {
-                'estimator__C': loguniform(1e-2, 1e3),
+                'estimator__C': loguniform(1e-1, 1e4),
                 'estimator__penalty': ['l2', 'l1'],
                 'estimator__class_weight': ['balanced', None],
-                'estimator__max_iter': randint(2000, 20000)
+                'estimator__max_iter': randint(20000, 100000)
             }
         },
 
@@ -117,9 +117,9 @@ MODEL_LIST = \
             'model': LinearSVC(dual=True, penalty='l2'),
             #'n_search_iter': 10,
             'hyperparam_space': {
-                'estimator__C': loguniform(1e-2, 1e3),
+                'estimator__C': loguniform(1e-1, 1e4),
                 'estimator__class_weight': ['balanced', None],
-                'estimator__max_iter': randint(2000, 20000)
+                'estimator__max_iter': randint(20000, 100000)
             }
         },
 
@@ -129,8 +129,8 @@ MODEL_LIST = \
             'hyperparam_space': {
                 'estimator__max_features': ['sqrt', 'log2'],
                 'estimator__n_estimators': [50, 100, 200, 400],
-                'estimator__max_depth': randint(2, 50),
-                'estimator__min_samples_leaf': randint(1, 10),
+                'estimator__max_depth': randint(2, 25),
+                'estimator__min_samples_leaf': randint(1, 50),
                 'estimator__class_weight': ["balanced", "balanced_subsample", None]
             }
         },
