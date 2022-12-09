@@ -38,7 +38,7 @@ MODEL_LIST = \
             }
         },
 
-        'LogisticRegressionLasso': {
+        'LogisticRegressionLassoV1': {
             'model': LogisticRegression(penalty='l1', solver='liblinear'),
             'n_search_iter': 40,
             'hyperparam_space': {
@@ -46,6 +46,16 @@ MODEL_LIST = \
                 'estimator__class_weight': ['balanced'],
                 'estimator__max_iter': randint(20000, 100000)
             }
+        },
+
+        'LogisticRegressionLassoV2': {
+                    'model': LogisticRegression(penalty='l1', solver='liblinear'),
+                    'n_search_iter': 20,
+                    'hyperparam_space': {
+                        'estimator__C': loguniform(0.1, 1000),
+                        'estimator__class_weight': ['balanced'],
+                        'estimator__max_iter': randint(20000, 100000)
+                    }
         },
 
         'LogisticRegressionElasticNet': {
@@ -127,7 +137,7 @@ MODEL_LIST = \
                 'estimator__n_estimators': [50, 100, 200, 400],
                 'estimator__max_depth': randint(2, 25),
                 'estimator__min_samples_leaf': randint(1, 50),
-                'estimator__class_weight': ["balanced", "balanced_subsample", None]
+                'estimator__class_weight': ["balanced_subsample"]
             }
         },
 

@@ -131,12 +131,6 @@ if __name__ == "__main__":
             vectorizing_pipelines = bow_pipeline.sample_pipelines_from_hypeparameter_space(**preprocessing_tune_config)
         else:
             vectorizing_pipelines = (bow_pipeline.pipeline, )
-        # Define the object that will log performance with MLFlow
-        metric_logger = Logger(
-            logging_dir=metric_log_config['logging_path'],
-            experiment_name=metric_log_config['experiment_name'],
-            rewrite_experiment=metric_log_config['rewrite_experiment']
-        )
 
         # Iterate over each family of models in specified in yaml and .py config files
         # Estimate performance on the model using the different units of analysis
@@ -173,6 +167,15 @@ if __name__ == "__main__":
                     notify_current_model_str = f"Currently running estimates for model: {model_name}"
                     print(notify_current_model_str)
                     print("-"*len(notify_current_model_str))
+
+                    # Define the object that will log performance with MLFlow
+                    experiment_name = f"{metric_log_config['experiment_base_name']}_{language}_" \
+                                      f"{unit_of_analysis}_{model_name}"
+                    metric_logger = Logger(
+                        logging_dir=metric_log_config['logging_path'],
+                        experiment_name=experiment_name,
+                        rewrite_experiment=metric_log_config['rewrite_experiment']
+                    )
 
                     # Define model
                     multilabel_cls = MultiLabelEstimator(
