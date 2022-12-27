@@ -126,15 +126,51 @@ MODEL_LIST = \
             }
         },
 
-        'RandomForest': {
+        'RandomForest_v1': {
             'model': RandomForestClassifier(class_weight="balanced_subsample"),
-            'n_search_iter': 50,
+            'n_search_iter': 60,
             'hyperparam_space': {
                 'estimator__max_features': ['sqrt', 'log2'],
-                'estimator__n_estimators': [50, 100, 200, 400],
-                'estimator__max_depth': randint(2, 25),
-                'estimator__min_samples_leaf': randint(1, 35),
-                'estimator__class_weight': ["balanced_subsample"]
+                'estimator__n_estimators': [50, 100, 200],
+                'estimator__max_depth': randint(2, 50),
+                'estimator__min_samples_leaf': randint(5, 25),
+            }
+        },
+
+        'RandomForest_v2': {
+            'model': RandomForestClassifier(class_weight="balanced_subsample"),
+            'n_search_iter': 60,
+            'hyperparam_space': {
+                'estimator__max_features': ['sqrt', 'log2'],
+                'estimator__criterion': ['gini', 'entropy”', 'log_loss'],
+                'estimator__n_estimators': [50, 100, 200],
+                'estimator__max_depth': randint(2, 100),
+                'estimator__min_samples_leaf': randint(5, 25),
+            }
+        },
+
+        'RandomForest_v3': {
+            'model': RandomForestClassifier(class_weight="balanced_subsample"),
+            'n_search_iter': 60,
+            'hyperparam_space': {
+                'estimator__max_features': randint(2, 100),
+                'estimator__n_estimators': [50, 100, 200],
+                'estimator__max_depth': randint(2, 50),
+                'estimator__min_samples_leaf': randint(5, 25),
+            }
+        },
+
+        'RandomForest_v4': {
+            'model': RandomForestClassifier(class_weight="balanced_subsample"),
+            'n_search_iter': 80,
+            'hyperparam_space': {
+                'estimator__max_features': randint(2, 100),
+                'estimator__n_estimators': [50, 100, 200],
+                'estimator__max_depth': randint(2, 50),
+                'estimator__ccp_alpha': loguniform(0, 0.1),
+                'estimator__min_samples_leaf': randint(5, 25),
+                'estimator__bootstrap': [True, False],
+                'estimator__max_leaf_nodes': randint(1, 100)
             }
         },
 
@@ -171,11 +207,20 @@ MODEL_LIST = \
             }
         },
 
-        'ComplementNaiveBayes': {
+        'ComplementNaiveBayes_Broad': {
             'model': ComplementNB(),
             'n_search_iter': 50,
             'hyperparam_space': {
                 'estimator__alpha': loguniform(1e-3, 2),
+                'estimator__norm': [True, False]
+            }
+        },
+
+        'ComplementNaiveBayes_narrow': {
+            'model': ComplementNB(),
+            'n_search_iter': 30,
+            'hyperparam_space': {
+                'estimator__alpha': loguniform(1e-1, 2),
                 'estimator__norm': [True, False]
             }
         },

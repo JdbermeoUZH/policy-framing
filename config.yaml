@@ -29,8 +29,8 @@ preprocessing:
 
 training:
   default_params: False             # If True, it runs cross validation with outer_folds folds. If False, it runs nested cross validation
-  model_list: ['DummyProbSampling', 'DummyUniformSampling']#, 'DummyMostFrequent', 'LogisticRegression', 'LogisticRegressionRidge', 'LogisticRegressionRidgeDual', 'LogisticRegressionLasso', 'LogisticRegressionElasticNet', 'RidgeClassifier', 'SVM', 'LinearSVM', 'LinearSVMDual', 'RandomForest', 'XGBoost', 'RandomForestV2', 'ComplementNaiveBayes', 'NaiveBayes']
-  model_hyperparam_module: 'training.estimators_hyperparam_space_config'           # .py file with models and distribution of hyperparams to tune and benchmark
+  model_list: ['XGBoost']#, 'DummyMostFrequent', 'LogisticRegression', 'LogisticRegressionRidge', 'LogisticRegressionRidgeDual', 'LogisticRegressionLasso', 'LogisticRegressionElasticNet', 'RidgeClassifier', 'SVM', 'LinearSVM', 'LinearSVMDual', 'RandomForest', 'XGBoost', 'RandomForestV2', 'ComplementNaiveBayes', 'NaiveBayes']
+  model_hyperparam_module: 'training.hyperparam_space_config_italian_raw_text'           # .py file with models and distribution of hyperparams to tune and benchmark
   nested_cv:                        # Total training runs are outer_folds(inner_folds * num_search_iters + 1)
     outer_folds: 3                  # Number of outer fold: Number of "best" models after tuning
     inner_folds: 3                  # Number of inner folds: Number of folds to validate each hyperparam combination
