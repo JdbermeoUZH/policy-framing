@@ -18,17 +18,17 @@ MODEL_LIST = \
 
         'LogisticRegressionRidge': {
             'model': LogisticRegression(penalty='l2', solver='liblinear', class_weight='balanced', max_iter=100000),
-            'n_search_iter': 40,
+            'n_search_iter': 20,
             'hyperparam_space': {
-                'estimator__C': loguniform(1e-4, 1e0)
+                'estimator__C': loguniform(1e-3, 1e-1)
             }
         },
 
         'LogisticRegressionRidgeDual': {
             'model': LogisticRegression(penalty='l2', solver='liblinear', dual=True, class_weight='balanced'),
-            'n_search_iter': 40,
+            'n_search_iter': 20,
             'hyperparam_space': {
-                'estimator__C': loguniform(1e-3, 0.5),
+                'estimator__C': loguniform(1e-3, 1e-1),
                 'estimator__class_weight': ['balanced'],
                 'estimator__max_iter': randint(20000, 100000)
             }

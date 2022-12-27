@@ -5,8 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3359b6ce-9e44-4da3-956d-9609d831df93" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/training/hyperparam_space_config_french.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/training/estimators_hyperparam_space_config_italian.py" beforeDir="false" afterPath="$PROJECT_DIR$/training/estimators_hyperparam_space_config_italian.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/training/estimators_hyperparam_space_config_french.py" beforeDir="false" afterPath="$PROJECT_DIR$/training/hyperparam_space_config_italian_other_units_of_analysis.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/training/estimators_hyperparam_space_config_italian.py" beforeDir="false" afterPath="$PROJECT_DIR$/training/hyperparam_space_config_italian_raw_text.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -65,7 +67,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "/home/juanbermeo/SynologyDriveRA/Framing/documentation/analyses/Default classifiers",
+    "last_opened_file_path": "/home/juanbermeo/SynologyDriveRA/Framing/training",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -78,6 +80,7 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/training" />
       <recent name="$PROJECT_DIR$/documentation/analyses/Default classifiers" />
       <recent name="$PROJECT_DIR$/mlruns/5" />
     </key>
@@ -89,7 +92,7 @@
       <recent name="$PROJECT_DIR$/preprocessing" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.BOWPipeline">
+  <component name="RunManager" selected="Python.estimators_hyperparam_space_config_italian_other_units_of_analysis">
     <configuration name="BOWPipeline" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="Framing" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -126,28 +129,6 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/training/Logger.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="true" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="MultiLabelEstimator" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="Framing" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/training" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/training/MultiLabelEstimator.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="true" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -222,6 +203,28 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="hyperparam_space_config_italian_other_units_of_analysis" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="Framing" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/training" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/training/hyperparam_space_config_italian_other_units_of_analysis.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="true" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="main" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
       <module name="Framing" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -246,19 +249,19 @@
     </configuration>
     <list>
       <item itemvalue="Python.main" />
+      <item itemvalue="Python.estimators_hyperparam_space_config_italian_other_units_of_analysis" />
       <item itemvalue="Python.estimators_hyperparam_space_config" />
-      <item itemvalue="Python.MultiLabelEstimator" />
       <item itemvalue="Python.benchmark_subtask_2" />
       <item itemvalue="Python.BOWPipeline" />
       <item itemvalue="Python.Logger" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.estimators_hyperparam_space_config_italian_other_units_of_analysis" />
         <item itemvalue="Python.BOWPipeline" />
         <item itemvalue="Python.benchmark_subtask_2" />
         <item itemvalue="Python.estimators_hyperparam_space_config" />
         <item itemvalue="Python.Logger" />
-        <item itemvalue="Python.MultiLabelEstimator" />
       </list>
     </recent_temporary>
   </component>
@@ -299,7 +302,9 @@
       <workItem from="1669905836878" duration="4279000" />
       <workItem from="1670021038900" duration="1261000" />
       <workItem from="1670149311350" duration="13000" />
-      <workItem from="1671731443242" duration="6231000" />
+      <workItem from="1671731443242" duration="8314000" />
+      <workItem from="1672003810666" duration="8772000" />
+      <workItem from="1672062954838" duration="22555000" />
     </task>
     <servers />
   </component>
@@ -339,6 +344,11 @@
           <url>file://$PROJECT_DIR$/preprocessing/BOWPipeline.py</url>
           <line>115</line>
           <option name="timeStamp" value="52" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/training/hyperparam_space_config_italian_other_units_of_analysis.py</url>
+          <line>229</line>
+          <option name="timeStamp" value="53" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="jupyter-line">
           <url>notebook:///home/juanbermeo/SynologyDriveRA/Framing/documentation/analyses/Default classifiers/Default classifier performance.ipynb</url>
