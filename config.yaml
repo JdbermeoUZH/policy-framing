@@ -3,7 +3,7 @@ run:
   n_jobs: -1
 
 dataset:
-  languages: ['ge']   # 'en, 'it', 'fr', 'po', 'ru', 'ge'
+  languages: ['it']   # 'en, 'it', 'fr', 'po', 'ru', 'ge'
   subtask: 2                        # 1, 2, 3
   data_dir: 'data'                  # Relative path to directory with data
 
@@ -29,12 +29,12 @@ preprocessing:
 
 training:
   default_params: False             # If True, it runs cross validation with outer_folds folds. If False, it runs nested cross validation
-  model_list: ['DummyProbSampling', 'DummyUniformSampling']#, 'DummyMostFrequent', 'LogisticRegression', 'LogisticRegressionRidge', 'LogisticRegressionRidgeDual', 'LogisticRegressionLasso', 'LogisticRegressionElasticNet', 'RidgeClassifier', 'SVM', 'LinearSVM', 'LinearSVMDual', 'RandomForest', 'XGBoost', 'RandomForestV2', 'ComplementNaiveBayes', 'NaiveBayes']
-  model_hyperparam_module: 'training.estimators_hyperparam_space_config'           # .py file with models and distribution of hyperparams to tune and benchmark
+  model_list: ['ComplementNaiveBayes', 'NaiveBayes']
+  model_hyperparam_module: 'training.estimators_hyperparam_space_config_italian'           # .py file with models and distribution of hyperparams to tune and benchmark
   nested_cv:                        # Total training runs are outer_folds(inner_folds * num_search_iters + 1)
     outer_folds: 3                  # Number of outer fold: Number of "best" models after tuning
     inner_folds: 3                  # Number of inner folds: Number of folds to validate each hyperparam combination
-    n_search_iter: 2                # Number of search iterations per outer fold (it is measured with cv of #inner_folds)
+    n_search_iter: 40               # Number of search iterations per outer fold (it is measured with cv of #inner_folds)
     ranking_score: 'f1_micro'       # Metric to choose best performing model in each inner fold
   metric_to_report: 'f1_micro'      # Metric to report
   return_train_metrics: True        # Whether to return the metrics on the train set or not
@@ -43,5 +43,5 @@ training:
 
 metric_logging:
   logging_path: './mlruns'          # Directory to store metrics. Dir must be named 'mlruns'
-  experiment_base_name: 'test_breaking' # Name of the experiment under which to store metrics
+  experiment_base_name: 'it_regression' # Name of the experiment under which to store metrics
   rewrite_experiment: False         # Whether to delete/overwrite runs under experiment_name. In most of the cases it should be False
