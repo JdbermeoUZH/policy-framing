@@ -185,7 +185,7 @@ MODEL_LIST = \
             'model': RandomForestClassifier(class_weight="balanced_subsample"),
             'n_search_iter': 30,
             'hyperparam_space': {
-                'estimator__max_features': randint(1, 20),
+                'estimator__max_features': randint(1, 50),
                 'estimator__n_estimators': [50, 100, 200],
                 'estimator__max_depth': randint(2, 25),
                 'estimator__min_samples_leaf': randint(5, 35),
@@ -195,7 +195,7 @@ MODEL_LIST = \
 
         'XGBoost': {
             'model': XGBClassifier(verbosity=0, silent=True),
-            #'n_search_iter': 10,
+            'n_search_iter': 50,
             'hyperparam_space': {
                 'estimator__max_features': ['sqrt', 'log2'],
                 'estimator__gamma': loguniform(1e-5, 1e-2),
@@ -207,7 +207,7 @@ MODEL_LIST = \
 
         'XGBoostV2': {
             'model': XGBClassifier(verbosity=0, silent=True, use_label_encoder=False),
-            # 'n_search_iter': 10,
+            'n_search_iter': 50,
             'hyperparam_space': {
                 'estimator__max_features': randint(1, 20),
                 'estimator__gamma': loguniform(1e-5, 1e-2),
@@ -217,18 +217,9 @@ MODEL_LIST = \
             }
         },
 
-        'RandomForestV2': {
-            'model': XGBRFClassifier(verbosity=0, silent=True, use_label_encoder=False ),
-            #'n_search_iter': 10,
-            'hyperparam_space': {
-                'estimator__n_estimators': [50, 100, 200, 400],
-                'estimator__max_depth': randint(2, 50),
-            }
-        },
-
         'ComplementNaiveBayes': {
             'model': ComplementNB(),
-            'n_search_iter': 40,
+            'n_search_iter': 50,
             'hyperparam_space': {
                 'estimator__alpha': loguniform(1e-4, 2),
                 'estimator__norm': [True, False]
@@ -237,7 +228,7 @@ MODEL_LIST = \
 
         'NaiveBayes': {
             'model': MultinomialNB(),
-            'n_search_iter': 40,
+            'n_search_iter': 50,
             'hyperparam_space': {
                 'estimator__alpha': loguniform(0.07, 1),
                 'estimator__fit_prior': [True, False]
