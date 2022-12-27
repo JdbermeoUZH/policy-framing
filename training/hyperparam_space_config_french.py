@@ -53,38 +53,36 @@ MODEL_LIST = \
         },
 
         'LogisticRegressionElasticNet_wide_C': {
-            'model': LogisticRegression(penalty='elasticnet', solver='saga', l1_ratio=0.5, max_iter=1e6),
+            'model': LogisticRegression(penalty='elasticnet', solver='saga', l1_ratio=0.5, max_iter=250000,
+                                        class_weight='balanced'),
             'n_search_iter': 50,
             'hyperparam_space': {
-                'estimator__C': loguniform(1e-2, 1000),
-                'estimator__class_weight': ['balanced']
+                'estimator__C': loguniform(1e-2, 1000)
             }
         },
 
         'LogisticRegressionElasticNet_narrow_C': {
-            'model': LogisticRegression(penalty='elasticnet', solver='saga', l1_ratio=0.5, max_iter=1e6),
+            'model': LogisticRegression(penalty='elasticnet', solver='saga', l1_ratio=0.5, max_iter=250000,
+                                        class_weight='balanced'),
             'n_search_iter': 50,
             'hyperparam_space': {
-                'estimator__C': loguniform(1e-3, 10),
-                'estimator__class_weight': ['balanced']
+                'estimator__C': loguniform(1e-3, 10)
             }
         },
 
         'RidgeClassifierV1': {
-            'model': RidgeClassifier(max_iter=100000),
+            'model': RidgeClassifier(max_iter=100000, class_weight='balanced'),
             'n_search_iter': 40,
             'hyperparam_space': {
-                'estimator__alpha': loguniform(1, 5e3),
-                'estimator__class_weight': ['balanced'],
+                'estimator__alpha': loguniform(1, 5e3)
             }
         },
 
         'RidgeClassifierV2': {
-            'model': RidgeClassifier(max_iter=100000),
+            'model': RidgeClassifier(max_iter=100000, class_weight='balanced'),
             'n_search_iter': 40,
             'hyperparam_space': {
-                'estimator__alpha': loguniform(1e-3, 10),
-                'estimator__class_weight': ['balanced'],
+                'estimator__alpha': loguniform(1e-3, 10)
             }
         },
 
@@ -156,7 +154,7 @@ MODEL_LIST = \
             'model': LinearSVC(dual=False, class_weight='balanced'),
             'n_search_iter': 60,
             'hyperparam_space': {
-                'estimator__C': loguniform(1e-4, 1),
+                'estimator__C': loguniform(1e-6, 1),
                 'estimator__penalty': ['l2', 'l1'],
                 'estimator__max_iter': randint(100000, 500000)
             }
@@ -166,7 +164,7 @@ MODEL_LIST = \
             'model': LinearSVC(dual=True, penalty='l2', class_weight='balanced'),
             'n_search_iter': 30,
             'hyperparam_space': {
-                'estimator__C': loguniform(1e-4, 0.2),
+                'estimator__C': loguniform(1e-6, 0.2),
                 'estimator__max_iter': randint(100000, 500000)
             }
         },

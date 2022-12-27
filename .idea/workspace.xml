@@ -5,10 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3359b6ce-9e44-4da3-956d-9609d831df93" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/training/hyperparam_space_config_french.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/training/estimators_hyperparam_space_config_french.py" beforeDir="false" afterPath="$PROJECT_DIR$/training/hyperparam_space_config_italian_other_units_of_analysis.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/training/estimators_hyperparam_space_config_italian.py" beforeDir="false" afterPath="$PROJECT_DIR$/training/hyperparam_space_config_italian_raw_text.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/training/hyperparam_space_config_french.py" beforeDir="false" afterPath="$PROJECT_DIR$/training/hyperparam_space_config_french.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/training/hyperparam_space_config_italian_other_units_of_analysis.py" beforeDir="false" afterPath="$PROJECT_DIR$/training/hyperparam_space_config_italian_other_units_of_analysis.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/training/hyperparam_space_config_italian_raw_text.py" beforeDir="false" afterPath="$PROJECT_DIR$/training/hyperparam_space_config_italian_raw_text.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -61,23 +61,23 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "/home/juanbermeo/SynologyDriveRA/Framing/training",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable",
-    "two.files.diff.last.used.file": "/home/juanbermeo/Documents/PRODIGI/Policy Framing/Framing/InputDataset.py",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/juanbermeo/SynologyDriveRA/Framing/training&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;,
+    &quot;two.files.diff.last.used.file&quot;: &quot;/home/juanbermeo/Documents/PRODIGI/Policy Framing/Framing/InputDataset.py&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/training" />
@@ -92,7 +92,7 @@
       <recent name="$PROJECT_DIR$/preprocessing" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.estimators_hyperparam_space_config_italian_other_units_of_analysis">
+  <component name="RunManager" selected="Python.main">
     <configuration name="BOWPipeline" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="Framing" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -249,7 +249,7 @@
     </configuration>
     <list>
       <item itemvalue="Python.main" />
-      <item itemvalue="Python.estimators_hyperparam_space_config_italian_other_units_of_analysis" />
+      <item itemvalue="Python.hyperparam_space_config_italian_other_units_of_analysis" />
       <item itemvalue="Python.estimators_hyperparam_space_config" />
       <item itemvalue="Python.benchmark_subtask_2" />
       <item itemvalue="Python.BOWPipeline" />
@@ -257,7 +257,6 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.estimators_hyperparam_space_config_italian_other_units_of_analysis" />
         <item itemvalue="Python.BOWPipeline" />
         <item itemvalue="Python.benchmark_subtask_2" />
         <item itemvalue="Python.estimators_hyperparam_space_config" />
@@ -304,7 +303,8 @@
       <workItem from="1670149311350" duration="13000" />
       <workItem from="1671731443242" duration="8314000" />
       <workItem from="1672003810666" duration="8772000" />
-      <workItem from="1672062954838" duration="22555000" />
+      <workItem from="1672062954838" duration="23468000" />
+      <workItem from="1672106762399" duration="10637000" />
     </task>
     <servers />
   </component>
@@ -347,7 +347,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/training/hyperparam_space_config_italian_other_units_of_analysis.py</url>
-          <line>229</line>
+          <line>191</line>
           <option name="timeStamp" value="53" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="jupyter-line">
