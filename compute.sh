@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-#SBATCH --output=tunning_jobs/it_nb_%j.out
+#SBATCH --output=tunning_jobs/it_reg_other_units_%j.out
 #SBATCH --time=36:10:00
 #SBATCH --cpus-per-task=32
 #SBATCH --mem=61600
