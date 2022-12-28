@@ -119,7 +119,7 @@ MODEL_LIST = \
             'n_search_iter': 60,
             'hyperparam_space': {
                 'estimator__max_features': ['sqrt', 'log2'],
-                'estimator__criterion': ['gini', 'entropy”', 'log_loss'],
+                'estimator__criterion': ['gini', 'entropy', 'log_loss'],
                 'estimator__n_estimators': [50, 100, 200],
                 'estimator__max_depth': randint(2, 100),
                 'estimator__min_samples_leaf': randint(5, 25),
@@ -144,7 +144,7 @@ MODEL_LIST = \
                 'estimator__max_features': randint(2, 100),
                 'estimator__n_estimators': [50, 100, 200],
                 'estimator__max_depth': randint(2, 50),
-                'estimator__ccp_alpha': loguniform(0, 0.1),
+                'estimator__ccp_alpha': loguniform(1e-6, 0.1),
                 'estimator__min_samples_leaf': randint(5, 25),
                 'estimator__bootstrap': [True, False],
                 'estimator__max_leaf_nodes': randint(1, 100)
