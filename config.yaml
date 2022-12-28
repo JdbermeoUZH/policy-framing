@@ -9,7 +9,7 @@ dataset:
 
 preprocessing:
   split: 'train'                    # Split of the data to use
-  analysis_unit: ['title_and_5_sentences', 'title_and_10_sentences', 'title_and_first_sentence_each_paragraph', 'raw_text']              # 'title', 'title_and_first_paragraph', 'title_and_5_sentences', 'title_and_10_sentences',
+  analysis_unit: ['title', 'title_and_first_paragraph', 'title_and_5_sentences', 'title_and_10_sentences', 'title_and_first_sentence_each_paragraph']              # 'title', 'title_and_first_paragraph', 'title_and_5_sentences', 'title_and_10_sentences',
                                     # 'title_and_first_sentence_each_paragraph', 'raw_text', 'all'
   load_preproc_input_data: True     # Whether or not to rerun the script that produces the units of analysis
   spacy_model_size: 'small'         # small or large. small should be enough for preprocessing, it is mostly tokenizing so far
