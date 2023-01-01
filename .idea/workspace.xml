@@ -7,6 +7,7 @@
     <list default="true" id="3359b6ce-9e44-4da3-956d-9609d831df93" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/config.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/config.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/training/hyperparam_space_config_french.py" beforeDir="false" afterPath="$PROJECT_DIR$/training/hyperparam_space_config_french.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/training/hyperparam_space_config_italian_other_units_of_analysis.py" beforeDir="false" afterPath="$PROJECT_DIR$/training/hyperparam_space_config_italian_other_units_of_analysis.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
