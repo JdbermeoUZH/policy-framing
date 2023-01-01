@@ -79,17 +79,17 @@ MODEL_LIST = \
             }
         },
 
-        'LinearSVM_narrow_C': {
+        'LinearSVM': {
             'model': LinearSVC(dual=False, class_weight='balanced', penalty='l2', max_iter=1e5),
-            'n_search_iter': 50,
+            'n_search_iter': 30,
             'hyperparam_space': {
                 'estimator__C': loguniform(1e-6, 5e-3),
             }
         },
 
-        'LinearSVMDual_narrow_C': {
+        'LinearSVMDual': {
             'model': LinearSVC(dual=True, penalty='l2', class_weight='balanced', max_iter=5e4),
-            'n_search_iter': 50,
+            'n_search_iter': 30,
             'hyperparam_space': {
                 'estimator__C': loguniform(1e-6, 3e-3),
             }
@@ -158,7 +158,7 @@ MODEL_LIST = \
 
         'ComplementNaiveBayes': {
             'model': ComplementNB(),
-            'n_search_iter': 50,
+            'n_search_iter': 30,
             'hyperparam_space': {
                 'estimator__alpha': loguniform(1e-3, 2),
                 'estimator__norm': [True, False]
@@ -168,7 +168,7 @@ MODEL_LIST = \
 
         'NaiveBayes': {
             'model': MultinomialNB(fit_prior=False),
-            'n_search_iter': 50,
+            'n_search_iter': 30,
             'hyperparam_space': {
                 'estimator__alpha': loguniform(0.2, 2),
             }

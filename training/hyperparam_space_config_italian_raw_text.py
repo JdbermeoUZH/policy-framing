@@ -84,7 +84,7 @@ MODEL_LIST = \
 
         'LinearSVM': {
             'model': LinearSVC(dual=False, class_weight='balanced', penalty='l2', max_iter=1e5),
-            'n_search_iter': 80,
+            'n_search_iter': 40,
             'hyperparam_space': {
                 'estimator__C': loguniform(5e-4, 6e-3),
             }
@@ -92,7 +92,7 @@ MODEL_LIST = \
 
         'LinearSVMDual': {
             'model': LinearSVC(dual=True, penalty='l2', class_weight='balanced', max_iter=5e4),
-            'n_search_iter': 50,
+            'n_search_iter': 40,
             'hyperparam_space': {
                 'estimator__C': loguniform(1e-5, 3e-3),
             }
