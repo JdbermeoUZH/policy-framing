@@ -6,8 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="3359b6ce-9e44-4da3-956d-9609d831df93" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/config.yaml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/training/hyperparam_space_config_italian_other_units_of_analysis.py" beforeDir="false" afterPath="$PROJECT_DIR$/training/hyperparam_space_config_italian_other_units_of_analysis.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/training/hyperparam_space_config_italian_raw_text.py" beforeDir="false" afterPath="$PROJECT_DIR$/training/hyperparam_space_config_italian_raw_text.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -91,7 +91,7 @@
       <recent name="$PROJECT_DIR$/preprocessing" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.hyperparam_space_config_italian_other_units_of_analysis">
+  <component name="RunManager" selected="Python.hyperparam_space_config_french">
     <configuration name="BOWPipeline" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="Framing" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -256,9 +256,9 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.hyperparam_space_config_italian_other_units_of_analysis" />
-        <item itemvalue="Python.hyperparam_space_config_italian_raw_text" />
         <item itemvalue="Python.hyperparam_space_config_french" />
+        <item itemvalue="Python.hyperparam_space_config_italian_raw_text" />
+        <item itemvalue="Python.hyperparam_space_config_italian_other_units_of_analysis" />
         <item itemvalue="Python.benchmark_subtask_2" />
         <item itemvalue="Python.BOWPipeline" />
       </list>
@@ -306,6 +306,9 @@
       <workItem from="1672062954838" duration="23468000" />
       <workItem from="1672106762399" duration="14549000" />
       <workItem from="1672227713414" duration="3295000" />
+      <workItem from="1672414475050" duration="2691000" />
+      <workItem from="1672444566571" duration="49000" />
+      <workItem from="1672511635410" duration="13194000" />
     </task>
     <servers />
   </component>
@@ -360,7 +363,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/training/hyperparam_space_config_italian_other_units_of_analysis.py</url>
-          <line>236</line>
+          <line>225</line>
           <option name="timeStamp" value="53" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="jupyter-line">

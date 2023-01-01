@@ -18,9 +18,10 @@ MODEL_LIST = \
 
         'LogisticRegressionRidge': {
             'model': LogisticRegression(penalty='l2', solver='liblinear', class_weight='balanced', max_iter=100000),
-            'n_search_iter': 60,
+            'n_search_iter': 50,
             'hyperparam_space': {
-                'estimator__C': loguniform(1e-6, 0.05)
+                'estimator__C': loguniform(1e-6, 0.05),
+                'estimator__random_state': randint(0, 1000)
             }
         },
 
@@ -30,28 +31,21 @@ MODEL_LIST = \
             'n_search_iter': 40,
             'hyperparam_space': {
                 'estimator__C': loguniform(1e-4, 0.1),
+                'estimator__random_state': randint(0, 1000)
             }
         },
 
-
-        'LogisticRegressionLassoV1': {
-            'model': LogisticRegression(penalty='l1', solver='liblinear', class_weight='balanced', max_iter=100000),
-            'n_search_iter': 20,
-            'hyperparam_space': {
-                'estimator__C': loguniform(1, 20),
-            }
-        },
-
-        'LogisticRegressionLassoV2': {
+        'LogisticRegressionLasso': {
             'model': LogisticRegression(penalty='l1', solver='liblinear', class_weight='balanced', max_iter=100000),
             'n_search_iter': 20,
             'hyperparam_space': {
                 'estimator__C': loguniform(1, 10),
+                'estimator__random_state': randint(0, 1000)
             }
         },
 
         'LogisticRegressionElasticNet': {
-            'model': LogisticRegression(penalty='elasticnet', solver='saga', l1_ratio=0.5, max_iter=250000,
+            'model': LogisticRegression(penalty='elasticnet', solver='saga', l1_ratio=0.5, max_iter=1000000,
                                         class_weight='balanced'),
             'n_search_iter': 30,
             'hyperparam_space': {
@@ -61,22 +55,13 @@ MODEL_LIST = \
 
         'RidgeClassifier': {
             'model': RidgeClassifier(max_iter=100000, class_weight='balanced'),
-            'n_search_iter': 30,
+            'n_search_iter': 50,
             'hyperparam_space': {
                 'estimator__alpha': loguniform(1, 2e3)
             }
         },
 
-        'SVM_rbf_v1': {
-            'model': SVC(kernel='rbf', class_weight='balanced'),
-            'n_search_iter': 40,
-            'hyperparam_space': {
-                'estimator__C': loguniform(10, 1e3),
-                'estimator__gamma': loguniform(1e-4, 1e-2),
-            }
-        },
-
-        'SVM_rbf_v2': {
+        'SVM_rbf': {
             'model': SVC(kernel='rbf', class_weight='balanced'),
             'n_search_iter': 40,
             'hyperparam_space': {
@@ -89,24 +74,16 @@ MODEL_LIST = \
             'model': SVC(kernel='sigmoid', class_weight='balanced'),
             'n_search_iter': 30,
             'hyperparam_space': {
-                'estimator__C': loguniform(0.05, 8),
+                'estimator__C': loguniform(0.05, 6),
                 'estimator__gamma': loguniform(1e-1, 8),
             }
         },
 
         'LinearSVM_narrow_C': {
             'model': LinearSVC(dual=False, class_weight='balanced', penalty='l2', max_iter=1e5),
-            'n_search_iter': 80,
+            'n_search_iter': 50,
             'hyperparam_space': {
                 'estimator__C': loguniform(1e-6, 5e-3),
-            }
-        },
-
-        'LinearSVM_broad_C': {
-            'model': LinearSVC(dual=False, class_weight='balanced', penalty='l2', max_iter=1e5),
-            'n_search_iter': 80,
-            'hyperparam_space': {
-                'estimator__C': loguniform(1e-6, 1),
             }
         },
 
@@ -118,59 +95,31 @@ MODEL_LIST = \
             }
         },
 
-        'LinearSVMDual_broad_C': {
-            'model': LinearSVC(dual=True, penalty='l2', class_weight='balanced', max_iter=5e4),
-            'n_search_iter': 50,
+'RandomForest_V1': {
+            'model': RandomForestClassifier(class_weight="balanced_subsample", bootstrap=False),
+            'n_search_iter': 100,
             'hyperparam_space': {
-                'estimator__C': loguniform(1e-7, 1e-2),
-            }
-        },
-
-        'RandomForest_v1': {
-            'model': RandomForestClassifier(class_weight="balanced_subsample"),
-            'n_search_iter': 60,
-            'hyperparam_space': {
-                'estimator__max_features': ['sqrt', 'log2'],
-                'estimator__n_estimators': [50, 100, 200],
-                'estimator__max_depth': randint(2, 50),
-                'estimator__min_samples_leaf': randint(5, 25),
-            }
-        },
-
-        'RandomForest_v2': {
-            'model': RandomForestClassifier(class_weight="balanced_subsample"),
-            'n_search_iter': 60,
-            'hyperparam_space': {
-                'estimator__max_features': ['sqrt', 'log2'],
+                'estimator__max_features': randint(2, 50),
                 'estimator__criterion': ['gini', 'entropy', 'log_loss'],
-                'estimator__n_estimators': [50, 100, 200],
+                'estimator__n_estimators': [50, 75, 100],
                 'estimator__max_depth': randint(2, 100),
-                'estimator__min_samples_leaf': randint(5, 25),
+                'estimator__ccp_alpha': loguniform(1e-6, 5e-3),
+                'estimator__min_samples_leaf': randint(5, 20),
+                'estimator__max_leaf_nodes': randint(2, 200)
             }
         },
 
-        'RandomForest_v3': {
-            'model': RandomForestClassifier(class_weight="balanced_subsample"),
-            'n_search_iter': 60,
+        'RandomForest_V2': {
+            'model': RandomForestClassifier(class_weight="balanced_subsample", bootstrap=False),
+            'n_search_iter': 100,
             'hyperparam_space': {
-                'estimator__max_features': randint(2, 100),
-                'estimator__n_estimators': [50, 100, 200],
-                'estimator__max_depth': randint(2, 50),
-                'estimator__min_samples_leaf': randint(5, 25),
-            }
-        },
-
-        'RandomForest_v4': {
-            'model': RandomForestClassifier(class_weight="balanced_subsample"),
-            'n_search_iter': 80,
-            'hyperparam_space': {
-                'estimator__max_features': randint(2, 100),
-                'estimator__n_estimators': [50, 100, 200],
-                'estimator__max_depth': randint(2, 50),
-                'estimator__ccp_alpha': loguniform(1e-6, 0.1),
-                'estimator__min_samples_leaf': randint(5, 25),
-                'estimator__bootstrap': [True, False],
-                'estimator__max_leaf_nodes': randint(1, 100)
+                'estimator__max_features': randint(14, 50),
+                'estimator__criterion': ['gini', 'entropy', 'log_loss'],
+                'estimator__n_estimators': [50, 75, 100],
+                'estimator__max_depth': randint(20, 40),
+                'estimator__ccp_alpha': loguniform(1e-6, 5e-3),
+                'estimator__min_samples_leaf': randint(12, 20),
+                'estimator__max_leaf_nodes': randint(40, 100)
             }
         },
 
@@ -207,7 +156,7 @@ MODEL_LIST = \
             }
         },
 
-        'ComplementNaiveBayes_Broad': {
+        'ComplementNaiveBayes': {
             'model': ComplementNB(),
             'n_search_iter': 50,
             'hyperparam_space': {
@@ -216,14 +165,6 @@ MODEL_LIST = \
             }
         },
 
-        'ComplementNaiveBayes_narrow': {
-            'model': ComplementNB(),
-            'n_search_iter': 30,
-            'hyperparam_space': {
-                'estimator__alpha': loguniform(1e-1, 2),
-                'estimator__norm': [True, False]
-            }
-        },
 
         'NaiveBayes': {
             'model': MultinomialNB(fit_prior=False),
