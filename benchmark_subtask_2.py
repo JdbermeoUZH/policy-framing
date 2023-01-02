@@ -174,7 +174,8 @@ if __name__ == "__main__":
                     metric_logger = Logger(
                         logging_dir=metric_log_config['logging_path'],
                         experiment_name=experiment_name,
-                        rewrite_experiment=metric_log_config['rewrite_experiment']
+                        rewrite_experiment=metric_log_config['rewrite_experiment'],
+                        logging_level=metric_log_config['logging_level']
                     )
 
                     # Define model
@@ -220,13 +221,11 @@ if __name__ == "__main__":
                         )
 
                         # Log the results of the experiment
-                        metric_logger.log_hyper_param_performance_outer_fold(cv_results=results_cv, **some_log_params)
-                        metric_logger.log_hyper_param_performance_inner_fold(cv_results=results_cv, **some_log_params)
-
                         hyperparam_distrs_filepath = os.path.join(
                             *config['training']['model_hyperparam_module'].split('.'))
                         hyperparam_distrs_filepath += '.py'
-                        metric_logger.log_model_wide_performance(
+
+                        metric_logger.log_metrics(
                             cv_results=results_cv,
                             hyperparam_distrs_filepath=hyperparam_distrs_filepath,
                             **some_log_params

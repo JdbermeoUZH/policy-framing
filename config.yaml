@@ -45,3 +45,4 @@ metric_logging:
   logging_path: './mlruns'          # Directory to store metrics. Dir must be named 'mlruns'
   experiment_base_name: 'it_rf' # Name of the experiment under which to store metrics
   rewrite_experiment: False         # Whether to delete/overwrite runs under experiment_name. In most of the cases it should be False
+  logging_level: 'outer_cv'         # Which performance data to log ('model_wide', 'outer_cv', or 'inner_cv')

@@ -16,10 +16,12 @@ class Logger:
             self,
             logging_dir: str,
             experiment_name: str = "test_run",
-            rewrite_experiment: bool = False
+            rewrite_experiment: bool = False,
+            logging_level: str = 'outer_cv'
     ):
         self.logging_dir = os.path.abspath(logging_dir)
         self.experiment_name = experiment_name
+        self.logging_level = logging_level
         set_tracking_uri(self.logging_dir)
 
         past_test_exp = get_experiment_by_name(name=experiment_name)
@@ -178,6 +180,28 @@ class Logger:
                         log_metric(std_metric, hyperparam_sample_results[std_metric])
 
                 mlflow.end_run()
+
+    def log_metrics(
+            self,
+            cv_results: dict,
+            hyperparam_distrs_filepath: str,
+            **kwargs
+            ):
+
+        # Log the results of the experiment
+        if self.logging_level in ['outer_cv', 'inner_cv', 'model_wide']:
+            metric_logger.log_model_wide_performance(
+                cv_results=cv_results,
+                hyperparam_distrs_filepath=hyperparam_distrs_filepath,
+                **kwargs
+            )
+        if self.logging_level in ['outer_cv', 'inner_cv']:
+            metric_logger.log_hyper_param_performance_outer_fold(cv_results=cv_results, **kwargs)
+
+        if self.logging_level in ['inner_cv']:
+            metric_logger.log_hyper_param_performance_inner_fold(cv_results=cv_results, **kwargs)
+
+
 
 
 if __name__ == '__main__':
