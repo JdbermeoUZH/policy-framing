@@ -9,7 +9,7 @@ from sklearn.naive_bayes import ComplementNB, GaussianNB, MultinomialNB
 MODEL_LIST = \
     {
         'LogisticRegression': {
-            'model': LogisticRegression(penalty='none', class_weight='balanced', max_iter=100000),
+            'model': LogisticRegression(penalty='none', max_iter=100000),
             'n_search_iter': 5,
             'hyperparam_space': {
                 'estimator__class_weight': ['balanced', None],
@@ -182,7 +182,7 @@ MODEL_LIST = \
         },
 
         'LinearSVM_V4': {
-            'model': LinearSVC(dual=False, class_weight='balanced', max_iter=100000),
+            'model': LinearSVC(dual=False, max_iter=100000),
             'n_search_iter': 100,
             'hyperparam_space': {
                 'estimator__penalty': ['l1', 'l2'],
