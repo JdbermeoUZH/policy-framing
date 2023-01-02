@@ -24,17 +24,36 @@ MODEL_LIST = \
             }
         },
 
+        'LogisticRegressionRidge_V2': {
+            'model': LogisticRegression(penalty='l2', solver='liblinear', class_weight='balanced', max_iter=100000),
+            'n_search_iter': 40,
+            'hyperparam_space': {
+                'estimator__C': loguniform(5e-3, 5e-2),
+                'estimator__random_state': randint(0, 1000)
+            }
+        },
+
         'LogisticRegressionRidgeDual': {
-            'model': LogisticRegression(penalty='l2', solver='liblinear', dual=True, class_weight='balanced', max_iter=100000),
+            'model': LogisticRegression(penalty='l2', solver='liblinear', dual=True, class_weight='balanced',
+                                        max_iter=100000),
             'n_search_iter': 40,
             'hyperparam_space': {
                 'estimator__C': loguniform(1e-4, 1e-1),
             }
         },
 
+        'LogisticRegressionRidgeDualV2': {
+            'model': LogisticRegression(penalty='l2', solver='liblinear', dual=True, class_weight='balanced',
+                                        max_iter=100000),
+            'n_search_iter': 50,
+            'hyperparam_space': {
+                'estimator__C': loguniform(0.018, 0.5),
+            }
+        },
+
         'LogisticRegressionLassoV1': {
             'model': LogisticRegression(penalty='l1', solver='liblinear', class_weight='balanced', max_iter=100000),
-            'n_search_iter': 20,
+            'n_search_iter': 40,
             'hyperparam_space': {
                 'estimator__C': loguniform(1, 20),
             }
@@ -42,16 +61,24 @@ MODEL_LIST = \
 
         'LogisticRegressionLassoV2': {
             'model': LogisticRegression(penalty='l1', solver='liblinear', class_weight='balanced', max_iter=100000),
-            'n_search_iter': 20,
+            'n_search_iter': 40,
             'hyperparam_space': {
                 'estimator__C': loguniform(1, 10),
+            }
+        },
+
+        'LogisticRegressionLassoV3': {
+            'model': LogisticRegression(penalty='l1', solver='liblinear', class_weight='balanced', max_iter=100000),
+            'n_search_iter': 40,
+            'hyperparam_space': {
+                'estimator__C': loguniform(1.5, 3.5),
             }
         },
 
         'LogisticRegressionElasticNet': {
             'model': LogisticRegression(penalty='elasticnet', solver='saga', l1_ratio=0.5, max_iter=250000,
                                         class_weight='balanced'),
-            'n_search_iter': 30,
+            'n_search_iter': 40,
             'hyperparam_space': {
                 'estimator__C': loguniform(1, 7),
             }
@@ -59,7 +86,7 @@ MODEL_LIST = \
 
         'RidgeClassifier': {
             'model': RidgeClassifier(max_iter=100000, class_weight='balanced'),
-            'n_search_iter': 20,
+            'n_search_iter': 60,
             'hyperparam_space': {
                 'estimator__alpha': loguniform(1, 2e3)
             }
@@ -76,7 +103,7 @@ MODEL_LIST = \
 
         'SVM_rbf_v2': {
             'model': SVC(kernel='rbf', class_weight='balanced'),
-            'n_search_iter': 40,
+            'n_search_iter': 50,
             'hyperparam_space': {
                 'estimator__C': loguniform(1, 20),
                 'estimator__gamma': loguniform(1e-2, 0.2),
@@ -85,13 +112,30 @@ MODEL_LIST = \
 
         'SVM_sigmoid': {
             'model': SVC(kernel='sigmoid', class_weight='balanced'),
-            'n_search_iter': 30,
+            'n_search_iter': 50,
             'hyperparam_space': {
                 'estimator__C': loguniform(0.05, 8),
                 'estimator__gamma': loguniform(1e-1, 8),
             }
         },
 
+        'SVM_sigmoidV1': {
+            'model': SVC(kernel='sigmoid', class_weight='balanced'),
+            'n_search_iter': 50,
+            'hyperparam_space': {
+                'estimator__C': loguniform(0.2, 1),
+                'estimator__gamma': loguniform(2, 8),
+            }
+        },
+
+        'SVM_sigmoidV2': {
+            'model': SVC(kernel='sigmoid', class_weight='balanced'),
+            'n_search_iter': 50,
+            'hyperparam_space': {
+                'estimator__C': loguniform(0.05, 6),
+                'estimator__gamma': loguniform(1e-1, 8),
+            }
+        },
 
         'LinearSVM': {
             'model': LinearSVC(dual=False, class_weight='balanced', penalty='l2', max_iter=1e5),
@@ -209,9 +253,18 @@ MODEL_LIST = \
 
         'ComplementNaiveBayes_narrow': {
             'model': ComplementNB(),
-            'n_search_iter': 30,
+            'n_search_iter': 50,
             'hyperparam_space': {
                 'estimator__alpha': loguniform(1e-1, 2),
+                'estimator__norm': [True, False]
+            }
+        },
+
+        'ComplementNaiveBayes_narrowV2': {
+            'model': ComplementNB(),
+            'n_search_iter': 50,
+            'hyperparam_space': {
+                'estimator__alpha': loguniform(1e-1, 0.5),
                 'estimator__norm': [True, False]
             }
         },
