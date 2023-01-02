@@ -190,16 +190,16 @@ class Logger:
 
         # Log the results of the experiment
         if self.logging_level in ['outer_cv', 'inner_cv', 'model_wide']:
-            metric_logger.log_model_wide_performance(
+            self.log_model_wide_performance(
                 cv_results=cv_results,
                 hyperparam_distrs_filepath=hyperparam_distrs_filepath,
                 **kwargs
             )
         if self.logging_level in ['outer_cv', 'inner_cv']:
-            metric_logger.log_hyper_param_performance_outer_fold(cv_results=cv_results, **kwargs)
+            self.log_hyper_param_performance_outer_fold(cv_results=cv_results, **kwargs)
 
         if self.logging_level in ['inner_cv']:
-            metric_logger.log_hyper_param_performance_inner_fold(cv_results=cv_results, **kwargs)
+            self.log_hyper_param_performance_inner_fold(cv_results=cv_results, **kwargs)
 
 
 
