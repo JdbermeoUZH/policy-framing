@@ -9,7 +9,7 @@ dataset:
 
 preprocessing:
   split: 'train'                    # Split of the data to use
-  analysis_unit: ['title', 'title_and_first_paragraph', 'title_and_5_sentences', 'title_and_10_sentences', 'title_and_first_sentence_each_paragraph']              # 'title', 'title_and_first_paragraph', 'title_and_5_sentences', 'title_and_10_sentences',
+  analysis_unit: ['title', 'title_and_first_paragraph', 'title_and_5_sentences', 'title_and_10_sentences', 'title_and_first_sentence_each_paragraph', 'raw_text']              # 'title', 'title_and_first_paragraph', 'title_and_5_sentences', 'title_and_10_sentences',
                                     # 'title_and_first_sentence_each_paragraph', 'raw_text', 'all'
   load_preproc_input_data: True     # Whether or not to rerun the script that produces the units of analysis
   spacy_model_size: 'small'         # small or large. small should be enough for preprocessing, it is mostly tokenizing so far
@@ -29,8 +29,8 @@ preprocessing:
 
 training:
   default_params: False             # If True, it runs cross validation with outer_folds folds. If False, it runs nested cross validation
-  model_list: ['LogisticRegression', 'LogisticRegressionRidge', 'LogisticRegressionRidgeDual', 'LogisticRegressionLassoV1', 'LogisticRegressionLassoV2', 'LogisticRegressionElasticNet', 'RidgeClassifier']
-  model_hyperparam_module: 'training.hyperparam_space_config_italian_other_units_of_analysis'           # .py file with models and distribution of hyperparams to tune and benchmark
+  model_list: ['RandomForest_v1', 'RandomForest_v2', 'RandomForest_v3', 'RandomForest_v4']
+  model_hyperparam_module: 'training.hyperparam_space_config_italian'           # .py file with models and distribution of hyperparams to tune and benchmark
   nested_cv:                        # Total training runs are outer_folds(inner_folds * num_search_iters + 1)
     outer_folds: 3                  # Number of outer fold: Number of "best" models after tuning
     inner_folds: 3                  # Number of inner folds: Number of folds to validate each hyperparam combination
@@ -43,5 +43,5 @@ training:
 
 metric_logging:
   logging_path: './mlruns'          # Directory to store metrics. Dir must be named 'mlruns'
-  experiment_base_name: 'it_reg_other_units_v2' # Name of the experiment under which to store metrics
+  experiment_base_name: 'it_rf' # Name of the experiment under which to store metrics
   rewrite_experiment: False         # Whether to delete/overwrite runs under experiment_name. In most of the cases it should be False

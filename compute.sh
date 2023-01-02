@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
-#SBATCH --output=tunning_jobs/it_reg_other_units_%j.out
-#SBATCH --time=36:10:00
+#SBATCH --output=new_jobs/it_rf_%j.out
+#SBATCH --time=32:10:00
 #SBATCH --cpus-per-task=32
 #SBATCH --mem=61600
 module load generic
