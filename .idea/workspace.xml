@@ -5,7 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3359b6ce-9e44-4da3-956d-9609d831df93" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/training/hyperparam_space_config_german.py" beforeDir="false" afterPath="$PROJECT_DIR$/training/hyperparam_space_config_german.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/training/hyperparam_space_config_english.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/training/hyperparam_space_config_polish.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
