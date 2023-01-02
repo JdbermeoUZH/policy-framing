@@ -3,13 +3,13 @@ run:
   n_jobs: -1
 
 dataset:
-  languages: ['ge']   # 'en, 'it', 'fr', 'po', 'ru', 'ge'
+  languages: ['fr']   	            # 'en, 'it', 'fr', 'po', 'ru', 'ge'
   subtask: 2                        # 1, 2, 3
   data_dir: 'data'                  # Relative path to directory with data
 
 preprocessing:
   split: 'train'                    # Split of the data to use
-  analysis_unit: ['title', 'title_and_first_paragraph', 'title_and_5_sentences', 'title_and_10_sentences', 'title_and_first_sentence_each_paragraph']              # 'title', 'title_and_first_paragraph', 'title_and_5_sentences', 'title_and_10_sentences',
+  analysis_unit: ['title', 'title_and_first_paragraph', 'title_and_5_sentences', 'title_and_10_sentences', 'title_and_first_sentence_each_paragraph', 'raw_text']              # 'title', 'title_and_first_paragraph', 'title_and_5_sentences', 'title_and_10_sentences',
                                     # 'title_and_first_sentence_each_paragraph', 'raw_text', 'all'
   load_preproc_input_data: True     # Whether or not to rerun the script that produces the units of analysis
   spacy_model_size: 'small'         # small or large. small should be enough for preprocessing, it is mostly tokenizing so far
@@ -29,8 +29,8 @@ preprocessing:
 
 training:
   default_params: False             # If True, it runs cross validation with outer_folds folds. If False, it runs nested cross validation
-  model_list: ['XGBoost']#, 'DummyMostFrequent', 'LogisticRegression', 'LogisticRegressionRidge', 'LogisticRegressionRidgeDual', 'LogisticRegressionLasso', 'LogisticRegressionElasticNet', 'RidgeClassifier', 'SVM', 'LinearSVM', 'LinearSVMDual', 'RandomForest', 'XGBoost', 'RandomForestV2', 'ComplementNaiveBayes', 'NaiveBayes']
-  model_hyperparam_module: 'training.hyperparam_space_config_italian_raw_text'           # .py file with models and distribution of hyperparams to tune and benchmark
+  model_list: ['RandomForestSK_V1', 'RandomForestSK_V2', 'RandomForestSK_V3']
+  model_hyperparam_module: 'training.hyperparam_space_config_french'           # .py file with models and distribution of hyperparams to tune and benchmark
   nested_cv:                        # Total training runs are outer_folds(inner_folds * num_search_iters + 1)
     outer_folds: 3                  # Number of outer fold: Number of "best" models after tuning
     inner_folds: 3                  # Number of inner folds: Number of folds to validate each hyperparam combination
@@ -43,5 +43,5 @@ training:
 
 metric_logging:
   logging_path: './mlruns'          # Directory to store metrics. Dir must be named 'mlruns'
-  experiment_base_name: 'test_breaking' # Name of the experiment under which to store metrics
+  experiment_base_name: 'fr_rf' # Name of the experiment under which to store metrics
   rewrite_experiment: False         # Whether to delete/overwrite runs under experiment_name. In most of the cases it should be False
