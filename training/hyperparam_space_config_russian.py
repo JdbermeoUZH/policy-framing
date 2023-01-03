@@ -13,10 +13,14 @@ from imblearn.pipeline import Pipeline
 MODEL_LIST = \
     {
         'LogisticRegression': {
-            'model': LogisticRegression(penalty='none', max_iter=1e6),
+            'model': Pipeline(
+                [('preproc', StandardScaler(with_mean=False)), ('model', LogisticRegression(penalty='none', max_iter=1e6))]
+            ),
             #'n_search_iter': 5,
             'hyperparam_space': {
-                'class_weight': ['balanced', None],
+                'preproc__with_std': [True, False], 
+               'model__class_weight': ['balanced', None],
+                'preproc__with_std': [True, False]
             }
         },
 
@@ -26,6 +30,8 @@ MODEL_LIST = \
                  ('model', LogisticRegression(penalty='none', max_iter=1e6))]),
             #'n_search_iter': 50,
             'hyperparam_space': {
+                'preproc__with_std': [True, False], 
+               'preproc__with_std': [True, False],
                 'model__class_weight': ['balanced', None],
                 'up__sampling_strategy': ['minority', 'not minority', 'not majority'],
                 'up__shrinkage': loguniform(1e-6, 1e4)
@@ -38,6 +44,8 @@ MODEL_LIST = \
                  ('model', LogisticRegression(penalty='none', max_iter=1e6))]),
             ##'n_search_iter': 50,
             'hyperparam_space': {
+                'preproc__with_std': [True, False], 
+               'preproc__with_std': [True, False],
                 'model__class_weight': ['balanced', None],
                 'up__sampling_strategy': ['minority', 'not minority', 'not majority'],
                 'up__shrinkage': [None, 1e-4, 1e-3, 1e-2, 1e-1, 1, 1e1, 1e2, 1e3, 1e4]
@@ -45,9 +53,13 @@ MODEL_LIST = \
         },
 
         'LogisticRegression_SMOTE': {
-            'model': Pipeline([('up', SMOTE(k_neighbors=3)), ('model', LogisticRegression(penalty='none', max_iter=1e6))]),
+            'model': Pipeline([
+                ('up', SMOTE(k_neighbors=3)),
+                ('preproc', StandardScaler(with_mean=False)),
+                ('model', LogisticRegression(penalty='none', max_iter=1e6))]),
             #'n_search_iter': 50,
             'hyperparam_space': {
+                'preproc__with_std': [True, False], 
                 'model__class_weight': ['balanced', None],
                 'up__k_neighbors': [2, 3],
                 'up__sampling_strategy': ['minority', 'not minority', 'not majority'],
@@ -56,9 +68,12 @@ MODEL_LIST = \
 
         'LogisticRegression_BorderlineSMOTE': {
             'model': Pipeline(
-                [('up', BorderlineSMOTE(k_neighbors=3)), ('model', LogisticRegression(penalty='none', max_iter=1e6))]),
+                [('up', BorderlineSMOTE(k_neighbors=3)),
+                 ('preproc', StandardScaler(with_mean=False)),
+                 ('model', LogisticRegression(penalty='none', max_iter=1e6))]),
             #'n_search_iter': 50,
             'hyperparam_space': {
+                'preproc__with_std': [True, False], 
                 'model__class_weight': ['balanced', None],
                 'up__sampling_strategy': ['minority', 'not minority', 'not majority'],
                 'up__k_neighbors': [2, 3],
@@ -69,9 +84,12 @@ MODEL_LIST = \
 
         'LogisticRegression_SVMSMOTE': {
             'model': Pipeline(
-                [('up', SVMSMOTE(k_neighbors=3)), ('model', LogisticRegression(penalty='none', max_iter=1e6))]),
+                [('up', SVMSMOTE(k_neighbors=3)),
+                 ('preproc', StandardScaler(with_mean=False)),
+                 ('model', LogisticRegression(penalty='none', max_iter=1e6))]),
             #'n_search_iter': 50,
             'hyperparam_space': {
+                'preproc__with_std': [True, False], 
                 'model__class_weight': ['balanced', None],
                 'up__sampling_strategy': ['minority', 'not minority', 'not majority'],
                 'up__k_neighbors': [2, 3],
@@ -86,7 +104,7 @@ MODEL_LIST = \
             'model': LogisticRegression(penalty='l2', solver='liblinear', class_weight='balanced', max_iter=100000),
             #'n_search_iter': 80,
             'hyperparam_space': {
-                'C': loguniform(1e-6, 0.3)
+               'C': loguniform(1e-6, 0.3)
             }
         },
 
@@ -94,17 +112,19 @@ MODEL_LIST = \
             'model': LogisticRegression(penalty='l2', solver='liblinear', class_weight='balanced', max_iter=100000),
             #'n_search_iter': 80,
             'hyperparam_space': {
-                'C': loguniform(1e-6, 1.2)
+               'C': loguniform(1e-6, 1.2)
             }
         },
 
         'LogisticRegressionRidge_ROS_v1': {
             'model': Pipeline(
                 [('up', RandomOverSampler()),
+                 ('preproc', StandardScaler(with_mean=False)),
                  ('model', LogisticRegression(penalty='l2', solver='liblinear', class_weight='balanced',
                                               max_iter=100000))]),
             #'n_search_iter': 50,
             'hyperparam_space': {
+                'preproc__with_std': [True, False], 
                 'model__C': loguniform(1e-6, 1),
                 'up__sampling_strategy': ['minority', 'not minority', 'not majority'],
                 'up__shrinkage': [None, 1e-4, 1e-3, 1e-2, 1e-1, 1, 1e1, 1e2, 1e3, 1e4]
@@ -114,9 +134,11 @@ MODEL_LIST = \
         'LogisticRegressionRidge_ROS_v2': {
             'model': Pipeline(
                 [('up', RandomOverSampler()),
+                 ('preproc', StandardScaler(with_mean=False)),
                  ('model', LogisticRegression(penalty='l2', solver='liblinear', max_iter=100000))]),
             #'n_search_iter': 60,
             'hyperparam_space': {
+                'preproc__with_std': [True, False], 
                 'model__class_weight': ['balanced', None],
                 'model__C': loguniform(1e-6, 1),
                 'up__sampling_strategy': ['minority', 'not minority', 'not majority'],
@@ -127,10 +149,12 @@ MODEL_LIST = \
         'LogisticRegressionRidge_SMOTE_v1': {
             'model': Pipeline(
                 [('up', SMOTE()),
+                 ('preproc', StandardScaler(with_mean=False)),
                  ('model', LogisticRegression(penalty='l2', solver='liblinear', class_weight='balanced',
                                               max_iter=100000))]),
             #'n_search_iter': 50,
             'hyperparam_space': {
+                'preproc__with_std': [True, False], 
                 'model__C': loguniform(1e-6, 1),
                 'up__sampling_strategy': ['minority', 'not minority', 'not majority'],
                 'up__k_neighbors': [2, 3]
@@ -140,10 +164,12 @@ MODEL_LIST = \
         'LogisticRegressionRidge_SMOTE_v2': {
             'model': Pipeline(
                 [('up', SMOTE()),
+                 ('preproc', StandardScaler(with_mean=False)),
                  ('model', LogisticRegression(penalty='l2', solver='liblinear', max_iter=100000))]),
             #'n_search_iter': 60,
             'hyperparam_space': {
-                'model__class_weight': ['balanced', None],
+                'preproc__with_std': [True, False], 
+               'model__class_weight': ['balanced', None],
                 'model__C': loguniform(1e-6, 10),
                 'up__sampling_strategy': ['minority', 'not minority', 'not majority'],
                 'up__k_neighbors': [2, 3]
@@ -153,11 +179,13 @@ MODEL_LIST = \
         'LogisticRegressionRidge_BorderlineSMOTE_v1': {
             'model': Pipeline(
                 [('up', BorderlineSMOTE()),
+                 ('preproc', StandardScaler(with_mean=False)),
                  ('model', LogisticRegression(penalty='l2', solver='liblinear', class_weight='balanced',
                                               max_iter=100000))]),
             #'n_search_iter': 50,
             'hyperparam_space': {
-                'model__C': loguniform(1e-6, 1),
+                'preproc__with_std': [True, False], 
+               'model__C': loguniform(1e-6, 1),
                 'up__sampling_strategy': ['minority', 'not minority', 'not majority'],
                 'up__k_neighbors': [2, 3],
                 'up__m_neighbors': [2, 7],
@@ -168,10 +196,12 @@ MODEL_LIST = \
         'LogisticRegressionRidge_BorderlineSMOTE_v2': {
             'model': Pipeline(
                 [('up', BorderlineSMOTE()),
+                 ('preproc', StandardScaler(with_mean=False)),
                  ('model', LogisticRegression(penalty='l2', solver='liblinear', max_iter=100000))]),
             #'n_search_iter': 60,
             'hyperparam_space': {
-                'model__class_weight': ['balanced', None],
+                'preproc__with_std': [True, False], 
+               'model__class_weight': ['balanced', None],
                 'model__C': loguniform(1e-6, 10),
                 'up__sampling_strategy': ['minority', 'not minority', 'not majority'],
                 'up__k_neighbors': [2, 3],
@@ -183,23 +213,27 @@ MODEL_LIST = \
         'LogisticRegressionRidge_SVMSMOTE_v1': {
             'model': Pipeline(
                 [('up', SVMSMOTE()),
+                 ('preproc', StandardScaler(with_mean=False)),
                  ('model', LogisticRegression(penalty='l2', solver='liblinear', class_weight='balanced',
-                                              max_iter=100000))]),
+                                              max_iter=1e6))]),
             #'n_search_iter': 50,
             'hyperparam_space': {
+                'preproc__with_std': [True, False], 
                 'model__C': loguniform(1e-6, 1),
                 'up__sampling_strategy': ['minority', 'not minority', 'not majority'],
                 'up__k_neighbors': [2, 3],
-                'up__m_neighbors': [2, 3],
+                'up__m_neighbors': [2, 7],
             }
         },
 
         'LogisticRegressionRidge_SVMSMOTE_v2': {
             'model': Pipeline(
                 [('up', SVMSMOTE()),
+                 ('preproc', StandardScaler(with_mean=False)),
                  ('model', LogisticRegression(penalty='l2', solver='liblinear', max_iter=100000))]),
             #'n_search_iter': 60,
             'hyperparam_space': {
+                'preproc__with_std': [True, False], 
                 'model__class_weight': ['balanced', None],
                 'model__C': loguniform(1e-6, 10),
                 'up__sampling_strategy': ['minority', 'not minority', 'not majority'],
@@ -216,17 +250,19 @@ MODEL_LIST = \
                                         max_iter=100000),
             #'n_search_iter': 60,
             'hyperparam_space': {
-                'C': loguniform(1e-4, 0.4),
+               'C': loguniform(1e-4, 0.4),
             }
         },
 
         'LogisticRegressionRidgeDual_ROS_v1': {
             'model': Pipeline(
                 [('up', RandomOverSampler()),
+                 ('preproc', StandardScaler(with_mean=False)),
                  ('model', LogisticRegression(penalty='l2', solver='liblinear', dual=True, class_weight='balanced',
                                               max_iter=100000))]),
             #'n_search_iter': 80,
             'hyperparam_space': {
+                'preproc__with_std': [True, False], 
                 'model__C': loguniform(1e-4, 0.4),
                 'up__sampling_strategy': ['minority', 'not minority', 'not majority'],
                 'up__shrinkage': [None, 1e-4, 1e-3, 1e-2, 1e-1, 1, 1e1, 1e2, 1e3, 1e4]
@@ -236,9 +272,11 @@ MODEL_LIST = \
         'LogisticRegressionRidgeDual_ROS_v2': {
             'model': Pipeline(
                 [('up', RandomOverSampler()),
+                 ('preproc', StandardScaler(with_mean=False)),
                  ('model', LogisticRegression(penalty='l2', solver='liblinear', dual=True, max_iter=100000))]),
             #'n_search_iter': 80,
             'hyperparam_space': {
+                'preproc__with_std': [True, False], 
                 'model__class_weight': ['balanced', None],
                 'model__C': loguniform(1e-4, 1e3),
                 'up__sampling_strategy': ['minority', 'not minority', 'not majority'],
@@ -249,10 +287,12 @@ MODEL_LIST = \
         'LogisticRegressionRidgeDual_SMOTE_v1': {
             'model': Pipeline(
                 [('up', SMOTE()),
+                 ('preproc', StandardScaler(with_mean=False)),
                  ('model', LogisticRegression(penalty='l2', solver='liblinear', dual=True, class_weight='balanced',
                                               max_iter=100000))]),
             #'n_search_iter': 80,
             'hyperparam_space': {
+                'preproc__with_std': [True, False], 
                 'model__C': loguniform(1e-4, 0.4),
                 'up__sampling_strategy': ['minority', 'not minority', 'not majority'],
                 'up__k_neighbors': [2, 3]
@@ -262,9 +302,11 @@ MODEL_LIST = \
         'LogisticRegressionRidgeDual_SMOTE_v2': {
             'model': Pipeline(
                 [('up', SMOTE()),
+                 ('preproc', StandardScaler(with_mean=False)),
                  ('model', LogisticRegression(penalty='l2', solver='liblinear', dual=True, max_iter=100000))]),
             #'n_search_iter': 80,
             'hyperparam_space': {
+                'preproc__with_std': [True, False], 
                 'model__class_weight': ['balanced', None],
                 'model__C': loguniform(1e-4, 1e3),
                 'up__sampling_strategy': ['minority', 'not minority', 'not majority'],
@@ -275,10 +317,12 @@ MODEL_LIST = \
         'LogisticRegressionRidgeDual_BorderlineSMOTE_v1': {
             'model': Pipeline(
                 [('up', BorderlineSMOTE()),
+                 ('preproc', StandardScaler(with_mean=False)),
                  ('model', LogisticRegression(penalty='l2', solver='liblinear', dual=True, class_weight='balanced',
                                               max_iter=100000))]),
             #'n_search_iter': 80,
             'hyperparam_space': {
+                'preproc__with_std': [True, False], 
                 'model__C': loguniform(1e-4, 0.4),
                 'up__sampling_strategy': ['minority', 'not minority', 'not majority'],
                 'up__k_neighbors': [2, 3],
@@ -290,9 +334,11 @@ MODEL_LIST = \
         'LogisticRegressionRidgeDual_BorderlineSMOTE_v2': {
             'model': Pipeline(
                 [('up', BorderlineSMOTE()),
+                 ('preproc', StandardScaler(with_mean=False)), ('preproc', StandardScaler(with_mean=False))
                  ('model', LogisticRegression(penalty='l2', solver='liblinear', dual=True, max_iter=100000))]),
             #'n_search_iter': 80,
             'hyperparam_space': {
+                'preproc__with_std': [True, False], 
                 'model__class_weight': ['balanced', None],
                 'model__C': loguniform(1e-4, 1e3),
                 'up__sampling_strategy': ['minority', 'not minority', 'not majority'],
@@ -304,11 +350,12 @@ MODEL_LIST = \
 
         'LogisticRegressionRidgeDual_SVMSMOTE_v1': {
             'model': Pipeline(
-                [('up', SVMSMOTE()),
+                [('up', SVMSMOTE()), ('preproc', StandardScaler(with_mean=False)),
                  ('model', LogisticRegression(penalty='l2', solver='liblinear', dual=True, class_weight='balanced',
                                               max_iter=100000))]),
             #'n_search_iter': 80,
             'hyperparam_space': {
+                'preproc__with_std': [True, False], 
                 'model__C': loguniform(1e-4, 0.4),
                 'up__sampling_strategy': ['minority', 'not minority', 'not majority'],
                 'up__k_neighbors': [2, 3],
@@ -318,10 +365,11 @@ MODEL_LIST = \
 
         'LogisticRegressionRidgeDual_SVMSMOTE_v2': {
             'model': Pipeline(
-                [('up', SVMSMOTE()),
+                [('up', SVMSMOTE()), ('preproc', StandardScaler(with_mean=False)),
                  ('model', LogisticRegression(penalty='l2', solver='liblinear', dual=True, max_iter=100000))]),
             #'n_search_iter': 80,
             'hyperparam_space': {
+                'preproc__with_std': [True, False], 
                 'model__class_weight': ['balanced', None],
                 'model__C': loguniform(1e-4, 1e3),
                 'up__k_neighbors': [2, 3],
@@ -350,11 +398,12 @@ MODEL_LIST = \
 
         'LogisticRegressionLasso_ROS_v1': {
             'model': Pipeline(
-                [('up', RandomOverSampler()),
+                [('up', RandomOverSampler()), ('preproc', StandardScaler(with_mean=False)),
                  ('model', LogisticRegression(penalty='l1', solver='liblinear', class_weight='balanced',
                                               max_iter=100000))]),
             #'n_search_iter': 80,
             'hyperparam_space': {
+                'preproc__with_std': [True, False], 
                 'model__C': loguniform(1, 10),
                 'up__sampling_strategy': ['minority', 'not minority', 'not majority'],
                 'up__shrinkage': [None, 1e-4, 1e-3, 1e-2, 1e-1, 1, 1e1, 1e2, 1e3, 1e4]
@@ -363,10 +412,11 @@ MODEL_LIST = \
 
         'LogisticRegressionLasso_ROS_v2': {
             'model': Pipeline(
-                [('up', RandomOverSampler()),
+                [('up', RandomOverSampler()), ('preproc', StandardScaler(with_mean=False)),
                  ('model', LogisticRegression(penalty='l1', solver='liblinear', dual=True, max_iter=100000))]),
             #'n_search_iter': 80,
             'hyperparam_space': {
+                'preproc__with_std': [True, False], 
                 'model__class_weight': ['balanced', None],
                 'model__C': loguniform(1e-1, 1e4),
                 'up__sampling_strategy': ['minority', 'not minority', 'not majority'],
@@ -376,11 +426,12 @@ MODEL_LIST = \
 
         'LogisticRegressionLasso_SMOTE_v1': {
             'model': Pipeline(
-                [('up', SMOTE()),
+                [('up', SMOTE()), ('preproc', StandardScaler(with_mean=False)),
                  ('model', LogisticRegression(penalty='l1', solver='liblinear', class_weight='balanced',
                                               max_iter=100000))]),
             #'n_search_iter': 80,
             'hyperparam_space': {
+                'preproc__with_std': [True, False], 
                 'model__C': loguniform(1, 10),
                 'up__sampling_strategy': ['minority', 'not minority', 'not majority'],
                 'up__k_neighbors': [2, 3]
@@ -389,10 +440,11 @@ MODEL_LIST = \
 
         'LogisticRegressionLasso_SMOTE_v2': {
             'model': Pipeline(
-                [('up', SMOTE()),
+                [('up', SMOTE()), ('preproc', StandardScaler(with_mean=False)),
                  ('model', LogisticRegression(penalty='l1', solver='liblinear', dual=True, max_iter=100000))]),
             #'n_search_iter': 80,
             'hyperparam_space': {
+                'preproc__with_std': [True, False], 
                 'model__class_weight': ['balanced', None],
                 'model__C': loguniform(1e-1, 1e4),
                 'up__sampling_strategy': ['minority', 'not minority', 'not majority'],
@@ -402,11 +454,12 @@ MODEL_LIST = \
 
         'LogisticRegressionLasso_BorderlineSMOTE_v1': {
             'model': Pipeline(
-                [('up', BorderlineSMOTE()),
+                [('up', BorderlineSMOTE()), ('preproc', StandardScaler(with_mean=False)),
                  ('model', LogisticRegression(penalty='l1', solver='liblinear', class_weight='balanced',
                                               max_iter=100000))]),
             #'n_search_iter': 80,
             'hyperparam_space': {
+                'preproc__with_std': [True, False], 
                 'model__C': loguniform(1, 10),
                 'up__sampling_strategy': ['minority', 'not minority', 'not majority'],
                 'up__k_neighbors': [2, 3],
@@ -417,10 +470,11 @@ MODEL_LIST = \
 
         'LogisticRegressionLasso_BorderlineSMOTE_v2': {
             'model': Pipeline(
-                [('up', BorderlineSMOTE()),
+                [('up', BorderlineSMOTE()), ('preproc', StandardScaler(with_mean=False)),
                  ('model', LogisticRegression(penalty='l1', solver='liblinear', dual=True, max_iter=100000))]),
             #'n_search_iter': 80,
             'hyperparam_space': {
+                'preproc__with_std': [True, False], 
                 'model__class_weight': ['balanced', None],
                 'model__C': loguniform(1e-1, 1e4),
                 'up__sampling_strategy': ['minority', 'not minority', 'not majority'],
@@ -432,11 +486,12 @@ MODEL_LIST = \
 
         'LogisticRegressionLasso_SVMSMOTE_v1': {
             'model': Pipeline(
-                [('up', SVMSMOTE()),
+                [('up', SVMSMOTE()), ('preproc', StandardScaler(with_mean=False)),
                  ('model', LogisticRegression(penalty='l1', solver='liblinear', class_weight='balanced',
                                               max_iter=100000))]),
             #'n_search_iter': 80,
             'hyperparam_space': {
+                'preproc__with_std': [True, False], 
                 'model__C': loguniform(1, 10),
                 'up__sampling_strategy': ['minority', 'not minority', 'not majority'],
                 'up__k_neighbors': [2, 3],
@@ -446,10 +501,11 @@ MODEL_LIST = \
 
         'LogisticRegressionLasso_BorderlineSVMSMOTE_v2': {
             'model': Pipeline(
-                [('up', SVMSMOTE()),
+                [('up', SVMSMOTE()), ('preproc', StandardScaler(with_mean=False)),
                  ('model', LogisticRegression(penalty='l1', solver='liblinear', dual=True, max_iter=100000))]),
             #'n_search_iter': 80,
             'hyperparam_space': {
+                'preproc__with_std': [True, False], 
                 'model__class_weight': ['balanced', None],
                 'model__C': loguniform(1e-1, 1e4),
                 'up__sampling_strategy': ['minority', 'not minority', 'not majority'],
@@ -490,11 +546,12 @@ MODEL_LIST = \
 
         'LogisticRegressionElasticNet_ROS_v1': {
             'model': Pipeline(
-                [('up', RandomOverSampler()),
+                [('up', RandomOverSampler()), ('preproc', StandardScaler(with_mean=False)),
                  ('model', LogisticRegression(penalty='elasticnet', solver='saga', l1_ratio=0.5, max_iter=1000000,
                                               class_weight='balanced'))]),
             #'n_search_iter': 80,
             'hyperparam_space': {
+                'preproc__with_std': [True, False], 
                 'model__C': loguniform(1, 20),
                 'up__sampling_strategy': ['minority', 'not minority', 'not majority'],
                 'up__shrinkage': [None, 1e-4, 1e-3, 1e-2, 1e-1, 1, 1e1, 1e2, 1e3, 1e4]
@@ -503,10 +560,11 @@ MODEL_LIST = \
 
         'LogisticRegressionElasticNet_ROS_v2': {
             'model': Pipeline(
-                [('up', RandomOverSampler()),
+                [('up', RandomOverSampler()), ('preproc', StandardScaler(with_mean=False)),
                  ('model', LogisticRegression(penalty='elasticnet', solver='saga', l1_ratio=0.5, max_iter=1000000))]),
             #'n_search_iter': 80,
             'hyperparam_space': {
+                'preproc__with_std': [True, False], 
                 'model__class_weight': ['balanced', None],
                 'model__C': loguniform(1e-2, 5.5e3),
                 'up__sampling_strategy': ['minority', 'not minority', 'not majority'],
@@ -516,11 +574,12 @@ MODEL_LIST = \
 
         'LogisticRegressionElasticNet_SMOTE_v1': {
             'model': Pipeline(
-                [('up', SMOTE()),
+                [('up', SMOTE()), ('preproc', StandardScaler(with_mean=False)),
                  ('model', LogisticRegression(penalty='elasticnet', solver='saga', l1_ratio=0.5, max_iter=1000000,
                                               class_weight='balanced'))]),
             #'n_search_iter': 80,
             'hyperparam_space': {
+                'preproc__with_std': [True, False], 
                 'model__C': loguniform(1, 20),
                 'up__sampling_strategy': ['minority', 'not minority', 'not majority'],
                 'up__k_neighbors': [2, 3]
@@ -529,10 +588,11 @@ MODEL_LIST = \
 
         'LogisticRegressionElasticNet_SMOTE_v2': {
             'model': Pipeline(
-                [('up', SMOTE()),
+                [('up', SMOTE()), ('preproc', StandardScaler(with_mean=False)),
                  ('model', LogisticRegression(penalty='elasticnet', solver='saga', l1_ratio=0.5, max_iter=1000000))]),
             #'n_search_iter': 80,
             'hyperparam_space': {
+                'preproc__with_std': [True, False], 
                 'model__class_weight': ['balanced', None],
                 'model__C': loguniform(1e-2, 5.5e3),
                 'up__sampling_strategy': ['minority', 'not minority', 'not majority'],
@@ -542,11 +602,12 @@ MODEL_LIST = \
 
         'LogisticRegressionElasticNet_BorderlineSMOTE_v1': {
             'model': Pipeline(
-                [('up', BorderlineSMOTE()),
+                [('up', BorderlineSMOTE()), ('preproc', StandardScaler(with_mean=False)),
                  ('model', LogisticRegression(penalty='elasticnet', solver='saga', l1_ratio=0.5, max_iter=1000000,
                                               class_weight='balanced'))]),
             #'n_search_iter': 80,
             'hyperparam_space': {
+                'preproc__with_std': [True, False], 
                 'model__C': loguniform(1, 20),
                 'up__sampling_strategy': ['minority', 'not minority', 'not majority'],
                 'up__k_neighbors': [2, 3],
@@ -557,10 +618,11 @@ MODEL_LIST = \
 
         'LogisticRegressionElasticNet_BorderlineSMOTE_v2': {
             'model': Pipeline(
-                [('up', BorderlineSMOTE()),
+                [('up', BorderlineSMOTE()), ('preproc', StandardScaler(with_mean=False)),
                  ('model', LogisticRegression(penalty='elasticnet', solver='saga', l1_ratio=0.5, max_iter=1000000))]),
             #'n_search_iter': 80,
             'hyperparam_space': {
+                'preproc__with_std': [True, False], 
                 'model__class_weight': ['balanced', None],
                 'model__C': loguniform(1e-2, 5.5e3),
                 'up__sampling_strategy': ['minority', 'not minority', 'not majority'],
@@ -572,11 +634,12 @@ MODEL_LIST = \
 
         'LogisticRegressionElasticNet_SVMSMOTE_v1': {
             'model': Pipeline(
-                [('up', SVMSMOTE()),
+                [('up', SVMSMOTE()), ('preproc', StandardScaler(with_mean=False)),
                  ('model', LogisticRegression(penalty='elasticnet', solver='saga', l1_ratio=0.5, max_iter=1000000,
                                               class_weight='balanced'))]),
             #'n_search_iter': 80,
             'hyperparam_space': {
+                'preproc__with_std': [True, False], 
                 'model__C': loguniform(1, 20),
                 'up__sampling_strategy': ['minority', 'not minority', 'not majority'],
                 'up__k_neighbors': [2, 3],
@@ -586,10 +649,11 @@ MODEL_LIST = \
 
         'LogisticRegressionElasticNet_SVMSMOTE_v2': {
             'model': Pipeline(
-                [('up', SVMSMOTE()),
+                [('up', SVMSMOTE()), ('preproc', StandardScaler(with_mean=False)),
                  ('model', LogisticRegression(penalty='elasticnet', solver='saga', l1_ratio=0.5, max_iter=1000000))]),
             #'n_search_iter': 80,
             'hyperparam_space': {
+                'preproc__with_std': [True, False], 
                 'model__class_weight': ['balanced', None],
                 'model__C': loguniform(1e-2, 5.5e3),
                 'up__sampling_strategy': ['minority', 'not minority', 'not majority'],
@@ -620,10 +684,11 @@ MODEL_LIST = \
 
         'RidgeClassifier_ROS_v1': {
             'model': Pipeline(
-                [('up', RandomOverSampler()),
+                [('up', RandomOverSampler()), ('preproc', StandardScaler(with_mean=False)),
                  ('model', RidgeClassifier(max_iter=100000, class_weight='balanced'))]),
             #'n_search_iter': 80,
             'hyperparam_space': {
+                'preproc__with_std': [True, False], 
                 'model__C': loguniform(1, 150),
                 'up__sampling_strategy': ['minority', 'not minority', 'not majority'],
                 'up__shrinkage': [None, 1e-4, 1e-3, 1e-2, 1e-1, 1, 1e1, 1e2, 1e3, 1e4]
@@ -632,10 +697,11 @@ MODEL_LIST = \
 
         'RidgeClassifier_ROS_v2': {
             'model': Pipeline(
-                [('up', RandomOverSampler()),
+                [('up', RandomOverSampler()), ('preproc', StandardScaler(with_mean=False)),
                  ('model', RidgeClassifier(max_iter=100000))]),
             #'n_search_iter': 80,
             'hyperparam_space': {
+                'preproc__with_std': [True, False], 
                 'model__class_weight': ['balanced', None],
                 'model__C': loguniform(1e-1, 5e3),
                 'up__sampling_strategy': ['minority', 'not minority', 'not majority'],
@@ -645,10 +711,11 @@ MODEL_LIST = \
 
         'RidgeClassifier_SMOTE_v1': {
             'model': Pipeline(
-                [('up', SMOTE()),
+                [('up', SMOTE()), ('preproc', StandardScaler(with_mean=False)),
                  ('model', RidgeClassifier(max_iter=100000, class_weight='balanced'))]),
             #'n_search_iter': 80,
             'hyperparam_space': {
+                'preproc__with_std': [True, False], 
                 'model__C': loguniform(1, 150),
                 'up__sampling_strategy': ['minority', 'not minority', 'not majority'],
                 'up__k_neighbors': [2, 3]
@@ -657,10 +724,11 @@ MODEL_LIST = \
 
         'RidgeClassifier_SMOTE_v2': {
             'model': Pipeline(
-                [('up', SMOTE()),
+                [('up', SMOTE()), ('preproc', StandardScaler(with_mean=False)),
                  ('model', RidgeClassifier(max_iter=100000))]),
             #'n_search_iter': 80,
             'hyperparam_space': {
+                'preproc__with_std': [True, False], 
                 'model__class_weight': ['balanced', None],
                 'model__C': loguniform(1e-1, 5e3),
                 'up__sampling_strategy': ['minority', 'not minority', 'not majority'],
@@ -670,10 +738,11 @@ MODEL_LIST = \
 
         'RidgeClassifier_BorderlineSMOTE_v1': {
             'model': Pipeline(
-                [('up', BorderlineSMOTE()),
+                [('up', BorderlineSMOTE()), ('preproc', StandardScaler(with_mean=False)),
                  ('model', RidgeClassifier(max_iter=100000, class_weight='balanced'))]),
             #'n_search_iter': 80,
             'hyperparam_space': {
+                'preproc__with_std': [True, False], 
                 'model__C': loguniform(1, 150),
                 'up__sampling_strategy': ['minority', 'not minority', 'not majority'],
                 'up__k_neighbors': [2, 3],
@@ -684,10 +753,11 @@ MODEL_LIST = \
 
         'RidgeClassifier_BorderlineSMOTE_v2': {
             'model': Pipeline(
-                [('up', BorderlineSMOTE()),
+                [('up', BorderlineSMOTE()), ('preproc', StandardScaler(with_mean=False)),
                  ('model', RidgeClassifier(max_iter=100000))]),
             #'n_search_iter': 80,
             'hyperparam_space': {
+                'preproc__with_std': [True, False], 
                 'model__class_weight': ['balanced', None],
                 'model__C': loguniform(1e-1, 5e3),
                 'up__sampling_strategy': ['minority', 'not minority', 'not majority'],
@@ -699,10 +769,11 @@ MODEL_LIST = \
 
         'RidgeClassifier_SVMSMOTE_v1': {
             'model': Pipeline(
-                [('up', SVMSMOTE()),
+                [('up', SVMSMOTE()), ('preproc', StandardScaler(with_mean=False)),
                  ('model', RidgeClassifier(max_iter=100000, class_weight='balanced'))]),
             #'n_search_iter': 80,
             'hyperparam_space': {
+                'preproc__with_std': [True, False], 
                 'model__C': loguniform(1, 150),
                 'up__sampling_strategy': ['minority', 'not minority', 'not majority'],
                 'up__k_neighbors': [2, 3],
@@ -712,10 +783,11 @@ MODEL_LIST = \
 
         'RidgeClassifier_SVMSMOTE_v2': {
             'model': Pipeline(
-                [('up', SVMSMOTE()),
+                [('up', SVMSMOTE()), ('preproc', StandardScaler(with_mean=False)),
                  ('model', RidgeClassifier(max_iter=100000))]),
             #'n_search_iter': 80,
             'hyperparam_space': {
+                'preproc__with_std': [True, False], 
                 'model__class_weight': ['balanced', None],
                 'model__C': loguniform(1e-1, 5e3),
                 'up__sampling_strategy': ['minority', 'not minority', 'not majority'],
@@ -765,10 +837,11 @@ MODEL_LIST = \
 
         'SVM_rbf_ROS_v1': {
             'model': Pipeline(
-                [('up', RandomOverSampler()),
+                [('up', RandomOverSampler()), ('preproc', StandardScaler(with_mean=False)),
                  ('model', SVC(kernel='rbf', class_weight='balanced'))]),
             #'n_search_iter': 80,
             'hyperparam_space': {
+                'preproc__with_std': [True, False], 
                 'model__C': loguniform(30, 800),
                 'model__gamma': loguniform(5e-4, 0.04),
                 'up__sampling_strategy': ['minority', 'not minority', 'not majority'],
@@ -778,10 +851,11 @@ MODEL_LIST = \
 
         'SVM_rbf_ROS_v2': {
             'model': Pipeline(
-                [('up', RandomOverSampler()),
+                [('up', RandomOverSampler()), ('preproc', StandardScaler(with_mean=False)),
                  ('model', SVC(kernel='rbf'))]),
             #'n_search_iter': 80,
             'hyperparam_space': {
+                'preproc__with_std': [True, False], 
                 'model__C': loguniform(0.1, 1e5),
                 'model__gamma': loguniform(1e-6, 1e-2),
                 'model__class_weight': ['balanced', None],
@@ -792,10 +866,11 @@ MODEL_LIST = \
 
         'SVM_rbf_SMOTE_v1': {
             'model': Pipeline(
-                [('up', SMOTE()),
+                [('up', SMOTE()), ('preproc', StandardScaler(with_mean=False)),
                  ('model', SVC(kernel='rbf', class_weight='balanced'))]),
             #'n_search_iter': 80,
             'hyperparam_space': {
+                'preproc__with_std': [True, False], 
                 'model__C': loguniform(30, 800),
                 'model__gamma': loguniform(5e-4, 0.04),
                 'up__sampling_strategy': ['minority', 'not minority', 'not majority'],
@@ -805,10 +880,11 @@ MODEL_LIST = \
 
         'SVM_rbf_SMOTE_v2': {
             'model': Pipeline(
-                [('up', SMOTE()),
+                [('up', SMOTE()), ('preproc', StandardScaler(with_mean=False)),
                  ('model', SVC(kernel='rbf'))]),
             #'n_search_iter': 80,
             'hyperparam_space': {
+                'preproc__with_std': [True, False], 
                 'model__C': loguniform(1, 1e4),
                 'model__gamma': loguniform(1e-6, 1e-2),
                 'model__class_weight': ['balanced', None],
@@ -819,10 +895,11 @@ MODEL_LIST = \
 
         'SVM_rbf_BorderlineSMOTE_v1': {
             'model': Pipeline(
-                [('up', BorderlineSMOTE()),
+                [('up', BorderlineSMOTE()), ('preproc', StandardScaler(with_mean=False)),
                  ('model', SVC(kernel='rbf', class_weight='balanced'))]),
             #'n_search_iter': 80,
             'hyperparam_space': {
+                'preproc__with_std': [True, False], 
                 'model__C': loguniform(30, 800),
                 'model__gamma': loguniform(5e-4, 0.04),
                 'up__sampling_strategy': ['minority', 'not minority', 'not majority'],
@@ -834,10 +911,11 @@ MODEL_LIST = \
 
         'SVM_rbf_BorderlineSMOTE_v2': {
             'model': Pipeline(
-                [('up', BorderlineSMOTE()),
+                [('up', BorderlineSMOTE()), ('preproc', StandardScaler(with_mean=False)),
                  ('model', SVC(kernel='rbf'))]),
             #'n_search_iter': 80,
             'hyperparam_space': {
+                'preproc__with_std': [True, False], 
                 'model__C': loguniform(1, 1e4),
                 'model__gamma': loguniform(1e-6, 1e-2),
                 'model__class_weight': ['balanced', None],
@@ -850,10 +928,11 @@ MODEL_LIST = \
 
         'SVM_rbf_SVMSMOTE_v1': {
             'model': Pipeline(
-                [('up', SVMSMOTE()),
+                [('up', SVMSMOTE()), ('preproc', StandardScaler(with_mean=False)),
                  ('model', SVC(kernel='rbf', class_weight='balanced'))]),
             #'n_search_iter': 80,
             'hyperparam_space': {
+                'preproc__with_std': [True, False], 
                 'model__C': loguniform(30, 800),
                 'model__gamma': loguniform(5e-4, 0.04),
                 'up__sampling_strategy': ['minority', 'not minority', 'not majority'],
@@ -864,10 +943,11 @@ MODEL_LIST = \
 
         'SVM_rbf_SVMSMOTE_v2': {
             'model': Pipeline(
-                [('up', SVMSMOTE()),
+                [('up', SVMSMOTE()), ('preproc', StandardScaler(with_mean=False)),
                  ('model', SVC(kernel='rbf'))]),
             #'n_search_iter': 80,
             'hyperparam_space': {
+                'preproc__with_std': [True, False], 
                 'model__C': loguniform(1, 1e4),
                 'model__gamma': loguniform(1e-6, 1e-2),
                 'model__class_weight': ['balanced', None],
@@ -918,10 +998,11 @@ MODEL_LIST = \
 
         'SVM_sigmoid_ROS_v1': {
             'model': Pipeline(
-                [('up', RandomOverSampler()),
+                [('up', RandomOverSampler()), ('preproc', StandardScaler(with_mean=False)),
                  ('model', SVC(kernel='sigmoid', class_weight='balanced'))]),
             #'n_search_iter': 80,
             'hyperparam_space': {
+                'preproc__with_std': [True, False],
                 'model__C': loguniform(1e-2, 600),
                 'model__gamma': loguniform(1e-2, 500),
                 'up__sampling_strategy': ['minority', 'not minority', 'not majority'],
@@ -931,10 +1012,11 @@ MODEL_LIST = \
 
         'SVM_sigmoid_ROS_v2': {
             'model': Pipeline(
-                [('up', RandomOverSampler()),
+                [('up', RandomOverSampler()), ('preproc', StandardScaler(with_mean=False)),
                  ('model', SVC(kernel='sigmoid'))]),
             #'n_search_iter': 80,
             'hyperparam_space': {
+                'preproc__with_std': [True, False], 
                 'model__C': loguniform(100, 1e4),
                 'model__gamma': loguniform(1e-4, 500),
                 'model__class_weight': ['balanced', None],
@@ -945,10 +1027,11 @@ MODEL_LIST = \
 
         'SVM_sigmoid_SMOTE_v1': {
             'model': Pipeline(
-                [('up', SMOTE()),
+                [('up', SMOTE()), ('preproc', StandardScaler(with_mean=False)),
                  ('model', SVC(kernel='sigmoid', class_weight='balanced'))]),
             #'n_search_iter': 80,
             'hyperparam_space': {
+                'preproc__with_std': [True, False], 
                 'model__C': loguniform(1e-2, 600),
                 'model__gamma': loguniform(1e-2, 500),
                 'up__sampling_strategy': ['minority', 'not minority', 'not majority'],
@@ -958,10 +1041,11 @@ MODEL_LIST = \
 
         'SVM_sigmoid_SMOTE_v2': {
             'model': Pipeline(
-                [('up', SMOTE()),
+                [('up', SMOTE()), ('preproc', StandardScaler(with_mean=False)),
                  ('model', SVC(kernel='sigmoid'))]),
             #'n_search_iter': 80,
             'hyperparam_space': {
+                'preproc__with_std': [True, False], 
                 'model__C': loguniform(100, 1e4),
                 'model__gamma': loguniform(1e-4, 500),
                 'model__class_weight': ['balanced', None],
@@ -972,10 +1056,11 @@ MODEL_LIST = \
 
         'SVM_sigmoid_BorderlineSMOTE_v1': {
             'model': Pipeline(
-                [('up', BorderlineSMOTE()),
+                [('up', BorderlineSMOTE()), ('preproc', StandardScaler(with_mean=False)),
                  ('model', SVC(kernel='sigmoid', class_weight='balanced'))]),
             #'n_search_iter': 80,
             'hyperparam_space': {
+                'preproc__with_std': [True, False], 
                 'model__C': loguniform(1e-2, 600),
                 'model__gamma': loguniform(1e-2, 500),
                 'up__sampling_strategy': ['minority', 'not minority', 'not majority'],
@@ -987,10 +1072,11 @@ MODEL_LIST = \
 
         'SVM_sigmoid_BorderlineSMOTE_v2': {
             'model': Pipeline(
-                [('up', BorderlineSMOTE()),
+                [('up', BorderlineSMOTE()), ('preproc', StandardScaler(with_mean=False)),
                  ('model', SVC(kernel='sigmoid'))]),
             #'n_search_iter': 80,
             'hyperparam_space': {
+                'preproc__with_std': [True, False], 
                 'model__C': loguniform(100, 1e4),
                 'model__gamma': loguniform(1e-4, 500),
                 'model__class_weight': ['balanced', None],
@@ -1003,10 +1089,11 @@ MODEL_LIST = \
 
         'SVM_sigmoid_SVMSMOTE_v1': {
             'model': Pipeline(
-                [('up', SVMSMOTE()),
+                [('up', SVMSMOTE()), ('preproc', StandardScaler(with_mean=False)),
                  ('model', SVC(kernel='sigmoid', class_weight='balanced'))]),
             #'n_search_iter': 80,
             'hyperparam_space': {
+                'preproc__with_std': [True, False], 
                 'model__C': loguniform(1e-2, 600),
                 'model__gamma': loguniform(1e-2, 500),
                 'up__sampling_strategy': ['minority', 'not minority', 'not majority'],
@@ -1016,10 +1103,11 @@ MODEL_LIST = \
 
         'SVM_sigmoid_SVMSMOTE_v2': {
             'model': Pipeline(
-                [('up', SVMSMOTE()),
+                [('up', SVMSMOTE()), ('preproc', StandardScaler(with_mean=False)),
                  ('model', SVC(kernel='sigmoid'))]),
             #'n_search_iter': 80,
             'hyperparam_space': {
+                'preproc__with_std': [True, False], 
                 'model__C': loguniform(100, 1e4),
                 'model__gamma': loguniform(1e-4, 500),
                 'model__class_weight': ['balanced', None],
@@ -1036,7 +1124,7 @@ MODEL_LIST = \
             'model': LinearSVC(dual=False, class_weight='balanced', penalty='l2', max_iter=100000),
             #'n_search_iter': 40,
             'hyperparam_space': {
-                'C': loguniform(1e-6, 5e-3),
+               'C': loguniform(1e-6, 5e-3),
             }
         },
 
@@ -1079,10 +1167,11 @@ MODEL_LIST = \
 
         'LinearSVMDual_ROS_v1': {
             'model': Pipeline(
-                [('up', RandomOverSampler()),
+                [('up', RandomOverSampler()), ('preproc', StandardScaler(with_mean=False)),
                  ('model', LinearSVC(dual=True, penalty='l2', class_weight='balanced', max_iter=5e4))]),
             #'n_search_iter': 80,
             'hyperparam_space': {
+                'preproc__with_std': [True, False], 
                 'model__C': loguniform(1e-5, 3e-3),
                 'up__sampling_strategy': ['minority', 'not minority', 'not majority'],
                 'up__shrinkage': [None, 1e-4, 1e-3, 1e-2, 1e-1, 1, 1e1, 1e2, 1e3, 1e4]
@@ -1091,10 +1180,11 @@ MODEL_LIST = \
 
         'LinearSVMDual_ROS_v2': {
             'model': Pipeline(
-                [('up', RandomOverSampler()),
+                [('up', RandomOverSampler()), ('preproc', StandardScaler(with_mean=False)),
                  ('model', LinearSVC(dual=True, penalty='l2', max_iter=5e4))]),
             #'n_search_iter': 80,
             'hyperparam_space': {
+                'preproc__with_std': [True, False], 
                 'model__C': loguniform(1e-6, 0.5),
                 'model__class_weight': ['balanced', None],
                 'up__sampling_strategy': ['minority', 'not minority', 'not majority'],
@@ -1104,10 +1194,11 @@ MODEL_LIST = \
 
         'LinearSVMDual_SMOTE_v1': {
             'model': Pipeline(
-                [('up', SMOTE()),
+                [('up', SMOTE()), ('preproc', StandardScaler(with_mean=False)),
                  ('model', LinearSVC(dual=True, penalty='l2', class_weight='balanced', max_iter=5e4))]),
             #'n_search_iter': 80,
             'hyperparam_space': {
+                'preproc__with_std': [True, False], 
                 'model__C': loguniform(1e-5, 3e-3),
                 'up__sampling_strategy': ['minority', 'not minority', 'not majority'],
                 'up__k_neighbors': [2, 3]
@@ -1116,10 +1207,11 @@ MODEL_LIST = \
 
         'LinearSVMDual_SMOTE_v2': {
             'model': Pipeline(
-                [('up', SMOTE()),
+                [('up', SMOTE()), ('preproc', StandardScaler(with_mean=False)),
                  ('model', LinearSVC(dual=True, penalty='l2', max_iter=5e4))]),
             #'n_search_iter': 80,
             'hyperparam_space': {
+                'preproc__with_std': [True, False], 
                 'model__C': loguniform(1e-6, 0.5),
                 'model__class_weight': ['balanced', None],
                 'up__sampling_strategy': ['minority', 'not minority', 'not majority'],
@@ -1129,10 +1221,11 @@ MODEL_LIST = \
 
         'LinearSVMDual_BorderlineSMOTE_v1': {
             'model': Pipeline(
-                [('up', BorderlineSMOTE()),
+                [('up', BorderlineSMOTE()), ('preproc', StandardScaler(with_mean=False)),
                  ('model', LinearSVC(dual=True, penalty='l2', class_weight='balanced', max_iter=5e4))]),
             #'n_search_iter': 80,
             'hyperparam_space': {
+                'preproc__with_std': [True, False], 
                 'model__C': loguniform(1e-5, 3e-3),
                 'up__sampling_strategy': ['minority', 'not minority', 'not majority'],
                 'up__k_neighbors': [2, 3],
@@ -1143,10 +1236,11 @@ MODEL_LIST = \
 
         'LinearSVMDual_BorderlineSMOTE_v2': {
             'model': Pipeline(
-                [('up', BorderlineSMOTE()),
+                [('up', BorderlineSMOTE()), ('preproc', StandardScaler(with_mean=False)),
                  ('model', LinearSVC(dual=True, penalty='l2', max_iter=5e4))]),
             #'n_search_iter': 80,
             'hyperparam_space': {
+                'preproc__with_std': [True, False], 
                 'model__C': loguniform(1e-6, 0.5),
                 'model__class_weight': ['balanced', None],
                 'up__sampling_strategy': ['minority', 'not minority', 'not majority'],
@@ -1158,10 +1252,11 @@ MODEL_LIST = \
 
         'LinearSVMDual_SVMSMOTE_v1': {
             'model': Pipeline(
-                [('up', SVMSMOTE()),
+                [('up', SVMSMOTE()), ('preproc', StandardScaler(with_mean=False)),
                  ('model', LinearSVC(dual=True, penalty='l2', class_weight='balanced', max_iter=5e4))]),
             #'n_search_iter': 80,
             'hyperparam_space': {
+                'preproc__with_std': [True, False], 
                 'model__C': loguniform(1e-5, 3e-3),
                 'up__sampling_strategy': ['minority', 'not minority', 'not majority'],
                 'up__k_neighbors': [2, 3],
@@ -1171,10 +1266,11 @@ MODEL_LIST = \
 
         'LinearSVMDual_SVMSMOTE_v2': {
             'model': Pipeline(
-                [('up', SVMSMOTE()),
+                [('up', SVMSMOTE()), ('preproc', StandardScaler(with_mean=False)),
                  ('model', LinearSVC(dual=True, penalty='l2', max_iter=5e4))]),
             #'n_search_iter': 80,
             'hyperparam_space': {
+                'preproc__with_std': [True, False], 
                 'model__C': loguniform(1e-6, 0.5),
                 'model__class_weight': ['balanced', None],
                 'up__sampling_strategy': ['minority', 'not minority', 'not majority'],
@@ -1224,10 +1320,11 @@ MODEL_LIST = \
 
         'RandomForest_ROS_v0': {
             'model': Pipeline(
-                [('up', RandomOverSampler()),
+                [('up', RandomOverSampler()), ('preproc', StandardScaler(with_mean=False)),
                  ('model', RandomForestClassifier())]),
             #'n_search_iter': 80,
             'hyperparam_space': {
+                'preproc__with_std': [True, False], 
                 'model__max_features': ['sqrt', 'log2'],
                 'model__criterion': ['gini', 'entropy', 'log_loss'],
                 'model__n_estimators': [50, 100, 200],
@@ -1240,10 +1337,11 @@ MODEL_LIST = \
 
         'RandomForest_ROS_v1': {
             'model': Pipeline(
-                [('up', RandomOverSampler()),
+                [('up', RandomOverSampler()), ('preproc', StandardScaler(with_mean=False)),
                  ('model', RandomForestClassifier())]),
             #'n_search_iter': 80,
             'hyperparam_space': {
+                'preproc__with_std': [True, False], 
                 'model__max_features': randint(1, 50),
                 'model__n_estimators': [50, 100, 200],
                 'model__max_depth': randint(2, 25),
@@ -1255,10 +1353,11 @@ MODEL_LIST = \
 
         'RandomForest_ROS_v2': {
             'model': Pipeline(
-                [('up', RandomOverSampler()),
+                [('up', RandomOverSampler()), ('preproc', StandardScaler(with_mean=False)),
                  ('model', RandomForestClassifier())]),
             #'n_search_iter': 80,
             'hyperparam_space': {
+                'preproc__with_std': [True, False], 
                 'model__class_weight': ['balanced', None, "balanced_subsample"],
                 'model__criterion': ['gini', 'entropy', 'log_loss'],
                 'model__max_features': randint(1, 50),
@@ -1275,10 +1374,11 @@ MODEL_LIST = \
 
         'RandomForest_SMOTE_v0': {
             'model': Pipeline(
-                [('up', SMOTE()),
+                [('up', SMOTE()), ('preproc', StandardScaler(with_mean=False)),
                  ('model', RandomForestClassifier())]),
             #'n_search_iter': 80,
             'hyperparam_space': {
+                'preproc__with_std': [True, False], 
                 'model__max_features': ['sqrt', 'log2'],
                 'model__criterion': ['gini', 'entropy', 'log_loss'],
                 'model__n_estimators': [50, 100, 200],
@@ -1291,10 +1391,11 @@ MODEL_LIST = \
 
         'RandomForest_SMOTE_v1': {
             'model': Pipeline(
-                [('up', RandomOverSampler()),
+                [('up', RandomOverSampler()), ('preproc', StandardScaler(with_mean=False)),
                  ('model', RandomForestClassifier())]),
             #'n_search_iter': 80,
             'hyperparam_space': {
+                'preproc__with_std': [True, False], 
                 'model__max_features': randint(1, 50),
                 'model__n_estimators': [50, 100, 200],
                 'model__max_depth': randint(2, 25),
@@ -1306,10 +1407,11 @@ MODEL_LIST = \
 
         'RandomForest_SMOTE_v2': {
             'model': Pipeline(
-                [('up', RandomOverSampler()),
+                [('up', RandomOverSampler()), ('preproc', StandardScaler(with_mean=False)),
                  ('model', RandomForestClassifier())]),
             #'n_search_iter': 80,
             'hyperparam_space': {
+                'preproc__with_std': [True, False], 
                 'model__class_weight': ['balanced', None, "balanced_subsample"],
                 'model__criterion': ['gini', 'entropy', 'log_loss'],
                 'model__max_features': randint(1, 50),
@@ -1326,10 +1428,11 @@ MODEL_LIST = \
 
         'RandomForest_BorderlineSMOTE_v0': {
             'model': Pipeline(
-                [('up', BorderlineSMOTE()),
+                [('up', BorderlineSMOTE()), ('preproc', StandardScaler(with_mean=False)),
                  ('model', RandomForestClassifier())]),
             #'n_search_iter': 80,
             'hyperparam_space': {
+                'preproc__with_std': [True, False], 
                 'model__max_features': ['sqrt', 'log2'],
                 'model__criterion': ['gini', 'entropy', 'log_loss'],
                 'model__n_estimators': [50, 100, 200],
@@ -1344,10 +1447,11 @@ MODEL_LIST = \
 
         'RandomForest_BorderlineSMOTE_v1': {
             'model': Pipeline(
-                [('up', BorderlineSMOTE()),
+                [('up', BorderlineSMOTE()), ('preproc', StandardScaler(with_mean=False)),
                  ('model', RandomForestClassifier())]),
             #'n_search_iter': 80,
             'hyperparam_space': {
+                'preproc__with_std': [True, False], 
                 'model__max_features': randint(1, 50),
                 'model__n_estimators': [50, 100, 200],
                 'model__max_depth': randint(2, 25),
@@ -1361,10 +1465,11 @@ MODEL_LIST = \
 
         'RandomForest_BorderlineSMOTE_v2': {
             'model': Pipeline(
-                [('up', BorderlineSMOTE()),
+                [('up', BorderlineSMOTE()), ('preproc', StandardScaler(with_mean=False)),
                  ('model', RandomForestClassifier())]),
             #'n_search_iter': 80,
             'hyperparam_space': {
+                'preproc__with_std': [True, False], 
                 'model__class_weight': ['balanced', None, "balanced_subsample"],
                 'model__criterion': ['gini', 'entropy', 'log_loss'],
                 'model__max_features': randint(1, 50),
@@ -1383,10 +1488,11 @@ MODEL_LIST = \
 
         'RandomForest_SVMSMOTE_v1': {
             'model': Pipeline(
-                [('up', SVMSMOTE()),
+                [('up', SVMSMOTE()), ('preproc', StandardScaler(with_mean=False)),
                  ('model', RandomForestClassifier())]),
             #'n_search_iter': 80,
             'hyperparam_space': {
+                'preproc__with_std': [True, False], 
                 'model__max_features': randint(1, 50),
                 'model__n_estimators': [50, 100, 200],
                 'model__max_depth': randint(2, 25),
@@ -1399,10 +1505,11 @@ MODEL_LIST = \
 
         'RandomForest_SVMSMOTE_v2': {
             'model': Pipeline(
-                [('up', SVMSMOTE()),
+                [('up', SVMSMOTE()), ('preproc', StandardScaler(with_mean=False)),
                  ('model', RandomForestClassifier())]),
             #'n_search_iter': 80,
             'hyperparam_space': {
+                'preproc__with_std': [True, False], 
                 'model__class_weight': ['balanced', None, "balanced_subsample"],
                 'model__criterion': ['gini', 'entropy', 'log_loss'],
                 'model__max_features': randint(1, 50),
@@ -1446,10 +1553,11 @@ MODEL_LIST = \
 
         'ComplementNaiveBayes_ROS_v1': {
             'model': Pipeline(
-                [('up', RandomOverSampler()),
+                [('up', RandomOverSampler()), ('preproc', StandardScaler(with_mean=False)),
                  ('model', ComplementNB())]),
             #'n_search_iter': 80,
             'hyperparam_space': {
+                'preproc__with_std': [True, False],
                 'model__alpha': loguniform(1e-5, 1),
                 'model__norm': [True, False],
                 'up__sampling_strategy': ['minority', 'not minority', 'not majority'],
@@ -1460,10 +1568,11 @@ MODEL_LIST = \
 
         'ComplementNaiveBayes_SMOTE_v1': {
             'model': Pipeline(
-                [('up', SMOTE()),
+                [('up', SMOTE()), ('preproc', StandardScaler(with_mean=False)),
                  ('model', ComplementNB())]),
             #'n_search_iter': 80,
             'hyperparam_space': {
+                'preproc__with_std': [True, False], 
                 'model__alpha': loguniform(1e-5, 1),
                 'model__norm': [True, False],
                 'up__sampling_strategy': ['minority', 'not minority', 'not majority'],
@@ -1473,12 +1582,13 @@ MODEL_LIST = \
 
         'ComplementNaiveBayes_BorderlineSMOTE_v1': {
             'model': Pipeline(
-                [('up', BorderlineSMOTE()),
+                [('up', BorderlineSMOTE()), ('preproc', StandardScaler(with_mean=False)),
                  ('model', ComplementNB())]),
             #'n_search_iter': 80,
             'hyperparam_space': {
-                'alpha': loguniform(1e-5, 1),
-                'norm': [True, False],
+                'preproc__with_std': [True, False], 
+                'model__alpha': loguniform(1e-5, 1),
+                'model__norm': [True, False],
                 'up__sampling_strategy': ['minority', 'not minority', 'not majority'],
                 'up__k_neighbors': [2, 3],
                 'up__m_neighbors': [2, 7],
@@ -1488,10 +1598,11 @@ MODEL_LIST = \
 
         'ComplementNaiveBayes_BorderlineSMOTE_v2': {
             'model': Pipeline(
-                [('up', BorderlineSMOTE()),
+                [('up', BorderlineSMOTE()), ('preproc', StandardScaler(with_mean=False)),
                  ('model', ComplementNB())]),
             #'n_search_iter': 80,
             'hyperparam_space': {
+                'preproc__with_std': [True, False], 
                 'model__alpha': loguniform(1e-5, 1),
                 'model__norm': [True, False],
                 'up__sampling_strategy': ['minority', 'not minority', 'not majority'],
@@ -1503,10 +1614,11 @@ MODEL_LIST = \
 
         'ComplementNaiveBayes_SVMSMOTE_v1': {
             'model': Pipeline(
-                [('up', SVMSMOTE()),
+                [('up', SVMSMOTE()), ('preproc', StandardScaler(with_mean=False)),
                  ('model', ComplementNB())]),
             #'n_search_iter': 80,
             'hyperparam_space': {
+                'preproc__with_std': [True, False], 
                 'model__alpha': loguniform(1e-5, 1),
                 'model__norm': [True, False],
                 'up__sampling_strategy': ['minority', 'not minority', 'not majority'],
@@ -1517,10 +1629,11 @@ MODEL_LIST = \
 
         'ComplementNaiveBayes_SVMSMOTE_v2': {
             'model': Pipeline(
-                [('up', SVMSMOTE()),
+                [('up', SVMSMOTE()), ('preproc', StandardScaler(with_mean=False)),
                  ('model', ComplementNB())]),
             #'n_search_iter': 80,
             'hyperparam_space': {
+                'preproc__with_std': [True, False], 
                 'model__alpha': loguniform(1e-5, 1),
                 'model__norm': [True, False],
                 'up__sampling_strategy': ['minority', 'not minority', 'not majority'],
@@ -1542,10 +1655,11 @@ MODEL_LIST = \
 
         'NaiveBayes_ROS_v1': {
             'model': Pipeline(
-                [('up', RandomOverSampler()),
+                [('up', RandomOverSampler()), ('preproc', StandardScaler(with_mean=False)),
                  ('model', MultinomialNB(fit_prior=False))]),
             #'n_search_iter': 80,
             'hyperparam_space': {
+                'preproc__with_std': [True, False], 
                 'model__alpha': loguniform(1e-5, 2),
                 'up__sampling_strategy': ['minority', 'not minority', 'not majority'],
                 'up__shrinkage': loguniform(1e-4, 1e4)
@@ -1554,10 +1668,11 @@ MODEL_LIST = \
 
         'NaiveBayes_ROS_v2': {
             'model': Pipeline(
-                [('up', RandomOverSampler()),
+                [('up', RandomOverSampler()), ('preproc', StandardScaler(with_mean=False)),
                  ('model', MultinomialNB())]),
             #'n_search_iter': 80,
             'hyperparam_space': {
+                'preproc__with_std': [True, False], 
                 'model__alpha': loguniform(1e-5, 2),
                 'model__fit_prior': [True, False],
                 'up__sampling_strategy': ['minority', 'not minority', 'not majority'],
@@ -1567,10 +1682,11 @@ MODEL_LIST = \
 
         'NaiveBayes_SMOTE_v1': {
             'model': Pipeline(
-                [('up', SMOTE()),
+                [('up', SMOTE()), ('preproc', StandardScaler(with_mean=False)),
                  ('model', MultinomialNB(fit_prior=False))]),
             #'n_search_iter': 80,
             'hyperparam_space': {
+                'preproc__with_std': [True, False], 
                 'model__alpha': loguniform(1e-5, 2),
                 'up__sampling_strategy': ['minority', 'not minority', 'not majority'],
                 'up__k_neighbors': [2, 3]
@@ -1579,10 +1695,11 @@ MODEL_LIST = \
 
         'NaiveBayes_SMOTE_v2': {
             'model': Pipeline(
-                [('up', SMOTE()),
+                [('up', SMOTE()), ('preproc', StandardScaler(with_mean=False)),
                  ('model', MultinomialNB())]),
             #'n_search_iter': 80,
             'hyperparam_space': {
+                'preproc__with_std': [True, False], 
                 'model__alpha': loguniform(1e-5, 2),
                 'model__fit_prior': [True, False],
                 'up__sampling_strategy': ['minority', 'not minority', 'not majority'],
@@ -1592,10 +1709,11 @@ MODEL_LIST = \
 
         'NaiveBayes_BorderlineSMOTE_v1': {
             'model': Pipeline(
-                [('up', BorderlineSMOTE()),
+                [('up', BorderlineSMOTE()), ('preproc', StandardScaler(with_mean=False)),
                  ('model', MultinomialNB(fit_prior=False))]),
             #'n_search_iter': 80,
             'hyperparam_space': {
+                'preproc__with_std': [True, False], 
                 'model__alpha': loguniform(1e-5, 2),
                 'up__sampling_strategy': ['minority', 'not minority', 'not majority'],
                 'up__k_neighbors': [2, 3],
@@ -1606,10 +1724,11 @@ MODEL_LIST = \
 
         'NaiveBayes_BorderlineSMOTE_v2': {
             'model': Pipeline(
-                [('up', BorderlineSMOTE()),
+                [('up', BorderlineSMOTE()), ('preproc', StandardScaler(with_mean=False)),
                  ('model', MultinomialNB())]),
             #'n_search_iter': 80,
             'hyperparam_space': {
+                'preproc__with_std': [True, False], 
                 'model__alpha': loguniform(1e-5, 2),
                 'model__fit_prior': [True, False],
                 'up__sampling_strategy': ['minority', 'not minority', 'not majority'],
@@ -1621,10 +1740,11 @@ MODEL_LIST = \
 
         'NaiveBayes_SVMSMOTE_v1': {
             'model': Pipeline(
-                [('up', BorderlineSMOTE()),
+                [('up', BorderlineSMOTE()), ('preproc', StandardScaler(with_mean=False)),
                  ('model', MultinomialNB(fit_prior=False))]),
             #'n_search_iter': 80,
             'hyperparam_space': {
+                'preproc__with_std': [True, False], 
                 'model__alpha': loguniform(1e-5, 2),
                 'up__sampling_strategy': ['minority', 'not minority', 'not majority'],
                 'up__k_neighbors': [2, 3],
@@ -1634,10 +1754,11 @@ MODEL_LIST = \
 
         'NaiveBayes_SVMSMOTE_v2': {
             'model': Pipeline(
-                [('up', SVMSMOTE()),
+                [('up', SVMSMOTE()), ('preproc', StandardScaler(with_mean=False)),
                  ('model', MultinomialNB())]),
             #'n_search_iter': 80,
             'hyperparam_space': {
+                'preproc__with_std': [True, False], 
                 'model__alpha': loguniform(1e-5, 2),
                 'model__fit_prior': [True, False],
                 'up__sampling_strategy': ['minority', 'not minority', 'not majority'],
