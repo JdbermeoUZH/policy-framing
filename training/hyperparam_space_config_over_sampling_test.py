@@ -1,10 +1,13 @@
-from scipy.stats import loguniform, randint
+from scipy.stats import loguniform, randint, uniform
 from xgboost import XGBClassifier, XGBRFClassifier
 from sklearn.dummy import DummyClassifier
 from sklearn.svm import SVC, LinearSVC
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.linear_model import LogisticRegression, RidgeClassifier
 from sklearn.naive_bayes import ComplementNB, GaussianNB, MultinomialNB
+from imblearn.over_sampling import SMOTE
+from imblearn.over_sampling import RandomOverSampler
+from imblearn.pipeline import Pipeline
 
 MODEL_LIST = \
     {
@@ -41,14 +44,26 @@ MODEL_LIST = \
             }
         },
 
+        'LogisticRegressionRidge_ROS': {
+            'model': Pipeline([('up', RandomOverSampler()), ('model', LogisticRegression(penalty='l2'))]),
+            #'n_search_iter': 10,
+            'hyperparam_space': {
+                'model__C': loguniform(1e-1, 1e4),
+                'model__solver': ['liblinear', 'lbfgs'],
+                'model__class_weight': ['balanced', None],
+                'model__max_iter': randint(1000, 100000),
+                'up__sampling_strategy': ['minority', 'not minority', 'not majority']
+            }
+        },
+
         'LogisticRegressionRidge': {
             'model': LogisticRegression(penalty='l2'),
             #'n_search_iter': 10,
             'hyperparam_space': {
-                'estimator__C': loguniform(1e-1, 1e4),
-                'estimator__solver': ['liblinear', 'lbfgs'],
-                'estimator__class_weight': ['balanced', None],
-                'estimator__max_iter': randint(1000, 100000)
+                'C': loguniform(1e-1, 1e4),
+                'solver': ['liblinear', 'lbfgs'],
+                'class_weight': ['balanced', None],
+                'max_iter': randint(1000, 100000)
             }
         },
 

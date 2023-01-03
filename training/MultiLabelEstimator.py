@@ -17,10 +17,11 @@ DEFAULT_SCORING_FUNCTIONS = ('f1_micro', 'f1_macro', 'accuracy', 'precision_micr
 
 def _recode_param_nams(hyper_param_dist: dict, mlb_independent_fit: bool) -> dict:
     if not mlb_independent_fit:
-        new_dict = {f'base_{k}': v for k, v in hyper_param_dist.items()}
-        return new_dict
+        new_dict = {f'base_estimator__{k}': v for k, v in hyper_param_dist.items()}
     else:
-        return hyper_param_dist
+        new_dict = {f'estimator__{k}': v for k, v in hyper_param_dist.items()}
+
+    return new_dict
 
 
 class MultiLabelEstimator:
