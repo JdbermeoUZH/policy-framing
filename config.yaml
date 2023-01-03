@@ -21,7 +21,7 @@ preprocessing:
   min_var: 0.001                    # Minimum variance a vector should have to be used in the trainset
   corr_threshold: 0.9               # Remove columns that have correlation >= threshold to another higher
 
-  tune_preprocessing_params: True  # If True, will do LHS over the ranges of the parameters next
+  tune_preprocessing_params: False  # If True, will do LHS over the ranges of the parameters next
   param_search:
     n_samples: 4
     min_df_range: [0, 0.3]
@@ -31,9 +31,9 @@ preprocessing:
 
 training:
   default_params: False             # If True, it runs cross validation with outer_folds folds. If False, it runs nested cross validation
-  model_list: ['LogisticRegressionRidge_ROS', 'LogisticRegressionRidge']
+  model_list: ['LogisticRegression_ROS', 'LogisticRegressionRidge_ROS_2']
 
-  model_hyperparam_module: 'training.hyperparam_space_config_over_sampling_test'           # .py file with models and distribution of hyperparams to tune and benchmark
+  model_hyperparam_module: 'training.hyperparam_space_config_english'           # .py file with models and distribution of hyperparams to tune and benchmark
   nested_cv:                        # Total training runs are outer_folds(inner_folds * num_search_iters + 1)
     outer_folds: 3                  # Number of outer fold: Number of "best" models after tuning
     inner_folds: 3                  # Number of inner folds: Number of folds to validate each hyperparam combination
