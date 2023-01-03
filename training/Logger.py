@@ -202,8 +202,6 @@ class Logger:
             self.log_hyper_param_performance_inner_fold(cv_results=cv_results, **kwargs)
 
 
-
-
 if __name__ == '__main__':
     logging_path = os.path.join('..', 'mlruns')
 

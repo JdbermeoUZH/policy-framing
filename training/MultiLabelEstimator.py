@@ -15,6 +15,14 @@ DEFAULT_SCORING_FUNCTIONS = ('f1_micro', 'f1_macro', 'accuracy', 'precision_micr
                              'precision_macro', 'recall_micro', 'recall_macro')
 
 
+def _recode_param_nams(hyper_param_dist: dict, mlb_independent_fit: bool) -> dict:
+    if not mlb_independent_fit:
+        new_dict = {f'base_{k}': v for k, v in hyper_param_dist.items()}
+        return new_dict
+    else:
+        return hyper_param_dist
+
+
 class MultiLabelEstimator:
     def __init__(
             self,
@@ -30,7 +38,10 @@ class MultiLabelEstimator:
         self.base_estimator_name = base_estimator.__str__()
         self.multi_label_estimator = \
             MultiOutputClassifier(base_estimator) if treat_labels_as_independent else ClassifierChain(base_estimator)
-        self.estimator_hyperparam_dists = base_estimator_hyperparam_dist
+
+        self.estimator_hyperparam_dists = _recode_param_nams(
+            base_estimator_hyperparam_dist, treat_labels_as_independent)
+
         self.scoring_functions = scoring_functions
         self.random_seed = random_seed
 
