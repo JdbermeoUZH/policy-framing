@@ -212,8 +212,9 @@ MODEL_LIST = \
         'LogisticRegressionRidgeDual_ROS_v1': {
             'model': Pipeline(
                 [('up', RandomOverSampler()),
+                 ('preproc', StandardScaler(with_mean=False)),
                  ('model', LogisticRegression(penalty='l2', solver='liblinear', dual=True, class_weight='balanced',
-                                              max_iter=100000))]),
+                                              max_iter=1e6))]),
             #'n_search_iter': 80,
             'hyperparam_space': {
                 'model__C': loguniform(1e-4, 1),
