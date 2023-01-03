@@ -31,7 +31,9 @@ preprocessing:
 
 training:
   default_params: False             # If True, it runs cross validation with outer_folds folds. If False, it runs nested cross validation
-  model_list: ['LogisticRegression_ROS', 'LogisticRegressionRidge_ROS_2']
+  model_list: ['LogisticRegression_KMeansSMOTE_v1', 'LogisticRegression_KMeansSMOTE_v2',
+               'LogisticRegression_SVMSMOTE', 'LogisticRegression_BorderlineSMOTE', 'LogisticRegression_SMOTE',
+               'LogisticRegression_ROS_v2']
 
   model_hyperparam_module: 'training.hyperparam_space_config_english'           # .py file with models and distribution of hyperparams to tune and benchmark
   nested_cv:                        # Total training runs are outer_folds(inner_folds * num_search_iters + 1)
