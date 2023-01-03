@@ -5,10 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3359b6ce-9e44-4da3-956d-9609d831df93" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/config.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/config.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/training/hyperparam_space_config_english.py" beforeDir="false" afterPath="$PROJECT_DIR$/training/hyperparam_space_config_english.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/training/hyperparam_space_config_russian.py" beforeDir="false" afterPath="$PROJECT_DIR$/training/hyperparam_space_config_russian.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -37,7 +34,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="tune_french" />
+        <entry key="$PROJECT_DIR$" value="tune_english" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -92,7 +89,7 @@
       <recent name="$PROJECT_DIR$/preprocessing" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.hyperparam_space_config_russian">
+  <component name="RunManager" selected="Python.benchmark_subtask_2">
     <configuration default="true" type="PythonConfigurationType" factoryName="Python">
       <module name="Framing" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -138,6 +135,9 @@
       <module name="Framing" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
       <option name="SDK_HOME" value="" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/training" />
       <option name="IS_MODULE_SDK" value="true" />
@@ -201,6 +201,9 @@
       <module name="Framing" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
       <option name="SDK_HOME" value="" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/training" />
       <option name="IS_MODULE_SDK" value="true" />
@@ -248,11 +251,11 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.hyperparam_space_config_russian" />
         <item itemvalue="Python.benchmark_subtask_2" />
-        <item itemvalue="Python.hyperparam_space_config_english" />
-        <item itemvalue="Python.hyperparam_space_config_french" />
         <item itemvalue="Python.hyperparam_space_config_italian_raw_text" />
+        <item itemvalue="Python.hyperparam_space_config_french" />
+        <item itemvalue="Python.hyperparam_space_config_russian" />
+        <item itemvalue="Python.hyperparam_space_config_english" />
       </list>
     </recent_temporary>
   </component>
