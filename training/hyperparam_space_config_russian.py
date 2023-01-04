@@ -1536,37 +1536,69 @@ MODEL_LIST = \
         },
 
         ######################################################################################################
-
-        'XGBoost': {
-            'model': XGBClassifier(verbosity=0, tree_method='hist', use_label_encoder=False, booster='gbtree'), #silent=True,
+        'XGBoost_extra_narrow': {
+            'model': XGBClassifier(verbosity=0, tree_method='hist', use_label_encoder=False, booster='gbtree', gamma=0), #silent=True,
             'n_search_iter': 80,
             'hyperparam_space': {
-                'n_estimators': randint(100, 300),
-                'max_features': randint(1, 50),
-                'eta': loguniform(1e-2, 0.3),
-                'gamma': [0, 1e-9, 1e-8, 1e-7, 1e-6],
-                'max_depth': randint(3, 10),
-                'min_child_weight': loguniform(0.25, 2.5),
-                'max_delta_step': [0, 1e-3, 1e-2, 1e-1, 1, 5, 10],
-                'lambda': loguniform(1e-1, 100),
-                'scale_pos_weight': loguniform(1, 20)
+                'n_estimators': randint(100, 500),
+                'max_features': [35],
+                'eta': [0.03, 0.1, 0.2],
+                'max_depth': [6],
+                'min_child_weight': [1],
+                'max_delta_step': [5],
+                'lambda': [35],
+                'scale_pos_weight': [10]
                 #'subsample': loguniform(0.5, 1),
 
             }
         },
 
-        'XGBoostV2': {
+        'XGBoost_narrow': {
+            'model': XGBClassifier(verbosity=0, tree_method='hist', use_label_encoder=False, booster='gbtree', gamma=0), #silent=True,
+            'n_search_iter': 80,
+            'hyperparam_space': {
+                'n_estimators': randint(100, 300),
+                'max_features': randint(2, 15),
+                'eta': loguniform(1e-1, 1),
+                'max_depth': randint(3, 10),
+                'min_child_weight': loguniform(0.1, 2.5),
+                'max_delta_step': [5, 10],
+                'lambda': loguniform(1e-2, 100),
+                'scale_pos_weight': loguniform(4.5, 12)
+                #'subsample': loguniform(0.5, 1),
+
+            }
+        },
+
+        'XGBoostV2_broad': {
             'model': XGBClassifier(verbosity=0, tree_method='hist', use_label_encoder=False, booster='gbtree', gamma=0), #silent=True,
             'n_search_iter': 80,
             'hyperparam_space': {
                 'n_estimators': randint(100, 500),
-                'max_features': randint(2, 50),
-                'eta': loguniform(1e-2, 0.3),
-                'max_depth': randint(10, 35),
-                'min_child_weight': loguniform(0.25, 2.5),
-                'max_delta_step': [0, 1e-3, 1e-2, 1e-1, 1, 5, 10],
-                'lambda': loguniform(90, 150),
-                'scale_pos_weight': uniform(1, 5)
+                'max_features': randint(2, 100),
+                'eta': loguniform(1e-2, 1),
+                'max_depth': randint(3, 35),
+                'min_child_weight': loguniform(1e-2, 2.5),
+                'max_delta_step': [1, 5, 10],
+                'lambda': loguniform(1e-3, 100),
+                'scale_pos_weight': uniform(3.5, 15)
+                #'subsample': loguniform(0.5, 1),
+
+            }
+        },
+
+        'XGBoostV2_broad_2': {
+            'model': XGBClassifier(verbosity=0, tree_method='hist', use_label_encoder=False, booster='gbtree', gamma=0), #silent=True,
+            'n_search_iter': 80,
+            'hyperparam_space': {
+                'n_estimators': randint(100, 500),
+                'max_features': randint(2, 100),
+                'eta': [0.1],
+                'max_depth': randint(3, 35),
+                'min_child_weight': loguniform(1e-2, 2.5),
+                'max_delta_step': [1, 5, 10],
+                'lambda': loguniform(1e-3, 100),
+                'scale_pos_weight': uniform(3.5, 15)
                 #'subsample': loguniform(0.5, 1),
 
             }
