@@ -9,7 +9,7 @@ dataset:
 
 preprocessing:
   split: 'train'                    # Split of the data to use
-  analysis_unit: ['raw_text']              # 'title', 'title_and_first_paragraph', 'title_and_5_sentences', 'title_and_10_sentences',
+  analysis_unit: ['title_and_5_sentences']              # 'title', 'title_and_first_paragraph', 'title_and_5_sentences', 'title_and_10_sentences',
                                     # 'title_and_first_sentence_each_paragraph', 'raw_text', 'all'
   load_preproc_input_data: True     # Whether or not to rerun the script that produces the units of analysis
   spacy_model_size: 'small'         # small or large. small should be enough for preprocessing, it is mostly tokenizing so far
@@ -31,13 +31,31 @@ preprocessing:
 
 training:
   default_params: False             # If True, it runs cross validation with outer_folds folds. If False, it runs nested cross validation
-  model_list: ['LogisticRegressionRidgeDual', 'LogisticRegressionRidgeDual_ROS_v1', 'LogisticRegressionRidgeDual_ROS_v2', 'LogisticRegressionRidgeDual_SMOTE_v1', 'LogisticRegressionRidgeDual_SMOTE_v2', 'LogisticRegressionRidgeDual_BorderlineSMOTE_v1', 'LogisticRegressionRidgeDual_BorderlineSMOTE_v2', 'LogisticRegressionRidgeDual_SVMSMOTE_v1', 'LogisticRegressionRidgeDual_SVMSMOTE_v2', 'LogisticRegressionLassoV1', 'LogisticRegressionLassoV2', 'LogisticRegressionLasso_ROS_v1', 'LogisticRegressionLasso_ROS_v2', 'LogisticRegressionLasso_SMOTE_v1', 'LogisticRegressionLasso_SMOTE_v2', 'LogisticRegressionLasso_BorderlineSMOTE_v1', 'LogisticRegressionLasso_BorderlineSMOTE_v2', 'LogisticRegressionLasso_SVMSMOTE_v1', 'LogisticRegressionLasso_BorderlineSVMSMOTE_v2', 'LogisticRegressionElasticNetV1', 'LogisticRegressionElasticNetV2', 'LogisticRegressionElasticNetV3', 'LogisticRegressionElasticNet_ROS_v1', 'LogisticRegressionElasticNet_ROS_v2', 'LogisticRegressionElasticNet_SMOTE_v1', 'LogisticRegressionElasticNet_SMOTE_v2', 'LogisticRegressionElasticNet_BorderlineSMOTE_v1', 'LogisticRegressionElasticNet_BorderlineSMOTE_v2', 'LogisticRegressionElasticNet_SVMSMOTE_v1', 'LogisticRegressionElasticNet_SVMSMOTE_v2', 'RidgeClassifierV1', 'RidgeClassifierV2', 'RidgeClassifier_ROS_v1', 'RidgeClassifier_ROS_v2', 'RidgeClassifier_SMOTE_v1', 'RidgeClassifier_SMOTE_v2', 'RidgeClassifier_BorderlineSMOTE_v1', 'RidgeClassifier_BorderlineSMOTE_v2', 'RidgeClassifier_SVMSMOTE_v1', 'RidgeClassifier_SVMSMOTE_v2', 'SVM_rbf_V1', 'SVM_rbf_V2', 'SVM_rbf_V3', 'SVM_rbf_V4', 'SVM_rbf_ROS_v1', 'SVM_rbf_ROS_v2', 'SVM_rbf_SMOTE_v1', 'SVM_rbf_SMOTE_v2', 'SVM_rbf_BorderlineSMOTE_v1', 'SVM_rbf_BorderlineSMOTE_v2', 'SVM_rbf_SVMSMOTE_v1', 'SVM_rbf_SVMSMOTE_v2', 'SVM_sigmoid_narrow_gamma', 'SVM_sigmoid_broader_gamma', 'SVM_sigmoid_V3', 'SVM_sigmoid_V4', 'SVM_sigmoid_ROS_v1', 'SVM_sigmoid_ROS_v2', 'SVM_sigmoid_SMOTE_v1', 'SVM_sigmoid_SMOTE_v2', 'SVM_sigmoid_BorderlineSMOTE_v1', 'SVM_sigmoid_BorderlineSMOTE_v2', 'SVM_sigmoid_SVMSMOTE_v1', 'SVM_sigmoid_SVMSMOTE_v2', 'LinearSVM_V1', 'LinearSVM_V2', 'LinearSVM_V3', 'LinearSVM_V4', 'LinearSVMDual', 'LinearSVMDual_ROS_v1', 'LinearSVMDual_ROS_v2', 'LinearSVMDual_SMOTE_v1', 'LinearSVMDual_SMOTE_v2', 'LinearSVMDual_BorderlineSMOTE_v1', 'LinearSVMDual_BorderlineSMOTE_v2', 'LinearSVMDual_SVMSMOTE_v1', 'LinearSVMDual_SVMSMOTE_v2', 'RandomForestSK_V1', 'RandomForestSK_V2', 'RandomForestSK_V3', 'RandomForest_ROS_v0', 'RandomForest_ROS_v1', 'RandomForest_ROS_v2', 'RandomForest_SMOTE_v0', 'RandomForest_SMOTE_v1', 'RandomForest_SMOTE_v2', 'RandomForest_BorderlineSMOTE_v0', 'RandomForest_BorderlineSMOTE_v1', 'RandomForest_BorderlineSMOTE_v2', 'RandomForest_SVMSMOTE_v1', 'RandomForest_SVMSMOTE_v2', 'XGBoost', 'ComplementNaiveBayes', 'ComplementNaiveBayes_ROS_v1', 'ComplementNaiveBayes_SMOTE_v1', 'ComplementNaiveBayes_BorderlineSMOTE_v1', 'ComplementNaiveBayes_BorderlineSMOTE_v2', 'ComplementNaiveBayes_SVMSMOTE_v1', 'ComplementNaiveBayes_SVMSMOTE_v2', 'NaiveBayes', 'NaiveBayes_ROS_v1', 'NaiveBayes_ROS_v2', 'NaiveBayes_SMOTE_v1', 'NaiveBayes_SMOTE_v2', 'NaiveBayes_BorderlineSMOTE_v1', 'NaiveBayes_BorderlineSMOTE_v2', 'NaiveBayes_SVMSMOTE_v1', 'NaiveBayes_SVMSMOTE_v2']
+  # Regressions
+  #model_list: ['LogisticRegression', 'LogisticRegression_ROS_v1', 'LogisticRegression_ROS_v2', 'LogisticRegression_SMOTE', 'LogisticRegression_BorderlineSMOTE', 'LogisticRegressionRidgeV1', 'LogisticRegressionRidgeV2', 'LogisticRegressionRidge_ROS_v1', 'LogisticRegressionRidge_ROS_v2', 'LogisticRegressionRidge_SMOTE_v1', 'LogisticRegressionRidge_SMOTE_v2', 'LogisticRegressionRidge_BorderlineSMOTE_v1', 'LogisticRegressionRidge_BorderlineSMOTE_v2', 'LogisticRegressionRidgeDual', 'LogisticRegressionRidgeDual_ROS_v1', 'LogisticRegressionRidgeDual_SMOTE_v1', 'LogisticRegressionRidgeDual_SMOTE_v2', 'LogisticRegressionRidgeDual_BorderlineSMOTE_v1', 'LogisticRegressionRidgeDual_BorderlineSMOTE_v2', 'LogisticRegressionLassoV1', 'LogisticRegressionLassoV2', 'LogisticRegressionLasso_SMOTE_v1', 'LogisticRegressionLasso_SMOTE_v2', 'LogisticRegressionLasso_BorderlineSMOTE_v1', 'LogisticRegressionLasso_BorderlineSMOTE_v2',  'LogisticRegressionElasticNetV1', 'LogisticRegressionElasticNetV2', 'LogisticRegressionElasticNetV3', 'LogisticRegressionElasticNet_ROS_v1', 'LogisticRegressionElasticNet_ROS_v2', 'LogisticRegressionElasticNet_SMOTE_v1', 'LogisticRegressionElasticNet_SMOTE_v2', 'LogisticRegressionElasticNet_BorderlineSMOTE_v1', 'LogisticRegressionElasticNet_BorderlineSMOTE_v2', 'RidgeClassifierV1', 'RidgeClassifierV2', 'RidgeClassifier_ROS_v1', 'RidgeClassifier_ROS_v2', 'RidgeClassifier_SMOTE_v1', 'RidgeClassifier_SMOTE_v2', 'RidgeClassifier_BorderlineSMOTE_v1', 'RidgeClassifier_BorderlineSMOTE_v2']
+  #model_list: ['LogisticRegressionLasso_ROS_v1', 'LogisticRegressionLasso_ROS_v2', 'LogisticRegressionRidgeDual_ROS_v1', 'LogisticRegressionRidgeDual_ROS_v2'] # regressions that probably take waay too long
+  #model_list: ['LogisticRegression_SVMSMOTE', 'LogisticRegressionRidge_SVMSMOTE_v1', 'LogisticRegressionRidge_SVMSMOTE_v2', 'LogisticRegressionRidgeDual_SVMSMOTE_v1', 'LogisticRegressionRidgeDual_SVMSMOTE_v2', 'LogisticRegressionLasso_SVMSMOTE_v1', 'LogisticRegressionElasticNet_SVMSMOTE_v1', 'LogisticRegressionElasticNet_SVMSMOTE_v2', 'RidgeClassifier_SVMSMOTE_v1', 'RidgeClassifier_SVMSMOTE_v2']   # regressions that will probably fail
+
+  # SVM
+  #model_list: ['SVM_rbf_V1', 'SVM_rbf_V2', 'SVM_rbf_V3', 'SVM_rbf_V4', 'SVM_rbf_ROS_v1', 'SVM_rbf_ROS_v2', 'SVM_rbf_SMOTE_v1', 'SVM_rbf_SMOTE_v2', 'SVM_rbf_BorderlineSMOTE_v1', 'SVM_rbf_BorderlineSMOTE_v2',  'SVM_sigmoid_narrow_gamma', 'SVM_sigmoid_broader_gamma', 'SVM_sigmoid_V3', 'SVM_sigmoid_V4', 'SVM_sigmoid_ROS_v1', 'SVM_sigmoid_ROS_v2', 'SVM_sigmoid_SMOTE_v1', 'SVM_sigmoid_SMOTE_v2', 'SVM_sigmoid_BorderlineSMOTE_v1', 'SVM_sigmoid_BorderlineSMOTE_v2', 'LinearSVM_V1', 'LinearSVM_V2', 'LinearSVM_V3', 'LinearSVM_V4', 'LinearSVMDual', 'LinearSVMDual_ROS_v1', 'LinearSVMDual_ROS_v2', 'LinearSVMDual_SMOTE_v1', 'LinearSVMDual_SMOTE_v2', 'LinearSVMDual_BorderlineSMOTE_v1', 'LinearSVMDual_BorderlineSMOTE_v2']
+  #model_list: ['SVM_rbf_SVMSMOTE_v1', 'SVM_rbf_SVMSMOTE_v2', 'SVM_sigmoid_SVMSMOTE_v1', 'SVM_sigmoid_SVMSMOTE_v2', 'LinearSVMDual_SVMSMOTE_v1', 'LinearSVMDual_SVMSMOTE_v2'] # models that will probably fail
+
+  # Random Forest
+  #model_list: ['RandomForestSK_V1', 'RandomForestSK_V2', 'RandomForestSK_V3', 'RandomForest_ROS_v0', 'RandomForest_ROS_v1', 'RandomForest_ROS_v2', 'RandomForest_SMOTE_v0', 'RandomForest_SMOTE_v1', 'RandomForest_SMOTE_v2', 'RandomForest_BorderlineSMOTE_v0', 'RandomForest_BorderlineSMOTE_v1', 'RandomForest_BorderlineSMOTE_v2']
+  #model_list: ['RandomForest_SVMSMOTE_v1', 'RandomForest_SVMSMOTE_v2'] # models that will probably fail
+
+  # Xgboost
+  #model_list: ['XGBoost']
+
+  # Naive Bayes
+  #model_list: ['NaiveBayes', 'NaiveBayes_ROS_v1', 'NaiveBayes_ROS_v2', 'NaiveBayes_SMOTE_v1', 'NaiveBayes_SMOTE_v2', 'NaiveBayes_BorderlineSMOTE_v1', 'NaiveBayes_BorderlineSMOTE_v2', 'ComplementNaiveBayes', 'ComplementNaiveBayes_ROS_v1', 'ComplementNaiveBayes_SMOTE_v1', 'ComplementNaiveBayes_BorderlineSMOTE_v1', 'ComplementNaiveBayes_BorderlineSMOTE_v2']
+  #model_list: ['NaiveBayes_SVMSMOTE_v1', 'NaiveBayes_SVMSMOTE_v2', 'ComplementNaiveBayes_SVMSMOTE_v1', 'ComplementNaiveBayes_SVMSMOTE_v2'] # models that will probably fail
 
   model_hyperparam_module: 'training.hyperparam_space_config_russian'           # .py file with models and distribution of hyperparams to tune and benchmark
   nested_cv:                        # Total training runs are outer_folds(inner_folds * num_search_iters + 1)
     outer_folds: 3                  # Number of outer fold: Number of "best" models after tuning
     inner_folds: 3                  # Number of inner folds: Number of folds to validate each hyperparam combination
-    n_search_iter: 2               # Number of search iterations per outer fold (it is measured with cv of #inner_folds)
+    n_search_iter: 5               # Number of search iterations per outer fold (it is measured with cv of #inner_folds)
     ranking_score: 'f1_micro'       # Metric to choose best performing model in each inner fold
   metric_to_report: 'f1_micro'      # Metric to report
   return_train_metrics: True        # Whether to return the metrics on the train set or not
@@ -46,6 +64,6 @@ training:
 
 metric_logging:
   logging_path: './mlruns'          # Directory to store metrics. Dir must be named 'mlruns'
-  experiment_base_name: 'test_search_preproc' # Name of the experiment under which to store metrics
-  rewrite_experiment: False         # Whether to delete/overwrite runs under experiment_name. In most of the cases it should be False
+  experiment_base_name: 'test_ru_rf' # Name of the experiment under which to store metrics
+  rewrite_experiment: True         # Whether to delete/overwrite runs under experiment_name. In most of the cases it should be False
   logging_level: 'outer_cv'         # Which performance data to log ('model_wide', 'outer_cv', or 'inner_cv')
