@@ -3,13 +3,13 @@ run:
   n_jobs: -1
 
 dataset:
-  languages: ['ru']   # 'en, 'it', 'fr', 'po', 'ru', 'ge'
+  languages: ['it']   # 'en, 'it', 'fr', 'po', 'ru', 'ge'
   subtask: 2                        # 1, 2, 3
   data_dir: 'data'                  # Relative path to directory with data
 
 preprocessing:
   split: 'train'                    # Split of the data to use
-  analysis_unit: ['title_and_5_sentences']              # 'title', 'title_and_first_paragraph', 'title_and_5_sentences', 'title_and_10_sentences',
+  analysis_unit: ['raw_text']              # 'title', 'title_and_first_paragraph', 'title_and_5_sentences', 'title_and_10_sentences',
                                     # 'title_and_first_sentence_each_paragraph', 'raw_text', 'all'
   load_preproc_input_data: True     # Whether or not to rerun the script that produces the units of analysis
   spacy_model_size: 'small'         # small or large. small should be enough for preprocessing, it is mostly tokenizing so far
@@ -45,7 +45,7 @@ training:
   #model_list: ['RandomForest_SVMSMOTE_v1', 'RandomForest_SVMSMOTE_v2'] # models that will probably fail
 
   # Xgboost
-  #model_list: ['XGBoost']
+  model_list: ['XGBoost', 'XGBoostV2']
 
   # Naive Bayes
   #model_list: ['NaiveBayes', 'NaiveBayes_ROS_v1', 'NaiveBayes_ROS_v2', 'NaiveBayes_SMOTE_v1', 'NaiveBayes_SMOTE_v2', 'NaiveBayes_BorderlineSMOTE_v1', 'NaiveBayes_BorderlineSMOTE_v2', 'ComplementNaiveBayes', 'ComplementNaiveBayes_ROS_v1', 'ComplementNaiveBayes_SMOTE_v1', 'ComplementNaiveBayes_BorderlineSMOTE_v1', 'ComplementNaiveBayes_BorderlineSMOTE_v2']
@@ -64,6 +64,6 @@ training:
 
 metric_logging:
   logging_path: './mlruns'          # Directory to store metrics. Dir must be named 'mlruns'
-  experiment_base_name: 'test_ru_rf' # Name of the experiment under which to store metrics
-  rewrite_experiment: True         # Whether to delete/overwrite runs under experiment_name. In most of the cases it should be False
-  logging_level: 'outer_cv'         # Which performance data to log ('model_wide', 'outer_cv', or 'inner_cv')
+  experiment_base_name: 'test_xgboost_run3' # Name of the experiment under which to store metrics
+  rewrite_experiment: False         # Whether to delete/overwrite runs under experiment_name. In most of the cases it should be False
+  logging_level: 'inner_cv'         # Which performance data to log ('model_wide', 'outer_cv', or 'inner_cv')

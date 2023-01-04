@@ -1,4 +1,4 @@
-from scipy.stats import loguniform, randint
+from scipy.stats import loguniform, randint, uniform
 from xgboost import XGBClassifier, XGBRFClassifier
 from sklearn.dummy import DummyClassifier
 from sklearn.preprocessing import StandardScaler
@@ -1538,14 +1538,37 @@ MODEL_LIST = \
         ######################################################################################################
 
         'XGBoost': {
-            'model': XGBClassifier(verbosity=0, silent=True, tree_method='hist', use_label_encoder=False),
-            #'n_search_iter': 50,
+            'model': XGBClassifier(verbosity=0, tree_method='hist', use_label_encoder=False, booster='gbtree'), #silent=True,
+            'n_search_iter': 80,
             'hyperparam_space': {
-                'max_features': ['sqrt', 'log2'],
-                'gamma': loguniform(1e-5, 1e-2),
-                'max_depth': randint(6, 30),
-                'min_child_weight': randint(1, 6),
-                'max_delta_step': [0, 1, 5],
+                'n_estimators': randint(100, 300),
+                'max_features': randint(1, 50),
+                'eta': loguniform(1e-2, 0.3),
+                'gamma': [0, 1e-9, 1e-8, 1e-7, 1e-6],
+                'max_depth': randint(3, 10),
+                'min_child_weight': loguniform(0.25, 2.5),
+                'max_delta_step': [0, 1e-3, 1e-2, 1e-1, 1, 5, 10],
+                'lambda': loguniform(1e-1, 100),
+                'scale_pos_weight': loguniform(1, 20)
+                #'subsample': loguniform(0.5, 1),
+
+            }
+        },
+
+        'XGBoostV2': {
+            'model': XGBClassifier(verbosity=0, tree_method='hist', use_label_encoder=False, booster='gbtree', gamma=0), #silent=True,
+            'n_search_iter': 80,
+            'hyperparam_space': {
+                'n_estimators': randint(100, 500),
+                'max_features': randint(2, 50),
+                'eta': loguniform(1e-2, 0.3),
+                'max_depth': randint(10, 35),
+                'min_child_weight': loguniform(0.25, 2.5),
+                'max_delta_step': [0, 1e-3, 1e-2, 1e-1, 1, 5, 10],
+                'lambda': loguniform(90, 150),
+                'scale_pos_weight': uniform(1, 5)
+                #'subsample': loguniform(0.5, 1),
+
             }
         },
 
