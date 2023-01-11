@@ -5,6 +5,8 @@ from sklearn.svm import SVC, LinearSVC
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.linear_model import LogisticRegression, RidgeClassifier
 from sklearn.naive_bayes import ComplementNB, GaussianNB, MultinomialNB
+from imblearn.over_sampling import SMOTE, BorderlineSMOTE, SVMSMOTE, RandomOverSampler
+from imblearn.pipeline import Pipeline
 
 MODEL_LIST = \
     {
@@ -217,27 +219,276 @@ MODEL_LIST = \
             }
         },
 
-        'XGBoost': {
-            'model': XGBClassifier(verbosity=0, silent=True, use_label_encoder=False),
-            #'n_search_iter': 10,
+        'XGBoost_extra_narrow': {
+            'model': XGBClassifier(verbosity=0, tree_method='hist', use_label_encoder=False, booster='gbtree', gamma=0), #silent=True,
+            'n_search_iter': 80,
             'hyperparam_space': {
-                'estimator__max_features': ['sqrt', 'log2'],
-                'estimator__gamma': loguniform(1e-5, 1e-2),
-                'estimator__max_depth': randint(6, 30),
-                'estimator__min_child_weight': randint(1, 6),
-                'estimator__max_delta_step': [0, 1, 5],
+                'n_estimators': [150],
+                'reg_lambda': uniform(30, 70),
+                'colsample_bytree': uniform(0.9, 1.0),
+                'max_features': [20],
+                'learning_rate': [0.1],
+                'max_depth': [5],
+                'min_child_weight': uniform(0.15, 0.4),
+                'max_delta_step': [10],
+                'scale_pos_weight': uniform(10.5, 12),
+                'subsample': [1.0],
+                'colsample_bynode': [1.0]
+
             }
         },
 
-        'XGBoostV2': {
-            'model': XGBClassifier(verbosity=0, silent=True),
-            # 'n_search_iter': 10,
+        'XGBoost_narrow': {
+            'model': XGBClassifier(verbosity=0, tree_method='hist', use_label_encoder=False, booster='gbtree', gamma=0), #silent=True,
+            'n_search_iter': 80,
             'hyperparam_space': {
-                'estimator__max_features': randint(1, 20),
-                'estimator__gamma': loguniform(1e-5, 1e-2),
-                'estimator__max_depth': randint(6, 30),
-                'estimator__min_child_weight': randint(1, 6),
-                'estimator__max_delta_step': [0, 1, 5],
+                'n_estimators': randint(150, 300),
+                'reg_lambda': uniform(30, 100),
+                'colsample_bytree': uniform(0.9, 1.0),
+                'max_features': randint(10, 20),
+                'learning_rate': uniform(0.05, 0.1),
+                'max_depth': randint(8, 10),
+                'min_child_weight': uniform(0.15, 0.4),
+                'max_delta_step': [10],
+                'scale_pos_weight': uniform(10.5, 18.2),
+                'subsample': uniform(0.8, 1),
+                'colsample_bynode': uniform(0.8, 1)
+
+            }
+        },
+
+        'XGBoost_broad': {
+            'model': XGBClassifier(verbosity=0, tree_method='hist', use_label_encoder=False, booster='gbtree', gamma=0), #silent=True,
+            'n_search_iter': 80,
+            'hyperparam_space': {
+                'n_estimators': randint(150, 500),
+                'reg_lambda': uniform(30, 1000),
+                'colsample_bytree': uniform(0.8, 1.0),
+                'max_features': randint(10, 50),
+                'learning_rate': loguniform(1e-2, 0.2),
+                'max_depth': randint(3, 20),
+                'min_child_weight': uniform(0.15, 0.85),
+                'max_delta_step': uniform(8, 12),
+                'scale_pos_weight': uniform(7.5, 18.2),
+                'subsample': uniform(0.6, 1),
+                'colsample_bynode': uniform(0.6, 1)
+
+            }
+        },
+
+
+        'XGBoost_narrow_ROS': {
+            'model': Pipeline(
+                [('up', RandomOverSampler()), ('preproc', StandardScaler(with_mean=False)),
+                 ('model', XGBClassifier(verbosity=0, tree_method='hist', use_label_encoder=False,
+                                         booster='gbtree', gamma=0))]),
+
+            # silent=True,
+            'n_search_iter': 80,
+            'hyperparam_space': {
+                'preproc__with_std': [True, False],
+                'model__model__n_estimators': randint(150, 300),
+                'model__reg_lambda': uniform(30, 100),
+                'model__colsample_bytree': uniform(0.9, 1.0),
+                'model__max_features': randint(10, 20),
+                'model__learning_rate': uniform(0.05, 0.1),
+                'model__max_depth': randint(8, 10),
+                'model__min_child_weight': uniform(0.15, 0.4),
+                'model__max_delta_step': [10],
+                'model__scale_pos_weight': uniform(10.5, 18.2),
+                'model__subsample': uniform(0.8, 1),
+                'model__colsample_bynode': uniform(0.8, 1),
+                'up__sampling_strategy': ['minority', 'not minority', 'not majority'],
+                'up__shrinkage': loguniform(1e-4, 1e4)
+            }
+        },
+
+        'XGBoost_broad_ROS': {
+            'model': Pipeline(
+                [('up', RandomOverSampler()), ('preproc', StandardScaler(with_mean=False)),
+                 ('model', XGBClassifier(verbosity=0, tree_method='hist', use_label_encoder=False,
+                                         booster='gbtree', gamma=0))]),
+
+            # silent=True,
+            'n_search_iter': 80,
+            'hyperparam_space': {
+                'preproc__with_std': [True, False],
+                'model__n_estimators': randint(150, 500),
+                'model__reg_lambda': uniform(30, 1000),
+                'model__colsample_bytree': uniform(0.8, 1.0),
+                'model__max_features': randint(10, 50),
+                'model__learning_rate': loguniform(1e-2, 0.2),
+                'model__max_depth': randint(3, 20),
+                'model__min_child_weight': uniform(0.15, 0.85),
+                'model__max_delta_step': uniform(8, 12),
+                'model__scale_pos_weight': uniform(7.5, 18.2),
+                'model__subsample': uniform(0.6, 1),
+                'model__colsample_bynode': uniform(0.6, 1),
+                'up__sampling_strategy': ['minority', 'not minority', 'not majority'],
+                'up__shrinkage': loguniform(1e-4, 1e4)
+            }
+        },
+
+        'XGBoost_narrow_SMOTE': {
+            'model': Pipeline(
+                [('up', SMOTE()), ('preproc', StandardScaler(with_mean=False)),
+                 ('model', XGBClassifier(verbosity=0, tree_method='hist', use_label_encoder=False,
+                                         booster='gbtree', gamma=0))]),
+
+            # silent=True,
+            'n_search_iter': 80,
+            'hyperparam_space': {
+                'preproc__with_std': [True, False],
+                'model__model__n_estimators': randint(150, 300),
+                'model__reg_lambda': uniform(30, 100),
+                'model__colsample_bytree': uniform(0.9, 1.0),
+                'model__max_features': randint(10, 20),
+                'model__learning_rate': uniform(0.05, 0.1),
+                'model__max_depth': randint(8, 10),
+                'model__min_child_weight': uniform(0.15, 0.4),
+                'model__max_delta_step': [10],
+                'model__scale_pos_weight': uniform(10.5, 18.2),
+                'model__subsample': uniform(0.8, 1),
+                'model__colsample_bynode': uniform(0.8, 1),
+                'up__sampling_strategy': ['minority', 'not minority', 'not majority'],
+                'up__k_neighbors': [2, 3]
+            }
+        },
+
+        'XGBoost_broad_SMOTE': {
+            'model': Pipeline(
+                [('up', SMOTE()), ('preproc', StandardScaler(with_mean=False)),
+                 ('model', XGBClassifier(verbosity=0, tree_method='hist', use_label_encoder=False,
+                                         booster='gbtree', gamma=0))]),
+
+            # silent=True,
+            'n_search_iter': 80,
+            'hyperparam_space': {
+                'preproc__with_std': [True, False],
+                'model__n_estimators': randint(150, 500),
+                'model__reg_lambda': uniform(30, 1000),
+                'model__colsample_bytree': uniform(0.8, 1.0),
+                'model__max_features': randint(10, 50),
+                'model__learning_rate': loguniform(1e-2, 0.2),
+                'model__max_depth': randint(3, 20),
+                'model__min_child_weight': uniform(0.15, 0.85),
+                'model__max_delta_step': uniform(8, 12),
+                'model__scale_pos_weight': uniform(7.5, 18.2),
+                'model__subsample': uniform(0.6, 1),
+                'model__colsample_bynode': uniform(0.6, 1),
+                'up__sampling_strategy': ['minority', 'not minority', 'not majority'],
+                'up__k_neighbors': [2, 3]
+            }
+        },
+
+        'XGBoost_narrow_BorderlineSMOTE': {
+            'model': Pipeline(
+                [('up', BorderlineSMOTE()), ('preproc', StandardScaler(with_mean=False)),
+                 ('model', XGBClassifier(verbosity=0, tree_method='hist', use_label_encoder=False,
+                                         booster='gbtree', gamma=0))]),
+
+            # silent=True,
+            'n_search_iter': 80,
+            'hyperparam_space': {
+                'preproc__with_std': [True, False],
+                'model__model__n_estimators': randint(150, 300),
+                'model__reg_lambda': uniform(30, 100),
+                'model__colsample_bytree': uniform(0.9, 1.0),
+                'model__max_features': randint(10, 20),
+                'model__learning_rate': uniform(0.05, 0.1),
+                'model__max_depth': randint(8, 10),
+                'model__min_child_weight': uniform(0.15, 0.4),
+                'model__max_delta_step': [10],
+                'model__scale_pos_weight': uniform(10.5, 18.2),
+                'model__subsample': uniform(0.8, 1),
+                'model__colsample_bynode': uniform(0.8, 1),
+                'up__sampling_strategy': ['minority', 'not minority', 'not majority'],
+                'up__k_neighbors': [2, 3],
+                'up__m_neighbors': [2, 7],
+                'up__kind': ['borderline-1']
+            }
+        },
+
+        'XGBoost_broad_BorderlineSMOTE': {
+            'model': Pipeline(
+                [('up', BorderlineSMOTE()), ('preproc', StandardScaler(with_mean=False)),
+                 ('model', XGBClassifier(verbosity=0, tree_method='hist', use_label_encoder=False,
+                                         booster='gbtree', gamma=0))]),
+
+            # silent=True,
+            'n_search_iter': 80,
+            'hyperparam_space': {
+                'preproc__with_std': [True, False],
+                'model__n_estimators': randint(150, 500),
+                'model__reg_lambda': uniform(30, 1000),
+                'model__colsample_bytree': uniform(0.8, 1.0),
+                'model__max_features': randint(10, 50),
+                'model__learning_rate': loguniform(1e-2, 0.2),
+                'model__max_depth': randint(3, 20),
+                'model__min_child_weight': uniform(0.15, 0.85),
+                'model__max_delta_step': uniform(8, 12),
+                'model__scale_pos_weight': uniform(7.5, 18.2),
+                'model__subsample': uniform(0.6, 1),
+                'model__colsample_bynode': uniform(0.6, 1),
+                'up__sampling_strategy': ['minority', 'not minority', 'not majority'],
+                'up__k_neighbors': [2, 3],
+                'up__m_neighbors': [2, 7],
+                'up__kind': ['borderline-1', 'borderline-2']
+            }
+        },
+
+        'XGBoost_narrow_SVMSMOTE': {
+            'model': Pipeline(
+                [('up', SVMSMOTE()), ('preproc', StandardScaler(with_mean=False)),
+                 ('model', XGBClassifier(verbosity=0, tree_method='hist', use_label_encoder=False,
+                                         booster='gbtree', gamma=0))]),
+
+            # silent=True,
+            'n_search_iter': 80,
+            'hyperparam_space': {
+                'preproc__with_std': [True, False],
+                'model__model__n_estimators': randint(150, 300),
+                'model__reg_lambda': uniform(30, 100),
+                'model__colsample_bytree': uniform(0.9, 1.0),
+                'model__max_features': randint(10, 20),
+                'model__learning_rate': uniform(0.05, 0.1),
+                'model__max_depth': randint(8, 10),
+                'model__min_child_weight': uniform(0.15, 0.4),
+                'model__max_delta_step': [10],
+                'model__scale_pos_weight': uniform(10.5, 18.2),
+                'model__subsample': uniform(0.8, 1),
+                'model__colsample_bynode': uniform(0.8, 1),
+                'up__sampling_strategy': ['minority', 'not minority', 'not majority'],
+                'up__k_neighbors': [2, 3],
+                'up__m_neighbors': [2, 3],
+            }
+        },
+
+        'XGBoost_broad_SVMSMOTE': {
+            'model': Pipeline(
+                [('up', SVMSMOTE()), ('preproc', StandardScaler(with_mean=False)),
+                 ('model', XGBClassifier(verbosity=0, tree_method='hist', use_label_encoder=False,
+                                         booster='gbtree', gamma=0))]),
+
+            # silent=True,
+            'n_search_iter': 80,
+            'hyperparam_space': {
+                'preproc__with_std': [True, False],
+                'model__n_estimators': randint(150, 500),
+                'model__reg_lambda': uniform(30, 1000),
+                'model__colsample_bytree': uniform(0.8, 1.0),
+                'model__max_features': randint(10, 50),
+                'model__learning_rate': loguniform(1e-2, 0.2),
+                'model__max_depth': randint(3, 20),
+                'model__min_child_weight': uniform(0.15, 0.85),
+                'model__max_delta_step': uniform(8, 12),
+                'model__scale_pos_weight': uniform(7.5, 18.2),
+                'model__subsample': uniform(0.6, 1),
+                'model__colsample_bynode': uniform(0.6, 1),
+                'up__sampling_strategy': ['minority', 'not minority', 'not majority'],
+                'up__k_neighbors': [2, 3],
+                'up__m_neighbors': [2, 3],
+                'up__out_step': loguniform(1e-6, 1)
             }
         },
 
