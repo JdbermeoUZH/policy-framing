@@ -53,7 +53,7 @@ training:
 
   # Naive Bayes
   #model_list: ['NaiveBayes', 'NaiveBayes_ROS_v1', 'NaiveBayes_ROS_v2', 'NaiveBayes_ROS_v3', 'NaiveBayes_SMOTE_v1', 'NaiveBayes_SMOTE_v2', 'NaiveBayes_SMOTE_v3', 'NaiveBayes_BorderlineSMOTE_v1', 'NaiveBayes_BorderlineSMOTE_v2', 'NaiveBayes_BorderlineSMOTE_v3', 'ComplementNaiveBayes', 'ComplementNaiveBayes_ROS_v1', 'ComplementNaiveBayes_ROS_v2', 'ComplementNaiveBayes_SMOTE_v1', 'ComplementNaiveBayes_SMOTE_v2', 'ComplementNaiveBayes_BorderlineSMOTE_v1', 'ComplementNaiveBayes_BorderlineSMOTE_v2', 'ComplementNaiveBayes_BorderlineSMOTE_v3']
-  #model_list: ['NaiveBayes_SVMSMOTE_v1', 'NaiveBayes_SVMSMOTE_v2', ''NaiveBayes_SVMSMOTE_v3', 'ComplementNaiveBayes_SVMSMOTE_v1', 'ComplementNaiveBayes_SVMSMOTE_v2', 'ComplementNaiveBayes_SVMSMOTE_v3'] # models that will probably fail
+  #model_list: ['NaiveBayes_SVMSMOTE_v1', 'NaiveBayes_SVMSMOTE_v2', 'NaiveBayes_SVMSMOTE_v3', 'ComplementNaiveBayes_SVMSMOTE_v1', 'ComplementNaiveBayes_SVMSMOTE_v2', 'ComplementNaiveBayes_SVMSMOTE_v3'] # models that will probably fail
 
   model_hyperparam_module: 'training.hyperparam_space_config_russian'           # .py file with models and distribution of hyperparams to tune and benchmark
   nested_cv:                        # Total training runs are outer_folds(inner_folds * num_search_iters + 1)
