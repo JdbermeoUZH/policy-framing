@@ -45,7 +45,7 @@ training:
   #model_list: ['RandomForest_SVMSMOTE_v1', 'RandomForest_SVMSMOTE_v2'] # models that will probably fail
 
   # Xgboost
-  model_list: ['XGBoost', 'XGBoostV2']
+  model_list: ['XGBoost_extra_narrow', 'XGBoost_narrow', 'XGBoostV2_broad', 'XGBoostV2_broad_2']
 
   # Naive Bayes
   #model_list: ['NaiveBayes', 'NaiveBayes_ROS_v1', 'NaiveBayes_ROS_v2', 'NaiveBayes_SMOTE_v1', 'NaiveBayes_SMOTE_v2', 'NaiveBayes_BorderlineSMOTE_v1', 'NaiveBayes_BorderlineSMOTE_v2', 'ComplementNaiveBayes', 'ComplementNaiveBayes_ROS_v1', 'ComplementNaiveBayes_SMOTE_v1', 'ComplementNaiveBayes_BorderlineSMOTE_v1', 'ComplementNaiveBayes_BorderlineSMOTE_v2']
