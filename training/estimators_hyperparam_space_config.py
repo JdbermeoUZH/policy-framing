@@ -136,7 +136,7 @@ MODEL_LIST = \
         },
 
         'XGBoost': {
-            'model': XGBClassifier(verbosity=0, silent=True),
+            'model': XGBClassifier(verbosity=0, silent=True, tree_method='hist', use_label_encoder=False),
             #'n_search_iter': 10,
             'hyperparam_space': {
                 'estimator__max_features': ['sqrt', 'log2'],
