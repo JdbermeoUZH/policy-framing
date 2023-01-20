@@ -122,7 +122,7 @@ if __name__ == "__main__":
             min_df=preprocessing_config['min_df'],
             max_df=preprocessing_config['max_df'],
             max_features=preprocessing_config['max_features'],
-            ngram_range=preprocessing_config['ngram_range'],
+            ngram_range=tuple(preprocessing_config['ngram_range']),
             min_var=preprocessing_config['min_var'],
             corr_threshold=preprocessing_config['corr_threshold']
         )
