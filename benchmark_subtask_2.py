@@ -127,11 +127,6 @@ if __name__ == "__main__":
             corr_threshold=preprocessing_config['corr_threshold']
         )
 
-        if preprocessing_tune_config:
-            vectorizing_pipelines = bow_pipeline.sample_pipelines_from_hypeparameter_space(**preprocessing_tune_config)
-        else:
-            vectorizing_pipelines = (bow_pipeline.pipeline, )
-
         # Iterate over each family of models in specified in yaml and .py config files
         # Estimate performance on the model using the different units of analysis
         units_of_analysis = UNITS_OF_ANALYSES if preprocessing_config['analysis_unit'] == 'all' \
@@ -144,6 +139,13 @@ if __name__ == "__main__":
             notify_current_unit_of_analysis = f"Unit of Analysis: {unit_of_analysis}"
             print(notify_current_unit_of_analysis)
             print("#" * len(notify_current_unit_of_analysis))
+
+            # Whether to generate a list of preprocessing pipelines with multiple parameters or not
+            if preprocessing_tune_config:
+                vectorizing_pipelines = bow_pipeline.sample_pipelines_from_hypeparameter_space(
+                    **preprocessing_tune_config)
+            else:
+                vectorizing_pipelines = (bow_pipeline.pipeline,)
 
             # Vectorize the text data
             for i, vectorizing_pipeline_i in enumerate(vectorizing_pipelines):
@@ -206,9 +208,12 @@ if __name__ == "__main__":
 
                     else:
                         # Estimate performance with nested cross validation
-                        has_n_search_iter = 'n_search_iter' in estimators_config.MODEL_LIST[model_name].keys()
-                        n_search_iter = estimators_config.MODEL_LIST[model_name]['n_search_iter'] if has_n_search_iter\
-                            else training_config['nested_cv']['n_search_iter']
+                        if preprocessing_tune_config:
+                            n_search_iter = training_config['nested_cv']['n_search_iter']
+                        else:
+                            has_n_search_iter = 'n_search_iter' in estimators_config.MODEL_LIST[model_name].keys()
+                            n_search_iter = estimators_config.MODEL_LIST[model_name]['n_search_iter'] if has_n_search_iter\
+                                else training_config['nested_cv']['n_search_iter']
 
                         try:
                             results_cv = multilabel_cls.nested_cross_validation(
