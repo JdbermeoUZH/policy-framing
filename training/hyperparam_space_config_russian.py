@@ -14,7 +14,8 @@ MODEL_LIST = \
     {
         'LogisticRegression': {
             'model': Pipeline(
-                [('preproc', StandardScaler(with_mean=False)), ('model', LogisticRegression(penalty='none', max_iter=1e6))]
+                [('preproc', StandardScaler(with_mean=False)),
+                 ('model', LogisticRegression(penalty='none', max_iter=int(1e6)))]
             ),
             'n_search_iter': 5,
             'hyperparam_space': {
@@ -26,7 +27,7 @@ MODEL_LIST = \
         'LogisticRegression_ROS_v1': {
             'model': Pipeline(
                 [('up', RandomOverSampler()), ('preproc', StandardScaler(with_mean=False)),
-                 ('model', LogisticRegression(penalty='none', max_iter=1e6))]),
+                 ('model', LogisticRegression(penalty='none', max_iter=int(1e6)))]),
             'n_search_iter': 50,
             'hyperparam_space': {
                 'preproc__with_std': [True, False],
@@ -39,7 +40,7 @@ MODEL_LIST = \
         'LogisticRegression_ROS_v2': {
             'model': Pipeline(
                 [('up', RandomOverSampler()), ('preproc', StandardScaler(with_mean=False)),
-                 ('model', LogisticRegression(penalty='none', max_iter=1e6))]),
+                 ('model', LogisticRegression(penalty='none', max_iter=int(1e6)))]),
             'n_search_iter': 50,
             'hyperparam_space': {
                 'model__class_weight': ['balanced', None],
@@ -51,7 +52,7 @@ MODEL_LIST = \
         'LogisticRegression_ROS_v3': {
             'model': Pipeline(
                 [('up', RandomOverSampler()), ('preproc', StandardScaler(with_mean=False)),
-                 ('model', LogisticRegression(penalty='none', max_iter=1e6))]),
+                 ('model', LogisticRegression(penalty='none', max_iter=int(1e6)))]),
             'n_search_iter': 50,
             'hyperparam_space': {
                 'model__class_weight': ['balanced', None],
@@ -64,7 +65,7 @@ MODEL_LIST = \
             'model': Pipeline([
                 ('up', SMOTE(k_neighbors=3)),
                 ('preproc', StandardScaler(with_mean=False)),
-                ('model', LogisticRegression(penalty='none', max_iter=1e6))]),
+                ('model', LogisticRegression(penalty='none', max_iter=int(1e6)))]),
             'n_search_iter': 50,
             'hyperparam_space': {
                 'preproc__with_std': [True, False], 
@@ -78,7 +79,7 @@ MODEL_LIST = \
             'model': Pipeline([
                 ('up', SMOTE(k_neighbors=3)),
                 ('preproc', StandardScaler(with_mean=False)),
-                ('model', LogisticRegression(penalty='none', max_iter=1e6))]),
+                ('model', LogisticRegression(penalty='none', max_iter=int(1e6)))]),
             'n_search_iter': 50,
             'hyperparam_space': {
                 'preproc__with_std': [True, False],
@@ -92,7 +93,7 @@ MODEL_LIST = \
             'model': Pipeline(
                 [('up', BorderlineSMOTE(k_neighbors=3)),
                  ('preproc', StandardScaler(with_mean=False)),
-                 ('model', LogisticRegression(penalty='none', max_iter=1e6))]),
+                 ('model', LogisticRegression(penalty='none', max_iter=int(1e6)))]),
             'n_search_iter': 50,
             'hyperparam_space': {
                 'preproc__with_std': [True, False], 
@@ -108,7 +109,7 @@ MODEL_LIST = \
             'model': Pipeline(
                 [('up', BorderlineSMOTE(k_neighbors=3)),
                  ('preproc', StandardScaler(with_mean=False)),
-                 ('model', LogisticRegression(penalty='none', max_iter=1e6))]),
+                 ('model', LogisticRegression(penalty='none', max_iter=int(1e6)))]),
             'n_search_iter': 50,
             'hyperparam_space': {
                 'preproc__with_std': [True, False],
@@ -124,7 +125,7 @@ MODEL_LIST = \
             'model': Pipeline(
                 [('up', SVMSMOTE(k_neighbors=3)),
                  ('preproc', StandardScaler(with_mean=False)),
-                 ('model', LogisticRegression(penalty='none', max_iter=1e6))]),
+                 ('model', LogisticRegression(penalty='none', max_iter=int(1e6)))]),
             'n_search_iter': 50,
             'hyperparam_space': {
                 'preproc__with_std': [True, False], 
@@ -140,7 +141,7 @@ MODEL_LIST = \
             'model': Pipeline(
                 [('up', SVMSMOTE(k_neighbors=3)),
                  ('preproc', StandardScaler(with_mean=False)),
-                 ('model', LogisticRegression(penalty='none', max_iter=1e6))]),
+                 ('model', LogisticRegression(penalty='none', max_iter=int(1e6)))]),
             'n_search_iter': 50,
             'hyperparam_space': {
                 'preproc__with_std': [True, False],
@@ -317,7 +318,7 @@ MODEL_LIST = \
                 [('up', SVMSMOTE()),
                  ('preproc', StandardScaler(with_mean=False)),
                  ('model', LogisticRegression(penalty='l2', solver='liblinear', class_weight='balanced',
-                                              max_iter=1e6))]),
+                                              max_iter=int(1e6)))]),
             'n_search_iter': 50,
             'hyperparam_space': {
                 'preproc__with_std': [True, False],
