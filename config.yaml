@@ -13,7 +13,7 @@ preprocessing:
                                     # 'title_and_first_sentence_each_paragraph', 'raw_text', 'all'
   load_preproc_input_data: True     # Whether or not to rerun the script that produces the units of analysis
   spacy_model_size: 'small'         # small or large. small should be enough for preprocessing, it is mostly tokenizing so far
-  use_tfidf: False                   # True := TFIDFVectorizer, False := CountVectorizer
+  use_tfidf: True                   # True := TFIDFVectorizer, False := CountVectorizer
   min_df: 0.05                      # [0, 1.0] minimum document frequency for a term to be included
   max_df: 0.95                      # [0, 1.0] maximum document frequency for a term to be included
   max_features: 10000               # Maximum number of features

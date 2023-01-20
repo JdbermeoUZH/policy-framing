@@ -231,9 +231,11 @@ if __name__ == "__main__":
                                 hyperparam_distrs_filepath=hyperparam_distrs_filepath,
                                 **some_log_params
                             )
+
                         except Exception as e:
                             print(f'Error while trying to fit model: {model_name}')
                             print(e)
+                            continue
 
                     # Print model wide train and test error
                     report_train_test_performance(results_cv=results_cv, report_metric=training_config['metric_to_report'])
