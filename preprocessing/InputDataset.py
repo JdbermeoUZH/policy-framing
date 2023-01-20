@@ -30,13 +30,16 @@ Classes to represent task 3 datasets
 
 
 class BaseArticleDataset:
-    def __init__(self, data_dir: str = 'data', language: str = 'en', subtask: int = 2, split: str = 'train'):
+    def __init__(self, data_dir: str = 'data', language: str = 'en', subtask: int = 2, split: str = 'train',
+                 load_preprocessed: bool = False):
         self.language = language
         self.subtask = subtask
         self.split = split
         self.label_file_path = os.path.join(data_dir, language, f'{split}-labels-subtask-{subtask}.txt')
         self.article_dir_path = os.path.join(data_dir, language, f'{split}-articles-subtask-{subtask}')
-        self.df = self._create_article_dataframe()
+
+        if not load_preprocessed:
+            self.df = self._create_article_dataframe()
 
     def _create_article_dataframe(self) -> pd.DataFrame:
         text = []
@@ -86,7 +89,8 @@ class FramingArticleDataset(BaseArticleDataset):
                  units_of_analysis_dir: str = os.path.join('data', 'preprocessed'),
                  units_of_analysis_format: str = 'csv',
                  remove_duplicates: bool = True):
-        super().__init__(data_dir=data_dir, language=language, subtask=subtask, split=split)
+        super().__init__(data_dir=data_dir, language=language, subtask=subtask, split=split,
+                         load_preprocessed=load_preprocessed_units_of_analysis)
         if split == 'train':
             self._add_labels()
             if remove_duplicates:

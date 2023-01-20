@@ -8,7 +8,7 @@ dataset:
   data_dir: 'data'                  # Relative path to directory with data
 
 preprocessing:
-  split: 'train'                    # Split of the data to use
+  split: 'train_and_dev'                    # Split of the data to use
   analysis_unit: ['title', 'title_and_first_paragraph', 'title_and_5_sentences', 'title_and_10_sentences','title_and_first_sentence_each_paragraph', 'raw_text']              # 'title', 'title_and_first_paragraph', 'title_and_5_sentences', 'title_and_10_sentences',
                                     # 'title_and_first_sentence_each_paragraph', 'raw_text', 'all'
   load_preproc_input_data: True     # Whether or not to rerun the script that produces the units of analysis
