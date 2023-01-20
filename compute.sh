@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-#SBATCH --output=new_jobs/ru_mlb_ind_reg_part1_%j.out
+#SBATCH --output=new_jobs/ru_mlb_ind_reg_part_1_1gram_dfv2_%j.out
 #SBATCH --time=32:10:00
 #SBATCH --cpus-per-task=32
 #SBATCH --mem=61600

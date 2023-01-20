@@ -14,8 +14,10 @@ preprocessing:
   load_preproc_input_data: True     # Whether or not to rerun the script that produces the units of analysis
   spacy_model_size: 'small'         # small or large. small should be enough for preprocessing, it is mostly tokenizing so far
   use_tfidf: True                   # True := TFIDFVectorizer, False := CountVectorizer
-  min_df: 0.05                      # [0, 1.0] minimum document frequency for a term to be included
-  max_df: 0.95                      # [0, 1.0] maximum document frequency for a term to be included
+  #min_df: 0.05                      # [0, 1.0] minimum document frequency for a term to be included
+  min_df: 0.0001
+  #max_df: 0.95                      # [0, 1.0] maximum document frequency for a term to be included
+  max_df: 0.4
   max_features: 10000               # Maximum number of features
   ngram_range: [1,1]                # ngrams to use around a word. 1 is the word itself
   min_var: 0.001                    # Minimum variance a vector should have to be used in the trainset
@@ -25,7 +27,7 @@ preprocessing:
   param_search:
     n_samples: 4
     min_df_range: [0, 0.3]
-    max_df_range: [0.6, 1]
+    max_df_range: [0.4, 1]
     max_features_range: [1000, 10000]
     min_var_range: [0, 0.001]
 
@@ -68,6 +70,6 @@ training:
 
 metric_logging:
   logging_path: './mlruns'          # Directory to store metrics. Dir must be named 'mlruns'
-  experiment_base_name: 'ru_mlb_ind_reg_part_1' # Name of the experiment under which to store metrics
+  experiment_base_name: 'ru_mlb_ind_reg_part_1_3gram_dfv2' # Name of the experiment under which to store metrics
   rewrite_experiment: False         # Whether to delete/overwrite runs under experiment_name. In most of the cases it should be False
   logging_level: 'outer_cv'         # Which performance data to log ('model_wide', 'outer_cv', or 'inner_cv')

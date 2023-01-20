@@ -17,7 +17,7 @@ MODEL_LIST = \
                 [('preproc', StandardScaler(with_mean=False)),
                  ('model', LogisticRegression(penalty=None, max_iter=int(1e6)))]
             ),
-            'n_search_iter': 5,
+            'n_search_iter': 4,
             'hyperparam_space': {
                 'preproc__with_std': [True, False],
                 'model__class_weight': ['balanced', None],
