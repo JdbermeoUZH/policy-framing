@@ -23,7 +23,7 @@ MODEL_LIST = \
             'n_search_iter': 80,
             'hyperparam_space': {
                 'preproc__with_std': [True, False],
-                'C': loguniform(1e-4, 1)
+                'model__C': loguniform(1e-4, 1)
             }
         },
 
@@ -36,7 +36,7 @@ MODEL_LIST = \
             'n_search_iter': 150,
             'hyperparam_space': {
                 'preproc__with_std': [True, False],
-                'C': loguniform(1e-4, 1e3)
+                'model__C': loguniform(1e-4, 1e3)
             }
         },
 
