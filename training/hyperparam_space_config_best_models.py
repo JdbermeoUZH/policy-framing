@@ -14,13 +14,26 @@ MODEL_LIST = \
     {
 
         ######################################################################################################
+        'LogisticRegressionRidgeDual_narrow': {
+            'model': Pipeline(
+                [('preproc', StandardScaler(with_mean=False)),
+                 ('model', LogisticRegression(penalty='l2', solver='liblinear', dual=True, class_weight='balanced',
+                                              max_iter=100000))]
+            ),
+            'n_search_iter': 80,
+            'hyperparam_space': {
+                'preproc__with_std': [True, False],
+                'C': loguniform(1e-4, 1)
+            }
+        },
+
         'LogisticRegressionRidgeDual': {
             'model': Pipeline(
                 [('preproc', StandardScaler(with_mean=False)),
                  ('model', LogisticRegression(penalty='l2', solver='liblinear', dual=True, class_weight='balanced',
                                               max_iter=100000))]
             ),
-            #'n_search_iter': 150,
+            'n_search_iter': 150,
             'hyperparam_space': {
                 'preproc__with_std': [True, False],
                 'C': loguniform(1e-4, 1e3)
@@ -139,6 +152,20 @@ MODEL_LIST = \
 
 
         ######################################################################################################
+        'LinearSVMDual_narrow': {
+            'model': Pipeline(
+                [('preproc', StandardScaler(with_mean=False)),
+                 ('up', RandomOverSampler()),
+                 ('model', LinearSVC(dual=True, penalty='l2', max_iter=5e4, class_weight='balanced'))]),
+            'n_search_iter': 80,
+            'hyperparam_space': {
+                'preproc__with_std': [True, False],
+                'model__C': loguniform(1e-6, 1e-3),
+                'up__sampling_strategy': ['minority', 'not minority', 'not majority'],
+                'up__shrinkage': loguniform(1e-4, 1e4)
+            }
+        },
+
         'LinearSVMDual': {
             'model': Pipeline(
                 [('preproc', StandardScaler(with_mean=False)),
@@ -216,46 +243,17 @@ MODEL_LIST = \
             }
         },
 
-        'RandomForest_ROS': {
-            'model': Pipeline(
-                [('up', RandomOverSampler()),
-                 ('model', RandomForestClassifier())]),
-            #'n_search_iter': 80,
-            'hyperparam_space': {
-                'model__class_weight': ['balanced', None, "balanced_subsample"],
-                'model__max_features': randint(2, 100),
-                'model__n_estimators': [50, 100, 200],
-                'model__max_depth': randint(2, 50),
-                'model__ccp_alpha': loguniform(1e-6, 0.1),
-                'model__min_samples_leaf': randint(5, 25),
-                'model__bootstrap': [True, False],
-                'max_leaf_nodes': randint(1, 100),
-                'up__sampling_strategy': ['minority', 'not minority', 'not majority'],
-                'up__shrinkage': loguniform(1e-4, 1e4)
-            }
-        },
-
-        'RandomForest_SMOTE_v2': {
-            'model': Pipeline(
-                [('up', RandomOverSampler()),
-                 ('model', RandomForestClassifier())]),
-            #'n_search_iter': 80,
-            'hyperparam_space': {
-                'model__class_weight': ['balanced', None, "balanced_subsample"],
-                'model__max_features': randint(2, 100),
-                'model__n_estimators': [50, 100, 200],
-                'model__max_depth': randint(2, 50),
-                'model__ccp_alpha': loguniform(1e-6, 0.1),
-                'model__min_samples_leaf': randint(5, 25),
-                'model__bootstrap': [True, False],
-                'max_leaf_nodes': randint(1, 100),
-                'up__sampling_strategy': ['minority', 'not minority', 'not majority'],
-                'up__k_neighbors': randint(3, 10)
-            }
-        },
-
         ######################################################################################################
-        'ComplementNaiveBayes_broadV2': {
+        'ComplementNaiveBayes_narrow': {
+            'model': ComplementNB(),
+            'n_search_iter': 100,
+            'hyperparam_space': {
+                'alpha': loguniform(1e-4, 1),
+                'norm': [True, False]
+            }
+        },
+        
+        'ComplementNaiveBayes_broad': {
             'model': ComplementNB(),
             #'n_search_iter': 100,
             'hyperparam_space': {
