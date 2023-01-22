@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
-#SBATCH --output=new_jobs/ru_mlb_ind_reg_part1_%j.out
-#SBATCH --time=32:10:00
+#SBATCH --output=new_jobs/preproc_pipeline_tunning_doc_freq_3gram_chained%2j.out
+#SBATCH --time=38:10:00
 #SBATCH --cpus-per-task=32
 #SBATCH --mem=61600
 module load mamba
