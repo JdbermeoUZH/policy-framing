@@ -156,7 +156,7 @@ MODEL_LIST = \
             'model': Pipeline(
                 [('preproc', StandardScaler(with_mean=False)),
                  ('up', RandomOverSampler()),
-                 ('model', LinearSVC(dual=True, penalty='l2', max_iter=5e4, class_weight='balanced'))]),
+                 ('model', LinearSVC(dual=True, penalty='l2', max_iter=50000, class_weight='balanced'))]),
             'n_search_iter': 80,
             'hyperparam_space': {
                 'preproc__with_std': [True, False],
@@ -170,7 +170,7 @@ MODEL_LIST = \
             'model': Pipeline(
                 [('preproc', StandardScaler(with_mean=False)),
                  ('up', RandomOverSampler()),
-                 ('model', LinearSVC(dual=True, penalty='l2', max_iter=5e4, class_weight='balanced'))]),
+                 ('model', LinearSVC(dual=True, penalty='l2', max_iter=50000, class_weight='balanced'))]),
             #'n_search_iter': 120,
             'hyperparam_space': {
                 'preproc__with_std': [True, False],
@@ -184,7 +184,7 @@ MODEL_LIST = \
             'model': Pipeline(
                 [('preproc', StandardScaler(with_mean=False)),
                  ('up', RandomOverSampler()),
-                 ('model', LinearSVC(dual=True, penalty='l2', max_iter=5e4))]),
+                 ('model', LinearSVC(dual=True, penalty='l2', max_iter=50000))]),
             #'n_search_iter': 120,
             'hyperparam_space': {
                 'preproc__with_std': [True, False],
@@ -200,7 +200,7 @@ MODEL_LIST = \
             'model': Pipeline(
                 [('preproc', StandardScaler(with_mean=False)),
                  ('up', SMOTE()),
-                 ('model', LinearSVC(dual=True, penalty='l2', max_iter=5e4))]),
+                 ('model', LinearSVC(dual=True, penalty='l2', max_iter=50000))]),
             #'n_search_iter': 120,
             'hyperparam_space': {
                 'preproc__with_std': [True, False],
@@ -215,7 +215,7 @@ MODEL_LIST = \
             'model': Pipeline(
                 [('preproc', StandardScaler(with_mean=False)),
                  ('up', BorderlineSMOTE()),
-                 ('model', LinearSVC(dual=True, penalty='l2', max_iter=5e4))]),
+                 ('model', LinearSVC(dual=True, penalty='l2', max_iter=50000))]),
             #'n_search_iter': 120,
             'hyperparam_space': {
                 'preproc__with_std': [True, False],

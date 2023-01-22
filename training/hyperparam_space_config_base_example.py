@@ -1367,7 +1367,7 @@ MODEL_LIST = \
         'LinearSVMDual_ROS_v1': {
             'model': Pipeline(
                 [('up', RandomOverSampler()), ('preproc', StandardScaler(with_mean=False)),
-                 ('model', LinearSVC(dual=True, penalty='l2', class_weight='balanced', max_iter=5e4))]),
+                 ('model', LinearSVC(dual=True, penalty='l2', class_weight='balanced', max_iter=50000))]),
             'n_search_iter': 80,
             'hyperparam_space': {
                 'preproc__with_std': [True, False], 
@@ -1380,7 +1380,7 @@ MODEL_LIST = \
         'LinearSVMDual_ROS_v2': {
             'model': Pipeline(
                 [('up', RandomOverSampler()), ('preproc', StandardScaler(with_mean=False)),
-                 ('model', LinearSVC(dual=True, penalty='l2', max_iter=5e4))]),
+                 ('model', LinearSVC(dual=True, penalty='l2', max_iter=50000))]),
             'n_search_iter': 80,
             'hyperparam_space': {
                 'preproc__with_std': [True, False], 
@@ -1394,7 +1394,7 @@ MODEL_LIST = \
         'LinearSVMDual_ROS_v3': {
             'model': Pipeline(
                 [('up', RandomOverSampler()), ('preproc', StandardScaler(with_mean=False)),
-                 ('model', LinearSVC(dual=True, penalty='l2', max_iter=5e4))]),
+                 ('model', LinearSVC(dual=True, penalty='l2', max_iter=50000))]),
             'n_search_iter': 80,
             'hyperparam_space': {
                 'preproc__with_std': [True, False],
@@ -1408,7 +1408,7 @@ MODEL_LIST = \
         'LinearSVMDual_SMOTE_v1': {
             'model': Pipeline(
                 [('up', SMOTE()), ('preproc', StandardScaler(with_mean=False)),
-                 ('model', LinearSVC(dual=True, penalty='l2', class_weight='balanced', max_iter=5e4))]),
+                 ('model', LinearSVC(dual=True, penalty='l2', class_weight='balanced', max_iter=50000))]),
             'n_search_iter': 80,
             'hyperparam_space': {
                 'preproc__with_std': [True, False], 
@@ -1421,7 +1421,7 @@ MODEL_LIST = \
         'LinearSVMDual_SMOTE_v2': {
             'model': Pipeline(
                 [('up', SMOTE()), ('preproc', StandardScaler(with_mean=False)),
-                 ('model', LinearSVC(dual=True, penalty='l2', max_iter=5e4))]),
+                 ('model', LinearSVC(dual=True, penalty='l2', max_iter=50000))]),
             'n_search_iter': 80,
             'hyperparam_space': {
                 'preproc__with_std': [True, False], 
@@ -1435,7 +1435,7 @@ MODEL_LIST = \
          'LinearSVMDual_SMOTE_v3': {
             'model': Pipeline(
                 [('up', SMOTE()), ('preproc', StandardScaler(with_mean=False)),
-                 ('model', LinearSVC(dual=True, penalty='l2', max_iter=5e4))]),
+                 ('model', LinearSVC(dual=True, penalty='l2', max_iter=50000))]),
             'n_search_iter': 80,
             'hyperparam_space': {
                 'preproc__with_std': [True, False],
@@ -1449,7 +1449,7 @@ MODEL_LIST = \
         'LinearSVMDual_BorderlineSMOTE_v1': {
             'model': Pipeline(
                 [('up', BorderlineSMOTE()), ('preproc', StandardScaler(with_mean=False)),
-                 ('model', LinearSVC(dual=True, penalty='l2', class_weight='balanced', max_iter=5e4))]),
+                 ('model', LinearSVC(dual=True, penalty='l2', class_weight='balanced', max_iter=50000))]),
             'n_search_iter': 80,
             'hyperparam_space': {
                 'preproc__with_std': [True, False], 
@@ -1464,7 +1464,7 @@ MODEL_LIST = \
         'LinearSVMDual_BorderlineSMOTE_v2': {
             'model': Pipeline(
                 [('up', BorderlineSMOTE()), ('preproc', StandardScaler(with_mean=False)),
-                 ('model', LinearSVC(dual=True, penalty='l2', max_iter=5e4))]),
+                 ('model', LinearSVC(dual=True, penalty='l2', max_iter=50000))]),
             'n_search_iter': 80,
             'hyperparam_space': {
                 'preproc__with_std': [True, False], 
@@ -1480,7 +1480,7 @@ MODEL_LIST = \
         'LinearSVMDual_BorderlineSMOTE_v3': {
             'model': Pipeline(
                 [('up', BorderlineSMOTE()), ('preproc', StandardScaler(with_mean=False)),
-                 ('model', LinearSVC(dual=True, penalty='l2', max_iter=5e4))]),
+                 ('model', LinearSVC(dual=True, penalty='l2', max_iter=50000))]),
             'n_search_iter': 80,
             'hyperparam_space': {
                 'preproc__with_std': [True, False],
@@ -1496,7 +1496,7 @@ MODEL_LIST = \
         'LinearSVMDual_SVMSMOTE_v1': {
             'model': Pipeline(
                 [('up', SVMSMOTE()), ('preproc', StandardScaler(with_mean=False)),
-                 ('model', LinearSVC(dual=True, penalty='l2', class_weight='balanced', max_iter=5e4))]),
+                 ('model', LinearSVC(dual=True, penalty='l2', class_weight='balanced', max_iter=50000))]),
             'n_search_iter': 80,
             'hyperparam_space': {
                 'preproc__with_std': [True, False], 
@@ -1510,7 +1510,7 @@ MODEL_LIST = \
         'LinearSVMDual_SVMSMOTE_v2': {
             'model': Pipeline(
                 [('up', SVMSMOTE()), ('preproc', StandardScaler(with_mean=False)),
-                 ('model', LinearSVC(dual=True, penalty='l2', max_iter=5e4))]),
+                 ('model', LinearSVC(dual=True, penalty='l2', max_iter=50000))]),
             'n_search_iter': 80,
             'hyperparam_space': {
                 'preproc__with_std': [True, False], 
@@ -1526,7 +1526,7 @@ MODEL_LIST = \
         'LinearSVMDual_SVMSMOTE_v3': {
             'model': Pipeline(
                 [('up', SVMSMOTE()), ('preproc', StandardScaler(with_mean=False)),
-                 ('model', LinearSVC(dual=True, penalty='l2', max_iter=5e4))]),
+                 ('model', LinearSVC(dual=True, penalty='l2', max_iter=50000))]),
             'n_search_iter': 80,
             'hyperparam_space': {
                 'preproc__with_std': [True, False],
