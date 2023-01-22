@@ -6,9 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="3359b6ce-9e44-4da3-956d-9609d831df93" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/benchmark_subtask_2.py" beforeDir="false" afterPath="$PROJECT_DIR$/benchmark_subtask_2.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/compute.sh" beforeDir="false" afterPath="$PROJECT_DIR$/compute.sh" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/config.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/config.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/preprocessing/BOWPipeline.py" beforeDir="false" afterPath="$PROJECT_DIR$/preprocessing/BOWPipeline.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/training/hyperparam_space_config_best_models.py" beforeDir="false" afterPath="$PROJECT_DIR$/training/hyperparam_space_config_best_models.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -93,7 +92,7 @@
       <recent name="$PROJECT_DIR$/preprocessing" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.benchmark_subtask_2">
+  <component name="RunManager" selected="Python.hyperparam_space_config_best_models">
     <configuration default="true" type="PythonConfigurationType" factoryName="Python">
       <module name="Framing" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -135,20 +134,17 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="hyperparam_space_config_english" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="hyperparam_space_config_best_models" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="Framing" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
       <option name="SDK_HOME" value="" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/training" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/training/hyperparam_space_config_english.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/training/hyperparam_space_config_best_models.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="true" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -247,7 +243,7 @@
     </configuration>
     <list>
       <item itemvalue="Python.main" />
-      <item itemvalue="Python.hyperparam_space_config_english" />
+      <item itemvalue="Python.hyperparam_space_config_best_models" />
       <item itemvalue="Python.hyperparam_space_config_russian" />
       <item itemvalue="Python.hyperparam_space_config_french" />
       <item itemvalue="Python.hyperparam_space_config_italian_raw_text" />
@@ -255,11 +251,11 @@
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.hyperparam_space_config_best_models" />
         <item itemvalue="Python.benchmark_subtask_2" />
         <item itemvalue="Python.hyperparam_space_config_russian" />
         <item itemvalue="Python.hyperparam_space_config_italian_raw_text" />
         <item itemvalue="Python.hyperparam_space_config_french" />
-        <item itemvalue="Python.hyperparam_space_config_english" />
       </list>
     </recent_temporary>
   </component>
@@ -311,7 +307,7 @@
       <workItem from="1672723224135" duration="10891000" />
       <workItem from="1672773779348" duration="5323000" />
       <workItem from="1672844401993" duration="4281000" />
-      <workItem from="1674401213626" duration="5905000" />
+      <workItem from="1674401213626" duration="6335000" />
     </task>
     <servers />
   </component>

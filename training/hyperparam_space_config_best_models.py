@@ -244,7 +244,7 @@ MODEL_LIST = \
         },
 
         'XGBoost_broad': {
-            'model': XGBClassifier(verbosity=0, tree_method='hist', use_label_encoder=False, booster='gbtree', gamma=0),
+            'model': XGBClassifier(verbosity=0, tree_method='hist', booster='gbtree', gamma=0),
             # silent=True,
             'n_search_iter': 80,
             'hyperparam_space': {
