@@ -22,7 +22,7 @@ MODEL_LIST = \
             ),
             'n_search_iter': 80,
             'hyperparam_space': {
-                'preproc__with_std': [True, False],
+                'preproc__with_std': [True],
                 'model__C': loguniform(1e-4, 1)
             }
         },
@@ -35,7 +35,7 @@ MODEL_LIST = \
             ),
             'n_search_iter': 150,
             'hyperparam_space': {
-                'preproc__with_std': [True, False],
+                'preproc__with_std': [True],
                 'model__C': loguniform(1e-4, 1e3)
             }
         },
@@ -45,9 +45,9 @@ MODEL_LIST = \
                 [('preproc', StandardScaler(with_mean=False)),
                  ('up', RandomOverSampler()),
                  ('model', LogisticRegression(penalty='l2', solver='liblinear', dual=True, max_iter=100000))]),
-            #'n_search_iter': 150,
+            'n_search_iter': 150,
             'hyperparam_space': {
-                'preproc__with_std': [True, False],
+                'preproc__with_std': [True],
                 'model__C': loguniform(1e-4, 1e3),
                 'model__class_weight': ['balanced', None],
                 'up__sampling_strategy': ['minority', 'not minority', 'not majority'],
@@ -60,9 +60,9 @@ MODEL_LIST = \
                 [('preproc', StandardScaler(with_mean=False)),
                  ('up', SMOTE()),
                  ('model', LogisticRegression(penalty='l2', solver='liblinear', dual=True, max_iter=100000))]),
-            #'n_search_iter': 150,
+            'n_search_iter': 150,
             'hyperparam_space': {
-                'preproc__with_std': [True, False],
+                'preproc__with_std': [True],
                 'model__class_weight': ['balanced', None],
                 'model__C': loguniform(1e-4, 1e3),
                 'up__sampling_strategy': ['minority', 'not minority', 'not majority'],
@@ -75,9 +75,9 @@ MODEL_LIST = \
                 [('preproc', StandardScaler(with_mean=False)),
                  ('up', BorderlineSMOTE()),
                  ('model', LogisticRegression(penalty='l2', solver='liblinear', dual=True, max_iter=100000))]),
-            #'n_search_iter': 150,
+            'n_search_iter': 150,
             'hyperparam_space': {
-                'preproc__with_std': [True, False],
+                'preproc__with_std': [True],
                 'model__class_weight': ['balanced', None],
                 'model__C': loguniform(1e-4, 1e3),
                 'up__sampling_strategy': ['minority', 'not minority', 'not majority'],
@@ -92,9 +92,9 @@ MODEL_LIST = \
             'model': Pipeline(
                 [('preproc', StandardScaler(with_mean=False)),
                  ('model', SVC(kernel='sigmoid', class_weight='balanced'))]),
-            #'n_search_iter': 120,
+            'n_search_iter': 120,
             'hyperparam_space': {
-                'preproc__with_std': [True, False],
+                'preproc__with_std': [True],
                 'model__C': loguniform(0.05, 100),
                 'model__gamma': loguniform(1e-1, 100),
             }
@@ -105,9 +105,9 @@ MODEL_LIST = \
                 [('preproc', StandardScaler(with_mean=False)),
                  ('up', RandomOverSampler()),
                  ('model', SVC(kernel='sigmoid'))]),
-            #'n_search_iter': 120,
+            'n_search_iter': 120,
             'hyperparam_space': {
-                'preproc__with_std': [True, False],
+                'preproc__with_std': [True],
                 'model__C': loguniform(0.05, 100),
                 'model__gamma': loguniform(1e-1, 100),
                 'model__class_weight': ['balanced', None],
@@ -121,9 +121,9 @@ MODEL_LIST = \
                 [('preproc', StandardScaler(with_mean=False)),
                  ('up', SMOTE()),
                  ('model', SVC(kernel='sigmoid'))]),
-            #'n_search_iter': 120,
+            'n_search_iter': 120,
             'hyperparam_space': {
-                'preproc__with_std': [True, False],
+                'preproc__with_std': [True],
                 'model__C': loguniform(0.05, 100),
                 'model__gamma': loguniform(1e-1, 100),
                 'model__class_weight': ['balanced', None],
@@ -137,9 +137,9 @@ MODEL_LIST = \
                 [('preproc', StandardScaler(with_mean=False)),
                  ('up', BorderlineSMOTE()),
                  ('model', SVC(kernel='sigmoid'))]),
-            #'n_search_iter': 120,
+            'n_search_iter': 120,
             'hyperparam_space': {
-                'preproc__with_std': [True, False],
+                'preproc__with_std': [True],
                 'model__C': loguniform(0.05, 100),
                 'model__gamma': loguniform(1e-1, 100),
                 'model__class_weight': ['balanced', None],
@@ -159,7 +159,7 @@ MODEL_LIST = \
                  ('model', LinearSVC(dual=True, penalty='l2', max_iter=50000, class_weight='balanced'))]),
             'n_search_iter': 80,
             'hyperparam_space': {
-                'preproc__with_std': [True, False],
+                'preproc__with_std': [True],
                 'model__C': loguniform(1e-6, 1e-3),
                 'up__sampling_strategy': ['minority', 'not minority', 'not majority'],
                 'up__shrinkage': loguniform(1e-4, 1e4)
@@ -171,9 +171,9 @@ MODEL_LIST = \
                 [('preproc', StandardScaler(with_mean=False)),
                  ('up', RandomOverSampler()),
                  ('model', LinearSVC(dual=True, penalty='l2', max_iter=50000, class_weight='balanced'))]),
-            #'n_search_iter': 120,
+            'n_search_iter': 120,
             'hyperparam_space': {
-                'preproc__with_std': [True, False],
+                'preproc__with_std': [True],
                 'model__C': loguniform(1e-5, 100),
                 'up__sampling_strategy': ['minority', 'not minority', 'not majority'],
                 'up__shrinkage': loguniform(1e-4, 1e4)
@@ -185,9 +185,9 @@ MODEL_LIST = \
                 [('preproc', StandardScaler(with_mean=False)),
                  ('up', RandomOverSampler()),
                  ('model', LinearSVC(dual=True, penalty='l2', max_iter=50000))]),
-            #'n_search_iter': 120,
+            'n_search_iter': 120,
             'hyperparam_space': {
-                'preproc__with_std': [True, False],
+                'preproc__with_std': [True],
                 'model__C': loguniform(1e-5, 100),
                 'model__class_weight': ['balanced', None],
                 'up__sampling_strategy': ['minority', 'not minority', 'not majority'],
@@ -201,9 +201,9 @@ MODEL_LIST = \
                 [('preproc', StandardScaler(with_mean=False)),
                  ('up', SMOTE()),
                  ('model', LinearSVC(dual=True, penalty='l2', max_iter=50000))]),
-            #'n_search_iter': 120,
+            'n_search_iter': 120,
             'hyperparam_space': {
-                'preproc__with_std': [True, False],
+                'preproc__with_std': [True],
                 'model__C': loguniform(1e-5, 100),
                 'model__class_weight': ['balanced', None],
                 'up__sampling_strategy': ['minority', 'not minority', 'not majority'],
@@ -216,9 +216,9 @@ MODEL_LIST = \
                 [('preproc', StandardScaler(with_mean=False)),
                  ('up', BorderlineSMOTE()),
                  ('model', LinearSVC(dual=True, penalty='l2', max_iter=50000))]),
-            #'n_search_iter': 120,
+            'n_search_iter': 120,
             'hyperparam_space': {
-                'preproc__with_std': [True, False],
+                'preproc__with_std': [True],
                 'model__C': loguniform(1e-5, 100),
                 'model__class_weight': ['balanced', None],
                 'up__sampling_strategy': ['minority', 'not minority', 'not majority'],
@@ -231,7 +231,7 @@ MODEL_LIST = \
         ######################################################################################################
         'RandomForest_v4': {
             'model': RandomForestClassifier(class_weight="balanced_subsample"),
-            #'n_search_iter': 80,
+            'n_search_iter': 80,
             'hyperparam_space': {
                 'max_features': randint(2, 100),
                 'n_estimators': [50, 100, 200],
@@ -240,6 +240,25 @@ MODEL_LIST = \
                 'min_samples_leaf': randint(5, 25),
                 'bootstrap': [True, False],
                 'max_leaf_nodes': randint(1, 100)
+            }
+        },
+
+        'XGBoost_broad': {
+            'model': XGBClassifier(verbosity=0, tree_method='hist', use_label_encoder=False, booster='gbtree', gamma=0),
+            # silent=True,
+            'n_search_iter': 80,
+            'hyperparam_space': {
+                'n_estimators': randint(150, 500),
+                'reg_lambda': loguniform(0.1, 1000),
+                'colsample_bytree': uniform(loc=0.6, scale=0.4),
+                'max_features': randint(2, 50),
+                'learning_rate': loguniform(1e-2, 0.2),
+                'max_depth': randint(3, 50),
+                'min_child_weight': loguniform(0.01, 35),
+                'max_delta_step': uniform(loc=1, scale=14),
+                'scale_pos_weight': uniform(loc=1, scale=24),
+                'subsample': uniform(loc=0.6, scale=0.4),
+                'colsample_bynode': uniform(loc=0.6, scale=0.4)
             }
         },
 
@@ -255,7 +274,7 @@ MODEL_LIST = \
         
         'ComplementNaiveBayes_broad': {
             'model': ComplementNB(),
-            #'n_search_iter': 100,
+            'n_search_iter': 100,
             'hyperparam_space': {
                 'alpha': loguniform(1e-4, 100),
                 'norm': [True, False]
@@ -267,7 +286,7 @@ MODEL_LIST = \
             'model': Pipeline(
                 [('up', RandomOverSampler()),
                  ('model', ComplementNB())]),
-            #'n_search_iter': 80,
+            'n_search_iter': 80,
             'hyperparam_space': {
                 'model__alpha': loguniform(1e-4, 100),
                 'model__norm': [True, False],
@@ -280,7 +299,7 @@ MODEL_LIST = \
             'model': Pipeline(
                 [('up', SMOTE()),
                  ('model', ComplementNB())]),
-            #'n_search_iter': 80,
+            'n_search_iter': 80,
             'hyperparam_space': {
                 'model__alpha': loguniform(1e-4, 100),
                 'model__norm': [True, False],
@@ -293,7 +312,7 @@ MODEL_LIST = \
             'model': Pipeline(
                 [('up', BorderlineSMOTE()),
                  ('model', ComplementNB())]),
-            #'n_search_iter': 80,
+            'n_search_iter': 80,
             'hyperparam_space': {
                 'model__alpha': loguniform(1e-4, 100),
                 'model__norm': [True, False],

@@ -240,6 +240,7 @@ if __name__ == "__main__":
                         except Exception as e:
                             print(f'Error while trying to fit model: {model_name}')
                             print(e)
+                            raise(e)
                             continue
 
                     # Print model wide train and test error
