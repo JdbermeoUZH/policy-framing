@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-#SBATCH --output=new_jobs/%2j_preproc_pipeline_tunning_doc_freq_3gram_chained.out
+#SBATCH --output=new_jobs/%2j_ru_preproc_pipeline_tunning_df_ind_3gram.out
 #SBATCH --time=38:10:00
 #SBATCH --cpus-per-task=32
 #SBATCH --mem=61600
