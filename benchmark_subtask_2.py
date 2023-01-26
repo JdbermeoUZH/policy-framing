@@ -122,15 +122,10 @@ if __name__ == "__main__":
             min_df=preprocessing_config['min_df'],
             max_df=preprocessing_config['max_df'],
             max_features=preprocessing_config['max_features'],
-            ngram_range=preprocessing_config['ngram_range'],
+            ngram_range=tuple(preprocessing_config['ngram_range']),
             min_var=preprocessing_config['min_var'],
             corr_threshold=preprocessing_config['corr_threshold']
         )
-
-        if preprocessing_tune_config:
-            vectorizing_pipelines = bow_pipeline.sample_pipelines_from_hypeparameter_space(**preprocessing_tune_config)
-        else:
-            vectorizing_pipelines = (bow_pipeline.pipeline, )
 
         # Iterate over each family of models in specified in yaml and .py config files
         # Estimate performance on the model using the different units of analysis
@@ -144,6 +139,13 @@ if __name__ == "__main__":
             notify_current_unit_of_analysis = f"Unit of Analysis: {unit_of_analysis}"
             print(notify_current_unit_of_analysis)
             print("#" * len(notify_current_unit_of_analysis))
+
+            # Whether to generate a list of preprocessing pipelines with multiple parameters or not
+            if preprocessing_tune_config:
+                vectorizing_pipelines = bow_pipeline.sample_pipelines_from_hypeparameter_space(
+                    **preprocessing_tune_config)
+            else:
+                vectorizing_pipelines = (bow_pipeline.pipeline,)
 
             # Vectorize the text data
             for i, vectorizing_pipeline_i in enumerate(vectorizing_pipelines):
@@ -206,30 +208,39 @@ if __name__ == "__main__":
 
                     else:
                         # Estimate performance with nested cross validation
-                        has_n_search_iter = 'n_search_iter' in estimators_config.MODEL_LIST[model_name].keys()
-                        n_search_iter = estimators_config.MODEL_LIST[model_name]['n_search_iter'] if has_n_search_iter\
-                            else training_config['nested_cv']['n_search_iter']
+                        if preprocessing_tune_config:
+                            n_search_iter = training_config['nested_cv']['n_search_iter']
+                        else:
+                            has_n_search_iter = 'n_search_iter' in estimators_config.MODEL_LIST[model_name].keys()
+                            n_search_iter = estimators_config.MODEL_LIST[model_name]['n_search_iter'] if has_n_search_iter\
+                                else training_config['nested_cv']['n_search_iter']
 
-                        results_cv = multilabel_cls.nested_cross_validation(
-                            X=X_train, y=y_train,
-                            k_outer=training_config['nested_cv']['outer_folds'],
-                            hyperparam_samples_per_outer_fold=n_search_iter,
-                            k_inner=training_config['nested_cv']['outer_folds'],
-                            ranking_score=training_config['nested_cv']['ranking_score'],
-                            return_train_score=training_config['return_train_metrics'],
-                            n_jobs=run_config['n_jobs']
-                        )
+                        try:
+                            results_cv = multilabel_cls.nested_cross_validation(
+                                X=X_train, y=y_train,
+                                k_outer=training_config['nested_cv']['outer_folds'],
+                                hyperparam_samples_per_outer_fold=n_search_iter,
+                                k_inner=training_config['nested_cv']['outer_folds'],
+                                ranking_score=training_config['nested_cv']['ranking_score'],
+                                return_train_score=training_config['return_train_metrics'],
+                                n_jobs=run_config['n_jobs']
+                            )
 
-                        # Log the results of the experiment
-                        hyperparam_distrs_filepath = os.path.join(
-                            *config['training']['model_hyperparam_module'].split('.'))
-                        hyperparam_distrs_filepath += '.py'
+                            # Log the results of the experiment
+                            hyperparam_distrs_filepath = os.path.join(
+                                *config['training']['model_hyperparam_module'].split('.'))
+                            hyperparam_distrs_filepath += '.py'
 
-                        metric_logger.log_metrics(
-                            cv_results=results_cv,
-                            hyperparam_distrs_filepath=hyperparam_distrs_filepath,
-                            **some_log_params
-                        )
+                            metric_logger.log_metrics(
+                                cv_results=results_cv,
+                                hyperparam_distrs_filepath=hyperparam_distrs_filepath,
+                                **some_log_params
+                            )
+
+                        except Exception as e:
+                            print(f'Error while trying to fit model: {model_name}')
+                            print(e)
+                            continue
 
                     # Print model wide train and test error
                     report_train_test_performance(results_cv=results_cv, report_metric=training_config['metric_to_report'])

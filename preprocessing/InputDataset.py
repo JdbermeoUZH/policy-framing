@@ -30,13 +30,16 @@ Classes to represent task 3 datasets
 
 
 class BaseArticleDataset:
-    def __init__(self, data_dir: str = 'data', language: str = 'en', subtask: int = 2, split: str = 'train'):
+    def __init__(self, data_dir: str = 'data', language: str = 'en', subtask: int = 2, split: str = 'train',
+                 load_preprocessed: bool = False):
         self.language = language
         self.subtask = subtask
         self.split = split
         self.label_file_path = os.path.join(data_dir, language, f'{split}-labels-subtask-{subtask}.txt')
         self.article_dir_path = os.path.join(data_dir, language, f'{split}-articles-subtask-{subtask}')
-        self.df = self._create_article_dataframe()
+
+        if not load_preprocessed:
+            self.df = self._create_article_dataframe()
 
     def _create_article_dataframe(self) -> pd.DataFrame:
         text = []
@@ -86,19 +89,38 @@ class FramingArticleDataset(BaseArticleDataset):
                  units_of_analysis_dir: str = os.path.join('data', 'preprocessed'),
                  units_of_analysis_format: str = 'csv',
                  remove_duplicates: bool = True):
-        super().__init__(data_dir=data_dir, language=language, subtask=subtask, split=split)
-        if split == 'train':
-            self._add_labels()
-            if remove_duplicates:
-                self._remove_duplicates()
 
         if load_preprocessed_units_of_analysis:
+            super().__init__(data_dir=data_dir, language=language, subtask=subtask, split=split,
+                             load_preprocessed=load_preprocessed_units_of_analysis)
             self.df = pd.read_csv(
                 os.path.join(units_of_analysis_dir, f'input_{language}_{split}.{units_of_analysis_format}'),
                 index_col='id'
             )
+        else:
+            if split in ['train', 'dev']:
+                super().__init__(data_dir=data_dir, language=language, subtask=subtask, split=split,
+                                 load_preprocessed=load_preprocessed_units_of_analysis)
+                self._add_labels()
+                if remove_duplicates:
+                    self._remove_duplicates()
 
-        self.separate_title_content()
+            elif split == 'train_and_dev':
+                # Load train data
+                super().__init__(data_dir=data_dir, language=language, subtask=subtask, split='train',
+                                 load_preprocessed=load_preprocessed_units_of_analysis)
+                self._add_labels()
+                if remove_duplicates:
+                    self._remove_duplicates()
+                train_df = self.df.copy()
+
+                # Load dev data
+                super().__init__(data_dir=data_dir, language=language, subtask=subtask, split='dev',
+                                 load_preprocessed=load_preprocessed_units_of_analysis)
+                self._add_labels()
+                self.df = pd.concat([train_df, self.df])
+
+            self.separate_title_content()
 
     def _add_labels(self) -> None:
         # MAKE LABEL DATAFRAME
@@ -107,7 +129,7 @@ class FramingArticleDataset(BaseArticleDataset):
             .set_index('id')
 
         # JOIN
-        self.df = labels.join(self.df)[['raw_text', 'frames']]
+        self.df = labels.join(self.df)
 
     def _remove_duplicates(self):
         """
@@ -186,7 +208,9 @@ def main(input_data_dir: str, subtask: int, output_path_dir: str):
 
     for language in languages:
         nlp = spacy.load(SPACY_MODELS[language]['small'])
-        for split in ['train', 'dev']:
+        for split in ['train_and_dev']:#, 'train', 'dev']:
+            print(f'Processing: {language}')
+
             dataset = FramingArticleDataset(
                 data_dir=input_data_dir,
                 language=language, subtask=subtask, split=split)
@@ -198,4 +222,4 @@ if __name__ == "__main__":
     output_path_ = os.path.join('..', 'data', 'preprocessed')
     os.makedirs(output_path_, exist_ok=True)
     # Extract units of analyses for all languages
-    main(input_data_dir='../data', subtask=2, output_path_dir=output_path_)
+    main(input_data_dir='../data/data', subtask=2, output_path_dir=output_path_)
