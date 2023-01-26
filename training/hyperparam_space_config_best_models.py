@@ -185,8 +185,8 @@ MODEL_LIST = \
             'n_search_iter': 100,
             'hyperparam_space': {
                 'preproc__with_std': [True, False],
-                'model__C': loguniform(1e-2, 600),
-                'model__gamma': loguniform(1e-4, 500),
+                'model__C': loguniform(100, 1e4),
+                'model__gamma': loguniform(1e-2, 0.1),
             }
         },
 
@@ -214,8 +214,8 @@ MODEL_LIST = \
             'n_search_iter': 100,
             'hyperparam_space': {
                 'preproc__with_std': [True, False],
-                'model__C': loguniform(1e-2, 600),
-                'model__gamma': loguniform(1e-4, 500),
+                'model__C': loguniform(100, 1e4),
+                'model__gamma': loguniform(1e-2, 0.1),
                 'model__class_weight': ['balanced', None],
                 'up__sampling_strategy': uniform(0.7, 0.3),
                 'up__shrinkage': loguniform(1e-4, 1e4)
@@ -246,8 +246,8 @@ MODEL_LIST = \
             'n_search_iter': 100,
             'hyperparam_space': {
                 'preproc__with_std': [True, False],
-                'model__C': loguniform(1e-2, 600),
-                'model__gamma': loguniform(1e-4, 500),
+                'model__C': loguniform(100, 1e4),
+                'model__gamma': loguniform(1e-2, 0.1),
                 'model__class_weight': ['balanced', None],
                 'up__sampling_strategy': uniform(0.7, 0.3),
                 'up__k_neighbors': randint(3, 10)
@@ -280,8 +280,8 @@ MODEL_LIST = \
             'n_search_iter': 100,
             'hyperparam_space': {
                 'preproc__with_std': [True, False],
-                'model__C': loguniform(1e-2, 600),
-                'model__gamma': loguniform(1e-4, 500),
+                'model__C': loguniform(100, 1e4),
+                'model__gamma': loguniform(1e-2, 0.1),
                 'model__class_weight': ['balanced', None],
                 'up__sampling_strategy': uniform(0.7, 0.3),
                 'up__k_neighbors': randint(3, 10),
@@ -314,8 +314,8 @@ MODEL_LIST = \
             'n_search_iter': 150,
             'hyperparam_space': {
                 'preproc__with_std': [True, False],
-                'model__C': loguniform(1e-2, 600),
-                'model__gamma': loguniform(1e-4, 500),
+                'model__C': loguniform(100, 1e4),
+                'model__gamma': loguniform(1e-2, 0.1),
                 'model__class_weight': ['balanced', None],
                 'up__sampling_strategy': uniform(0.7, 0.3),
                 'up__k_neighbors': [2, 3],
@@ -688,7 +688,7 @@ MODEL_LIST = \
             'model': ComplementNB(),
             'n_search_iter': 100,
             'hyperparam_space': {
-                'alpha': loguniform(1e-4, 10),
+                'alpha': loguniform(1e-5, 10),
                 'norm': [True, False]
             }
         },
@@ -713,7 +713,7 @@ MODEL_LIST = \
                  ('model', ComplementNB())]),
             'n_search_iter': 100,
             'hyperparam_space': {
-                'model__alpha': loguniform(1e-4, 10),
+                'model__alpha': loguniform(1e-5, 10),
                 'model__norm': [True, False],
                 'up__sampling_strategy': uniform(0.7, 0.3),
                 'up__shrinkage': loguniform(1e-4, 1e4)
@@ -739,7 +739,7 @@ MODEL_LIST = \
                  ('model', ComplementNB())]),
             'n_search_iter': 80,
             'hyperparam_space': {
-                'model__alpha': loguniform(1e-4, 10),
+                'model__alpha': loguniform(1e-5, 10),
                 'model__norm': [True, False],
                 'up__sampling_strategy': uniform(0.7, 0.3),
                 'up__k_neighbors': randint(3, 10)
@@ -767,7 +767,7 @@ MODEL_LIST = \
                  ('model', ComplementNB())]),
             'n_search_iter': 80,
             'hyperparam_space': {
-                'model__alpha': loguniform(1e-4, 10),
+                'model__alpha': loguniform(1e-5, 10),
                 'model__norm': [True, False],
                 'up__sampling_strategy': uniform(0.7, 0.3),
                 'up__k_neighbors': randint(3, 10),
@@ -798,7 +798,7 @@ MODEL_LIST = \
             'n_search_iter': 150,
             'hyperparam_space': {
                 'preproc__with_std': [True, False],
-                'model__alpha': loguniform(1e-4, 10),
+                'model__alpha': loguniform(1e-5, 10),
                 'model__norm': [True, False],
                 'up__sampling_strategy': uniform(0.7, 0.3),
                 'up__k_neighbors': [2, 3],
