@@ -14,27 +14,28 @@ preprocessing:
   load_preproc_input_data: True     # Whether or not to rerun the script that produces the units of analysis
   spacy_model_size: 'small'         # small or large. small should be enough for preprocessing, it is mostly tokenizing so far
   use_tfidf: True                   # True := TFIDFVectorizer, False := CountVectorizer
+  
   #min_df: 0.05                      # [0, 1.0] minimum document frequency for a term to be included
   min_df: 0.0001
   #max_df: 0.95                      # [0, 1.0] maximum document frequency for a term to be included
   max_df: 0.4
+  
   max_features: 10000               # Maximum number of features
-  ngram_range: [1,1]                # ngrams to use around a word. 1 is the word itself
+  ngram_range: [1,3]                # ngrams to use around a word. 1 is the word itself
   min_var: 0.001                    # Minimum variance a vector should have to be used in the trainset
   corr_threshold: 0.9               # Remove columns that have correlation >= threshold to another higher
 
   tune_preprocessing_params: False  # If True, will do LHS over the ranges of the parameters next
   param_search:
-    n_samples: 4
+    n_samples: 20
     min_df_range: [0, 0.3]
     max_df_range: [0.4, 1]
-    max_features_range: [1000, 10000]
     min_var_range: [0, 0.001]
 
 training:
   default_params: False             # If True, it runs cross validation with outer_folds folds. If False, it runs nested cross validation
   # Regressions
-  model_list: ['LogisticRegression', 'LogisticRegression_ROS_v1', 'LogisticRegression_ROS_v2', 'LogisticRegression_ROS_v3', 'LogisticRegression_SMOTE', 'LogisticRegression_SMOTE_v2', 'LogisticRegression_BorderlineSMOTE', 'LogisticRegression_BorderlineSMOTE_v2', 'LogisticRegressionRidgeV1', 'LogisticRegressionRidgeV2', 'LogisticRegressionRidge_ROS_v1', 'LogisticRegressionRidge_ROS_v2', 'LogisticRegressionRidge_ROS_v3', 'LogisticRegressionRidge_SMOTE_v1', 'LogisticRegressionRidge_SMOTE_v2', 'LogisticRegressionRidge_SMOTE_v3', 'LogisticRegressionRidge_BorderlineSMOTE_v1', 'LogisticRegressionRidge_BorderlineSMOTE_v2', 'LogisticRegressionRidge_BorderlineSMOTE_v3', 'LogisticRegressionRidgeDual', 'LogisticRegressionRidgeDual_ROS_v1', 'LogisticRegressionRidgeDual_SMOTE_v1', 'LogisticRegressionRidgeDual_SMOTE_v2', 'LogisticRegressionRidgeDual_SMOTE_v3', 'LogisticRegressionRidgeDual_BorderlineSMOTE_v1', 'LogisticRegressionRidgeDual_BorderlineSMOTE_v2', 'LogisticRegressionRidgeDual_BorderlineSMOTE_v3', 'LogisticRegressionLassoV1', 'LogisticRegressionLassoV2', 'LogisticRegressionLasso_SMOTE_v1', 'LogisticRegressionLasso_SMOTE_v2', 'LogisticRegressionLasso_SMOTE_v3', 'LogisticRegressionLasso_BorderlineSMOTE_v1', 'LogisticRegressionLasso_BorderlineSMOTE_v2', 'LogisticRegressionLasso_BorderlineSMOTE_v3',  'LogisticRegressionElasticNetV1', 'LogisticRegressionElasticNetV2', 'LogisticRegressionElasticNetV3', 'LogisticRegressionElasticNet_ROS_v1', 'LogisticRegressionElasticNet_ROS_v2', 'LogisticRegressionElasticNet_ROS_v3', 'LogisticRegressionElasticNet_SMOTE_v1', 'LogisticRegressionElasticNet_SMOTE_v2', 'LogisticRegressionElasticNet_SMOTE_v3', 'LogisticRegressionElasticNet_BorderlineSMOTE_v1', 'LogisticRegressionElasticNet_BorderlineSMOTE_v2', 'LogisticRegressionElasticNet_BorderlineSMOTE_v3', 'RidgeClassifierV1', 'RidgeClassifierV2', 'RidgeClassifier_ROS_v1', 'RidgeClassifier_ROS_v2', 'RidgeClassifier_ROS_v3', 'RidgeClassifier_SMOTE_v1', 'RidgeClassifier_SMOTE_v2', 'RidgeClassifier_SMOTE_v3', 'RidgeClassifier_BorderlineSMOTE_v1', 'RidgeClassifier_BorderlineSMOTE_v2', 'RidgeClassifier_BorderlineSMOTE_v3']
+  #model_list: ['LogisticRegression', 'LogisticRegression_ROS_v1', 'LogisticRegression_ROS_v2', 'LogisticRegression_ROS_v3', 'LogisticRegression_SMOTE', 'LogisticRegression_SMOTE_v2', 'LogisticRegression_BorderlineSMOTE', 'LogisticRegression_BorderlineSMOTE_v2', 'LogisticRegressionRidgeV1', 'LogisticRegressionRidgeV2', 'LogisticRegressionRidge_ROS_v1', 'LogisticRegressionRidge_ROS_v2', 'LogisticRegressionRidge_ROS_v3', 'LogisticRegressionRidge_SMOTE_v1', 'LogisticRegressionRidge_SMOTE_v2', 'LogisticRegressionRidge_SMOTE_v3', 'LogisticRegressionRidge_BorderlineSMOTE_v1', 'LogisticRegressionRidge_BorderlineSMOTE_v2', 'LogisticRegressionRidge_BorderlineSMOTE_v3', 'LogisticRegressionRidgeDual', 'LogisticRegressionRidgeDual_ROS_v1', 'LogisticRegressionRidgeDual_SMOTE_v1', 'LogisticRegressionRidgeDual_SMOTE_v2', 'LogisticRegressionRidgeDual_SMOTE_v3', 'LogisticRegressionRidgeDual_BorderlineSMOTE_v1', 'LogisticRegressionRidgeDual_BorderlineSMOTE_v2', 'LogisticRegressionRidgeDual_BorderlineSMOTE_v3', 'LogisticRegressionLassoV1', 'LogisticRegressionLassoV2', 'LogisticRegressionLasso_SMOTE_v1', 'LogisticRegressionLasso_SMOTE_v2', 'LogisticRegressionLasso_SMOTE_v3', 'LogisticRegressionLasso_BorderlineSMOTE_v1', 'LogisticRegressionLasso_BorderlineSMOTE_v2', 'LogisticRegressionLasso_BorderlineSMOTE_v3',  'LogisticRegressionElasticNetV1', 'LogisticRegressionElasticNetV2', 'LogisticRegressionElasticNetV3', 'LogisticRegressionElasticNet_ROS_v1', 'LogisticRegressionElasticNet_ROS_v2', 'LogisticRegressionElasticNet_ROS_v3', 'LogisticRegressionElasticNet_SMOTE_v1', 'LogisticRegressionElasticNet_SMOTE_v2', 'LogisticRegressionElasticNet_SMOTE_v3', 'LogisticRegressionElasticNet_BorderlineSMOTE_v1', 'LogisticRegressionElasticNet_BorderlineSMOTE_v2', 'LogisticRegressionElasticNet_BorderlineSMOTE_v3', 'RidgeClassifierV1', 'RidgeClassifierV2', 'RidgeClassifier_ROS_v1', 'RidgeClassifier_ROS_v2', 'RidgeClassifier_ROS_v3', 'RidgeClassifier_SMOTE_v1', 'RidgeClassifier_SMOTE_v2', 'RidgeClassifier_SMOTE_v3', 'RidgeClassifier_BorderlineSMOTE_v1', 'RidgeClassifier_BorderlineSMOTE_v2', 'RidgeClassifier_BorderlineSMOTE_v3']
   #model_list: ['LogisticRegressionLasso_ROS_v1', 'LogisticRegressionLasso_ROS_v2', 'LogisticRegressionLasso_ROS_v3', 'LogisticRegressionRidgeDual_ROS_v1', 'LogisticRegressionRidgeDual_ROS_v2', 'LogisticRegressionRidgeDual_ROS_v3'] # regressions that probably take waay too long
   #model_list: ['LogisticRegression_SVMSMOTE', 'LogisticRegression_SVMSMOTE_v2', 'LogisticRegressionRidge_SVMSMOTE_v1', 'LogisticRegressionRidge_SVMSMOTE_v2', 'LogisticRegressionRidge_SVMSMOTE_v3', 'LogisticRegressionRidgeDual_SVMSMOTE_v1', 'LogisticRegressionRidgeDual_SVMSMOTE_v2', 'LogisticRegressionRidgeDual_SVMSMOTE_v3', 'LogisticRegressionLasso_SVMSMOTE_v1', 'LogisticRegressionElasticNet_SVMSMOTE_v1', 'LogisticRegressionElasticNet_SVMSMOTE_v2', 'LogisticRegressionElasticNet_SVMSMOTE_v3', 'RidgeClassifier_SVMSMOTE_v1', 'RidgeClassifier_SVMSMOTE_v2', 'RidgeClassifier_SVMSMOTE_v3']   # regressions that will probably fail
 
@@ -51,7 +52,7 @@ training:
   #model_list: ['XGBoost_narrow_ROS', 'XGBoost_broad_ROS']
   #model_list: ['XGBoost_narrow_SMOTE', 'XGBoost_broad_SMOTE']
   #model_list: ['XGBoost_narrow_BorderlineSMOTE', 'XGBoost_broad_BorderlineSMOTE']
-  #model_list: ['XGBoost_narrow_SVMSMOTE', 'XGBoost_broad_SVMSMOTE']
+  model_list: ['XGBoost_narrow_SVMSMOTE', 'XGBoost_broad_SVMSMOTE']
 
   # Naive Bayes
   #model_list: ['NaiveBayes', 'NaiveBayes_ROS_v1', 'NaiveBayes_ROS_v2', 'NaiveBayes_ROS_v3', 'NaiveBayes_SMOTE_v1', 'NaiveBayes_SMOTE_v2', 'NaiveBayes_SMOTE_v3', 'NaiveBayes_BorderlineSMOTE_v1', 'NaiveBayes_BorderlineSMOTE_v2', 'NaiveBayes_BorderlineSMOTE_v3', 'ComplementNaiveBayes', 'ComplementNaiveBayes_ROS_v1', 'ComplementNaiveBayes_ROS_v2', 'ComplementNaiveBayes_SMOTE_v1', 'ComplementNaiveBayes_SMOTE_v2', 'ComplementNaiveBayes_BorderlineSMOTE_v1', 'ComplementNaiveBayes_BorderlineSMOTE_v2', 'ComplementNaiveBayes_BorderlineSMOTE_v3']
@@ -61,7 +62,7 @@ training:
   nested_cv:                        # Total training runs are outer_folds(inner_folds * num_search_iters + 1)
     outer_folds: 3                  # Number of outer fold: Number of "best" models after tuning
     inner_folds: 3                  # Number of inner folds: Number of folds to validate each hyperparam combination
-    n_search_iter: 5               # Number of search iterations per outer fold (it is measured with cv of #inner_folds)
+    n_search_iter: 10               # Number of search iterations per outer fold (it is measured with cv of #inner_folds)
     ranking_score: 'f1_micro'       # Metric to choose best performing model in each inner fold
   metric_to_report: 'f1_micro'      # Metric to report
   return_train_metrics: True        # Whether to return the metrics on the train set or not
@@ -70,6 +71,20 @@ training:
 
 metric_logging:
   logging_path: './mlruns'          # Directory to store metrics. Dir must be named 'mlruns'
-  experiment_base_name: 'ru_mlb_ind_reg_part_1_3gram_dfv2' # Name of the experiment under which to store metrics
+  #experiment_base_name: 'ru_mlb_ind_reg_part_1_1gram_dfv1' # Name of the experiment under which to store metrics
+  #experiment_base_name: 'ru_mlb_ind_reg_part_1_3gram_dfv1' # Name of the experiment under which to store metrics
+  #experiment_base_name: 'ru_mlb_ind_reg_part_1_1gram_dfv2'
+  experiment_base_name: 'ru_mlb_ind_xgb_part_5_3gram_dfv2'
+
+  #experiment_base_name: 'ru_mlb_ind_reg_part_1_1gram_preproc_search'
+  #experiment_base_name: 'ru_mlb_ind_reg_part_1_3gram_preproc_search'
+
+  #experiment_base_name: 'ru_mlb_chained_reg_part_1_1gram_dfv1'
+  #experiment_base_name: 'ru_mlb_chained_reg_part_1_3gram_dfv1'
+  #experiment_base_name: 'ru_mlb_chained_reg_part_1_1gram_dfv2'
+  #experiment_base_name: 'ru_mlb_chained_reg_part_1_3gram_dfv2'
+  #experiment_base_name: 'ru_mlb_chained_reg_part_1_1gram_preproc_search'
+  #experiment_base_name: 'ru_mlb_chained_reg_part_1_3gram_preproc_search'
+
   rewrite_experiment: False         # Whether to delete/overwrite runs under experiment_name. In most of the cases it should be False
   logging_level: 'outer_cv'         # Which performance data to log ('model_wide', 'outer_cv', or 'inner_cv')
