@@ -52,12 +52,12 @@ class BOWPipeline:
 
         self.pipeline = Pipeline([('vectorizer', self.vectorizer)])
 
-        if min_var:
+        if min_var is not None:
             self.add_low_var_threshold(min_var=min_var)
         else:
             self.min_var = None
 
-        if corr_threshold:
+        if corr_threshold is not None:
             self.add_corr_filter(corr_threshold=corr_threshold)
         else:
             self.corr_threshold = None
