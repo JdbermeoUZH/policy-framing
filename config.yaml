@@ -21,7 +21,7 @@ preprocessing:
   min_var: 0.0                        # Minimum variance a vector should have to be used in the trainset
   corr_threshold: 1.0              # Remove columns that have correlation >= threshold to another higher
 
-  tune_preprocessing_params: False  # If True, will do LHS over the ranges of the parameters next
+  tune_preprocessing_params: True  # If True, will do LHS over the ranges of the parameters next
   param_search:
     n_samples: 10
     min_df_range: [0, 0.05]
@@ -72,6 +72,6 @@ training:
 
 metric_logging:
   logging_path: './mlruns'          # Directory to store metrs. ir must be named 'mlruns'
-  experiment_base_name: 'en_tune_best_models' # Name of the experiment under which to store metrics
+  experiment_base_name: 'en_tune_best_models_tune_preproc_v3' # Name of the experiment under which to store metrics
   rewrite_experiment: False         # Whether to delete/overwrite runs under experiment_name. In most of the cases it should be False
   logging_level: 'outer_cv'         # Which performance data to log ('model_wide', 'outer_cv', or 'inner_cv')
