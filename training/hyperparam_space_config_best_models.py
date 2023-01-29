@@ -88,6 +88,7 @@ MODEL_LIST = \
                 'up__sampling_strategy': ['minority', 'not majority', 0.99, 0.995, 0.999],
                 'up__k_neighbors': randint(5, 25),
                 'up__m_neighbors': randint(14, 30),
+                'up__out_step': loguniform(1e-6, 1e-3)
             }
         },
 
@@ -225,231 +226,41 @@ MODEL_LIST = \
                 'model__C': loguniform(1e-5, 1.5e-4),
                 'model__class_weight': ['balanced'],
                 'up__sampling_strategy': ['minority', 'not minority', 'not majority', 0.99, 0.995, 0.999, 0.9, 0.8],
-                'up__k_neighbors': randint(3, 10),
-                'up__m_neighbors': randint(3, 20),
+                'up__k_neighbors': randint(3, 30),
+                'up__m_neighbors': randint(3, 30),
                 'up__kind': ['borderline-1', 'borderline-2']
             }
         },
 
         ######################################################################################################
-        'RandomForest': {
-            'model': RandomForestClassifier(class_weight="balanced_subsample"),
-            'n_search_iter': 80,
-            'hyperparam_space': {
-                'max_features': randint(2, 100),
-                'n_estimators': [50, 100, 200],
-                'max_depth': randint(2, 100),
-                'ccp_alpha': loguniform(1e-6, 0.1),
-                'min_samples_leaf': randint(5, 25),
-                'bootstrap': [True, False],
-                'max_leaf_nodes': randint(1, 100)
-            }
-        },
-
-        'RandomForest_ROS': {
-            'model': Pipeline(
-                [('up', RandomOverSampler()),
-                 ('model', RandomForestClassifier())]),
-            'n_search_iter': 80,
-            'hyperparam_space': {
-                'model__max_features': ['sqrt', 'log2'],
-                'model__criterion': ['gini', 'entropy', 'log_loss'],
-                'model__n_estimators': [50, 100, 200],
-                'model__max_depth': randint(2, 25),
-                'model__min_samples_leaf': randint(5, 25),
-                'model__ccp_alpha': loguniform(1e-6, 5e-1),
-                'model__bootstrap': [True, False],
-                'model__max_leaf_nodes': randint(1, 100),
-                'up__sampling_strategy': ['minority', 'not minority', 'not majority'],
-                'up__shrinkage': loguniform(1e-4, 1e4),
-            }
-        },
-
-
-        'RandomForest_ROS_v2': {
-            'model': Pipeline(
-                [('up', RandomOverSampler()),
-                 ('model', RandomForestClassifier())]),
-            'n_search_iter': 80,
-            'hyperparam_space': {
-                'model__class_weight': ['balanced', None, "balanced_subsample"],
-                'model__criterion': ['gini', 'entropy', 'log_loss'],
-                'model__max_features': randint(1, 50),
-                'model__n_estimators': [50, 100, 200],
-                'model__max_depth': randint(2, 100),
-                'model__min_samples_leaf': randint(5, 35),
-                'model__ccp_alpha': loguniform(1e-6, 5e-1),
-                'model__bootstrap': [True, False],
-                'model__max_leaf_nodes': randint(1, 100),
-                'up__sampling_strategy': uniform(0.7, 0.3),
-                'up__shrinkage': loguniform(1e-4, 1e4)
-            }
-        },
-
-
-
-        'RandomForest_SMOTE': {
-            'model': Pipeline(
-                [('up', SMOTE()),
-                 ('model', RandomForestClassifier())]),
-            'n_search_iter': 80,
-            'hyperparam_space': {
-                'model__max_features': ['sqrt', 'log2'],
-                'model__criterion': ['gini', 'entropy', 'log_loss'],
-                'model__n_estimators': [50, 100, 200],
-                'model__max_depth': randint(2, 25),
-                'model__min_samples_leaf': randint(5, 25),
-                'model__ccp_alpha': loguniform(1e-6, 5e-1),
-                'model__bootstrap': [True, False],
-                'model__max_leaf_nodes': randint(1, 100),
-                'up__sampling_strategy': ['minority', 'not minority', 'not majority'],
-                'up__k_neighbors': [2, 3]
-            }
-        },
-
-        'RandomForest_SMOTE_v2': {
-            'model': Pipeline(
-                [('up', SMOTE()),
-                 ('model', RandomForestClassifier())]),
-            'n_search_iter': 80,
-            'hyperparam_space': {
-                'model__class_weight': ['balanced', None, "balanced_subsample"],
-                'model__criterion': ['gini', 'entropy', 'log_loss'],
-                'model__max_features': randint(1, 50),
-                'model__n_estimators': [50, 100, 200],
-                'model__max_depth': randint(2, 100),
-                'model__min_samples_leaf': randint(5, 35),
-                'model__ccp_alpha': loguniform(1e-6, 5e-1),
-                'model__bootstrap': [True, False],
-                'model__max_leaf_nodes': randint(1, 100),
-                'up__sampling_strategy': uniform(0.7, 0.3),
-                'up__k_neighbors': [2, 3]
-            }
-        },
-
-        'RandomForest_BorderlineSMOTE': {
-            'model': Pipeline(
-                [('up', BorderlineSMOTE()),
-                 ('model', RandomForestClassifier())]),
-            'n_search_iter': 80,
-            'hyperparam_space': {
-                'model__max_features': ['sqrt', 'log2'],
-                'model__criterion': ['gini', 'entropy', 'log_loss'],
-                'model__n_estimators': [50, 100, 200],
-                'model__max_depth': randint(2, 25),
-                'model__min_samples_leaf': randint(5, 25),
-                'model__ccp_alpha': loguniform(1e-6, 5e-1),
-                'model__bootstrap': [True, False],
-                'model__max_leaf_nodes': randint(1, 100),
-                'up__sampling_strategy': ['minority', 'not minority', 'not majority'],
-                'up__k_neighbors': [2, 3],
-                'up__m_neighbors': [2, 7],
-                'up__kind': ['borderline-1']
-            }
-        },
-
-        'RandomForest_BorderlineSMOTE_v2': {
-            'model': Pipeline(
-                [('up', BorderlineSMOTE()),
-                 ('model', RandomForestClassifier())]),
-            'n_search_iter': 80,
-            'hyperparam_space': {
-                'model__class_weight': ['balanced', None, "balanced_subsample"],
-                'model__criterion': ['gini', 'entropy', 'log_loss'],
-                'model__max_features': randint(1, 50),
-                'model__n_estimators': [50, 100, 200],
-                'model__max_depth': randint(2, 100),
-                'model__min_samples_leaf': randint(5, 35),
-                'model__ccp_alpha': loguniform(1e-6, 5e-1),
-                'model__bootstrap': [True, False],
-                'model__max_leaf_nodes': randint(1, 100),
-                'up__sampling_strategy': uniform(0.7, 0.3),
-                'up__k_neighbors': [2, 3],
-                'up__m_neighbors': [2, 7],
-                'up__kind': ['borderline-1', 'borderline-2']
-            }
-        },
-
-        'RandomForest_SVMSMOTE': {
-            'model': Pipeline(
-                [('up', SVMSMOTE()),
-                 ('model', RandomForestClassifier())]),
-            'n_search_iter': 80,
-            'hyperparam_space': {
-                'model__max_features': ['sqrt', 'log2'],
-                'model__criterion': ['gini', 'entropy', 'log_loss'],
-                'model__n_estimators': [50, 100, 200],
-                'model__max_depth': randint(2, 25),
-                'model__min_samples_leaf': randint(5, 25),
-                'model__ccp_alpha': loguniform(1e-6, 5e-1),
-                'model__bootstrap': [True, False],
-                'model__max_leaf_nodes': randint(1, 100),
-                'up__sampling_strategy': ['minority', 'not minority', 'not majority'],
-                'up__k_neighbors': [2, 3],
-                'up__m_neighbors': [2, 3],
-            }
-        },
-
-        'RandomForest_SVMSMOTE_v2': {
-            'model': Pipeline(
-                [('up', SVMSMOTE()),
-                 ('model', RandomForestClassifier())]),
-            'n_search_iter': 80,
-            'hyperparam_space': {
-                'model__class_weight': ['balanced', None, "balanced_subsample"],
-                'model__criterion': ['gini', 'entropy', 'log_loss'],
-                'model__max_features': randint(1, 50),
-                'model__n_estimators': [50, 100, 200],
-                'model__max_depth': randint(2, 100),
-                'model__min_samples_leaf': randint(5, 35),
-                'model__ccp_alpha': loguniform(1e-6, 5e-1),
-                'model__bootstrap': [True, False],
-                'model__max_leaf_nodes': randint(1, 100),
-                'up__sampling_strategy': uniform(0.7, 0.3),
-                'up__k_neighbors': [2, 3],
-                'up__m_neighbors': [2, 3],
-                'up__out_step': loguniform(1e-6, 1)
-            }
-        },
-
         'XGBoost_broad': {
             'model': XGBClassifier(verbosity=0, tree_method='hist', booster='gbtree', gamma=0),
             # silent=True,
             'n_search_iter': 100,
             'hyperparam_space': {
-                'n_estimators': randint(150, 500),
-                'reg_lambda': loguniform(0.1, 1000),
-                'colsample_bytree': uniform(loc=0.6, scale=0.4),
-                'max_features': randint(2, 50),
-                'learning_rate': loguniform(1e-2, 0.2),
-                'max_depth': randint(3, 50),
-                'min_child_weight': loguniform(0.01, 35),
-                'max_delta_step': uniform(loc=1, scale=14),
-                'scale_pos_weight': uniform(loc=1, scale=24),
-                'subsample': uniform(loc=0.6, scale=0.4),
-                'colsample_bynode': uniform(loc=0.6, scale=0.4)
+                'n_estimators': randint(300, 400),
+                'reg_lambda': loguniform(15, 100),
+                'colsample_bytree': uniform(loc=0.65, scale=0.35),
+                'max_features': randint(5, 40),
+                'learning_rate': loguniform(2e-2, 0.15),
+                'max_depth': randint(15, 40),
+                'min_child_weight': loguniform(1e-3, 1),
+                'max_delta_step': uniform(loc=2, scale=7),
+                'scale_pos_weight': uniform(loc=7.5, scale=7.5),
+                'subsample': uniform(loc=0.75, scale=0.24),
+                'colsample_bynode': uniform(loc=0.7, scale=0.21)
             }
         },
 
         ######################################################################################################
-        'ComplementNaiveBayes_narrow': {
+        'ComplementNaiveBayes': { # Best, but they were all pretty much the same
             'model': ComplementNB(),
             'n_search_iter': 100,
             'hyperparam_space': {
-                'alpha': loguniform(1e-2, 1),
-                'norm': [True, False]
+                'alpha': loguniform(1e-6, 0.4),
+                'norm': [False]
             }
         },
-        
-        'ComplementNaiveBayes_broad': {
-            'model': ComplementNB(),
-            'n_search_iter': 100,
-            'hyperparam_space': {
-                'alpha': loguniform(1e-4, 100),
-                'norm': [True, False]
-            }
-        },
-
 
         'ComplementNaiveBayes_ROS': {
             'model': Pipeline(
@@ -457,23 +268,10 @@ MODEL_LIST = \
                  ('model', ComplementNB())]),
             'n_search_iter': 100,
             'hyperparam_space': {
-                'model__alpha': loguniform(1e-2, 1),
-                'model__norm': [True, False],
-                'up__sampling_strategy': ['minority', 'not minority', 'not majority'],
-                'up__shrinkage': loguniform(1e-4, 1e4)
-            }
-        },
-
-        'ComplementNaiveBayes_ROS_v2': {
-            'model': Pipeline(
-                [('up', RandomOverSampler()),
-                 ('model', ComplementNB())]),
-            'n_search_iter': 100,
-            'hyperparam_space': {
-                'model__alpha': loguniform(1e-4, 100),
-                'model__norm': [True, False],
-                'up__sampling_strategy': uniform(0.7, 0.3),
-                'up__shrinkage': loguniform(1e-4, 1e4)
+                'model__alpha': loguniform(1e-4, 1e-2),
+                'model__norm': [False],
+                'up__sampling_strategy': ['minority', 'not minority', 'not majority', 0.99, 0.995, 0.999, 0.9, 0.8],
+                'up__shrinkage': loguniform(1e-6, 500)
             }
         },
 
@@ -483,23 +281,10 @@ MODEL_LIST = \
                  ('model', ComplementNB())]),
             'n_search_iter': 80,
             'hyperparam_space': {
-                'model__alpha': loguniform(1e-2, 1),
-                'model__norm': [True, False],
-                'up__sampling_strategy': ['minority', 'not minority', 'not majority'],
-                'up__k_neighbors': randint(3, 10)
-            }
-        },
-
-        'ComplementNaiveBayes_SMOTE_v2': {
-            'model': Pipeline(
-                [('up', SMOTE()),
-                 ('model', ComplementNB())]),
-            'n_search_iter': 80,
-            'hyperparam_space': {
-                'model__alpha': loguniform(1e-4, 100),
-                'model__norm': [True, False],
-                'up__sampling_strategy': uniform(0.7, 0.3),
-                'up__k_neighbors': randint(3, 10)
+                'model__alpha': loguniform(1e-2, 0.2),
+                'model__norm': [False],
+                'up__sampling_strategy': ['minority', 'not minority', 'not majority', 0.99, 0.995, 0.999, 0.9, 0.8],
+                'up__k_neighbors': randint(3, 7)
             }
         },
 
@@ -509,60 +294,130 @@ MODEL_LIST = \
                  ('model', ComplementNB())]),
             'n_search_iter': 80,
             'hyperparam_space': {
-                'model__alpha': loguniform(1e-2, 1),
-                'model__norm': [True, False],
-                'up__sampling_strategy': ['minority', 'not minority', 'not majority'],
-                'up__k_neighbors': randint(3, 10),
-                'up__m_neighbors': randint(3, 20),
-                'up__kind': ['borderline-1', 'borderline-2']
+                'model__alpha': loguniform(1e-6, 0.01),
+                'model__norm': [False],
+                'up__sampling_strategy': ['minority', 'not minority', 'not majority', 0.99, 0.995, 0.999, 0.9, 0.8],
+                'up__k_neighbors': randint(3, 7),
+                'up__m_neighbors': randint(12, 30),
+                'up__kind': ['borderline-2']
             }
         },
 
-        'ComplementNaiveBayes_BorderlineSMOTE_v2': {
+        'ComplementNaiveBayes_SVMSMOTE': {
             'model': Pipeline(
-                [('up', BorderlineSMOTE()),
+                [('up', SVMSMOTE()), ('preproc', StandardScaler(with_mean=False)),
                  ('model', ComplementNB())]),
+            'n_search_iter': 150,
+            'hyperparam_space': {
+                'preproc__with_std': [False],
+                'model__alpha': loguniform(1e-6, 0.01),
+                'model__norm': [False],
+                'up__sampling_strategy': ['minority', 'not minority', 'not majority', 0.99, 0.995, 0.999, 0.9, 0.8],
+                'up__k_neighbors': randint(3, 7),
+                'up__m_neighbors': randint(3, 30),
+            }
+        },
+
+        ######################################################################################################
+
+        'RandomForest': {
+            'model': RandomForestClassifier(class_weight="balanced_subsample"),
             'n_search_iter': 80,
             'hyperparam_space': {
-                'model__alpha': loguniform(1e-4, 100),
-                'model__norm': [True, False],
-                'up__sampling_strategy': uniform(0.7, 0.3),
-                'up__k_neighbors': randint(3, 10),
-                'up__m_neighbors': randint(3, 20),
-                'up__kind': ['borderline-1', 'borderline-2']
+                'max_features': randint(13, 60),
+                'n_estimators': [50, 100, 200],
+                'max_depth': randint(5, 80),
+                'ccp_alpha': loguniform(1e-5, 0.01),
+                'min_samples_leaf': randint(10, 15),
+                'bootstrap': [False],
+                'max_leaf_nodes': randint(5, 40)
             }
         },
 
-        'ComplementNaiveBayes_SVMSMOTE_v1': {
+        'RandomForest_ROS': {
             'model': Pipeline(
-                [('up', SVMSMOTE()), ('preproc', StandardScaler(with_mean=False)),
-                 ('model', ComplementNB())]),
-            'n_search_iter': 150,
+                [('up', RandomOverSampler()),
+                 ('model', RandomForestClassifier())]),
+            'n_search_iter': 80,
             'hyperparam_space': {
-                'preproc__with_std': [True, False],
-                'model__alpha': loguniform(1e-2, 1),
-                'model__norm': [True, False],
-                'up__sampling_strategy': ['minority', 'not minority', 'not majority'],
-                'up__k_neighbors': [2, 3],
-                'up__m_neighbors': [2, 3]
+                'model__class_weight': ['balanced_subsample'],
+                'model__max_features': randint(13, 60),
+                'model__criterion': ['gini', 'log_loss'],
+                'model__n_estimators': [50, 100, 200],
+                'model__max_depth': randint(5, 80),
+                'model__min_samples_leaf': randint(10, 15),
+                'model__ccp_alpha': loguniform(1e-5, 0.01),
+                'model__bootstrap': [False],
+                'model__max_leaf_nodes': randint(5, 40),
+                'up__sampling_strategy': ['minority', 'not minority', 'not majority', 0.99, 0.995, 0.999, 0.9, 0.8],
+                'up__shrinkage': loguniform(1e-7, 1e-3)
             }
         },
 
-        'ComplementNaiveBayes_SVMSMOTE_v2': {
+        'RandomForest_SMOTE': {
             'model': Pipeline(
-                [('up', SVMSMOTE()), ('preproc', StandardScaler(with_mean=False)),
-                 ('model', ComplementNB())]),
-            'n_search_iter': 150,
+                [('up', SMOTE()),
+                 ('model', RandomForestClassifier())]),
+            'n_search_iter': 80,
             'hyperparam_space': {
-                'preproc__with_std': [True, False],
-                'model__alpha': loguniform(1e-4, 100),
-                'model__norm': [True, False],
-                'up__sampling_strategy': uniform(0.7, 0.3),
-                'up__k_neighbors': [2, 3],
-                'up__m_neighbors': [2, 3],
-                'up__out_step': loguniform(1e-6, 1)
+                'model__class_weight': ['balanced_subsample'],
+                'model__max_features': randint(13, 60),
+                'model__criterion': ['gini', 'log_loss'],
+                'model__n_estimators': [50, 100, 200],
+                'model__max_depth': randint(5, 80),
+                'model__min_samples_leaf': randint(10, 15),
+                'model__ccp_alpha': loguniform(1e-5, 0.01),
+                'model__bootstrap': [False],
+                'model__max_leaf_nodes': randint(5, 40),
+                'up__sampling_strategy': ['minority', 'not minority', 'not majority', 0.99, 0.995, 0.999, 0.9, 0.8],
+                'up__k_neighbors': randint(3, 30),
             }
         },
+
+        'RandomForest_BorderlineSMOTE': {
+            'model': Pipeline(
+                [('up', BorderlineSMOTE()),
+                 ('model', RandomForestClassifier())]),
+            'n_search_iter': 80,
+            'hyperparam_space': {
+                'model__class_weight': ['balanced_subsample'],
+                'model__max_features': randint(13, 60),
+                'model__criterion': ['gini', 'log_loss'],
+                'model__n_estimators': [50, 100, 200],
+                'model__max_depth': randint(5, 80),
+                'model__min_samples_leaf': randint(10, 15),
+                'model__ccp_alpha': loguniform(1e-5, 0.01),
+                'model__bootstrap': [False],
+                'model__max_leaf_nodes': randint(5, 40),
+                'up__sampling_strategy': ['minority', 'not minority', 'not majority', 0.99, 0.995, 0.999, 0.9, 0.8],
+                'up__k_neighbors': randint(3, 30),
+                'up__m_neighbors': randint(3, 30),
+                'up__kind': ['borderline-2']
+            }
+        },
+
+        'RandomForest_SVMSMOTE': {
+            'model': Pipeline(
+                [('up', SVMSMOTE()),
+                 ('model', RandomForestClassifier())]),
+            'n_search_iter': 80,
+            'hyperparam_space': {
+                'model__class_weight': ['balanced_subsample'],
+                'model__criterion': ['gini', 'log_loss'],
+                'model__n_estimators': [50, 100, 200],
+                'model__max_features': randint(13, 60),
+                'model__min_samples_leaf': randint(10, 15),
+                'model__max_depth': randint(5, 80),
+                'model__ccp_alpha': loguniform(1e-5, 0.01),
+                'model__bootstrap': [False],
+                'model__max_leaf_nodes': randint(5, 40),
+                'up__sampling_strategy': ['minority', 'not minority', 'not majority', 0.99, 0.995, 0.999, 0.9, 0.8],
+                'up__k_neighbors': randint(3, 30),
+                'up__m_neighbors': randint(3, 30),
+                'up__out_step': loguniform(1e-6, 1e-3)
+            }
+        }
+
     }
 
 if __name__ == '__main__':
