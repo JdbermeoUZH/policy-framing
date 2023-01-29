@@ -6,6 +6,9 @@
   <component name="ChangeListManager">
     <list default="true" id="3359b6ce-9e44-4da3-956d-9609d831df93" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/config.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/postprocessing/group_mlflow_experiments.py" beforeDir="false" afterPath="$PROJECT_DIR$/postprocessing/group_mlflow_experiments.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/training/hyperparam_space_config_best_models.py" beforeDir="false" afterPath="$PROJECT_DIR$/training/hyperparam_space_config_best_models.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -34,7 +37,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="tune_italian_dataset" />
+        <entry key="$PROJECT_DIR$" value="tune_german" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -42,12 +45,12 @@
   <component name="GitRewordedCommitMessages">
     <option name="commitMessagesMapping">
       <RewordedCommitMessageMapping>
-        <option name="originalMessage" value="fixed table formatting" />
-        <option name="rewordedMessage" value="&#10;&#10;fixed table formatting&#10;&#10;&#10;fixed table formatting" />
+        <option name="originalMessage" value="best models to tune to choose models to report to competition" />
+        <option name="rewordedMessage" value="best models to tune to choose models to report to competition&#10;&#10;&#10;best models to tune to choose models to report to competition" />
       </RewordedCommitMessageMapping>
     </option>
     <option name="currentCommit" value="1" />
-    <option name="onto" value="3911b76c9a55d9ec653c79364da81d68c7d468e0" />
+    <option name="onto" value="a0e2c4899fba77193a4a93a43c7674ce3e06e47a" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -89,7 +92,7 @@
       <recent name="$PROJECT_DIR$/preprocessing" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.benchmark_subtask_2">
+  <component name="RunManager" selected="Python.gather_mlruns_as_single_csv">
     <configuration default="true" type="PythonConfigurationType" factoryName="Python">
       <module name="Framing" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -116,6 +119,9 @@
       <module name="Framing" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
       <option name="SDK_HOME" value="" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <option name="IS_MODULE_SDK" value="true" />
@@ -131,18 +137,18 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="hyperparam_space_config_best_models" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="gather_mlruns_as_single_csv" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="Framing" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/training" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/postprocessing" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/training/hyperparam_space_config_best_models.py" />
-      <option name="PARAMETERS" value="" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/postprocessing/gather_mlruns_as_single_csv.py" />
+      <option name="PARAMETERS" value="--target_dir ../../tune_english --output_dir runs_csv_dir --analysis_level outer_cv --language en" />
       <option name="SHOW_COMMAND_LINE" value="true" />
       <option name="EMULATE_TERMINAL" value="false" />
       <option name="MODULE_MODE" value="false" />
@@ -240,7 +246,7 @@
     </configuration>
     <list>
       <item itemvalue="Python.main" />
-      <item itemvalue="Python.hyperparam_space_config_best_models" />
+      <item itemvalue="Python.gather_mlruns_as_single_csv" />
       <item itemvalue="Python.hyperparam_space_config_russian" />
       <item itemvalue="Python.hyperparam_space_config_french" />
       <item itemvalue="Python.hyperparam_space_config_italian_raw_text" />
@@ -248,11 +254,11 @@
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.gather_mlruns_as_single_csv" />
         <item itemvalue="Python.benchmark_subtask_2" />
-        <item itemvalue="Python.hyperparam_space_config_best_models" />
-        <item itemvalue="Python.hyperparam_space_config_russian" />
         <item itemvalue="Python.hyperparam_space_config_italian_raw_text" />
         <item itemvalue="Python.hyperparam_space_config_french" />
+        <item itemvalue="Python.hyperparam_space_config_russian" />
       </list>
     </recent_temporary>
   </component>
@@ -305,6 +311,7 @@
       <workItem from="1672773779348" duration="5323000" />
       <workItem from="1672844401993" duration="4281000" />
       <workItem from="1674401213626" duration="18856000" />
+      <workItem from="1674929778691" duration="7582000" />
     </task>
     <servers />
   </component>
@@ -360,6 +367,26 @@
           <line>192</line>
           <option name="timeStamp" value="55" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/postprocessing/gather_mlruns_as_single_csv.py</url>
+          <line>55</line>
+          <option name="timeStamp" value="56" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/postprocessing/gather_mlruns_as_single_csv.py</url>
+          <line>56</line>
+          <option name="timeStamp" value="57" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/postprocessing/gather_mlruns_as_single_csv.py</url>
+          <line>27</line>
+          <option name="timeStamp" value="58" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/postprocessing/group_mlflow_experiments.py</url>
+          <line>55</line>
+          <option name="timeStamp" value="59" />
+        </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="jupyter-line">
           <url>notebook:///home/juanbermeo/SynologyDriveRA/Framing/documentation/analyses/Default classifiers/Default classifier performance.ipynb</url>
           <line>1</line>
@@ -379,6 +406,7 @@
     <SUITE FILE_PATH="coverage/Framing$BOWPipeline.coverage" NAME="BOWPipeline Coverage Results" MODIFIED="1669285157103" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/Framing$InputDataset.coverage" NAME="InputDataset Coverage Results" MODIFIED="1667482561941" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/preprocessing" />
     <SUITE FILE_PATH="coverage/Framing$MultiLabelEstimator.coverage" NAME="MultiLabelEstimator Coverage Results" MODIFIED="1667837377062" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/training" />
+    <SUITE FILE_PATH="coverage/Framing$gather_mlruns_as_single_csv.coverage" NAME="gather_mlruns_as_single_csv Coverage Results" MODIFIED="1674931327081" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/postprocessing" />
     <SUITE FILE_PATH="coverage/Framing$basic_preprocessing.coverage" NAME="basic_preprocessing Coverage Results" MODIFIED="1665060979164" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/Framing$benchmark_subtask_2.coverage" NAME="benchmark_subtask_2 Coverage Results" MODIFIED="1674413845193" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/Framing$mlflow_trackin_example.coverage" NAME="mlflow_trackin_example Coverage Results" MODIFIED="1666271883386" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />

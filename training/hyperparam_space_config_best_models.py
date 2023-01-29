@@ -14,7 +14,7 @@ MODEL_LIST = \
     {
 
         ######################################################################################################
-        'LogisticRegressionRidgeDual_narrow': {
+        'LogisticRegressionRidgeDual': { # BEST
             'model': Pipeline(
                 [('preproc', StandardScaler(with_mean=False)),
                  ('model', LogisticRegression(penalty='l2', solver='liblinear', dual=True, class_weight='balanced',
@@ -23,20 +23,8 @@ MODEL_LIST = \
             'n_search_iter': 100,
             'hyperparam_space': {
                 'preproc__with_std': [True],
-                'model__C': loguniform(1e-2, 1)
-            }
-        },
-
-        'LogisticRegressionRidgeDual': {
-            'model': Pipeline(
-                [('preproc', StandardScaler(with_mean=False)),
-                 ('model', LogisticRegression(penalty='l2', solver='liblinear', dual=True, class_weight='balanced',
-                                              max_iter=100000))]
-            ),
-            'n_search_iter': 100,
-            'hyperparam_space': {
-                'preproc__with_std': [True],
-                'model__C': loguniform(1e-4, 10)
+                'model__C': loguniform(1e-6, 1.5e-3),
+                'model__class_weight': ['balanced']
             }
         },
 
@@ -48,25 +36,10 @@ MODEL_LIST = \
             'n_search_iter': 100,
             'hyperparam_space': {
                 'preproc__with_std': [True],
-                'model__C': loguniform(1e-2, 1),
+                'model__C': loguniform(1e-6, 1e-2),
                 'model__class_weight': ['balanced', None],
-                'up__sampling_strategy': ['minority', 'not minority', 'not majority'],
-                'up__shrinkage': loguniform(1e-4, 1e4)
-            }
-        },
-
-        'LogisticRegressionRidgeDual_ROS_v2': {
-            'model': Pipeline(
-                [('preproc', StandardScaler(with_mean=False)),
-                 ('up', RandomOverSampler()),
-                 ('model', LogisticRegression(penalty='l2', solver='liblinear', dual=True, max_iter=100000))]),
-            'n_search_iter': 100,
-            'hyperparam_space': {
-                'preproc__with_std': [True],
-                'model__C': loguniform(1e-4, 10),
-                'model__class_weight': ['balanced', None],
-                'up__sampling_strategy': uniform(0.7, 0.3),
-                'up__shrinkage': loguniform(1e-4, 1e4)
+                'up__sampling_strategy': ['minority', 'not majority', 0.99, 0.9925, 0.995, 0.999],
+                'up__shrinkage': loguniform(1e-6, 1)
             }
         },
 
@@ -78,25 +51,10 @@ MODEL_LIST = \
             'n_search_iter': 100,
             'hyperparam_space': {
                 'preproc__with_std': [True],
-                'model__class_weight': ['balanced', None],
-                'model__C': loguniform(1e-2, 1),
-                'up__sampling_strategy': ['minority', 'not minority', 'not majority'],
-                'up__k_neighbors': randint(3, 10)
-            }
-        },
-
-        'LogisticRegressionRidgeDual_SMOTE_v2': {
-            'model': Pipeline(
-                [('preproc', StandardScaler(with_mean=False)),
-                 ('up', SMOTE()),
-                 ('model', LogisticRegression(penalty='l2', solver='liblinear', dual=True, max_iter=100000))]),
-            'n_search_iter': 100,
-            'hyperparam_space': {
-                'preproc__with_std': [True],
-                'model__class_weight': ['balanced', None],
-                'model__C': loguniform(1e-4, 10),
-                'up__sampling_strategy': uniform(0.7, 0.3),
-                'up__k_neighbors': randint(3, 10)
+                'model__class_weight': ['balanced'],
+                'model__C': loguniform(1e-6, 1e-2),
+                'up__sampling_strategy': ['minority', 'not majority', 0.99, 0.995, 0.999],
+                'up__k_neighbors': randint(7, 25)
             }
         },
 
@@ -108,29 +66,12 @@ MODEL_LIST = \
             'n_search_iter': 100,
             'hyperparam_space': {
                 'preproc__with_std': [True],
-                'model__class_weight': ['balanced', None],
-                'model__C': loguniform(1e-2, 1),
-                'up__sampling_strategy': ['minority', 'not minority', 'not majority'],
-                'up__k_neighbors': randint(3, 10),
-                'up__m_neighbors': randint(3, 20),
-                'up__kind': ['borderline-1', 'borderline-2']
-            }
-        },
-
-        'LogisticRegressionRidgeDual_BorderlineSMOTE_v2': {
-            'model': Pipeline(
-                [('preproc', StandardScaler(with_mean=False)),
-                 ('up', BorderlineSMOTE()),
-                 ('model', LogisticRegression(penalty='l2', solver='liblinear', dual=True, max_iter=100000))]),
-            'n_search_iter': 100,
-            'hyperparam_space': {
-                'preproc__with_std': [True],
-                'model__class_weight': ['balanced', None],
-                'model__C': loguniform(1e-4, 10),
-                'up__sampling_strategy': uniform(0.7, 0.3),
-                'up__k_neighbors': randint(3, 10),
-                'up__m_neighbors': randint(3, 20),
-                'up__kind': ['borderline-1', 'borderline-2']
+                'model__class_weight': ['balanced'],
+                'model__C': loguniform(1e-6, 1e-2),
+                'up__sampling_strategy': ['minority', 'not majority', 0.99, 0.995, 0.999],
+                'up__k_neighbors': randint(5, 25),
+                'up__m_neighbors': randint(14, 30),
+                'up__kind': ['borderline-2']
             }
         },
 
@@ -142,25 +83,11 @@ MODEL_LIST = \
             'n_search_iter': 150,
             'hyperparam_space': {
                 'preproc__with_std': [True],
-                'model__C': loguniform(1e-2, 1),
-                'up__sampling_strategy': ['minority', 'not minority', 'not majority'],
-                'up__k_neighbors': [2, 3],
-                'up__m_neighbors': [2, 3]
-            }
-        },
-
-        'LogisticRegressionRidgeDual_SVMSMOTE_v2': {
-            'model': Pipeline(
-                [('up', SVMSMOTE()), ('preproc', StandardScaler(with_mean=False)),
-                 ('model', LogisticRegression(penalty='l2', solver='liblinear', dual=True, class_weight='balanced',
-                                              max_iter=100000))]),
-            'n_search_iter': 150,
-            'hyperparam_space': {
-                'preproc__with_std': [True],
-                'model__C': loguniform(1e-4, 10),
-                'up__sampling_strategy': uniform(0.7, 0.3),
-                'up__k_neighbors': [2, 3],
-                'up__m_neighbors': [2, 3]
+                'model__class_weight': ['balanced', None],
+                'model__C': loguniform(1e-6, 1e-2),
+                'up__sampling_strategy': ['minority', 'not majority', 0.99, 0.995, 0.999],
+                'up__k_neighbors': randint(5, 25),
+                'up__m_neighbors': randint(14, 30),
             }
         },
 
