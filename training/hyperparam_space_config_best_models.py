@@ -173,17 +173,6 @@ MODEL_LIST = \
         },
 
         ######################################################################################################
-        'LinearSVMDual_narrow': {
-            'model': Pipeline(
-                [('preproc', StandardScaler(with_mean=False)),
-                 ('model', LinearSVC(dual=True, penalty='l2', max_iter=50000, class_weight='balanced'))]),
-            'n_search_iter': 100,
-            'hyperparam_space': {
-                'preproc__with_std': [True],
-                'model__C': loguniform(1e-6, 1e-3),
-            }
-        },
-
         'LinearSVMDual': {
             'model': Pipeline(
                 [('preproc', StandardScaler(with_mean=False)),
@@ -191,7 +180,7 @@ MODEL_LIST = \
             'n_search_iter': 100,
             'hyperparam_space': {
                 'preproc__with_std': [True],
-                'model__C': loguniform(1e-7, 1e-1)
+                'model__C': uniform(1e-5, 1e-4)
             }
         },
 
@@ -203,28 +192,12 @@ MODEL_LIST = \
             'n_search_iter': 100,
             'hyperparam_space': {
                 'preproc__with_std': [True],
-                'model__C': loguniform(1e-6, 1e-3),
-                'model__class_weight': ['balanced', None],
-                'up__sampling_strategy': ['minority', 'not minority', 'not majority'],
-                'up__shrinkage': loguniform(1e-4, 1e4)
+                'model__C': loguniform(2e-5, 1.5e-4),
+                'model__class_weight': ['balanced'],
+                'up__sampling_strategy': ['minority', 'not minority', 'not majority', 0.99, 0.995, 0.999, 0.9, 0.8],
+                'up__shrinkage': loguniform(1e-7, 1e-3)
             }
         },
-
-        'LinearSVMDual_ROS_v2': {
-            'model': Pipeline(
-                [('preproc', StandardScaler(with_mean=False)),
-                 ('up', RandomOverSampler()),
-                 ('model', LinearSVC(dual=True, penalty='l2', max_iter=50000))]),
-            'n_search_iter': 100,
-            'hyperparam_space': {
-                'preproc__with_std': [True],
-                'model__C': loguniform(1e-7, 1e-1),
-                'model__class_weight': ['balanced', None],
-                'up__sampling_strategy': uniform(0.7, 0.3),
-                'up__shrinkage': loguniform(1e-4, 1e4)
-            }
-        },
-
 
         'LinearSVMDual_SMOTE': {
             'model': Pipeline(
@@ -234,25 +207,10 @@ MODEL_LIST = \
             'n_search_iter': 100,
             'hyperparam_space': {
                 'preproc__with_std': [True],
-                'model__C': loguniform(1e-6, 1e-3),
-                'model__class_weight': ['balanced', None],
-                'up__sampling_strategy': ['minority', 'not minority', 'not majority'],
-                'up__k_neighbors': randint(3, 10)
-            }
-        },
-
-        'LinearSVMDual_SMOTE_v2': {
-            'model': Pipeline(
-                [('preproc', StandardScaler(with_mean=False)),
-                 ('up', SMOTE()),
-                 ('model', LinearSVC(dual=True, penalty='l2', max_iter=50000))]),
-            'n_search_iter': 100,
-            'hyperparam_space': {
-                'preproc__with_std': [True],
-                'model__C': loguniform(1e-7, 1e-1),
-                'model__class_weight': ['balanced', None],
-                'up__sampling_strategy': uniform(0.7, 0.3),
-                'up__k_neighbors': randint(3, 10)
+                'model__C': loguniform(1e-6, 1e-4),
+                'model__class_weight': ['balanced'],
+                'up__sampling_strategy': ['minority', 'not minority', 'not majority', 0.99, 0.995, 0.999, 0.9, 0.8],
+                'up__k_neighbors': randint(3, 30)
             }
         },
 
@@ -264,61 +222,12 @@ MODEL_LIST = \
             'n_search_iter': 100,
             'hyperparam_space': {
                 'preproc__with_std': [True],
-                'model__C': loguniform(1e-6, 1e-3),
-                'model__class_weight': ['balanced', None],
-                'up__sampling_strategy': ['minority', 'not minority', 'not majority'],
+                'model__C': loguniform(1e-5, 1.5e-4),
+                'model__class_weight': ['balanced'],
+                'up__sampling_strategy': ['minority', 'not minority', 'not majority', 0.99, 0.995, 0.999, 0.9, 0.8],
                 'up__k_neighbors': randint(3, 10),
                 'up__m_neighbors': randint(3, 20),
                 'up__kind': ['borderline-1', 'borderline-2']
-            }
-        },
-
-        'LinearSVMDual_BorderlineSMOTE_v2': {
-            'model': Pipeline(
-                [('preproc', StandardScaler(with_mean=False)),
-                 ('up', BorderlineSMOTE()),
-                 ('model', LinearSVC(dual=True, penalty='l2', max_iter=50000))]),
-            'n_search_iter': 100,
-            'hyperparam_space': {
-                'preproc__with_std': [True],
-                'model__C': loguniform(1e-7, 1e-1),
-                'model__class_weight': ['balanced', None],
-                'up__sampling_strategy': uniform(0.7, 0.3),
-                'up__k_neighbors': randint(3, 10),
-                'up__m_neighbors': randint(3, 20),
-                'up__kind': ['borderline-1', 'borderline-2']
-            }
-        },
-
-        'LinearSVMDual_SVMSMOTE': {
-            'model': Pipeline(
-                [('up', SVMSMOTE()), ('preproc', StandardScaler(with_mean=False)),
-                 ('model', LinearSVC(dual=True, penalty='l2', max_iter=5e4))]),
-            'n_search_iter': 150,
-            'hyperparam_space': {
-                'preproc__with_std': [True, False],
-                'model__C': loguniform(1e-6, 1e-3),
-                'model__class_weight': ['balanced', None],
-                'up__sampling_strategy': ['minority', 'not minority', 'not majority'],
-                'up__k_neighbors': [2, 3],
-                'up__m_neighbors': [2, 3],
-                'up__out_step': loguniform(1e-6, 1)
-            }
-        },
-
-        'LinearSVMDual_SVMSMOTE_v2': {
-            'model': Pipeline(
-                [('up', SVMSMOTE()), ('preproc', StandardScaler(with_mean=False)),
-                 ('model', LinearSVC(dual=True, penalty='l2', max_iter=5e4))]),
-            'n_search_iter': 150,
-            'hyperparam_space': {
-                'preproc__with_std': [True, False],
-                'model__C': loguniform(1e-7, 1e-1),
-                'model__class_weight': ['balanced', None],
-                'up__sampling_strategy': uniform(0.7, 0.3),
-                'up__k_neighbors': [2, 3],
-                'up__m_neighbors': [2, 3],
-                'up__out_step': loguniform(1e-6, 1)
             }
         },
 
