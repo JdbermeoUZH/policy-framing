@@ -93,27 +93,15 @@ MODEL_LIST = \
 
         ######################################################################################################
 
-        'SVM_sigmoid': {
+        'SVM_sigmoid': {# Best, but very similar to the rest
             'model': Pipeline(
                 [('preproc', StandardScaler(with_mean=False)),
                  ('model', SVC(kernel='sigmoid', class_weight='balanced'))]),
             'n_search_iter': 100,
             'hyperparam_space': {
-                'preproc__with_std': [True, False],
-                'model__C': loguniform(0.05, 10),
-                'model__gamma': loguniform(1e-1, 10),
-            }
-        },
-
-        'SVM_sigmoid_broad': {
-            'model': Pipeline(
-                [('preproc', StandardScaler(with_mean=False)),
-                 ('model', SVC(kernel='sigmoid', class_weight='balanced'))]),
-            'n_search_iter': 100,
-            'hyperparam_space': {
-                'preproc__with_std': [True, False],
-                'model__C': loguniform(1e-3, 100),
-                'model__gamma': loguniform(1e-1, 100),
+                'preproc__with_std': [False],
+                'model__C': loguniform(0.08, 20),
+                'model__gamma': loguniform(0.5e-2, 1.5),
             }
         },
 
@@ -124,28 +112,12 @@ MODEL_LIST = \
                  ('model', SVC(kernel='sigmoid'))]),
             'n_search_iter': 100,
             'hyperparam_space': {
-                'preproc__with_std': [True, False],
-                'model__C': loguniform(0.05, 10),
-                'model__gamma': loguniform(1e-1, 10),
-                'model__class_weight': ['balanced', None],
-                'up__sampling_strategy': ['minority', 'not minority', 'not majority'],
-                'up__shrinkage': loguniform(1e-4, 1e4)
-            }
-        },
-
-        'SVM_sigmoid_ROS_v2': {
-            'model': Pipeline(
-                [('preproc', StandardScaler(with_mean=False)),
-                 ('up', RandomOverSampler()),
-                 ('model', SVC(kernel='sigmoid'))]),
-            'n_search_iter': 100,
-            'hyperparam_space': {
-                'preproc__with_std': [True, False],
-                'model__C': loguniform(0.01, 100),
-                'model__gamma': loguniform(1e-3, 100),
-                'model__class_weight': ['balanced', None],
-                'up__sampling_strategy': uniform(0.7, 0.3),
-                'up__shrinkage': loguniform(1e-4, 1e4)
+                'preproc__with_std': [False],
+                'model__C': loguniform(0.1, 10),
+                'model__gamma': loguniform(0.5e-2, 1.5),
+                'model__class_weight': ['balanced'],
+                'up__sampling_strategy': ['minority', 'not minority', 'not majority', 0.99, 0.995, 0.999, 0.9, 0.8],
+                'up__shrinkage': loguniform(1e-7, 1e-4)
             }
         },
 
@@ -156,28 +128,12 @@ MODEL_LIST = \
                  ('model', SVC(kernel='sigmoid'))]),
             'n_search_iter': 100,
             'hyperparam_space': {
-                'preproc__with_std': [True, False],
-                'model__C': loguniform(0.05, 10),
-                'model__gamma': loguniform(1e-1, 10),
-                'model__class_weight': ['balanced', None],
-                'up__sampling_strategy': ['minority', 'not minority', 'not majority'],
-                'up__k_neighbors': randint(3, 10)
-            }
-        },
-
-        'SVM_sigmoid_SMOTE_v2': {
-            'model': Pipeline(
-                [('preproc', StandardScaler(with_mean=False)),
-                 ('up', SMOTE()),
-                 ('model', SVC(kernel='sigmoid'))]),
-            'n_search_iter': 100,
-            'hyperparam_space': {
-                'preproc__with_std': [True, False],
-                'model__C': loguniform(0.01, 100),
-                'model__gamma': loguniform(1e-3, 100),
-                'model__class_weight': ['balanced', None],
-                'up__sampling_strategy': uniform(0.7, 0.3),
-                'up__k_neighbors': randint(3, 10)
+                'preproc__with_std': [False],
+                'model__C': loguniform(0.06, 10),
+                'model__gamma': loguniform(1e-2, 1.5),
+                'model__class_weight': ['balanced'],
+                'up__sampling_strategy': ['minority', 'not minority', 'not majority', 0.99, 0.995, 0.999, 0.9, 0.8],
+                'up__k_neighbors': randint(7, 30)
             }
         },
 
@@ -188,32 +144,14 @@ MODEL_LIST = \
                  ('model', SVC(kernel='sigmoid'))]),
             'n_search_iter': 100,
             'hyperparam_space': {
-                'preproc__with_std': [True, False],
-                'model__C': loguniform(0.05, 10),
-                'model__gamma': loguniform(1e-1, 10),
-                'model__class_weight': ['balanced', None],
-                'up__sampling_strategy': ['minority', 'not minority', 'not majority'],
-                'up__k_neighbors': randint(3, 10),
-                'up__m_neighbors': randint(3, 20),
-                'up__kind': ['borderline-1', 'borderline-2']
-            }
-        },
-
-        'SVM_sigmoid_BorderlineSMOTE_v2': {
-            'model': Pipeline(
-                [('preproc', StandardScaler(with_mean=False)),
-                 ('up', BorderlineSMOTE()),
-                 ('model', SVC(kernel='sigmoid'))]),
-            'n_search_iter': 100,
-            'hyperparam_space': {
-                'preproc__with_std': [True, False],
-                'model__C': loguniform(0.01, 100),
-                'model__gamma': loguniform(1e-3, 100),
-                'model__class_weight': ['balanced', None],
-                'up__sampling_strategy': uniform(0.7, 0.3),
-                'up__k_neighbors': randint(3, 10),
-                'up__m_neighbors': randint(3, 20),
-                'up__kind': ['borderline-1', 'borderline-2']
+                'preproc__with_std': [False],
+                'model__C': uniform(0.07, 10),
+                'model__gamma': loguniform(1e-2, 0.5),
+                'model__class_weight': ['balanced'],
+                'up__sampling_strategy': ['not minority', 'not majority', 0.99, 0.995, 0.999, 0.9, 0.8],
+                'up__k_neighbors': randint(3, 30),
+                'up__m_neighbors': randint(3, 30),
+                'up__kind': ['borderline-2']
             }
         },
 
@@ -223,31 +161,14 @@ MODEL_LIST = \
                  ('model', SVC(kernel='sigmoid'))]),
             'n_search_iter': 150,
             'hyperparam_space': {
-                'preproc__with_std': [True, False],
-                'model__C': loguniform(0.05, 10),
-                'model__gamma': loguniform(1e-1, 100),
-                'model__class_weight': ['balanced', None],
-                'up__sampling_strategy': ['minority', 'not minority', 'not majority'],
-                'up__k_neighbors': [2, 3],
-                'up__m_neighbors': [2, 3],
-                'up__out_step': loguniform(1e-6, 1)
-            }
-        },
-
-        'SVM_sigmoid_SVMSMOTE_v2': {
-            'model': Pipeline(
-                [('up', SVMSMOTE()), ('preproc', StandardScaler(with_mean=False)),
-                 ('model', SVC(kernel='sigmoid'))]),
-            'n_search_iter': 150,
-            'hyperparam_space': {
-                'preproc__with_std': [True, False],
-                'model__C': loguniform(0.01, 100),
-                'model__gamma': loguniform(1e-3, 100),
-                'model__class_weight': ['balanced', None],
-                'up__sampling_strategy': uniform(0.7, 0.3),
-                'up__k_neighbors': [2, 3],
-                'up__m_neighbors': [2, 3],
-                'up__out_step': loguniform(1e-6, 1)
+                'preproc__with_std': [False],
+                'model__C': uniform(0.06, 10),
+                'model__gamma': loguniform(1e-2, 1.5),
+                'model__class_weight': ['balanced'],
+                'up__sampling_strategy': ['not minority', 'not majority', 0.99, 0.995, 0.999, 0.9, 0.8],
+                'up__k_neighbors': randint(3, 30),
+                'up__m_neighbors': randint(3, 30),
+                'up__out_step': loguniform(1e-6, 1e-3)
             }
         },
 

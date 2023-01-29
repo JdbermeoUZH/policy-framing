@@ -69,6 +69,10 @@ training:
   return_train_metrics: True        # Whether to return the metrics on the train set or not
   mlb_cls_independent: True       # If True, and 'independent' multilabel model is used. If False, a 'chain' mlb model is used. 'independent' learns probabilities indep. for each class
 
+evaluate:
+  train_set: 'train_and_dev'        # May be 'train_and_dev' or 'train'
+  eval_set: 'test'                  # May be 'test' or 'dev'
+
 
 metric_logging:
   logging_path: './mlruns'          # Directory to store metrs. ir must be named 'mlruns'
