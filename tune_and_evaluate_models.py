@@ -1,16 +1,19 @@
 import os
+import yaml
+import argparse
+from typing import Tuple
 from importlib import import_module
 
 import pandas as pd
 import spacy
 from joblib import dump
 from sklearn.preprocessing import MultiLabelBinarizer
+
+from training.MultiLabelEstimator import MultiLabelEstimator
 from preprocessing.InputDataset import FramingArticleDataset
 from preprocessing.BOWPipeline import BOWPipeline, basic_tokenizing_and_cleaning
-from training.MultiLabelEstimator import MultiLabelEstimator
 from utils.metrics_config import scoring_functions
 from utils import helper_fns
-from benchmark_subtask_2 import parse_arguments_and_load_config_file
 
 LANGUAGES = ('en', 'it', 'fr', 'po', 'ru', 'ge')
 
@@ -28,8 +31,22 @@ LABELS = ('Economic', 'Capacity_and_resources', 'Morality', 'Fairness_and_equali
           'Security_and_defense', 'Health_and_safety', 'Quality_of_life', 'Cultural_identity', 'Public_opinion',
           'Political', 'External_regulation_and_reputation')
 
-UNITS_OF_ANALYSES = ('title', 'title_and_first_paragraph', 'title_and_5_sentences', 'title_and_10_sentences',
-                     'title_and_first_sentence_each_paragraph', 'raw_text')
+
+def parse_arguments_and_load_config_file() -> Tuple[argparse.Namespace, dict]:
+    parser = argparse.ArgumentParser(description='Subtask-2')
+    parser.add_argument('--config_path_yaml', type=str,
+                        help='Path to YAML configuration file overall benchmarking parameters')
+    arguments = parser.parse_args()
+
+    # Load parameters of configuration file
+    with open(arguments.config_path_yaml, "r") as stream:
+        try:
+            yaml_config_params = yaml.safe_load(stream)
+        except yaml.YAMLError as exc:
+            print(exc)
+            raise exc
+
+    return arguments, yaml_config_params
 
 
 if __name__ == "__main__":

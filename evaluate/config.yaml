@@ -5,7 +5,7 @@ run:
 dataset:
   languages: ['en']#, 'en', 'fr', 'po', 'it', 'ge']   # 'en, 'it', 'fr', 'po', 'ru', 'ge'
   subtask: 2                        # 1, 2, 3
-  data_dir: '../data'               # Relative path to directory with data
+  data_dir: './data'               # Relative path to directory with data
 
 preprocessing:
   analysis_unit: 'raw_text'             # 'title', 'title_and_first_paragraph', 'title_and_5_sentences', 'title_and_10_sentences', # 'title_and_first_sentence_each_paragraph', 'raw_text', 'all'
@@ -22,7 +22,7 @@ preprocessing:
 evaluate:
   train_set: 'train_and_dev'        # May be 'train_and_dev' or 'train'
   eval_set: 'test'                  # May be 'test' or 'dev'
-  output_dir: '../predictions'
+  output_dir: './predictions'
 
   models:
     n_folds: 4
