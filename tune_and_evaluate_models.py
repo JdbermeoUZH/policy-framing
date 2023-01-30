@@ -36,6 +36,12 @@ def parse_arguments_and_load_config_file() -> Tuple[argparse.Namespace, dict]:
     parser = argparse.ArgumentParser(description='Subtask-2')
     parser.add_argument('--config_path_yaml', type=str,
                         help='Path to YAML configuration file overall benchmarking parameters')
+    parser.add_argument('--language', type=str, default=None,
+                        help='Path to YAML configuration file overall benchmarking parameters')
+    parser.add_argument('--train_set', type=str, default=None,
+                        help='Path to YAML configuration file overall benchmarking parameters')
+    parser.add_argument('--eval_set', type=str, default=None,
+                        help='Path to YAML configuration file overall benchmarking parameters')
     arguments = parser.parse_args()
 
     # Load parameters of configuration file
@@ -45,6 +51,15 @@ def parse_arguments_and_load_config_file() -> Tuple[argparse.Namespace, dict]:
         except yaml.YAMLError as exc:
             print(exc)
             raise exc
+
+    if arguments.language is not None:
+        yaml_config_params['dataset']['language'] = [arguments.language]
+
+    if arguments.train_set is not None:
+        yaml_config_params['evaluate']['train_set'] = arguments.train_set
+
+    if arguments.eval_set is not None:
+        yaml_config_params['evaluate']['eval_set'] = arguments.eval_set
 
     return arguments, yaml_config_params
 
@@ -86,8 +101,9 @@ if __name__ == "__main__":
         os.makedirs(predicted_instances_test_dir_path, exist_ok=True)
 
         nlp = spacy.load(SPACY_MODELS[language][preprocessing_config['spacy_model_size']])
-
-        dataset = FramingArticleDataset(
+        print(evaluate_config['train_set'])
+        print(evaluate_config['eval_set'])
+        dataset = FramingArticleDataset(    
             data_dir=dataset_config['data_dir'],
             language=language,
             subtask=dataset_config['subtask'],
