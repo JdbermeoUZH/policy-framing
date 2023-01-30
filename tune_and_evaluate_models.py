@@ -54,7 +54,6 @@ if __name__ == "__main__":
     args, config = parse_arguments_and_load_config_file()
     dataset_config = config['dataset']
     preprocessing_config = config['preprocessing']
-    metric_log_config = config['metric_logging']
     run_config = config['run']
     evaluate_config = config['evaluate']
     models_config = evaluate_config['models']
@@ -140,28 +139,31 @@ if __name__ == "__main__":
             )
 
             # Tune the model
-            search_results = multilabel_cls.tune_model(
-                X=X_train,
-                y=y_train,
-                n_iterations=estimators_config.MODEL_LIST[model_name]['n_search_iter'],
-                n_folds=models_config['n_folds'],
-                ranking_score=models_config['ranking_score'],
-            )
+            try:
+                search_results = multilabel_cls.tune_model(
+                    X=X_train,
+                    y=y_train,
+                    n_iterations=estimators_config.MODEL_LIST[model_name]['n_search_iter'],
+                    n_folds=models_config['n_folds'],
+                    ranking_score=models_config['ranking_score'],
+                )
 
-            # Evaluate the model on the eval set and store predictions
-            best_model = search_results.best_estimator_
-            y_train_pred = best_model.predict(X_train)
-            y_test_pred = best_model.predict(X_test)
+                # Evaluate the model on the eval set and store predictions
+                best_model = search_results.best_estimator_
+                y_train_pred = best_model.predict(X_train)
+                y_test_pred = best_model.predict(X_test)
 
-            # Persist the best model
-            dump(best_model, os.path.join(best_model_dir_path, f'{model_name}.joblib'))
+                # Persist the best model
+                dump(best_model, os.path.join(best_model_dir_path, f'{model_name}.joblib'))
 
-            # Store the predictions
-            pd.DataFrame(y_train_pred, columns=LABELS, index=dataset.train_df.index).to_csv(os.path.join(
-                predicted_instances_train_dir_path, f"{language}_{model_name}_y_{evaluate_config['train_set']}.csv"))
+                # Store the predictions
+                pd.DataFrame(y_train_pred, columns=LABELS, index=dataset.train_df.index).to_csv(os.path.join(
+                    predicted_instances_train_dir_path, f"{language}_{model_name}_y_{evaluate_config['train_set']}.csv"))
 
-            pd.DataFrame(y_test_pred, columns=LABELS, index=dataset.eval_df.index).to_csv(os.path.join(
-                predicted_instances_test_dir_path, f"{language}_{model_name}_y_{evaluate_config['eval_set']}.csv"))
+                pd.DataFrame(y_test_pred, columns=LABELS, index=dataset.eval_df.index).to_csv(os.path.join(
+                    predicted_instances_test_dir_path, f"{language}_{model_name}_y_{evaluate_config['eval_set']}.csv"))
 
-
-
+            except Exception as e:
+                print(f'Error while trying to fit model: {model_name}')
+                print(e)
+                continue
