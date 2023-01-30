@@ -8,7 +8,7 @@ dataset:
   data_dir: 'data'                  # Relative path to directory with data
 
 preprocessing:
-  split: 'train_and_dev'                    # Split of the data to use
+  split: 'train_and_dev'                  # Split of the data to use
   analysis_unit: ['raw_text']             # 'title', 'title_and_first_paragraph', 'title_and_5_sentences', 'title_and_10_sentences',
                                     # 'title_and_first_sentence_each_paragraph', 'raw_text', 'all'
   load_preproc_input_data: True     # Whether or not to rerun the script that produces the units of analysis
@@ -68,10 +68,6 @@ training:
   metric_to_report: 'f1_micro'      # Metric to report
   return_train_metrics: True        # Whether to return the metrics on the train set or not
   mlb_cls_independent: True       # If True, and 'independent' multilabel model is used. If False, a 'chain' mlb model is used. 'independent' learns probabilities indep. for each class
-
-evaluate:
-  train_set: 'train_and_dev'        # May be 'train_and_dev' or 'train'
-  eval_set: 'test'                  # May be 'test' or 'dev'
 
 
 metric_logging:

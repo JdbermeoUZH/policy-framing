@@ -97,7 +97,7 @@ if __name__ == "__main__":
             data_dir=dataset_config['data_dir'],
             language=language,
             subtask=dataset_config['subtask'],
-            split=preprocessing_config['split'],
+            train_split=preprocessing_config['split'],
             load_preprocessed_units_of_analysis=preprocessing_config['load_preproc_input_data'],
             units_of_analysis_dir=os.path.join(dataset_config['data_dir'], 'preprocessed')
         )
@@ -110,7 +110,7 @@ if __name__ == "__main__":
         mlb = MultiLabelBinarizer()
         mlb.fit([LABELS])
 
-        y_train = mlb.transform(train_data.df.frames.str.lower().str.split(','))
+        y_train = mlb.transform(train_data.train_df.frames.str.lower().str.split(','))
 
         # Create additional object that will be used during the experiments
         ###################################################################
@@ -156,7 +156,7 @@ if __name__ == "__main__":
                     print('-' * len(pipline_i_notification_str) + '\n')
 
                 try:
-                    X_train = vectorizing_pipeline_i.fit_transform(train_data.df[unit_of_analysis])
+                    X_train = vectorizing_pipeline_i.fit_transform(train_data.train_df[unit_of_analysis])
                 except ValueError as value_e:
                     print(f'ERROR: {value_e}')
                     print('The parameters used where')
