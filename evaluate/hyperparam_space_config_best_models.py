@@ -20,7 +20,7 @@ MODEL_LIST = \
                  ('model', LogisticRegression(penalty='l2', solver='liblinear', dual=True, class_weight='balanced',
                                               max_iter=100000))]
             ),
-            'n_search_iter': 5,
+            'n_search_iter': 100,
             'hyperparam_space': {
                 'preproc__with_std': [True],
                 'model__C': loguniform(1e-6, 1.5e-3),

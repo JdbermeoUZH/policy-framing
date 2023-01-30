@@ -23,10 +23,10 @@ SPACY_MODELS = {
     'ge': {'small': 'de_core_news_sm', 'large': 'de_dep_news_trf'}
 }
 
-LABELS = ('fairness_and_equality', 'security_and_defense', 'crime_and_punishment', 'morality',
-          'policy_prescription_and_evaluation', 'capacity_and_resources', 'economic', 'cultural_identity',
-          'health_and_safety', 'quality_of_life', 'legality_constitutionality_and_jurisprudence',
-          'political', 'public_opinion', 'external_regulation_and_reputation')
+LABELS = ('Economic', 'Capacity_and_resources', 'Morality', 'Fairness_and_equality',
+          'Legality_Constitutionality_and_jurisprudence', 'Policy_prescription_and_evaluation', 'Crime_and_punishment',
+          'Security_and_defense', 'Health_and_safety', 'Quality_of_life', 'Cultural_identity', 'Public_opinion',
+          'Political', 'External_regulation_and_reputation')
 
 UNITS_OF_ANALYSES = ('title', 'title_and_first_paragraph', 'title_and_5_sentences', 'title_and_10_sentences',
                      'title_and_first_sentence_each_paragraph', 'raw_text')
@@ -105,7 +105,7 @@ if __name__ == "__main__":
         # One hot encode the multilabel target
         mlb = MultiLabelBinarizer()
         mlb.fit([LABELS])
-        y_train = mlb.transform(dataset.train_df.frames.str.lower().str.split(','))
+        y_train = mlb.transform(dataset.train_df.frames.str.split(','))
 
         # Tune models and get their predictions on the eval set
         for model_name in models_config['model_list']:
