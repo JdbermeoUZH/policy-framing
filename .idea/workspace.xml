@@ -5,7 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3359b6ce-9e44-4da3-956d-9609d831df93" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/evaluate/tune_and_evaluate_models.py" beforeDir="false" afterPath="$PROJECT_DIR$/evaluate/tune_and_evaluate_models.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/documentation/analyses/competition_submission/ensemble_predictions.ipynb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/documentation/analyses/competition_submission/verify correct format.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -15,8 +17,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Jupyter Notebook" />
         <option value="Python Script" />
+        <option value="Jupyter Notebook" />
       </list>
     </option>
   </component>
@@ -42,12 +44,12 @@
   <component name="GitRewordedCommitMessages">
     <option name="commitMessagesMapping">
       <RewordedCommitMessageMapping>
-        <option name="originalMessage" value="best models to tune to choose models to report to competition" />
-        <option name="rewordedMessage" value="best models to tune to choose models to report to competition&#10;&#10;&#10;best models to tune to choose models to report to competition" />
+        <option name="originalMessage" value="added exception" />
+        <option name="rewordedMessage" value="added exception&#10;&#10;&#10;added exception" />
       </RewordedCommitMessageMapping>
     </option>
     <option name="currentCommit" value="1" />
-    <option name="onto" value="a0e2c4899fba77193a4a93a43c7674ce3e06e47a" />
+    <option name="onto" value="8e805f0ba25468688555c137e54c546ee75ea03b" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -64,7 +66,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "/home/juanbermeo/SynologyDriveRA/Framing/evaluate",
+    "last_opened_file_path": "/home/juanbermeo/SynologyDriveRA/Framing",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -77,24 +79,28 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
       <recent name="$PROJECT_DIR$/evaluate" />
       <recent name="$PROJECT_DIR$/training" />
       <recent name="$PROJECT_DIR$/documentation/analyses/Default classifiers" />
       <recent name="$PROJECT_DIR$/mlruns/5" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
       <recent name="$PROJECT_DIR$/evaluate" />
       <recent name="$PROJECT_DIR$/utils" />
       <recent name="$PROJECT_DIR$/documentation/analyses/Labels EDA" />
       <recent name="$PROJECT_DIR$/documentation/analyses/Default classifiers" />
-      <recent name="$PROJECT_DIR$/documentation/analyses/Dataset structure and quality" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.tune_and_evaluate_models">
+  <component name="RunManager" selected="Python.gather_mlruns_as_single_csv">
     <configuration name="InputDataset" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="Framing" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
       <option name="SDK_HOME" value="" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/preprocessing" />
       <option name="IS_MODULE_SDK" value="true" />
@@ -158,9 +164,6 @@
       <module name="Framing" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
       <option name="SDK_HOME" value="" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/postprocessing" />
       <option name="IS_MODULE_SDK" value="true" />
@@ -168,7 +171,7 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/postprocessing/gather_mlruns_as_single_csv.py" />
-      <option name="PARAMETERS" value="--target_dir ../../tune_english --output_dir runs_csv_dir --analysis_level outer_cv --language en" />
+      <option name="PARAMETERS" value="--target_dir ../../tunning_polish/ --output_dir runs_csv_dir --analysis_level model_wide --language po" />
       <option name="SHOW_COMMAND_LINE" value="true" />
       <option name="EMULATE_TERMINAL" value="false" />
       <option name="MODULE_MODE" value="false" />
@@ -180,6 +183,9 @@
       <module name="Framing" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
       <option name="SDK_HOME" value="" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/evaluate" />
       <option name="IS_MODULE_SDK" value="true" />
@@ -228,7 +234,7 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/tune_and_evaluate_models.py" />
-      <option name="PARAMETERS" value="--config_path_yaml evaluate/config.yaml" />
+      <option name="PARAMETERS" value="--config_path_yaml evaluate/config.yaml --language it --train_set train --eval_set dev" />
       <option name="SHOW_COMMAND_LINE" value="true" />
       <option name="EMULATE_TERMINAL" value="false" />
       <option name="MODULE_MODE" value="false" />
@@ -246,9 +252,9 @@
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.gather_mlruns_as_single_csv" />
         <item itemvalue="Python.hyperparam_space_config_best_models" />
         <item itemvalue="Python.InputDataset" />
-        <item itemvalue="Python.gather_mlruns_as_single_csv" />
         <item itemvalue="Python.benchmark_subtask_2" />
       </list>
     </recent_temporary>
@@ -303,7 +309,7 @@
       <workItem from="1672844401993" duration="4281000" />
       <workItem from="1674401213626" duration="18856000" />
       <workItem from="1674929778691" duration="19804000" />
-      <workItem from="1675083967180" duration="10413000" />
+      <workItem from="1675083967180" duration="24217000" />
     </task>
     <servers />
   </component>
@@ -390,17 +396,17 @@
           <option name="timeStamp" value="64" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/evaluate/tune_and_evaluate_models.py</url>
+          <url>file://$PROJECT_DIR$/tune_and_evaluate_models.py</url>
           <line>122</line>
           <option name="timeStamp" value="69" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/evaluate/tune_and_evaluate_models.py</url>
+          <url>file://$PROJECT_DIR$/tune_and_evaluate_models.py</url>
           <line>142</line>
           <option name="timeStamp" value="70" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/evaluate/tune_and_evaluate_models.py</url>
+          <url>file://$PROJECT_DIR$/tune_and_evaluate_models.py</url>
           <line>124</line>
           <option name="timeStamp" value="71" />
         </line-breakpoint>
@@ -424,7 +430,7 @@
     <SUITE FILE_PATH="coverage/Framing$tune_and_evaluate_models.coverage" NAME="tune_and_evaluate_models Coverage Results" MODIFIED="1675113943268" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/evaluate" />
     <SUITE FILE_PATH="coverage/Framing$MultiLabelEstimator.coverage" NAME="MultiLabelEstimator Coverage Results" MODIFIED="1667837377062" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/training" />
     <SUITE FILE_PATH="coverage/Framing$InputDataset.coverage" NAME="InputDataset Coverage Results" MODIFIED="1675090055720" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/preprocessing" />
-    <SUITE FILE_PATH="coverage/Framing$gather_mlruns_as_single_csv.coverage" NAME="gather_mlruns_as_single_csv Coverage Results" MODIFIED="1674931327081" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/postprocessing" />
+    <SUITE FILE_PATH="coverage/Framing$gather_mlruns_as_single_csv.coverage" NAME="gather_mlruns_as_single_csv Coverage Results" MODIFIED="1675157249144" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/postprocessing" />
     <SUITE FILE_PATH="coverage/Framing$basic_preprocessing.coverage" NAME="basic_preprocessing Coverage Results" MODIFIED="1665060979164" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/Framing$benchmark_subtask_2.coverage" NAME="benchmark_subtask_2 Coverage Results" MODIFIED="1674413845193" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/Framing$mlflow_trackin_example.coverage" NAME="mlflow_trackin_example Coverage Results" MODIFIED="1666271883386" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
