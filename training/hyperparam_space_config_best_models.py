@@ -3,6 +3,7 @@ from sklearn.preprocessing import StandardScaler
 from skmultilearn.ensemble import RakelD, RakelO
 from xgboost import XGBClassifier, XGBRFClassifier
 from sklearn.dummy import DummyClassifier
+from sklearn.neighbors import KNeighborsClassifier
 from sklearn.svm import SVC, LinearSVC
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.linear_model import LogisticRegression, RidgeClassifier
@@ -13,6 +14,7 @@ from skmultilearn.adapt import BRkNNaClassifier, BRkNNbClassifier, MLkNN, MLARAM
 
 MODEL_LIST = \
     {
+
 
         ######################################################################################################
         'LogisticRegressionRidgeDual': { # BEST
@@ -344,13 +346,12 @@ MODEL_LIST = \
 
         'ComplementNaiveBayes_SVMSMOTE': {
             'model': Pipeline(
-                [('up', SVMSMOTE()), ('preproc', StandardScaler(with_mean=False)),
+                [('up', SVMSMOTE()),
                  ('model', ComplementNB())]),
             'n_search_iter': 150,
             'model_type': 'ComplementNaiveBayes',
             'model_subtype': 'SVMSMOTE',
             'hyperparam_space': {
-                'preproc__with_std': [False],
                 'model__alpha': loguniform(1e-6, 0.01),
                 'model__norm': [False],
                 'up__sampling_strategy': ['minority', 'not minority', 'not majority', 0.99, 0.995, 0.999, 0.9, 0.8],
@@ -468,8 +469,6 @@ MODEL_LIST = \
                 'up__out_step': loguniform(1e-6, 1e-3)
             }
         },
-
-        # TODO: Add kNN
 
         #############################################################################################################
         #############################################################################################################
