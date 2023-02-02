@@ -1,5 +1,6 @@
 from scipy.stats import loguniform, randint, uniform
 from sklearn.preprocessing import StandardScaler
+from skmultilearn.ensemble import RakelD, RakelO
 from xgboost import XGBClassifier, XGBRFClassifier
 from sklearn.dummy import DummyClassifier
 from sklearn.svm import SVC, LinearSVC
@@ -8,7 +9,7 @@ from sklearn.linear_model import LogisticRegression, RidgeClassifier
 from sklearn.naive_bayes import ComplementNB, MultinomialNB
 from imblearn.over_sampling import SMOTE, BorderlineSMOTE, SVMSMOTE, RandomOverSampler
 from imblearn.pipeline import Pipeline
-
+from skmultilearn.adapt import BRkNNaClassifier, BRkNNbClassifier, MLkNN, MLARAM
 
 MODEL_LIST = \
     {
@@ -21,6 +22,8 @@ MODEL_LIST = \
                                               max_iter=100000))]
             ),
             'n_search_iter': 100,
+            'model_type': 'LogisticRegressionRidge',
+            'model_subtype': 'No Upsampling',
             'hyperparam_space': {
                 'preproc__with_std': [True],
                 'model__C': loguniform(1e-6, 1.5e-3),
@@ -34,6 +37,8 @@ MODEL_LIST = \
                  ('up', RandomOverSampler()),
                  ('model', LogisticRegression(penalty='l2', solver='liblinear', dual=True, max_iter=100000))]),
             'n_search_iter': 100,
+            'model_type': 'LogisticRegressionRidge',
+            'model_subtype': 'Random Oversampling',
             'hyperparam_space': {
                 'preproc__with_std': [True],
                 'model__C': loguniform(1e-6, 1e-2),
@@ -49,6 +54,8 @@ MODEL_LIST = \
                  ('up', SMOTE()),
                  ('model', LogisticRegression(penalty='l2', solver='liblinear', dual=True, max_iter=100000))]),
             'n_search_iter': 100,
+            'model_type': 'LogisticRegressionRidge',
+            'model_subtype': 'SMOTE',
             'hyperparam_space': {
                 'preproc__with_std': [True],
                 'model__class_weight': ['balanced'],
@@ -64,6 +71,8 @@ MODEL_LIST = \
                  ('up', BorderlineSMOTE()),
                  ('model', LogisticRegression(penalty='l2', solver='liblinear', dual=True, max_iter=100000))]),
             'n_search_iter': 100,
+            'model_type': 'LogisticRegressionRidge',
+            'model_subtype': 'BorderlineSMOTE',
             'hyperparam_space': {
                 'preproc__with_std': [True],
                 'model__class_weight': ['balanced'],
@@ -81,6 +90,8 @@ MODEL_LIST = \
                  ('model', LogisticRegression(penalty='l2', solver='liblinear', dual=True, class_weight='balanced',
                                               max_iter=100000))]),
             'n_search_iter': 150,
+            'model_type': 'LogisticRegressionRidge',
+            'model_subtype': 'SVMSMOTE',
             'hyperparam_space': {
                 'preproc__with_std': [True],
                 'model__class_weight': ['balanced', None],
@@ -99,6 +110,8 @@ MODEL_LIST = \
                 [('preproc', StandardScaler(with_mean=False)),
                  ('model', SVC(kernel='sigmoid', class_weight='balanced'))]),
             'n_search_iter': 100,
+            'model_type': 'SVM',
+            'model_subtype': 'No Upsampling',
             'hyperparam_space': {
                 'preproc__with_std': [False],
                 'model__C': loguniform(0.08, 20),
@@ -112,6 +125,8 @@ MODEL_LIST = \
                  ('up', RandomOverSampler()),
                  ('model', SVC(kernel='sigmoid'))]),
             'n_search_iter': 100,
+            'model_type': 'SVM',
+            'model_subtype': 'Random Oversampling',
             'hyperparam_space': {
                 'preproc__with_std': [False],
                 'model__C': loguniform(0.1, 10),
@@ -128,6 +143,8 @@ MODEL_LIST = \
                  ('up', SMOTE()),
                  ('model', SVC(kernel='sigmoid'))]),
             'n_search_iter': 100,
+            'model_type': 'SVM',
+            'model_subtype': 'SMOTE',
             'hyperparam_space': {
                 'preproc__with_std': [False],
                 'model__C': loguniform(0.06, 10),
@@ -144,6 +161,8 @@ MODEL_LIST = \
                  ('up', BorderlineSMOTE()),
                  ('model', SVC(kernel='sigmoid'))]),
             'n_search_iter': 100,
+            'model_type': 'SVM',
+            'model_subtype': 'BorderlineSMOTE',
             'hyperparam_space': {
                 'preproc__with_std': [False],
                 'model__C': uniform(0.07, 10),
@@ -161,6 +180,8 @@ MODEL_LIST = \
                 [('up', SVMSMOTE()), ('preproc', StandardScaler(with_mean=False)),
                  ('model', SVC(kernel='sigmoid'))]),
             'n_search_iter': 150,
+            'model_type': 'SVM',
+            'model_subtype': 'SVMSMOTE',
             'hyperparam_space': {
                 'preproc__with_std': [False],
                 'model__C': uniform(0.06, 10),
@@ -179,6 +200,8 @@ MODEL_LIST = \
                 [('preproc', StandardScaler(with_mean=False)),
                  ('model', LinearSVC(dual=True, penalty='l2', max_iter=50000, class_weight='balanced'))]),
             'n_search_iter': 100,
+            'model_type': 'LinearSVM',
+            'model_subtype': 'No Upsampling',
             'hyperparam_space': {
                 'preproc__with_std': [True],
                 'model__C': uniform(1e-5, 1e-4)
@@ -191,6 +214,8 @@ MODEL_LIST = \
                  ('up', RandomOverSampler()),
                  ('model', LinearSVC(dual=True, penalty='l2', max_iter=50000))]),
             'n_search_iter': 100,
+            'model_type': 'LinearSVM',
+            'model_subtype': 'Random Oversampling',
             'hyperparam_space': {
                 'preproc__with_std': [True],
                 'model__C': loguniform(2e-5, 1.5e-4),
@@ -206,6 +231,8 @@ MODEL_LIST = \
                  ('up', SMOTE()),
                  ('model', LinearSVC(dual=True, penalty='l2', max_iter=50000))]),
             'n_search_iter': 100,
+            'model_type': 'LinearSVM',
+            'model_subtype': 'SMOTE',
             'hyperparam_space': {
                 'preproc__with_std': [True],
                 'model__C': loguniform(1e-6, 1e-4),
@@ -221,6 +248,8 @@ MODEL_LIST = \
                  ('up', BorderlineSMOTE()),
                  ('model', LinearSVC(dual=True, penalty='l2', max_iter=50000))]),
             'n_search_iter': 100,
+            'model_type': 'LinearSVM',
+            'model_subtype': 'BorderlineSMOTE',
             'hyperparam_space': {
                 'preproc__with_std': [True],
                 'model__C': loguniform(1e-5, 1.5e-4),
@@ -237,6 +266,8 @@ MODEL_LIST = \
             'model': XGBClassifier(verbosity=0, tree_method='hist', booster='gbtree', gamma=0),
             # silent=True,
             'n_search_iter': 100,
+            'model_type': 'XGBoost',
+            'model_subtype': 'No Upsampling',
             'hyperparam_space': {
                 'n_estimators': randint(300, 400),
                 'reg_lambda': loguniform(15, 100),
@@ -256,6 +287,8 @@ MODEL_LIST = \
         'ComplementNaiveBayes': { # Best, but they were all pretty much the same
             'model': ComplementNB(),
             'n_search_iter': 100,
+            'model_type': 'ComplementNaiveBayes',
+            'model_subtype': 'No Upsampling',
             'hyperparam_space': {
                 'alpha': loguniform(1e-6, 0.4),
                 'norm': [False]
@@ -267,6 +300,8 @@ MODEL_LIST = \
                 [('up', RandomOverSampler()),
                  ('model', ComplementNB())]),
             'n_search_iter': 100,
+            'model_type': 'ComplementNaiveBayes',
+            'model_subtype': 'Random Oversampling',
             'hyperparam_space': {
                 'model__alpha': loguniform(1e-4, 1e-2),
                 'model__norm': [False],
@@ -280,6 +315,8 @@ MODEL_LIST = \
                 [('up', SMOTE()),
                  ('model', ComplementNB())]),
             'n_search_iter': 80,
+            'model_type': 'ComplementNaiveBayes',
+            'model_subtype': 'SMOTE',
             'hyperparam_space': {
                 'model__alpha': loguniform(1e-2, 0.2),
                 'model__norm': [False],
@@ -293,6 +330,8 @@ MODEL_LIST = \
                 [('up', BorderlineSMOTE()),
                  ('model', ComplementNB())]),
             'n_search_iter': 80,
+            'model_type': 'ComplementNaiveBayes',
+            'model_subtype': 'BorderlineSMOTE',
             'hyperparam_space': {
                 'model__alpha': loguniform(1e-6, 0.01),
                 'model__norm': [False],
@@ -308,6 +347,8 @@ MODEL_LIST = \
                 [('up', SVMSMOTE()), ('preproc', StandardScaler(with_mean=False)),
                  ('model', ComplementNB())]),
             'n_search_iter': 150,
+            'model_type': 'ComplementNaiveBayes',
+            'model_subtype': 'SVMSMOTE',
             'hyperparam_space': {
                 'preproc__with_std': [False],
                 'model__alpha': loguniform(1e-6, 0.01),
@@ -323,6 +364,8 @@ MODEL_LIST = \
         'RandomForest': {
             'model': RandomForestClassifier(class_weight="balanced_subsample"),
             'n_search_iter': 80,
+            'model_type': 'RandomForest',
+            'model_subtype': 'No Upsampling',
             'hyperparam_space': {
                 'max_features': randint(13, 60),
                 'n_estimators': [50, 100, 200],
@@ -339,6 +382,8 @@ MODEL_LIST = \
                 [('up', RandomOverSampler()),
                  ('model', RandomForestClassifier())]),
             'n_search_iter': 80,
+            'model_type': 'RandomForest',
+            'model_subtype': 'Random Oversampling',
             'hyperparam_space': {
                 'model__class_weight': ['balanced_subsample'],
                 'model__max_features': randint(13, 60),
@@ -359,6 +404,8 @@ MODEL_LIST = \
                 [('up', SMOTE()),
                  ('model', RandomForestClassifier())]),
             'n_search_iter': 80,
+            'model_type': 'RandomForest',
+            'model_subtype': 'SMOTE',
             'hyperparam_space': {
                 'model__class_weight': ['balanced_subsample'],
                 'model__max_features': randint(13, 60),
@@ -379,6 +426,8 @@ MODEL_LIST = \
                 [('up', BorderlineSMOTE()),
                  ('model', RandomForestClassifier())]),
             'n_search_iter': 80,
+            'model_type': 'RandomForest',
+            'model_subtype': 'BorderlineSMOTE',
             'hyperparam_space': {
                 'model__class_weight': ['balanced_subsample'],
                 'model__max_features': randint(13, 60),
@@ -401,6 +450,8 @@ MODEL_LIST = \
                 [('up', SVMSMOTE()),
                  ('model', RandomForestClassifier())]),
             'n_search_iter': 80,
+            'model_type': 'RandomForest',
+            'model_subtype': 'SVMSMOTE',
             'hyperparam_space': {
                 'model__class_weight': ['balanced_subsample'],
                 'model__criterion': ['gini', 'log_loss'],
@@ -416,8 +467,153 @@ MODEL_LIST = \
                 'up__m_neighbors': randint(3, 30),
                 'up__out_step': loguniform(1e-6, 1e-3)
             }
-        }
+        },
 
+        # TODO: Add kNN
+
+        #############################################################################################################
+        #############################################################################################################
+        ################################ Scikit-Multilearn models ###################################################
+
+        'BRkNNaClassifier': {
+            'model': Pipeline([
+                ('preproc', StandardScaler(with_mean=False, with_std=True)),
+                ('model', BRkNNaClassifier())
+            ]),
+            'n_search_iter': 5,
+            'wrap_mlb_clf': False,
+            'model_type': 'Binary Relevance kNN',
+            'model_subtype': 'Natively Multilabel',
+            'hyperparam_space': {
+                'preproc__with_std': [True],
+                'model__k': randint(2, 60)
+            }
+        },
+
+        'BRkNNbClassifier': {
+            'model': Pipeline([
+                ('preproc', StandardScaler(with_mean=False, with_std=True)),
+                ('model', BRkNNbClassifier())
+            ]),
+            'n_search_iter': 60,
+            'wrap_mlb_clf': False,
+            'model_type': 'Binary Relevance kNN',
+            'model_subtype': 'Natively Multilabel',
+            'hyperparam_space': {
+                'preproc__with_std': [True, False],
+                'model__k': randint(2, 60)
+            }
+        },
+
+        'MLkNN': {
+            'model': Pipeline([
+                ('preproc', StandardScaler(with_mean=False, with_std=True)),
+                ('model', MLkNN())
+            ]),
+            'n_search_iter': 5,
+            'wrap_mlb_clf': False,
+            'model_type': 'Multilabel k Nearest Neighbours¶',
+            'model_subtype': 'Natively Multilabel',
+            'hyperparam_space': {
+                'preproc__with_std': [True, False],
+                'model__k': randint(2, 60),
+                'model__s': loguniform(1e-4, 1e2)
+            }
+        },
+
+        'MLARAM': {
+            'model': Pipeline([
+                ('preproc', StandardScaler(with_mean=False, with_std=True)),
+                ('model', MLARAM())
+            ]),
+            'n_search_iter': 5,
+            'wrap_mlb_clf': False,
+            'model_type': 'Multi-label ARAM¶',
+            'model_subtype': 'Natively Multilabel',
+            'hyperparam_space': {
+                'preproc__with_std': [True, False],
+                'model__vigilance': uniform(0.75, 24.9999),
+                'model__threshold': uniform(0.01, 0.1)
+            }
+        },
+
+        'RakelD_LineaSVC': {
+            'model': Pipeline([
+                ('preproc', StandardScaler(with_mean=False, with_std=True)),
+                ('model', RakelD())
+
+            ]),
+            'n_search_iter': 5,
+            'wrap_mlb_clf': False,
+            'model_type': 'LinearSVM',
+            'model_subtype': 'RakelD Partitioning of labels',
+            'hyperparam_space': {
+                'preproc__with_std': [True],
+                'model__base_classifier': [LinearSVC(dual=True, penalty='l2', max_iter=50000, class_weight='balanced')],
+                'model__base_classifier__C': loguniform(1e-5, 1e-3),
+                'model__base_classifier_require_dense': [False],
+                'model__labelset_size': range(1, 6)
+            }
+        },
+
+        'RakelD_ComplementNB': {
+            'model': Pipeline([
+                ('preproc', StandardScaler(with_mean=False, with_std=True)),
+                ('model', RakelD())
+
+            ]),
+            'n_search_iter': 5,
+            'wrap_mlb_clf': False,
+            'model_type': 'ComplementNB',
+            'model_subtype': 'RakelD Partitioning of labels',
+            'hyperparam_space': {
+                'preproc__with_std': [True, False],
+                'model__base_classifier': [ComplementNB(norm=False)],
+                'model__base_classifier__alpha': loguniform(1e-6, 0.4),
+                'model__base_classifier_require_dense': [False],
+                'model__labelset_size': range(1, 6)
+            }
+        },
+
+        'RakelD_LogisticRegression': {
+            'model': Pipeline([
+                ('preproc', StandardScaler(with_mean=False, with_std=True)),
+                ('model', RakelD())
+
+            ]),
+            'n_search_iter': 5,
+            'wrap_mlb_clf': False,
+            'model_type': 'LogisticRegression',
+            'model_subtype': 'RakelD Partitioning of labels',
+            'hyperparam_space': {
+                'preproc__with_std': [True, False],
+                'model__base_classifier': [LogisticRegression(penalty='l2', solver='liblinear', dual=True,
+                                                              class_weight='balanced', max_iter=100000)],
+                'model__base_classifier__C': loguniform(1e-5, 1e-3),
+                'model__base_classifier_require_dense': [False],
+                'model__labelset_size': range(1, 6)
+            }
+        },
+
+        'RakelD_SVM': {
+            'model': Pipeline([
+                ('preproc', StandardScaler(with_mean=False, with_std=True)),
+                ('model', RakelD())
+
+            ]),
+            'n_search_iter': 5,
+            'wrap_mlb_clf': False,
+            'model_type': 'SVM',
+            'model_subtype': 'RakelD Partitioning of labels',
+            'hyperparam_space': {
+                'preproc__with_std': [True, False],
+                'model__base_classifier': [SVC(kernel='sigmoid', class_weight='balanced')],
+                'model__base_classifier__C': loguniform(0.08, 20),
+                'model__base_classifier__gamma': loguniform(0.5e-2, 1.5),
+                'model__base_classifier_require_dense': [False],
+                'model__labelset_size': range(1, 6)
+            }
+        }
     }
 
 if __name__ == '__main__':

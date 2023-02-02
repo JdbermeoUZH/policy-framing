@@ -15,11 +15,13 @@ DEFAULT_SCORING_FUNCTIONS = ('f1_micro', 'f1_macro', 'accuracy', 'precision_micr
                              'precision_macro', 'recall_micro', 'recall_macro')
 
 
-def _recode_param_nams(hyper_param_dist: dict, mlb_independent_fit: bool) -> dict:
-    if not mlb_independent_fit:
+def _recode_param_nams(hyper_param_dist: dict, estimator_type: str) -> dict:
+    if estimator_type == 'chain':
         new_dict = {f'base_estimator__{k}': v for k, v in hyper_param_dist.items()}
-    else:
+    elif estimator_type == 'independent':
         new_dict = {f'estimator__{k}': v for k, v in hyper_param_dist.items()}
+    else:
+        new_dict = hyper_param_dist
 
     return new_dict
 
@@ -32,16 +34,22 @@ class MultiLabelEstimator:
             base_estimator_hyperparam_dist: dict,
             treat_labels_as_independent: bool = True,
             scoring_functions: Tuple[str, ...] = DEFAULT_SCORING_FUNCTIONS,
-            random_seed: str = 123
+            random_seed: str = 123,
+            wrap_mlb_clf: bool = True
     ):
         self.model_name = model_name
-        self.estimator_type = 'independent' if treat_labels_as_independent else 'chain'
         self.base_estimator_name = base_estimator.__str__()
-        self.multi_label_estimator = \
-            MultiOutputClassifier(base_estimator) if treat_labels_as_independent else ClassifierChain(base_estimator)
+
+        if wrap_mlb_clf:
+            self.estimator_type = 'independent' if treat_labels_as_independent else 'chain'
+            self.multi_label_estimator = \
+                MultiOutputClassifier(base_estimator) if treat_labels_as_independent else ClassifierChain(base_estimator)
+        else:
+            self.estimator_type = 'mutilabel'
+            self.multi_label_estimator = base_estimator
 
         self.estimator_hyperparam_dists = _recode_param_nams(
-            base_estimator_hyperparam_dist, treat_labels_as_independent)
+            base_estimator_hyperparam_dist, self.estimator_type)
 
         self.scoring_functions = scoring_functions
         self.random_seed = random_seed

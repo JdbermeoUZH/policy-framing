@@ -21,6 +21,8 @@ MODEL_LIST = \
                                               max_iter=100000))]
             ),
             'n_search_iter': 100,
+            'model_type': 'LogisticRegressionRidge',
+            'model_subtype': 'No Upsampling',
             'hyperparam_space': {
                 'preproc__with_std': [True],
                 'model__C': loguniform(1e-6, 1.5e-3),
@@ -34,6 +36,8 @@ MODEL_LIST = \
                  ('up', RandomOverSampler()),
                  ('model', LogisticRegression(penalty='l2', solver='liblinear', dual=True, max_iter=100000))]),
             'n_search_iter': 100,
+            'model_type': 'LogisticRegressionRidge',
+            'model_subtype': 'Random Oversampling',
             'hyperparam_space': {
                 'preproc__with_std': [True],
                 'model__C': loguniform(1e-6, 1e-2),
@@ -49,6 +53,8 @@ MODEL_LIST = \
                  ('up', SMOTE()),
                  ('model', LogisticRegression(penalty='l2', solver='liblinear', dual=True, max_iter=100000))]),
             'n_search_iter': 100,
+            'model_type': 'LogisticRegressionRidge',
+            'model_subtype': 'SMOTE',
             'hyperparam_space': {
                 'preproc__with_std': [True],
                 'model__class_weight': ['balanced'],
@@ -64,6 +70,8 @@ MODEL_LIST = \
                  ('up', BorderlineSMOTE()),
                  ('model', LogisticRegression(penalty='l2', solver='liblinear', dual=True, max_iter=100000))]),
             'n_search_iter': 100,
+            'model_type': 'LogisticRegressionRidge',
+            'model_subtype': 'BorderlineSMOTE',
             'hyperparam_space': {
                 'preproc__with_std': [True],
                 'model__class_weight': ['balanced'],
@@ -81,6 +89,8 @@ MODEL_LIST = \
                  ('model', LogisticRegression(penalty='l2', solver='liblinear', dual=True, class_weight='balanced',
                                               max_iter=100000))]),
             'n_search_iter': 150,
+            'model_type': 'LogisticRegressionRidge',
+            'model_subtype': 'SVMSMOTE',
             'hyperparam_space': {
                 'preproc__with_std': [True],
                 'model__class_weight': ['balanced', None],
@@ -99,6 +109,8 @@ MODEL_LIST = \
                 [('preproc', StandardScaler(with_mean=False)),
                  ('model', SVC(kernel='sigmoid', class_weight='balanced'))]),
             'n_search_iter': 100,
+            'model_type': 'SVM',
+            'model_subtype': 'No Upsampling',
             'hyperparam_space': {
                 'preproc__with_std': [False],
                 'model__C': loguniform(0.08, 20),
@@ -112,6 +124,8 @@ MODEL_LIST = \
                  ('up', RandomOverSampler()),
                  ('model', SVC(kernel='sigmoid'))]),
             'n_search_iter': 100,
+            'model_type': 'SVM',
+            'model_subtype': 'Random Oversampling',
             'hyperparam_space': {
                 'preproc__with_std': [False],
                 'model__C': loguniform(0.1, 10),
@@ -128,6 +142,8 @@ MODEL_LIST = \
                  ('up', SMOTE()),
                  ('model', SVC(kernel='sigmoid'))]),
             'n_search_iter': 100,
+            'model_type': 'SVM',
+            'model_subtype': 'SMOTE',
             'hyperparam_space': {
                 'preproc__with_std': [False],
                 'model__C': loguniform(0.06, 10),
@@ -144,6 +160,8 @@ MODEL_LIST = \
                  ('up', BorderlineSMOTE()),
                  ('model', SVC(kernel='sigmoid'))]),
             'n_search_iter': 100,
+            'model_type': 'SVM',
+            'model_subtype': 'BorderlineSMOTE',
             'hyperparam_space': {
                 'preproc__with_std': [False],
                 'model__C': uniform(0.07, 10),
@@ -161,6 +179,8 @@ MODEL_LIST = \
                 [('up', SVMSMOTE()), ('preproc', StandardScaler(with_mean=False)),
                  ('model', SVC(kernel='sigmoid'))]),
             'n_search_iter': 150,
+            'model_type': 'SVM',
+            'model_subtype': 'SVMSMOTE',
             'hyperparam_space': {
                 'preproc__with_std': [False],
                 'model__C': uniform(0.06, 10),
@@ -179,6 +199,8 @@ MODEL_LIST = \
                 [('preproc', StandardScaler(with_mean=False)),
                  ('model', LinearSVC(dual=True, penalty='l2', max_iter=50000, class_weight='balanced'))]),
             'n_search_iter': 100,
+            'model_type': 'LinearSVM',
+            'model_subtype': 'No Upsampling',
             'hyperparam_space': {
                 'preproc__with_std': [True],
                 'model__C': uniform(1e-5, 1e-4)
@@ -191,6 +213,8 @@ MODEL_LIST = \
                  ('up', RandomOverSampler()),
                  ('model', LinearSVC(dual=True, penalty='l2', max_iter=50000))]),
             'n_search_iter': 100,
+            'model_type': 'LinearSVM',
+            'model_subtype': 'Random Oversampling',
             'hyperparam_space': {
                 'preproc__with_std': [True],
                 'model__C': loguniform(2e-5, 1.5e-4),
@@ -206,6 +230,8 @@ MODEL_LIST = \
                  ('up', SMOTE()),
                  ('model', LinearSVC(dual=True, penalty='l2', max_iter=50000))]),
             'n_search_iter': 100,
+            'model_type': 'LinearSVM',
+            'model_subtype': 'SMOTE',
             'hyperparam_space': {
                 'preproc__with_std': [True],
                 'model__C': loguniform(1e-6, 1e-4),
@@ -221,6 +247,8 @@ MODEL_LIST = \
                  ('up', BorderlineSMOTE()),
                  ('model', LinearSVC(dual=True, penalty='l2', max_iter=50000))]),
             'n_search_iter': 100,
+            'model_type': 'LinearSVM',
+            'model_subtype': 'BorderlineSMOTE',
             'hyperparam_space': {
                 'preproc__with_std': [True],
                 'model__C': loguniform(1e-5, 1.5e-4),
@@ -237,6 +265,8 @@ MODEL_LIST = \
             'model': XGBClassifier(verbosity=0, tree_method='hist', booster='gbtree', gamma=0),
             # silent=True,
             'n_search_iter': 100,
+            'model_type': 'XGBoost',
+            'model_subtype': 'No Upsampling',
             'hyperparam_space': {
                 'n_estimators': randint(300, 400),
                 'reg_lambda': loguniform(15, 100),
@@ -256,6 +286,8 @@ MODEL_LIST = \
         'ComplementNaiveBayes': { # Best, but they were all pretty much the same
             'model': ComplementNB(),
             'n_search_iter': 100,
+            'model_type': 'ComplementNaiveBayes',
+            'model_subtype': 'No Upsampling',
             'hyperparam_space': {
                 'alpha': loguniform(1e-6, 0.4),
                 'norm': [False]
@@ -267,6 +299,8 @@ MODEL_LIST = \
                 [('up', RandomOverSampler()),
                  ('model', ComplementNB())]),
             'n_search_iter': 100,
+            'model_type': 'ComplementNaiveBayes',
+            'model_subtype': 'Random Oversampling',
             'hyperparam_space': {
                 'model__alpha': loguniform(1e-4, 1e-2),
                 'model__norm': [False],
@@ -280,6 +314,8 @@ MODEL_LIST = \
                 [('up', SMOTE()),
                  ('model', ComplementNB())]),
             'n_search_iter': 80,
+            'model_type': 'ComplementNaiveBayes',
+            'model_subtype': 'SMOTE',
             'hyperparam_space': {
                 'model__alpha': loguniform(1e-2, 0.2),
                 'model__norm': [False],
@@ -293,6 +329,8 @@ MODEL_LIST = \
                 [('up', BorderlineSMOTE()),
                  ('model', ComplementNB())]),
             'n_search_iter': 80,
+            'model_type': 'ComplementNaiveBayes',
+            'model_subtype': 'BorderlineSMOTE',
             'hyperparam_space': {
                 'model__alpha': loguniform(1e-6, 0.01),
                 'model__norm': [False],
@@ -308,6 +346,8 @@ MODEL_LIST = \
                 [('up', SVMSMOTE()), ('preproc', StandardScaler(with_mean=False)),
                  ('model', ComplementNB())]),
             'n_search_iter': 150,
+            'model_type': 'ComplementNaiveBayes',
+            'model_subtype': 'SVMSMOTE',
             'hyperparam_space': {
                 'preproc__with_std': [False],
                 'model__alpha': loguniform(1e-6, 0.01),
@@ -323,6 +363,8 @@ MODEL_LIST = \
         'RandomForest': {
             'model': RandomForestClassifier(class_weight="balanced_subsample"),
             'n_search_iter': 80,
+            'model_type': 'RandomForest',
+            'model_subtype': 'No Upsampling',
             'hyperparam_space': {
                 'max_features': randint(13, 60),
                 'n_estimators': [50, 100, 200],
@@ -339,6 +381,8 @@ MODEL_LIST = \
                 [('up', RandomOverSampler()),
                  ('model', RandomForestClassifier())]),
             'n_search_iter': 80,
+            'model_type': 'RandomForest',
+            'model_subtype': 'Random Oversampling',
             'hyperparam_space': {
                 'model__class_weight': ['balanced_subsample'],
                 'model__max_features': randint(13, 60),
@@ -359,6 +403,8 @@ MODEL_LIST = \
                 [('up', SMOTE()),
                  ('model', RandomForestClassifier())]),
             'n_search_iter': 80,
+            'model_type': 'RandomForest',
+            'model_subtype': 'SMOTE',
             'hyperparam_space': {
                 'model__class_weight': ['balanced_subsample'],
                 'model__max_features': randint(13, 60),
@@ -379,6 +425,8 @@ MODEL_LIST = \
                 [('up', BorderlineSMOTE()),
                  ('model', RandomForestClassifier())]),
             'n_search_iter': 80,
+            'model_type': 'RandomForest',
+            'model_subtype': 'BorderlineSMOTE',
             'hyperparam_space': {
                 'model__class_weight': ['balanced_subsample'],
                 'model__max_features': randint(13, 60),
@@ -401,6 +449,8 @@ MODEL_LIST = \
                 [('up', SVMSMOTE()),
                  ('model', RandomForestClassifier())]),
             'n_search_iter': 80,
+            'model_type': 'RandomForest',
+            'model_subtype': 'SVMSMOTE',
             'hyperparam_space': {
                 'model__class_weight': ['balanced_subsample'],
                 'model__criterion': ['gini', 'log_loss'],
