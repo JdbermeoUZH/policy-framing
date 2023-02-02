@@ -12,14 +12,15 @@ from sklearn.naive_bayes import ComplementNB, MultinomialNB
 from imblearn.over_sampling import SMOTE, BorderlineSMOTE, SVMSMOTE, RandomOverSampler
 from imblearn.pipeline import Pipeline
 
+min_samples_min_class = 14
+up_sampling_prop_list = [0.99, 0.9925, 0.995, 0.999, 0.9, 0.95, 0.85]
 
 MODEL_LIST = \
     {
         'LogisticRegression': {
             'model': Pipeline(
                 [('preproc', StandardScaler(with_mean=False)),
-                 ('model', LogisticRegression(penalty='none', solver='liblinear', class_weight='balanced',
-                                              max_iter=100000))]
+                 ('model', LogisticRegression(penalty=None, class_weight='balanced', max_iter=100000))]
             ),
             'n_search_iter': 60,
             'model_type': 'LogisticRegression',
@@ -34,15 +35,14 @@ MODEL_LIST = \
             'model': Pipeline(
                 [('preproc', StandardScaler(with_mean=False)),
                  ('up', RandomOverSampler()),
-                 ('model', LogisticRegression(penalty='none', solver='liblinear', class_weight='balanced',
-                                              max_iter=100000))]),
+                 ('model', LogisticRegression(penalty=None, class_weight='balanced', max_iter=100000))]),
             'n_search_iter': 60,
             'model_type': 'LogisticRegression',
             'model_subtype': 'Random Oversampling',
             'hyperparam_space': {
                 'preproc__with_std': [True],
                 'model__class_weight': ['balanced', None],
-                'up__sampling_strategy': ['minority', 'not majority', 0.99, 0.9925, 0.995, 0.999],
+                'up__sampling_strategy': ['minority', 'not majority'] + up_sampling_prop_list,
                 'up__shrinkage': loguniform(1e-6, 1)
             }
         },
@@ -51,16 +51,15 @@ MODEL_LIST = \
             'model': Pipeline(
                 [('preproc', StandardScaler(with_mean=False)),
                  ('up', SMOTE()),
-                 ('model', LogisticRegression(penalty='none', solver='liblinear', class_weight='balanced',
-                                              max_iter=100000))]),
+                 ('model', LogisticRegression(penalty=None, class_weight='balanced', max_iter=100000))]),
             'n_search_iter': 60,
             'model_type': 'LogisticRegression',
             'model_subtype': 'SMOTE',
             'hyperparam_space': {
                 'preproc__with_std': [True],
                 'model__class_weight': ['balanced'],
-                'up__sampling_strategy': ['minority', 'not majority', 0.99, 0.995, 0.999],
-                'up__k_neighbors': randint(7, 25)
+                'up__sampling_strategy': ['minority', 'not majority'] + up_sampling_prop_list,
+                'up__k_neighbors': randint(7, min_samples_min_class)
             }
         },
 
@@ -68,16 +67,15 @@ MODEL_LIST = \
             'model': Pipeline(
                 [('preproc', StandardScaler(with_mean=False)),
                  ('up', BorderlineSMOTE()),
-                 ('model', LogisticRegression(penalty='none', solver='liblinear', class_weight='balanced',
-                                              max_iter=100000))]),
+                 ('model', LogisticRegression(penalty=None, class_weight='balanced', max_iter=100000))]),
             'n_search_iter': 60,
             'model_type': 'LogisticRegression',
             'model_subtype': 'BorderlineSMOTE',
             'hyperparam_space': {
                 'preproc__with_std': [True],
                 'model__class_weight': ['balanced'],
-                'up__sampling_strategy': ['minority', 'not majority', 0.99, 0.995, 0.999],
-                'up__k_neighbors': randint(5, 25),
+                'up__sampling_strategy': ['minority', 'not majority'] + up_sampling_prop_list,
+                'up__k_neighbors': randint(5, min_samples_min_class),
                 'up__m_neighbors': randint(14, 30),
                 'up__kind': ['borderline-2']
             }
@@ -86,16 +84,15 @@ MODEL_LIST = \
         'LogisticRegression_SVMSMOTE': {
             'model': Pipeline(
                 [('up', SVMSMOTE()), ('preproc', StandardScaler(with_mean=False)),
-                 ('model', LogisticRegression(penalty='l2', solver='liblinear', dual=True, class_weight='balanced',
-                                              max_iter=100000))]),
+                 ('model', LogisticRegression(penalty=None, class_weight='balanced', max_iter=100000))]),
             'n_search_iter': 150,
             'model_type': 'LogisticRegression',
             'model_subtype': 'SVMSMOTE',
             'hyperparam_space': {
                 'preproc__with_std': [True],
                 'model__class_weight': ['balanced', None],
-                'up__sampling_strategy': ['minority', 'not majority', 0.99, 0.995, 0.999],
-                'up__k_neighbors': randint(5, 25),
+                'up__sampling_strategy': ['minority', 'not majority'] + up_sampling_prop_list,
+                'up__k_neighbors': randint(5, min_samples_min_class),
                 'up__m_neighbors': randint(14, 30),
                 'up__out_step': loguniform(1e-6, 1e-3)
             }
@@ -113,7 +110,7 @@ MODEL_LIST = \
             'model_subtype': 'No Upsampling',
             'hyperparam_space': {
                 'preproc__with_std': [True],
-                'model__C': loguniform(1e-6, 1.5e-3),
+                'model__C': loguniform(1e-6, 1e-2),
                 'model__class_weight': ['balanced']
             }
         },
@@ -130,7 +127,7 @@ MODEL_LIST = \
                 'preproc__with_std': [True],
                 'model__C': loguniform(1e-6, 1e-2),
                 'model__class_weight': ['balanced', None],
-                'up__sampling_strategy': ['minority', 'not majority', 0.99, 0.9925, 0.995, 0.999],
+                'up__sampling_strategy': ['minority', 'not majority'] + up_sampling_prop_list,
                 'up__shrinkage': loguniform(1e-6, 1)
             }
         },
@@ -147,8 +144,8 @@ MODEL_LIST = \
                 'preproc__with_std': [True],
                 'model__class_weight': ['balanced'],
                 'model__C': loguniform(1e-6, 1e-2),
-                'up__sampling_strategy': ['minority', 'not majority', 0.99, 0.995, 0.999],
-                'up__k_neighbors': randint(7, 25)
+                'up__sampling_strategy': ['minority', 'not majority'] + up_sampling_prop_list,
+                'up__k_neighbors': randint(7, min_samples_min_class)
             }
         },
 
@@ -164,8 +161,8 @@ MODEL_LIST = \
                 'preproc__with_std': [True],
                 'model__class_weight': ['balanced'],
                 'model__C': loguniform(1e-6, 1e-2),
-                'up__sampling_strategy': ['minority', 'not majority', 0.99, 0.995, 0.999],
-                'up__k_neighbors': randint(5, 25),
+                'up__sampling_strategy': ['minority', 'not majority'] + up_sampling_prop_list,
+                'up__k_neighbors': randint(5, min_samples_min_class),
                 'up__m_neighbors': randint(14, 30),
                 'up__kind': ['borderline-2']
             }
@@ -183,48 +180,34 @@ MODEL_LIST = \
                 'preproc__with_std': [True],
                 'model__class_weight': ['balanced', None],
                 'model__C': loguniform(1e-6, 1e-2),
-                'up__sampling_strategy': ['minority', 'not majority', 0.99, 0.995, 0.999],
-                'up__k_neighbors': randint(5, 25),
+                'up__sampling_strategy': ['minority', 'not majority'] + up_sampling_prop_list,
+                'up__k_neighbors': randint(5, min_samples_min_class),
                 'up__m_neighbors': randint(14, 30),
                 'up__out_step': loguniform(1e-6, 1e-3)
             }
         },
 
+        'RakelD_LogisticRegression': {
+            'model': Pipeline([
+                ('preproc', StandardScaler(with_mean=False, with_std=True)),
+                ('model', RakelD())
+            ]),
+            'n_search_iter': 60,
+            'wrap_mlb_clf': False,
+            'model_type': 'LogisticRegressionRidge',
+            'model_subtype': 'RakelD Partitioning of labels',
+            'hyperparam_space': {
+                'preproc__with_std': [True, False],
+                'model__base_classifier': [LogisticRegression(penalty='l2', solver='liblinear', dual=True,
+                                                              class_weight='balanced', max_iter=100000)],
+                'model__base_classifier__C': loguniform(1e-6, 1e-2),
+                'model__base_classifier_require_dense': [False],
+                'model__labelset_size': range(1, 6)
+            }
+        },
         ######################################################################################################
 
         'LogisticRegressionLasso': {
-            'model': Pipeline(
-                [('preproc', StandardScaler(with_mean=False)),
-                 ('model', LogisticRegression(penalty='l1', solver='liblinear', class_weight='balanced',
-                                              max_iter=100000))]
-            ),
-            'n_search_iter': 60,
-            'model_type': 'LogisticRegressionLasso',
-            'model_subtype': 'No Upsampling',
-            'hyperparam_space': {
-                'preproc__with_std': [True],
-                'model__class_weight': ['balanced'],
-                'model__C': loguniform(1e-1, 40),
-            }
-        },
-
-        'LogisticRegressionLasso_V2': {
-            'model': Pipeline(
-                [('preproc', StandardScaler(with_mean=False)),
-                 ('model', LogisticRegression(penalty='l1', solver='liblinear', class_weight='balanced',
-                                              max_iter=100000))]
-            ),
-            'n_search_iter': 60,
-            'model_type': 'LogisticRegressionLasso',
-            'model_subtype': 'No Upsampling',
-            'hyperparam_space': {
-                'preproc__with_std': [True],
-                'model__class_weight': ['balanced'],
-                'model__C': uniform(1, 9),
-            }
-        },
-
-        'LogisticRegressionLasso_V3': {
             'model': Pipeline(
                 [('preproc', StandardScaler(with_mean=False)),
                  ('model', LogisticRegression(penalty='l1', solver='liblinear', class_weight='balanced',
@@ -244,7 +227,7 @@ MODEL_LIST = \
             'model': Pipeline(
                 [('preproc', StandardScaler(with_mean=False)),
                  ('up', RandomOverSampler()),
-                 ('model', LogisticRegression(penalty='l1', solver='liblinear', class_weight='balanced', 
+                 ('model', LogisticRegression(penalty='l1', solver='liblinear', class_weight='balanced',
                                               max_iter=100000))]),
             'model_type': 'LogisticRegressionLasso',
             'model_subtype': 'Random Oversampling',
@@ -252,7 +235,7 @@ MODEL_LIST = \
             'hyperparam_space': {
                 'preproc__with_std': [True],
                 'model__C': loguniform(1e-2, 100),
-                'up__sampling_strategy': ['minority', 'not majority', 0.99, 0.9925, 0.995, 0.999, 0.85, 0.8, 0.75],
+                'up__sampling_strategy': ['minority', 'not majority'] + up_sampling_prop_list,
                 'up__shrinkage': loguniform(1e-6, 1)
             }
         },
@@ -270,8 +253,8 @@ MODEL_LIST = \
                 'preproc__with_std': [True],
                 'model__class_weight': ['balanced'],
                 'model__C': loguniform(1e-2, 100),
-                'up__sampling_strategy': ['minority', 'not majority', 0.99, 0.9925, 0.995, 0.999, 0.85, 0.8, 0.75],
-                'up__k_neighbors': randint(7, 25)
+                'up__sampling_strategy': ['minority', 'not majority'] + up_sampling_prop_list,
+                'up__k_neighbors': randint(7, min_samples_min_class)
             }
         },
 
@@ -288,8 +271,8 @@ MODEL_LIST = \
                 'preproc__with_std': [True],
                 'model__class_weight': ['balanced'],
                 'model__C': loguniform(1e-2, 100),
-                'up__sampling_strategy': ['minority', 'not majority', 0.99, 0.9925, 0.995, 0.999, 0.85, 0.8, 0.75],
-                'up__k_neighbors': randint(5, 25),
+                'up__sampling_strategy': ['minority', 'not majority'] + up_sampling_prop_list,
+                'up__k_neighbors': randint(5, min_samples_min_class),
                 'up__m_neighbors': randint(14, 30),
                 'up__kind': ['borderline-2']
             }
@@ -307,8 +290,8 @@ MODEL_LIST = \
                 'preproc__with_std': [True],
                 'model__class_weight': ['balanced', None],
                 'model__C': loguniform(1e-2, 100),
-                'up__sampling_strategy': ['minority', 'not majority', 0.99, 0.9925, 0.995, 0.999, 0.85, 0.8, 0.75],
-                'up__k_neighbors': randint(5, 25),
+                'up__sampling_strategy': ['minority', 'not majority'] + up_sampling_prop_list,
+                'up__k_neighbors': randint(5, min_samples_min_class),
                 'up__m_neighbors': randint(14, 30),
                 'up__out_step': loguniform(1e-6, 1e-3)
             }
@@ -320,23 +303,7 @@ MODEL_LIST = \
         'LogisticRegressionElasticNet': {
             'model': Pipeline(
                 [('preproc', StandardScaler(with_mean=False)),
-                 ('model', LogisticRegression(penalty='elasticnet', solver='saga', l1_ratio=0.5, max_iter=1000000,
-                                        class_weight='balanced'))]
-            ),
-            'n_search_iter': 60,
-            'model_type': 'LogisticRegressionElasticNet',
-            'model_subtype': 'No Upsampling',
-            'hyperparam_space': {
-                'preproc__with_std': [True],
-                'model__class_weight': ['balanced'],
-                'model__C': uniform(1, 6),
-            }
-        },
-
-        'LogisticRegressionElasticNet_V2': {
-            'model': Pipeline(
-                [('preproc', StandardScaler(with_mean=False)),
-                 ('model', LogisticRegression(penalty='elasticnet', solver='saga', l1_ratio=0.5, max_iter=1000000,
+                 ('model', LogisticRegression(penalty='elasticnet', solver='saga', l1_ratio=0.5, max_iter=1000,
                                               class_weight='balanced'))]
             ),
             'n_search_iter': 60,
@@ -349,35 +316,19 @@ MODEL_LIST = \
             }
         },
 
-        'LogisticRegressionElasticNet_V3': {
-            'model': Pipeline(
-                [('preproc', StandardScaler(with_mean=False)),
-                 ('model', LogisticRegression(penalty='elasticnet', solver='saga', l1_ratio=0.5, max_iter=1000000,
-                                              class_weight='balanced'))]
-            ),
-            'n_search_iter': 60,
-            'model_type': 'LogisticRegressionElasticNet',
-            'model_subtype': 'No Upsampling',
-            'hyperparam_space': {
-                'preproc__with_std': [True],
-                'model__class_weight': ['balanced'],
-                'model__C': loguniform(1e-3, 1000),
-            }
-        },
-
         'LogisticRegressionElasticNet_ROS': {
             'model': Pipeline(
                 [('preproc', StandardScaler(with_mean=False)),
                  ('up', RandomOverSampler()),
-                 ('model', LogisticRegression(penalty='elasticnet', solver='saga', l1_ratio=0.5, max_iter=1000000,
-                                        class_weight='balanced'))]),
+                 ('model', LogisticRegression(penalty='elasticnet', solver='saga', l1_ratio=0.5, max_iter=1000,
+                                              class_weight='balanced'))]),
             'model_type': 'LogisticRegressionElasticNet',
             'model_subtype': 'Random Oversampling',
             'n_search_iter': 60,
             'hyperparam_space': {
                 'preproc__with_std': [True],
                 'model__C': loguniform(1e-3, 100),
-                'up__sampling_strategy': ['minority', 'not majority', 0.99, 0.9925, 0.995, 0.999, 0.85, 0.8, 0.75],
+                'up__sampling_strategy': ['minority', 'not majority'] + up_sampling_prop_list,
                 'up__shrinkage': loguniform(1e-6, 1)
             }
         },
@@ -386,8 +337,8 @@ MODEL_LIST = \
             'model': Pipeline(
                 [('preproc', StandardScaler(with_mean=False)),
                  ('up', SMOTE()),
-                 ('model', LogisticRegression(penalty='elasticnet', solver='saga', l1_ratio=0.5, max_iter=1000000,
-                                        class_weight='balanced'))]),
+                 ('model', LogisticRegression(penalty='elasticnet', solver='saga', l1_ratio=0.5, max_iter=1000,
+                                              class_weight='balanced'))]),
             'n_search_iter': 60,
             'model_type': 'LogisticRegressionElasticNet',
             'model_subtype': 'SMOTE',
@@ -395,8 +346,8 @@ MODEL_LIST = \
                 'preproc__with_std': [True],
                 'model__class_weight': ['balanced'],
                 'model__C': loguniform(1e-3, 100),
-                'up__sampling_strategy': ['minority', 'not majority', 0.99, 0.9925, 0.995, 0.999, 0.85, 0.8, 0.75],
-                'up__k_neighbors': randint(7, 25)
+                'up__sampling_strategy': ['minority', 'not majority'] + up_sampling_prop_list,
+                'up__k_neighbors': randint(7, min_samples_min_class)
             }
         },
 
@@ -404,7 +355,7 @@ MODEL_LIST = \
             'model': Pipeline(
                 [('preproc', StandardScaler(with_mean=False)),
                  ('up', BorderlineSMOTE()),
-                 ('model', LogisticRegression(penalty='elasticnet', solver='saga', l1_ratio=0.5, max_iter=1000000,
+                 ('model', LogisticRegression(penalty='elasticnet', solver='saga', l1_ratio=0.5, max_iter=1000,
                                         class_weight='balanced'))]),
             'n_search_iter': 60,
             'model_type': 'LogisticRegressionElasticNet',
@@ -413,8 +364,8 @@ MODEL_LIST = \
                 'preproc__with_std': [True],
                 'model__class_weight': ['balanced'],
                 'model__C': loguniform(1e-3, 100),
-                'up__sampling_strategy': ['minority', 'not majority', 0.99, 0.9925, 0.995, 0.999, 0.85, 0.8, 0.75],
-                'up__k_neighbors': randint(5, 25),
+                'up__sampling_strategy': ['minority', 'not majority'] + up_sampling_prop_list,
+                'up__k_neighbors': randint(5, min_samples_min_class),
                 'up__m_neighbors': randint(14, 30),
                 'up__kind': ['borderline-2']
             }
@@ -423,8 +374,8 @@ MODEL_LIST = \
         'LogisticRegressionElasticNet_SVMSMOTE': {
             'model': Pipeline(
                 [('up', SVMSMOTE()), ('preproc', StandardScaler(with_mean=False)),
-                 ('model', LogisticRegression(penalty='elasticnet', solver='saga', l1_ratio=0.5, max_iter=1000000,
-                                        class_weight='balanced'))]),
+                 ('model', LogisticRegression(penalty='elasticnet', solver='saga', l1_ratio=0.5, max_iter=1000,
+                                              class_weight='balanced'))]),
             'n_search_iter': 150,
             'model_type': 'LogisticRegressionElasticNet',
             'model_subtype': 'SVMSMOTE',
@@ -432,8 +383,8 @@ MODEL_LIST = \
                 'preproc__with_std': [True],
                 'model__class_weight': ['balanced', None],
                 'model__C': loguniform(1e-3, 100),
-                'up__sampling_strategy': ['minority', 'not majority', 0.99, 0.9925, 0.995, 0.999, 0.85, 0.8, 0.75],
-                'up__k_neighbors': randint(5, 25),
+                'up__sampling_strategy': ['minority', 'not majority'] + up_sampling_prop_list,
+                'up__k_neighbors': randint(5, min_samples_min_class),
                 'up__m_neighbors': randint(14, 30),
                 'up__out_step': loguniform(1e-6, 1e-3)
             }
@@ -441,21 +392,6 @@ MODEL_LIST = \
 
         ######################################################################################################
         'RidgeClassifier': {
-            'model': Pipeline(
-                [('preproc', StandardScaler(with_mean=False)),
-                 ('model', RidgeClassifier(max_iter=100000, class_weight='balanced'))]
-            ),
-            'n_search_iter': 60,
-            'model_type': 'RidgeClassifier',
-            'model_subtype': 'No Upsampling',
-            'hyperparam_space': {
-                'preproc__with_std': [True],
-                'model__class_weight': ['balanced'],
-                'model__alpha': loguniform(1, 2e3)
-            }
-        },
-
-        'RidgeClassifier_V2': {
             'model': Pipeline(
                 [('preproc', StandardScaler(with_mean=False)),
                  ('model', RidgeClassifier(max_iter=100000, class_weight='balanced'))]
@@ -481,7 +417,7 @@ MODEL_LIST = \
             'hyperparam_space': {
                 'preproc__with_std': [True],
                 'model__alpha': loguniform(1e-2, 1e4),
-                'up__sampling_strategy': ['minority', 'not majority', 0.99, 0.9925, 0.995, 0.999, 0.85, 0.8, 0.75],
+                'up__sampling_strategy': ['minority', 'not majority'] + up_sampling_prop_list,
                 'up__shrinkage': loguniform(1e-6, 1)
             }
         },
@@ -498,8 +434,8 @@ MODEL_LIST = \
                 'preproc__with_std': [True],
                 'model__class_weight': ['balanced'],
                 'model__alpha': loguniform(1e-2, 1e4),
-                'up__sampling_strategy': ['minority', 'not majority', 0.99, 0.9925, 0.995, 0.999, 0.85, 0.8, 0.75],
-                'up__k_neighbors': randint(7, 25)
+                'up__sampling_strategy': ['minority', 'not majority'] + up_sampling_prop_list,
+                'up__k_neighbors': randint(7, min_samples_min_class)
             }
         },
 
@@ -515,8 +451,8 @@ MODEL_LIST = \
                 'preproc__with_std': [True],
                 'model__class_weight': ['balanced'],
                 'model__alpha': loguniform(1e-2, 1e4),
-                'up__sampling_strategy': ['minority', 'not majority', 0.99, 0.9925, 0.995, 0.999, 0.85, 0.8, 0.75],
-                'up__k_neighbors': randint(5, 25),
+                'up__sampling_strategy': ['minority', 'not majority'] + up_sampling_prop_list,
+                'up__k_neighbors': randint(5, min_samples_min_class),
                 'up__m_neighbors': randint(14, 30),
                 'up__kind': ['borderline-2']
             }
@@ -533,29 +469,15 @@ MODEL_LIST = \
                 'preproc__with_std': [True],
                 'model__class_weight': ['balanced', None],
                 'model__alpha': loguniform(1e-2, 1e4),
-                'up__sampling_strategy': ['minority', 'not majority', 0.99, 0.9925, 0.995, 0.999, 0.85, 0.8, 0.75],
-                'up__k_neighbors': randint(5, 25),
+                'up__sampling_strategy': ['minority', 'not majority'] + up_sampling_prop_list,
+                'up__k_neighbors': randint(5, min_samples_min_class),
                 'up__m_neighbors': randint(14, 30),
                 'up__out_step': loguniform(1e-6, 1e-3)
             }
         },
 
         ######################################################################################################
-        'SVM_rbf': {  # Best, but very similar to the rest
-            'model': Pipeline(
-                [('preproc', StandardScaler(with_mean=False)),
-                 ('model', SVC(kernel='rbf', class_weight='balanced'))]),
-            'n_search_iter': 60,
-            'model_type': 'SVM',
-            'model_subtype': 'No Upsampling',
-            'hyperparam_space': {
-                'preproc__with_std': [False, True],
-                'model__C': loguniform(700, 1e3),
-                'model__gamma': loguniform(5e-4, 1e-3),
-            }
-        },
-
-        'SVM_rbf_V2': {  # Best, but very similar to the rest
+        'SVM_rbf': {
             'model': Pipeline(
                 [('preproc', StandardScaler(with_mean=False)),
                  ('model', SVC(kernel='rbf', class_weight='balanced'))]),
@@ -565,20 +487,6 @@ MODEL_LIST = \
             'hyperparam_space': {
                 'preproc__with_std': [False, True],
                 'model__C': loguniform(1, 1e3),
-                'model__gamma': loguniform(1e-5, 1e-3),
-            }
-        },
-
-        'SVM_rbf_V3': {  # Best, but very similar to the rest
-            'model': Pipeline(
-                [('preproc', StandardScaler(with_mean=False)),
-                 ('model', SVC(kernel='rbf', class_weight='balanced'))]),
-            'n_search_iter': 60,
-            'model_type': 'SVM',
-            'model_subtype': 'No Upsampling',
-            'hyperparam_space': {
-                'preproc__with_std': [False, True],
-                'model__C': loguniform(0.1, 1e5),
                 'model__gamma': loguniform(1e-5, 1e-3),
             }
         },
@@ -596,7 +504,7 @@ MODEL_LIST = \
                 'model__C': loguniform(1, 1e3),
                 'model__gamma': loguniform(1e-5, 1e-3),
                 'model__class_weight': ['balanced'],
-                'up__sampling_strategy': ['minority', 'not minority', 'not majority', 0.99, 0.995, 0.999, 0.9, 0.8],
+                'up__sampling_strategy': ['minority', 'not minority', 'not majority'] + up_sampling_prop_list,
                 'up__shrinkage': loguniform(1e-7, 1e-4)
             }
         },
@@ -614,8 +522,8 @@ MODEL_LIST = \
                 'model__C': loguniform(1, 1e3),
                 'model__gamma': loguniform(1e-5, 1e-3),
                 'model__class_weight': ['balanced'],
-                'up__sampling_strategy': ['minority', 'not minority', 'not majority', 0.99, 0.995, 0.999, 0.9, 0.8],
-                'up__k_neighbors': randint(7, 30)
+                'up__sampling_strategy': ['minority', 'not minority', 'not majority'] + up_sampling_prop_list,
+                 'up__k_neighbors': randint(5, min_samples_min_class)
             }
         },
 
@@ -632,8 +540,8 @@ MODEL_LIST = \
                 'model__C': loguniform(1, 1e3),
                 'model__gamma': loguniform(1e-5, 1e-3),
                 'model__class_weight': ['balanced'],
-                'up__sampling_strategy': ['not minority', 'not majority', 0.99, 0.995, 0.999, 0.9, 0.8],
-                'up__k_neighbors': randint(3, 30),
+                'up__sampling_strategy': ['not minority', 'not majority'] + up_sampling_prop_list,
+                'up__k_neighbors': randint(3, min_samples_min_class),
                 'up__m_neighbors': randint(3, 30),
                 'up__kind': ['borderline-2']
             }
@@ -651,8 +559,8 @@ MODEL_LIST = \
                 'model__C': loguniform(1, 1e3),
                 'model__gamma': loguniform(1e-5, 1e-3),
                 'model__class_weight': ['balanced'],
-                'up__sampling_strategy': ['not minority', 'not majority', 0.99, 0.995, 0.999, 0.9, 0.8],
-                'up__k_neighbors': randint(3, 30),
+                'up__sampling_strategy': ['not minority', 'not majority'] + up_sampling_prop_list,
+                'up__k_neighbors': randint(3, min_samples_min_class),
                 'up__m_neighbors': randint(3, 30),
                 'up__out_step': loguniform(1e-6, 1e-3)
             }
@@ -686,7 +594,7 @@ MODEL_LIST = \
                 'model__C': loguniform(0.1, 10),
                 'model__gamma': loguniform(0.5e-2, 1.5),
                 'model__class_weight': ['balanced'],
-                'up__sampling_strategy': ['minority', 'not minority', 'not majority', 0.99, 0.995, 0.999, 0.9, 0.8],
+                'up__sampling_strategy': ['minority', 'not minority', 'not majority'] + up_sampling_prop_list,
                 'up__shrinkage': loguniform(1e-7, 1e-4)
             }
         },
@@ -704,8 +612,8 @@ MODEL_LIST = \
                 'model__C': loguniform(0.06, 10),
                 'model__gamma': loguniform(1e-2, 1.5),
                 'model__class_weight': ['balanced'],
-                'up__sampling_strategy': ['minority', 'not minority', 'not majority', 0.99, 0.995, 0.999, 0.9, 0.8],
-                'up__k_neighbors': randint(7, 30)
+                'up__sampling_strategy': ['minority', 'not minority', 'not majority'] + up_sampling_prop_list,
+                'up__k_neighbors': randint(5, min_samples_min_class)
             }
         },
 
@@ -719,11 +627,11 @@ MODEL_LIST = \
             'model_subtype': 'BorderlineSMOTE',
             'hyperparam_space': {
                 'preproc__with_std': [False],
-                'model__C': uniform(0.07, 10),
+                'model__C': loguniform(0.07, 10),
                 'model__gamma': loguniform(1e-2, 0.5),
                 'model__class_weight': ['balanced'],
-                'up__sampling_strategy': ['not minority', 'not majority', 0.99, 0.995, 0.999, 0.9, 0.8],
-                'up__k_neighbors': randint(3, 30),
+                'up__sampling_strategy': ['not minority', 'not majority'] + up_sampling_prop_list,
+                'up__k_neighbors': randint(3, min_samples_min_class),
                 'up__m_neighbors': randint(3, 30),
                 'up__kind': ['borderline-2']
             }
@@ -738,13 +646,32 @@ MODEL_LIST = \
             'model_subtype': 'SVMSMOTE',
             'hyperparam_space': {
                 'preproc__with_std': [False],
-                'model__C': uniform(0.06, 10),
+                'model__C': loguniform(0.06, 10),
                 'model__gamma': loguniform(1e-2, 1.5),
                 'model__class_weight': ['balanced'],
-                'up__sampling_strategy': ['not minority', 'not majority', 0.99, 0.995, 0.999, 0.9, 0.8],
-                'up__k_neighbors': randint(3, 30),
+                'up__sampling_strategy': ['not minority', 'not majority'] + up_sampling_prop_list,
+                'up__k_neighbors': randint(3, min_samples_min_class),
                 'up__m_neighbors': randint(3, 30),
                 'up__out_step': loguniform(1e-6, 1e-3)
+            }
+        },
+
+        'RakelD_SVM': {
+            'model': Pipeline([
+                ('preproc', StandardScaler(with_mean=False, with_std=True)),
+                ('model', RakelD())
+            ]),
+            'n_search_iter': 60,
+            'wrap_mlb_clf': False,
+            'model_type': 'SVM',
+            'model_subtype': 'RakelD Partitioning of labels',
+            'hyperparam_space': {
+                'preproc__with_std': [True, False],
+                'model__base_classifier': [SVC(kernel='sigmoid', class_weight='balanced')],
+                'model__base_classifier__C': loguniform(0.08, 20),
+                'model__base_classifier__gamma': loguniform(0.5e-2, 1.5),
+                'model__base_classifier_require_dense': [False],
+                'model__labelset_size': range(1, 6)
             }
         },
 
@@ -774,7 +701,7 @@ MODEL_LIST = \
                 'preproc__with_std': [True],
                 'model__C': loguniform(2e-5, 1.5e-4),
                 'model__class_weight': ['balanced'],
-                'up__sampling_strategy': ['minority', 'not minority', 'not majority', 0.99, 0.995, 0.999, 0.9, 0.8],
+                'up__sampling_strategy': ['minority', 'not minority', 'not majority'] + up_sampling_prop_list,
                 'up__shrinkage': loguniform(1e-7, 1e-3)
             }
         },
@@ -791,8 +718,8 @@ MODEL_LIST = \
                 'preproc__with_std': [True],
                 'model__C': loguniform(1e-6, 1e-4),
                 'model__class_weight': ['balanced'],
-                'up__sampling_strategy': ['minority', 'not minority', 'not majority', 0.99, 0.995, 0.999, 0.9, 0.8],
-                'up__k_neighbors': randint(3, 30)
+                'up__sampling_strategy': ['minority', 'not minority', 'not majority'] + up_sampling_prop_list,
+                'up__k_neighbors': randint(3, min_samples_min_class)
             }
         },
 
@@ -808,20 +735,57 @@ MODEL_LIST = \
                 'preproc__with_std': [True],
                 'model__C': loguniform(1e-5, 1.5e-4),
                 'model__class_weight': ['balanced'],
-                'up__sampling_strategy': ['minority', 'not minority', 'not majority', 0.99, 0.995, 0.999, 0.9, 0.8],
-                'up__k_neighbors': randint(3, 30),
+                'up__sampling_strategy': ['minority', 'not minority', 'not majority'] + up_sampling_prop_list,
+                'up__k_neighbors': randint(3, min_samples_min_class),
                 'up__m_neighbors': randint(3, 30),
                 'up__kind': ['borderline-1', 'borderline-2']
             }
         },
 
+        'LinearSVMDual_SVMSMOTE': {
+            'model': Pipeline(
+                [('preproc', StandardScaler(with_mean=False)),
+                 ('up', SVMSMOTE()),
+                 ('model', LinearSVC(dual=True, penalty='l2', max_iter=50000))]),
+            'n_search_iter': 60,
+            'model_type': 'LinearSVM',
+            'model_subtype': 'BorderlineSMOTE',
+            'hyperparam_space': {
+                'preproc__with_std': [True],
+                'model__C': loguniform(1e-5, 1.5e-4),
+                'model__class_weight': ['balanced'],
+                'up__sampling_strategy': ['not minority', 'not majority'] + up_sampling_prop_list,
+                'up__k_neighbors': randint(3, min_samples_min_class),
+                'up__m_neighbors': randint(3, 30),
+                'up__out_step': loguniform(1e-6, 1e-3)
+            }
+        },
+
+        'RakelD_LineaSVM': {
+            'model': Pipeline([
+                ('preproc', StandardScaler(with_mean=False, with_std=True)),
+                ('model', RakelD())
+            ]),
+            'n_search_iter': 60,
+            'wrap_mlb_clf': False,
+            'model_type': 'LinearSVM',
+            'model_subtype': 'RakelD Partitioning of labels',
+            'hyperparam_space': {
+                'preproc__with_std': [True],
+                'model__base_classifier': [LinearSVC(dual=True, penalty='l2', max_iter=50000, class_weight='balanced')],
+                'model__base_classifier__C': loguniform(1e-5, 1.5e-4),
+                'model__base_classifier_require_dense': [False],
+                'model__labelset_size': range(1, 6)
+            }
+        },
+
         ######################################################################################################
-        'kNN': {  # BEST
+        'kNN': {
             'model': Pipeline(
                 [('preproc', StandardScaler(with_mean=False)),
                  ('model', KNeighborsClassifier())]
             ),
-            'n_search_iter': 30,
+            'n_search_iter': 60,
             'model_type': 'KNN',
             'model_subtype': 'No Upsampling',
             'hyperparam_space': {
@@ -832,12 +796,13 @@ MODEL_LIST = \
             }
         },
 
-        'kNN_ROS': {  # BEST
+        'kNN_ROS': {
             'model': Pipeline(
                 [('preproc', StandardScaler(with_mean=False)),
+                 ('up', RandomOverSampler()),
                  ('model', KNeighborsClassifier())]
             ),
-            'n_search_iter': 30,
+            'n_search_iter': 60,
             'model_type': 'KNN',
             'model_subtype': 'Random Oversampling',
             'hyperparam_space': {
@@ -845,17 +810,17 @@ MODEL_LIST = \
                 'model__n_neighbors': randint(2, 30),
                 'model__weights': ['uniform', 'distance'],
                 'model__metric': ['cosine', 'l1', 'l2'],
-                'up__sampling_strategy': ['minority', 'not minority', 'not majority', 0.99, 0.995, 0.999, 0.9, 0.8],
-                'up__shrinkage': loguniform(1e-7, 1e-3)
+                'up__sampling_strategy': ['minority', 'not minority', 'not majority'] + up_sampling_prop_list,
             }
         },
 
-        'kNN_SMOTE': {  # BEST
+        'kNN_SMOTE': {
             'model': Pipeline(
                 [('preproc', StandardScaler(with_mean=False)),
+                 ('up', SMOTE()),
                  ('model', KNeighborsClassifier())]
             ),
-            'n_search_iter': 30,
+            'n_search_iter': 60,
             'model_type': 'KNN',
             'model_subtype': 'SMOTE',
             'hyperparam_space': {
@@ -863,17 +828,18 @@ MODEL_LIST = \
                 'model__n_neighbors': randint(2, 30),
                 'model__weights': ['uniform', 'distance'],
                 'model__metric': ['cosine', 'l1', 'l2'],
-                'up__sampling_strategy': ['minority', 'not minority', 'not majority', 0.99, 0.995, 0.999, 0.9, 0.8],
-                'up__k_neighbors': randint(3, 30)
+                'up__sampling_strategy': ['minority', 'not minority', 'not majority'] + up_sampling_prop_list,
+                'up__k_neighbors': randint(3, min_samples_min_class)
             }
         },
 
-        'kNN_BorderlineSMOTE': {  # BEST
+        'kNN_BorderlineSMOTE': {
             'model': Pipeline(
                 [('preproc', StandardScaler(with_mean=False)),
+                 ('up', BorderlineSMOTE()),
                  ('model', KNeighborsClassifier())]
             ),
-            'n_search_iter': 30,
+            'n_search_iter': 60,
             'model_type': 'KNN',
             'model_subtype': 'BorderlineSMOTE',
             'hyperparam_space': {
@@ -881,19 +847,20 @@ MODEL_LIST = \
                 'model__n_neighbors': randint(2, 30),
                 'model__weights': ['uniform', 'distance'],
                 'model__metric': ['cosine', 'l1', 'l2'],
-                'up__sampling_strategy': ['minority', 'not minority', 'not majority', 0.99, 0.995, 0.999, 0.9, 0.8],
-                'up__k_neighbors': randint(3, 30),
+                'up__sampling_strategy': ['minority', 'not minority', 'not majority'] + up_sampling_prop_list,
+                'up__k_neighbors': randint(3, min_samples_min_class),
                 'up__m_neighbors': randint(3, 30),
                 'up__kind': ['borderline-1', 'borderline-2']
             }
         },
 
-        'kNN_SVMSMOTE': {  # BEST
+        'kNN_SVMSMOTE': {
             'model': Pipeline(
                 [('preproc', StandardScaler(with_mean=False)),
+                 ('up', SVMSMOTE()),
                  ('model', KNeighborsClassifier())]
             ),
-            'n_search_iter': 30,
+            'n_search_iter': 60,
             'model_type': 'KNN',
             'model_subtype': 'SVMSMOTE',
             'hyperparam_space': {
@@ -901,8 +868,8 @@ MODEL_LIST = \
                 'model__n_neighbors': randint(2, 30),
                 'model__weights': ['uniform', 'distance'],
                 'model__metric': ['cosine', 'l1', 'l2'],
-                'up__sampling_strategy': ['not minority', 'not majority', 0.99, 0.995, 0.999, 0.9, 0.8],
-                'up__k_neighbors': randint(3, 30),
+                'up__sampling_strategy': ['not minority', 'not majority'] + up_sampling_prop_list,
+                'up__k_neighbors': randint(3, min_samples_min_class),
                 'up__m_neighbors': randint(3, 30),
                 'up__out_step': loguniform(1e-6, 1e-3)
             }
@@ -910,7 +877,7 @@ MODEL_LIST = \
 
         ######################################################################################################
         'XGBoost_narrow': {
-            'model': XGBClassifier(verbosity=0, tree_method='hist', booster='gbtree', gamma=0),
+            'model': XGBClassifier(verbosity=0, tree_method='hist', booster='gbtree', gamma=0, use_label_encoder=False),
             'model_type': 'XGBoost',
             'model_subtype': 'No Upsampling',
             'n_search_iter': 60,
@@ -931,7 +898,7 @@ MODEL_LIST = \
         },
 
         'XGBoost_broad': {
-            'model': XGBClassifier(verbosity=0, tree_method='hist', booster='gbtree', gamma=0),
+            'model': XGBClassifier(verbosity=0, tree_method='hist', booster='gbtree', gamma=0, use_label_encoder=False),
             'n_search_iter': 60,
             'model_type': 'XGBoost',
             'model_subtype': 'No Upsampling',
@@ -943,8 +910,8 @@ MODEL_LIST = \
                 'learning_rate': loguniform(2e-2, 0.15),
                 'max_depth': randint(15, 40),
                 'min_child_weight': loguniform(1e-3, 1),
-                'max_delta_step': uniform(loc=2, scale=7),
-                'scale_pos_weight': uniform(loc=7.5, scale=7.5),
+                'max_delta_step': uniform(loc=2, scale=10),
+                'scale_pos_weight': uniform(loc=1, scale=19),
                 'subsample': uniform(loc=0.75, scale=0.24),
                 'colsample_bynode': uniform(loc=0.7, scale=0.21)
             }
@@ -954,10 +921,12 @@ MODEL_LIST = \
             'model': Pipeline(
                 [('up', RandomOverSampler()), ('preproc', StandardScaler(with_mean=False)),
                  ('model', XGBClassifier(verbosity=0, tree_method='hist',
-                                         booster='gbtree', gamma=0))]),
+                                         booster='gbtree', gamma=0, use_label_encoder=False))]),
 
             # silent=True,
             'n_search_iter': 60,
+            'model_type': 'XGBoost',
+            'model_subtype': 'Random Oversampling',
             'hyperparam_space': {
                 'preproc__with_std': [True, False],
                 'model__n_estimators': randint(150, 300),
@@ -971,7 +940,7 @@ MODEL_LIST = \
                 'model__scale_pos_weight': uniform(loc=10.5, scale=7.7),
                 'model__subsample': uniform(loc=0.8, scale=0.2),
                 'model__colsample_bynode': uniform(loc=0.8, scale=0.2),
-                'up__sampling_strategy': ['minority', 'not minority', 'not majority', 0.99, 0.995, 0.999, 0.9, 0.8],
+                'up__sampling_strategy': ['minority', 'not minority', 'not majority'] + up_sampling_prop_list,
                 'up__shrinkage': loguniform(1e-7, 1e-3)
             }
         },
@@ -984,6 +953,8 @@ MODEL_LIST = \
 
             # silent=True,
             'n_search_iter': 60,
+            'model_type': 'XGBoost',
+            'model_subtype': 'Random Oversampling',
             'hyperparam_space': {
                 'preproc__with_std': [True, False],
                 'model__n_estimators': randint(300, 400),
@@ -993,11 +964,11 @@ MODEL_LIST = \
                 'model__learning_rate': loguniform(2e-2, 0.15),
                 'model__max_depth': randint(15, 40),
                 'model__min_child_weight': loguniform(1e-3, 1),
-                'model__max_delta_step': uniform(loc=2, scale=7),
-                'model__scale_pos_weight': uniform(loc=7.5, scale=7.5),
+                'model__max_delta_step': uniform(loc=2, scale=10),
+                'model__scale_pos_weight': uniform(loc=1, scale=19),
                 'model__subsample': uniform(loc=0.75, scale=0.24),
                 'model__colsample_bynode': uniform(loc=0.7, scale=0.21),
-                'up__sampling_strategy': ['minority', 'not minority', 'not majority', 0.99, 0.995, 0.999, 0.9, 0.8],
+                'up__sampling_strategy': ['minority', 'not minority', 'not majority'] + up_sampling_prop_list,
                 'up__shrinkage': loguniform(1e-7, 1e-3)
             }
         },
@@ -1010,6 +981,8 @@ MODEL_LIST = \
 
             # silent=True,
             'n_search_iter': 60,
+            'model_type': 'XGBoost',
+            'model_subtype': 'SMOTE',
             'hyperparam_space': {
                 'preproc__with_std': [True, False],
                 'model__n_estimators': randint(150, 300),
@@ -1023,8 +996,8 @@ MODEL_LIST = \
                 'model__scale_pos_weight': uniform(loc=10.5, scale=7.7),
                 'model__subsample': uniform(loc=0.8, scale=0.2),
                 'model__colsample_bynode': uniform(loc=0.8, scale=0.2),
-                'up__sampling_strategy': ['minority', 'not minority', 'not majority', 0.99, 0.995, 0.999, 0.9, 0.8],
-                'up__k_neighbors': randint(3, 30)
+                'up__sampling_strategy': ['minority', 'not minority', 'not majority'] + up_sampling_prop_list,
+                'up__k_neighbors': randint(3, min_samples_min_class)
             }
         },
 
@@ -1036,6 +1009,8 @@ MODEL_LIST = \
 
             # silent=True,
             'n_search_iter': 60,
+            'model_type': 'XGBoost',
+            'model_subtype': 'SMOTE',
             'hyperparam_space': {
                 'preproc__with_std': [True, False],
                 'model__n_estimators': randint(300, 400),
@@ -1045,12 +1020,12 @@ MODEL_LIST = \
                 'model__learning_rate': loguniform(2e-2, 0.15),
                 'model__max_depth': randint(15, 40),
                 'model__min_child_weight': loguniform(1e-3, 1),
-                'model__max_delta_step': uniform(loc=2, scale=7),
-                'model__scale_pos_weight': uniform(loc=7.5, scale=7.5),
+                'model__max_delta_step': uniform(loc=2, scale=10),
+                'model__scale_pos_weight': uniform(loc=1, scale=19),
                 'model__subsample': uniform(loc=0.75, scale=0.24),
                 'model__colsample_bynode': uniform(loc=0.7, scale=0.21),
-                'up__sampling_strategy': ['minority', 'not minority', 'not majority', 0.99, 0.995, 0.999, 0.9, 0.8],
-                'up__k_neighbors': randint(3, 30)
+                'up__sampling_strategy': ['minority', 'not minority', 'not majority'] + up_sampling_prop_list,
+                'up__k_neighbors': randint(3, min_samples_min_class)
             }
         },
 
@@ -1061,6 +1036,8 @@ MODEL_LIST = \
                                          booster='gbtree', gamma=0))]),
             # silent=True,
             'n_search_iter': 60,
+            'model_type': 'XGBoost',
+            'model_subtype': 'BorderlineSMOTE',
             'hyperparam_space': {
                 'preproc__with_std': [True, False],
                 'model__n_estimators': randint(150, 300),
@@ -1074,8 +1051,8 @@ MODEL_LIST = \
                 'model__scale_pos_weight': uniform(loc=10.5, scale=7.7),
                 'model__subsample': uniform(loc=0.8, scale=0.2),
                 'model__colsample_bynode': uniform(loc=0.8, scale=0.2),
-                'up__sampling_strategy': ['not minority', 'not majority', 0.99, 0.995, 0.999, 0.9, 0.8],
-                'up__k_neighbors': randint(3, 30),
+                'up__sampling_strategy': ['not minority', 'not majority'] + up_sampling_prop_list,
+                'up__k_neighbors': randint(3, min_samples_min_class),
                 'up__m_neighbors': randint(3, 30),
                 'up__kind': ['borderline-1', 'borderline-2']
             }
@@ -1089,6 +1066,8 @@ MODEL_LIST = \
 
             # silent=True,
             'n_search_iter': 60,
+            'model_type': 'XGBoost',
+            'model_subtype': 'BorderlineSMOTE',
             'hyperparam_space': {
                 'preproc__with_std': [True, False],
                 'model__n_estimators': randint(300, 400),
@@ -1098,12 +1077,12 @@ MODEL_LIST = \
                 'model__learning_rate': loguniform(2e-2, 0.15),
                 'model__max_depth': randint(15, 40),
                 'model__min_child_weight': loguniform(1e-3, 1),
-                'model__max_delta_step': uniform(loc=2, scale=7),
-                'model__scale_pos_weight': uniform(loc=7.5, scale=7.5),
+                'model__max_delta_step': uniform(loc=2, scale=10),
+                'model__scale_pos_weight': uniform(loc=1, scale=19),
                 'model__subsample': uniform(loc=0.75, scale=0.24),
                 'model__colsample_bynode': uniform(loc=0.7, scale=0.21),
-                'up__sampling_strategy': ['not minority', 'not majority', 0.99, 0.995, 0.999, 0.9, 0.8],
-                'up__k_neighbors': randint(3, 30),
+                'up__sampling_strategy': ['not minority', 'not majority'] + up_sampling_prop_list,
+                'up__k_neighbors': randint(3, min_samples_min_class),
                 'up__m_neighbors': randint(3, 30),
                 'up__kind': ['borderline-1', 'borderline-2']
             }
@@ -1116,7 +1095,9 @@ MODEL_LIST = \
                                          booster='gbtree', gamma=0))]),
 
             # silent=True,
-            'n_search_iter': 60,
+            'n_search_iter': 150,
+            'model_type': 'XGBoost',
+            'model_subtype': 'SVMSMOTE',
             'hyperparam_space': {
                 'preproc__with_std': [True, False],
                 'model__n_estimators': randint(150, 300),
@@ -1130,8 +1111,8 @@ MODEL_LIST = \
                 'model__scale_pos_weight': uniform(loc=10.5, scale=7.7),
                 'model__subsample': uniform(loc=0.8, scale=0.2),
                 'model__colsample_bynode': uniform(loc=0.8, scale=0.2),
-                'up__sampling_strategy': ['not minority', 'not majority', 0.99, 0.995, 0.999, 0.9, 0.8],
-                'up__k_neighbors': randint(3, 30),
+                'up__sampling_strategy': ['not minority', 'not majority'] + up_sampling_prop_list,
+                'up__k_neighbors': randint(3, min_samples_min_class),
                 'up__m_neighbors': randint(3, 30),
                 'up__out_step': loguniform(1e-6, 1e-3)
             }
@@ -1144,7 +1125,9 @@ MODEL_LIST = \
                                          booster='gbtree', gamma=0))]),
 
             # silent=True,
-            'n_search_iter': 60,
+            'n_search_iter': 150,
+            'model_type': 'XGBoost',
+            'model_subtype': 'SVMSMOTE',
             'hyperparam_space': {
                 'preproc__with_std': [True, False],
                 'model__n_estimators': randint(300, 400),
@@ -1154,19 +1137,19 @@ MODEL_LIST = \
                 'model__learning_rate': loguniform(2e-2, 0.15),
                 'model__max_depth': randint(15, 40),
                 'model__min_child_weight': loguniform(1e-3, 1),
-                'model__max_delta_step': uniform(loc=2, scale=7),
-                'model__scale_pos_weight': uniform(loc=7.5, scale=7.5),
+                'model__max_delta_step': uniform(loc=2, scale=10),
+                'model__scale_pos_weight': uniform(loc=1, scale=19),
                 'model__subsample': uniform(loc=0.75, scale=0.24),
                 'model__colsample_bynode': uniform(loc=0.7, scale=0.21),
-                'up__sampling_strategy': ['not minority', 'not majority', 0.99, 0.995, 0.999, 0.9, 0.8],
-                'up__k_neighbors': randint(3, 30),
+                'up__sampling_strategy': ['not minority', 'not majority'] + up_sampling_prop_list,
+                'up__k_neighbors': randint(3, min_samples_min_class),
                 'up__m_neighbors': randint(3, 30),
                 'up__out_step': loguniform(1e-6, 1e-3)
             }
         },
 
         ######################################################################################################
-        'ComplementNaiveBayes': { # Best, but they were all pretty much the same
+        'ComplementNaiveBayes': {
             'model': ComplementNB(),
             'n_search_iter': 60,
             'model_type': 'NaiveBayes',
@@ -1187,7 +1170,7 @@ MODEL_LIST = \
             'hyperparam_space': {
                 'model__alpha': loguniform(1e-4, 1e-2),
                 'model__norm': [False],
-                'up__sampling_strategy': ['minority', 'not minority', 'not majority', 0.99, 0.995, 0.999, 0.9, 0.8],
+                'up__sampling_strategy': ['minority', 'not minority', 'not majority'] + up_sampling_prop_list,
                 'up__shrinkage': loguniform(1e-6, 500)
             }
         },
@@ -1202,7 +1185,7 @@ MODEL_LIST = \
             'hyperparam_space': {
                 'model__alpha': loguniform(1e-2, 0.2),
                 'model__norm': [False],
-                'up__sampling_strategy': ['minority', 'not minority', 'not majority', 0.99, 0.995, 0.999, 0.9, 0.8],
+                'up__sampling_strategy': ['minority', 'not minority', 'not majority'] + up_sampling_prop_list,
                 'up__k_neighbors': randint(3, 7)
             }
         },
@@ -1217,7 +1200,7 @@ MODEL_LIST = \
             'hyperparam_space': {
                 'model__alpha': loguniform(1e-6, 0.01),
                 'model__norm': [False],
-                'up__sampling_strategy': ['minority', 'not minority', 'not majority', 0.99, 0.995, 0.999, 0.9, 0.8],
+                'up__sampling_strategy': ['minority', 'not minority', 'not majority'] + up_sampling_prop_list,
                 'up__k_neighbors': randint(3, 7),
                 'up__m_neighbors': randint(12, 30),
                 'up__kind': ['borderline-2']
@@ -1234,32 +1217,39 @@ MODEL_LIST = \
             'hyperparam_space': {
                 'model__alpha': loguniform(1e-6, 0.01),
                 'model__norm': [False],
-                'up__sampling_strategy': ['minority', 'not minority', 'not majority', 0.99, 0.995, 0.999, 0.9, 0.8],
+                'up__sampling_strategy': ['minority', 'not minority', 'not majority'] + up_sampling_prop_list,
                 'up__k_neighbors': randint(3, 7),
                 'up__m_neighbors': randint(3, 30),
             }
         },
 
+        'RakelD_ComplementNB': {
+            'model': Pipeline([
+                ('preproc', StandardScaler(with_mean=False, with_std=True)),
+                ('model', RakelD())
+            ]),
+            'n_search_iter': 60,
+            'wrap_mlb_clf': False,
+            'model_type': 'ComplementNB',
+            'model_subtype': 'RakelD Partitioning of labels',
+            'hyperparam_space': {
+                'preproc__with_std': [True, False],
+                'model__base_classifier': [ComplementNB(norm=False)],
+                'model__base_classifier__alpha': loguniform(1e-6, 0.01),
+                'model__base_classifier_require_dense': [False],
+                'model__labelset_size': range(1, 6)
+            }
+        },
+
         ######################################################################################################
 
-        'NaiveBayes': {  # Best, but they were all pretty much the same
+        'NaiveBayes': {
             'model': MultinomialNB(),
             'n_search_iter': 60,
             'model_type': 'NaiveBayes',
             'model_subtype': 'No Upsampling',
             'hyperparam_space': {
                 'alpha': loguniform(1e-6, 0.4),
-                'fit_prior': [True, False],
-            }
-        },
-
-        'NaiveBayes_V2': {  # Best, but they were all pretty much the same
-            'model': MultinomialNB(),
-            'n_search_iter': 60,
-            'model_type': 'NaiveBayes',
-            'model_subtype': 'No Upsampling',
-            'hyperparam_space': {
-                'alpha': loguniform(1e-6, 10),
                 'fit_prior': [False],
             }
         },
@@ -1274,7 +1264,7 @@ MODEL_LIST = \
             'hyperparam_space': {
                 'model__alpha': loguniform(1e-4, 1e-2),
                 'model__fit_prior': [False],
-                'up__sampling_strategy': ['minority', 'not minority', 'not majority', 0.99, 0.995, 0.999, 0.9, 0.8],
+                'up__sampling_strategy': ['minority', 'not minority', 'not majority'] + up_sampling_prop_list,
                 'up__shrinkage': loguniform(1e-6, 500)
             }
         },
@@ -1289,7 +1279,7 @@ MODEL_LIST = \
             'hyperparam_space': {
                 'model__alpha': loguniform(1e-6, 0.4),
                 'model__fit_prior': [False],
-                'up__sampling_strategy': ['minority', 'not minority', 'not majority', 0.99, 0.995, 0.999, 0.9, 0.8],
+                'up__sampling_strategy': ['minority', 'not minority', 'not majority'] + up_sampling_prop_list,
                 'up__k_neighbors': randint(3, 7)
             }
         },
@@ -1304,7 +1294,7 @@ MODEL_LIST = \
             'hyperparam_space': {
                 'model__alpha': loguniform(1e-6, 0.2),
                 'model__fit_prior': [False],
-                'up__sampling_strategy': ['minority', 'not minority', 'not majority', 0.99, 0.995, 0.999, 0.9, 0.8],
+                'up__sampling_strategy': ['minority', 'not minority', 'not majority'] + up_sampling_prop_list,
                 'up__k_neighbors': randint(3, 7),
                 'up__m_neighbors': randint(12, 30),
                 'up__kind': ['borderline-2']
@@ -1321,7 +1311,7 @@ MODEL_LIST = \
             'hyperparam_space': {
                 'model__alpha': loguniform(1e-6, 0.01),
                 'model__fit_prior': [False],
-                'up__sampling_strategy': ['minority', 'not minority', 'not majority', 0.99, 0.995, 0.999, 0.9, 0.8],
+                'up__sampling_strategy': ['minority', 'not minority', 'not majority'] + up_sampling_prop_list,
                 'up__k_neighbors': randint(3, 7),
                 'up__m_neighbors': randint(3, 30),
             }
@@ -1362,7 +1352,7 @@ MODEL_LIST = \
                 'model__ccp_alpha': loguniform(1e-5, 0.01),
                 'model__bootstrap': [False],
                 'model__max_leaf_nodes': randint(5, 40),
-                'up__sampling_strategy': ['minority', 'not minority', 'not majority', 0.99, 0.995, 0.999, 0.9, 0.8],
+                'up__sampling_strategy': ['minority', 'not minority', 'not majority'] + up_sampling_prop_list,
                 'up__shrinkage': loguniform(1e-7, 1e-3)
             }
         },
@@ -1384,8 +1374,8 @@ MODEL_LIST = \
                 'model__ccp_alpha': loguniform(1e-5, 0.01),
                 'model__bootstrap': [False],
                 'model__max_leaf_nodes': randint(5, 40),
-                'up__sampling_strategy': ['minority', 'not minority', 'not majority', 0.99, 0.995, 0.999, 0.9, 0.8],
-                'up__k_neighbors': randint(3, 30),
+                'up__sampling_strategy': ['minority', 'not minority', 'not majority'] + up_sampling_prop_list,
+                'up__k_neighbors': randint(3, min_samples_min_class),
             }
         },
 
@@ -1406,8 +1396,8 @@ MODEL_LIST = \
                 'model__ccp_alpha': loguniform(1e-5, 0.01),
                 'model__bootstrap': [False],
                 'model__max_leaf_nodes': randint(5, 40),
-                'up__sampling_strategy': ['minority', 'not minority', 'not majority', 0.99, 0.995, 0.999, 0.9, 0.8],
-                'up__k_neighbors': randint(3, 30),
+                'up__sampling_strategy': ['minority', 'not minority', 'not majority'] + up_sampling_prop_list,
+                'up__k_neighbors': randint(3, min_samples_min_class),
                 'up__m_neighbors': randint(3, 30),
                 'up__kind': ['borderline-2']
             }
@@ -1430,8 +1420,8 @@ MODEL_LIST = \
                 'model__ccp_alpha': loguniform(1e-5, 0.01),
                 'model__bootstrap': [False],
                 'model__max_leaf_nodes': randint(5, 40),
-                'up__sampling_strategy': ['minority', 'not minority', 'not majority', 0.99, 0.995, 0.999, 0.9, 0.8],
-                'up__k_neighbors': randint(3, 30),
+                'up__sampling_strategy': ['minority', 'not minority', 'not majority'] + up_sampling_prop_list,
+                'up__k_neighbors': randint(3, min_samples_min_class),
                 'up__m_neighbors': randint(3, 30),
                 'up__out_step': loguniform(1e-6, 1e-3)
             }
@@ -1446,7 +1436,7 @@ MODEL_LIST = \
                 ('preproc', StandardScaler(with_mean=False, with_std=True)),
                 ('model', BRkNNaClassifier())
             ]),
-            'n_search_iter': 5,
+            'n_search_iter': 60,
             'wrap_mlb_clf': False,
             'model_type': 'Binary Relevance kNN',
             'model_subtype': 'Natively Multilabel',
@@ -1476,7 +1466,7 @@ MODEL_LIST = \
                 ('preproc', StandardScaler(with_mean=False, with_std=True)),
                 ('model', MLkNN())
             ]),
-            'n_search_iter': 5,
+            'n_search_iter': 60,
             'wrap_mlb_clf': False,
             'model_type': 'Multilabel k Nearest Neighbours¶',
             'model_subtype': 'Natively Multilabel',
@@ -1492,7 +1482,7 @@ MODEL_LIST = \
                 ('preproc', StandardScaler(with_mean=False, with_std=True)),
                 ('model', MLARAM())
             ]),
-            'n_search_iter': 5,
+            'n_search_iter': 60,
             'wrap_mlb_clf': False,
             'model_type': 'Multi-label ARAM¶',
             'model_subtype': 'Natively Multilabel',
@@ -1502,81 +1492,8 @@ MODEL_LIST = \
                 'model__threshold': uniform(0.01, 0.1)
             }
         },
-
-        'RakelD_LineaSVC': {
-            'model': Pipeline([
-                ('preproc', StandardScaler(with_mean=False, with_std=True)),
-                ('model', RakelD())
-            ]),
-            'n_search_iter': 5,
-            'wrap_mlb_clf': False,
-            'model_type': 'LinearSVM',
-            'model_subtype': 'RakelD Partitioning of labels',
-            'hyperparam_space': {
-                'preproc__with_std': [True],
-                'model__base_classifier': [LinearSVC(dual=True, penalty='l2', max_iter=50000, class_weight='balanced')],
-                'model__base_classifier__C': loguniform(1e-5, 1e-3),
-                'model__base_classifier_require_dense': [False],
-                'model__labelset_size': range(1, 6)
-            }
-        },
-
-        'RakelD_ComplementNB': {
-            'model': Pipeline([
-                ('preproc', StandardScaler(with_mean=False, with_std=True)),
-                ('model', RakelD())
-            ]),
-            'n_search_iter': 5,
-            'wrap_mlb_clf': False,
-            'model_type': 'ComplementNB',
-            'model_subtype': 'RakelD Partitioning of labels',
-            'hyperparam_space': {
-                'preproc__with_std': [True, False],
-                'model__base_classifier': [ComplementNB(norm=False)],
-                'model__base_classifier__alpha': loguniform(1e-6, 0.4),
-                'model__base_classifier_require_dense': [False],
-                'model__labelset_size': range(1, 6)
-            }
-        },
-
-        'RakelD_LogisticRegression': {
-            'model': Pipeline([
-                ('preproc', StandardScaler(with_mean=False, with_std=True)),
-                ('model', RakelD())
-            ]),
-            'n_search_iter': 5,
-            'wrap_mlb_clf': False,
-            'model_type': 'LogisticRegression',
-            'model_subtype': 'RakelD Partitioning of labels',
-            'hyperparam_space': {
-                'preproc__with_std': [True, False],
-                'model__base_classifier': [LogisticRegression(penalty='l2', solver='liblinear', dual=True,
-                                                              class_weight='balanced', max_iter=100000)],
-                'model__base_classifier__C': loguniform(1e-5, 1e-3),
-                'model__base_classifier_require_dense': [False],
-                'model__labelset_size': range(1, 6)
-            }
-        },
-
-        'RakelD_SVM': {
-            'model': Pipeline([
-                ('preproc', StandardScaler(with_mean=False, with_std=True)),
-                ('model', RakelD())
-            ]),
-            'n_search_iter': 5,
-            'wrap_mlb_clf': False,
-            'model_type': 'SVM',
-            'model_subtype': 'RakelD Partitioning of labels',
-            'hyperparam_space': {
-                'preproc__with_std': [True, False],
-                'model__base_classifier': [SVC(kernel='sigmoid', class_weight='balanced')],
-                'model__base_classifier__C': loguniform(0.08, 20),
-                'model__base_classifier__gamma': loguniform(0.5e-2, 1.5),
-                'model__base_classifier_require_dense': [False],
-                'model__labelset_size': range(1, 6)
-            }
-        }
     }
+
 
 if __name__ == '__main__':
     print(MODEL_LIST.keys())
