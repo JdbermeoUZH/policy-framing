@@ -12,14 +12,14 @@ from sklearn.naive_bayes import ComplementNB, MultinomialNB
 from imblearn.over_sampling import SMOTE, BorderlineSMOTE, SVMSMOTE, RandomOverSampler
 from imblearn.pipeline import Pipeline
 
+min_samples_min_class = 14
 
 MODEL_LIST = \
     {
         'LogisticRegression': {
             'model': Pipeline(
                 [('preproc', StandardScaler(with_mean=False)),
-                 ('model', LogisticRegression(penalty='none', solver='liblinear', class_weight='balanced',
-                                              max_iter=100000))]
+                 ('model', LogisticRegression(penalty=None, class_weight='balanced', max_iter=100000))]
             ),
             'n_search_iter': 60,
             'model_type': 'LogisticRegression',
@@ -34,8 +34,7 @@ MODEL_LIST = \
             'model': Pipeline(
                 [('preproc', StandardScaler(with_mean=False)),
                  ('up', RandomOverSampler()),
-                 ('model', LogisticRegression(penalty='none', solver='liblinear', class_weight='balanced',
-                                              max_iter=100000))]),
+                 ('model', LogisticRegression(penalty=None, class_weight='balanced', max_iter=100000))]),
             'n_search_iter': 60,
             'model_type': 'LogisticRegression',
             'model_subtype': 'Random Oversampling',
@@ -51,8 +50,7 @@ MODEL_LIST = \
             'model': Pipeline(
                 [('preproc', StandardScaler(with_mean=False)),
                  ('up', SMOTE()),
-                 ('model', LogisticRegression(penalty='none', solver='liblinear', class_weight='balanced',
-                                              max_iter=100000))]),
+                 ('model', LogisticRegression(penalty=None, class_weight='balanced', max_iter=100000))]),
             'n_search_iter': 60,
             'model_type': 'LogisticRegression',
             'model_subtype': 'SMOTE',
@@ -60,7 +58,7 @@ MODEL_LIST = \
                 'preproc__with_std': [True],
                 'model__class_weight': ['balanced'],
                 'up__sampling_strategy': ['minority', 'not majority', 0.99, 0.995, 0.999],
-                'up__k_neighbors': randint(7, 25)
+                'up__k_neighbors': randint(7, min_samples_min_class) 
             }
         },
 
@@ -68,8 +66,7 @@ MODEL_LIST = \
             'model': Pipeline(
                 [('preproc', StandardScaler(with_mean=False)),
                  ('up', BorderlineSMOTE()),
-                 ('model', LogisticRegression(penalty='none', solver='liblinear', class_weight='balanced',
-                                              max_iter=100000))]),
+                 ('model', LogisticRegression(penalty=None, class_weight='balanced', max_iter=100000))]),
             'n_search_iter': 60,
             'model_type': 'LogisticRegression',
             'model_subtype': 'BorderlineSMOTE',
@@ -77,7 +74,7 @@ MODEL_LIST = \
                 'preproc__with_std': [True],
                 'model__class_weight': ['balanced'],
                 'up__sampling_strategy': ['minority', 'not majority', 0.99, 0.995, 0.999],
-                'up__k_neighbors': randint(5, 25),
+                'up__k_neighbors': randint(5, min_samples_min_class),
                 'up__m_neighbors': randint(14, 30),
                 'up__kind': ['borderline-2']
             }
@@ -86,8 +83,7 @@ MODEL_LIST = \
         'LogisticRegression_SVMSMOTE': {
             'model': Pipeline(
                 [('up', SVMSMOTE()), ('preproc', StandardScaler(with_mean=False)),
-                 ('model', LogisticRegression(penalty='l2', solver='liblinear', dual=True, class_weight='balanced',
-                                              max_iter=100000))]),
+                 ('model', LogisticRegression(penalty=None, class_weight='balanced', max_iter=100000))]),
             'n_search_iter': 150,
             'model_type': 'LogisticRegression',
             'model_subtype': 'SVMSMOTE',
@@ -95,7 +91,7 @@ MODEL_LIST = \
                 'preproc__with_std': [True],
                 'model__class_weight': ['balanced', None],
                 'up__sampling_strategy': ['minority', 'not majority', 0.99, 0.995, 0.999],
-                'up__k_neighbors': randint(5, 25),
+                'up__k_neighbors': randint(5, min_samples_min_class),
                 'up__m_neighbors': randint(14, 30),
                 'up__out_step': loguniform(1e-6, 1e-3)
             }
@@ -148,7 +144,7 @@ MODEL_LIST = \
                 'model__class_weight': ['balanced'],
                 'model__C': loguniform(1e-6, 1e-2),
                 'up__sampling_strategy': ['minority', 'not majority', 0.99, 0.995, 0.999],
-                'up__k_neighbors': randint(7, 25)
+                'up__k_neighbors': randint(7, min_samples_min_class) 
             }
         },
 
@@ -165,7 +161,7 @@ MODEL_LIST = \
                 'model__class_weight': ['balanced'],
                 'model__C': loguniform(1e-6, 1e-2),
                 'up__sampling_strategy': ['minority', 'not majority', 0.99, 0.995, 0.999],
-                'up__k_neighbors': randint(5, 25),
+                'up__k_neighbors': randint(5, min_samples_min_class),
                 'up__m_neighbors': randint(14, 30),
                 'up__kind': ['borderline-2']
             }
@@ -184,7 +180,7 @@ MODEL_LIST = \
                 'model__class_weight': ['balanced', None],
                 'model__C': loguniform(1e-6, 1e-2),
                 'up__sampling_strategy': ['minority', 'not majority', 0.99, 0.995, 0.999],
-                'up__k_neighbors': randint(5, 25),
+                'up__k_neighbors': randint(5, min_samples_min_class),
                 'up__m_neighbors': randint(14, 30),
                 'up__out_step': loguniform(1e-6, 1e-3)
             }
@@ -271,7 +267,7 @@ MODEL_LIST = \
                 'model__class_weight': ['balanced'],
                 'model__C': loguniform(1e-2, 100),
                 'up__sampling_strategy': ['minority', 'not majority', 0.99, 0.9925, 0.995, 0.999, 0.85, 0.8, 0.75],
-                'up__k_neighbors': randint(7, 25)
+                'up__k_neighbors': randint(7, min_samples_min_class) 
             }
         },
 
@@ -289,7 +285,7 @@ MODEL_LIST = \
                 'model__class_weight': ['balanced'],
                 'model__C': loguniform(1e-2, 100),
                 'up__sampling_strategy': ['minority', 'not majority', 0.99, 0.9925, 0.995, 0.999, 0.85, 0.8, 0.75],
-                'up__k_neighbors': randint(5, 25),
+                'up__k_neighbors': randint(5, min_samples_min_class),
                 'up__m_neighbors': randint(14, 30),
                 'up__kind': ['borderline-2']
             }
@@ -308,7 +304,7 @@ MODEL_LIST = \
                 'model__class_weight': ['balanced', None],
                 'model__C': loguniform(1e-2, 100),
                 'up__sampling_strategy': ['minority', 'not majority', 0.99, 0.9925, 0.995, 0.999, 0.85, 0.8, 0.75],
-                'up__k_neighbors': randint(5, 25),
+                'up__k_neighbors': randint(5, min_samples_min_class),
                 'up__m_neighbors': randint(14, 30),
                 'up__out_step': loguniform(1e-6, 1e-3)
             }
@@ -320,7 +316,7 @@ MODEL_LIST = \
         'LogisticRegressionElasticNet': {
             'model': Pipeline(
                 [('preproc', StandardScaler(with_mean=False)),
-                 ('model', LogisticRegression(penalty='elasticnet', solver='saga', l1_ratio=0.5, max_iter=1000000,
+                 ('model', LogisticRegression(penalty='elasticnet', solver='saga', l1_ratio=0.5, max_iter=1000,
                                         class_weight='balanced'))]
             ),
             'n_search_iter': 60,
@@ -336,7 +332,7 @@ MODEL_LIST = \
         'LogisticRegressionElasticNet_V2': {
             'model': Pipeline(
                 [('preproc', StandardScaler(with_mean=False)),
-                 ('model', LogisticRegression(penalty='elasticnet', solver='saga', l1_ratio=0.5, max_iter=1000000,
+                 ('model', LogisticRegression(penalty='elasticnet', solver='saga', l1_ratio=0.5, max_iter=1000,
                                               class_weight='balanced'))]
             ),
             'n_search_iter': 60,
@@ -352,7 +348,7 @@ MODEL_LIST = \
         'LogisticRegressionElasticNet_V3': {
             'model': Pipeline(
                 [('preproc', StandardScaler(with_mean=False)),
-                 ('model', LogisticRegression(penalty='elasticnet', solver='saga', l1_ratio=0.5, max_iter=1000000,
+                 ('model', LogisticRegression(penalty='elasticnet', l1_ratio=0.5, max_iter=1000,
                                               class_weight='balanced'))]
             ),
             'n_search_iter': 60,
@@ -369,8 +365,8 @@ MODEL_LIST = \
             'model': Pipeline(
                 [('preproc', StandardScaler(with_mean=False)),
                  ('up', RandomOverSampler()),
-                 ('model', LogisticRegression(penalty='elasticnet', solver='saga', l1_ratio=0.5, max_iter=1000000,
-                                        class_weight='balanced'))]),
+                 ('model', LogisticRegression(penalty='elasticnet', solver='saga', l1_ratio=0.5, max_iter=1000,
+                                              class_weight='balanced'))]),
             'model_type': 'LogisticRegressionElasticNet',
             'model_subtype': 'Random Oversampling',
             'n_search_iter': 60,
@@ -386,8 +382,8 @@ MODEL_LIST = \
             'model': Pipeline(
                 [('preproc', StandardScaler(with_mean=False)),
                  ('up', SMOTE()),
-                 ('model', LogisticRegression(penalty='elasticnet', solver='saga', l1_ratio=0.5, max_iter=1000000,
-                                        class_weight='balanced'))]),
+                 ('model', LogisticRegression(penalty='elasticnet', solver='saga', l1_ratio=0.5, max_iter=1000,
+                                              class_weight='balanced'))]),
             'n_search_iter': 60,
             'model_type': 'LogisticRegressionElasticNet',
             'model_subtype': 'SMOTE',
@@ -396,7 +392,7 @@ MODEL_LIST = \
                 'model__class_weight': ['balanced'],
                 'model__C': loguniform(1e-3, 100),
                 'up__sampling_strategy': ['minority', 'not majority', 0.99, 0.9925, 0.995, 0.999, 0.85, 0.8, 0.75],
-                'up__k_neighbors': randint(7, 25)
+                'up__k_neighbors': randint(7, min_samples_min_class) 
             }
         },
 
@@ -404,7 +400,7 @@ MODEL_LIST = \
             'model': Pipeline(
                 [('preproc', StandardScaler(with_mean=False)),
                  ('up', BorderlineSMOTE()),
-                 ('model', LogisticRegression(penalty='elasticnet', solver='saga', l1_ratio=0.5, max_iter=1000000,
+                 ('model', LogisticRegression(penalty='elasticnet', solver='saga', l1_ratio=0.5, max_iter=1000,
                                         class_weight='balanced'))]),
             'n_search_iter': 60,
             'model_type': 'LogisticRegressionElasticNet',
@@ -414,7 +410,7 @@ MODEL_LIST = \
                 'model__class_weight': ['balanced'],
                 'model__C': loguniform(1e-3, 100),
                 'up__sampling_strategy': ['minority', 'not majority', 0.99, 0.9925, 0.995, 0.999, 0.85, 0.8, 0.75],
-                'up__k_neighbors': randint(5, 25),
+                'up__k_neighbors': randint(5, min_samples_min_class),
                 'up__m_neighbors': randint(14, 30),
                 'up__kind': ['borderline-2']
             }
@@ -423,8 +419,8 @@ MODEL_LIST = \
         'LogisticRegressionElasticNet_SVMSMOTE': {
             'model': Pipeline(
                 [('up', SVMSMOTE()), ('preproc', StandardScaler(with_mean=False)),
-                 ('model', LogisticRegression(penalty='elasticnet', solver='saga', l1_ratio=0.5, max_iter=1000000,
-                                        class_weight='balanced'))]),
+                 ('model', LogisticRegression(penalty='elasticnet', solver='saga', l1_ratio=0.5, max_iter=1000,
+                                              class_weight='balanced'))]),
             'n_search_iter': 150,
             'model_type': 'LogisticRegressionElasticNet',
             'model_subtype': 'SVMSMOTE',
@@ -433,7 +429,7 @@ MODEL_LIST = \
                 'model__class_weight': ['balanced', None],
                 'model__C': loguniform(1e-3, 100),
                 'up__sampling_strategy': ['minority', 'not majority', 0.99, 0.9925, 0.995, 0.999, 0.85, 0.8, 0.75],
-                'up__k_neighbors': randint(5, 25),
+                'up__k_neighbors': randint(5, min_samples_min_class),
                 'up__m_neighbors': randint(14, 30),
                 'up__out_step': loguniform(1e-6, 1e-3)
             }
@@ -499,7 +495,7 @@ MODEL_LIST = \
                 'model__class_weight': ['balanced'],
                 'model__alpha': loguniform(1e-2, 1e4),
                 'up__sampling_strategy': ['minority', 'not majority', 0.99, 0.9925, 0.995, 0.999, 0.85, 0.8, 0.75],
-                'up__k_neighbors': randint(7, 25)
+                'up__k_neighbors': randint(7, min_samples_min_class) 
             }
         },
 
@@ -516,7 +512,7 @@ MODEL_LIST = \
                 'model__class_weight': ['balanced'],
                 'model__alpha': loguniform(1e-2, 1e4),
                 'up__sampling_strategy': ['minority', 'not majority', 0.99, 0.9925, 0.995, 0.999, 0.85, 0.8, 0.75],
-                'up__k_neighbors': randint(5, 25),
+                'up__k_neighbors': randint(5, min_samples_min_class),
                 'up__m_neighbors': randint(14, 30),
                 'up__kind': ['borderline-2']
             }
@@ -534,7 +530,7 @@ MODEL_LIST = \
                 'model__class_weight': ['balanced', None],
                 'model__alpha': loguniform(1e-2, 1e4),
                 'up__sampling_strategy': ['minority', 'not majority', 0.99, 0.9925, 0.995, 0.999, 0.85, 0.8, 0.75],
-                'up__k_neighbors': randint(5, 25),
+                'up__k_neighbors': randint(5, min_samples_min_class),
                 'up__m_neighbors': randint(14, 30),
                 'up__out_step': loguniform(1e-6, 1e-3)
             }
@@ -615,7 +611,7 @@ MODEL_LIST = \
                 'model__gamma': loguniform(1e-5, 1e-3),
                 'model__class_weight': ['balanced'],
                 'up__sampling_strategy': ['minority', 'not minority', 'not majority', 0.99, 0.995, 0.999, 0.9, 0.8],
-                'up__k_neighbors': randint(7, 30)
+                 'up__k_neighbors': randint(5, min_samples_min_class) 
             }
         },
 
@@ -633,7 +629,7 @@ MODEL_LIST = \
                 'model__gamma': loguniform(1e-5, 1e-3),
                 'model__class_weight': ['balanced'],
                 'up__sampling_strategy': ['not minority', 'not majority', 0.99, 0.995, 0.999, 0.9, 0.8],
-                'up__k_neighbors': randint(3, 30),
+                'up__k_neighbors': randint(3, min_samples_min_class),
                 'up__m_neighbors': randint(3, 30),
                 'up__kind': ['borderline-2']
             }
@@ -652,7 +648,7 @@ MODEL_LIST = \
                 'model__gamma': loguniform(1e-5, 1e-3),
                 'model__class_weight': ['balanced'],
                 'up__sampling_strategy': ['not minority', 'not majority', 0.99, 0.995, 0.999, 0.9, 0.8],
-                'up__k_neighbors': randint(3, 30),
+                'up__k_neighbors': randint(3, min_samples_min_class),
                 'up__m_neighbors': randint(3, 30),
                 'up__out_step': loguniform(1e-6, 1e-3)
             }
@@ -705,7 +701,7 @@ MODEL_LIST = \
                 'model__gamma': loguniform(1e-2, 1.5),
                 'model__class_weight': ['balanced'],
                 'up__sampling_strategy': ['minority', 'not minority', 'not majority', 0.99, 0.995, 0.999, 0.9, 0.8],
-                'up__k_neighbors': randint(7, 30)
+                'up__k_neighbors': randint(5, min_samples_min_class) 
             }
         },
 
@@ -723,7 +719,7 @@ MODEL_LIST = \
                 'model__gamma': loguniform(1e-2, 0.5),
                 'model__class_weight': ['balanced'],
                 'up__sampling_strategy': ['not minority', 'not majority', 0.99, 0.995, 0.999, 0.9, 0.8],
-                'up__k_neighbors': randint(3, 30),
+                'up__k_neighbors': randint(3, min_samples_min_class),
                 'up__m_neighbors': randint(3, 30),
                 'up__kind': ['borderline-2']
             }
@@ -742,7 +738,7 @@ MODEL_LIST = \
                 'model__gamma': loguniform(1e-2, 1.5),
                 'model__class_weight': ['balanced'],
                 'up__sampling_strategy': ['not minority', 'not majority', 0.99, 0.995, 0.999, 0.9, 0.8],
-                'up__k_neighbors': randint(3, 30),
+                'up__k_neighbors': randint(3, min_samples_min_class),
                 'up__m_neighbors': randint(3, 30),
                 'up__out_step': loguniform(1e-6, 1e-3)
             }
@@ -792,7 +788,7 @@ MODEL_LIST = \
                 'model__C': loguniform(1e-6, 1e-4),
                 'model__class_weight': ['balanced'],
                 'up__sampling_strategy': ['minority', 'not minority', 'not majority', 0.99, 0.995, 0.999, 0.9, 0.8],
-                'up__k_neighbors': randint(3, 30)
+                'up__k_neighbors': randint(3, min_samples_min_class)
             }
         },
 
@@ -809,7 +805,7 @@ MODEL_LIST = \
                 'model__C': loguniform(1e-5, 1.5e-4),
                 'model__class_weight': ['balanced'],
                 'up__sampling_strategy': ['minority', 'not minority', 'not majority', 0.99, 0.995, 0.999, 0.9, 0.8],
-                'up__k_neighbors': randint(3, 30),
+                'up__k_neighbors': randint(3, min_samples_min_class),
                 'up__m_neighbors': randint(3, 30),
                 'up__kind': ['borderline-1', 'borderline-2']
             }
@@ -835,6 +831,7 @@ MODEL_LIST = \
         'kNN_ROS': {  # BEST
             'model': Pipeline(
                 [('preproc', StandardScaler(with_mean=False)),
+                 ('up', RandomOverSampler()),
                  ('model', KNeighborsClassifier())]
             ),
             'n_search_iter': 30,
@@ -846,13 +843,13 @@ MODEL_LIST = \
                 'model__weights': ['uniform', 'distance'],
                 'model__metric': ['cosine', 'l1', 'l2'],
                 'up__sampling_strategy': ['minority', 'not minority', 'not majority', 0.99, 0.995, 0.999, 0.9, 0.8],
-                'up__shrinkage': loguniform(1e-7, 1e-3)
             }
         },
 
         'kNN_SMOTE': {  # BEST
             'model': Pipeline(
                 [('preproc', StandardScaler(with_mean=False)),
+                 ('up', SMOTE()),
                  ('model', KNeighborsClassifier())]
             ),
             'n_search_iter': 30,
@@ -864,13 +861,14 @@ MODEL_LIST = \
                 'model__weights': ['uniform', 'distance'],
                 'model__metric': ['cosine', 'l1', 'l2'],
                 'up__sampling_strategy': ['minority', 'not minority', 'not majority', 0.99, 0.995, 0.999, 0.9, 0.8],
-                'up__k_neighbors': randint(3, 30)
+                'up__k_neighbors': randint(3, min_samples_min_class)
             }
         },
 
         'kNN_BorderlineSMOTE': {  # BEST
             'model': Pipeline(
                 [('preproc', StandardScaler(with_mean=False)),
+                 ('up', BorderlineSMOTE()),
                  ('model', KNeighborsClassifier())]
             ),
             'n_search_iter': 30,
@@ -882,7 +880,7 @@ MODEL_LIST = \
                 'model__weights': ['uniform', 'distance'],
                 'model__metric': ['cosine', 'l1', 'l2'],
                 'up__sampling_strategy': ['minority', 'not minority', 'not majority', 0.99, 0.995, 0.999, 0.9, 0.8],
-                'up__k_neighbors': randint(3, 30),
+                'up__k_neighbors': randint(3, min_samples_min_class),
                 'up__m_neighbors': randint(3, 30),
                 'up__kind': ['borderline-1', 'borderline-2']
             }
@@ -891,6 +889,7 @@ MODEL_LIST = \
         'kNN_SVMSMOTE': {  # BEST
             'model': Pipeline(
                 [('preproc', StandardScaler(with_mean=False)),
+                 ('up', SVMSMOTE()),
                  ('model', KNeighborsClassifier())]
             ),
             'n_search_iter': 30,
@@ -902,7 +901,7 @@ MODEL_LIST = \
                 'model__weights': ['uniform', 'distance'],
                 'model__metric': ['cosine', 'l1', 'l2'],
                 'up__sampling_strategy': ['not minority', 'not majority', 0.99, 0.995, 0.999, 0.9, 0.8],
-                'up__k_neighbors': randint(3, 30),
+                'up__k_neighbors': randint(3, min_samples_min_class),
                 'up__m_neighbors': randint(3, 30),
                 'up__out_step': loguniform(1e-6, 1e-3)
             }
@@ -1024,7 +1023,7 @@ MODEL_LIST = \
                 'model__subsample': uniform(loc=0.8, scale=0.2),
                 'model__colsample_bynode': uniform(loc=0.8, scale=0.2),
                 'up__sampling_strategy': ['minority', 'not minority', 'not majority', 0.99, 0.995, 0.999, 0.9, 0.8],
-                'up__k_neighbors': randint(3, 30)
+                'up__k_neighbors': randint(3, min_samples_min_class)
             }
         },
 
@@ -1050,7 +1049,7 @@ MODEL_LIST = \
                 'model__subsample': uniform(loc=0.75, scale=0.24),
                 'model__colsample_bynode': uniform(loc=0.7, scale=0.21),
                 'up__sampling_strategy': ['minority', 'not minority', 'not majority', 0.99, 0.995, 0.999, 0.9, 0.8],
-                'up__k_neighbors': randint(3, 30)
+                'up__k_neighbors': randint(3, min_samples_min_class)
             }
         },
 
@@ -1075,7 +1074,7 @@ MODEL_LIST = \
                 'model__subsample': uniform(loc=0.8, scale=0.2),
                 'model__colsample_bynode': uniform(loc=0.8, scale=0.2),
                 'up__sampling_strategy': ['not minority', 'not majority', 0.99, 0.995, 0.999, 0.9, 0.8],
-                'up__k_neighbors': randint(3, 30),
+                'up__k_neighbors': randint(3, min_samples_min_class),
                 'up__m_neighbors': randint(3, 30),
                 'up__kind': ['borderline-1', 'borderline-2']
             }
@@ -1103,7 +1102,7 @@ MODEL_LIST = \
                 'model__subsample': uniform(loc=0.75, scale=0.24),
                 'model__colsample_bynode': uniform(loc=0.7, scale=0.21),
                 'up__sampling_strategy': ['not minority', 'not majority', 0.99, 0.995, 0.999, 0.9, 0.8],
-                'up__k_neighbors': randint(3, 30),
+                'up__k_neighbors': randint(3, min_samples_min_class),
                 'up__m_neighbors': randint(3, 30),
                 'up__kind': ['borderline-1', 'borderline-2']
             }
@@ -1131,7 +1130,7 @@ MODEL_LIST = \
                 'model__subsample': uniform(loc=0.8, scale=0.2),
                 'model__colsample_bynode': uniform(loc=0.8, scale=0.2),
                 'up__sampling_strategy': ['not minority', 'not majority', 0.99, 0.995, 0.999, 0.9, 0.8],
-                'up__k_neighbors': randint(3, 30),
+                'up__k_neighbors': randint(3, min_samples_min_class),
                 'up__m_neighbors': randint(3, 30),
                 'up__out_step': loguniform(1e-6, 1e-3)
             }
@@ -1159,7 +1158,7 @@ MODEL_LIST = \
                 'model__subsample': uniform(loc=0.75, scale=0.24),
                 'model__colsample_bynode': uniform(loc=0.7, scale=0.21),
                 'up__sampling_strategy': ['not minority', 'not majority', 0.99, 0.995, 0.999, 0.9, 0.8],
-                'up__k_neighbors': randint(3, 30),
+                'up__k_neighbors': randint(3, min_samples_min_class),
                 'up__m_neighbors': randint(3, 30),
                 'up__out_step': loguniform(1e-6, 1e-3)
             }
@@ -1385,7 +1384,7 @@ MODEL_LIST = \
                 'model__bootstrap': [False],
                 'model__max_leaf_nodes': randint(5, 40),
                 'up__sampling_strategy': ['minority', 'not minority', 'not majority', 0.99, 0.995, 0.999, 0.9, 0.8],
-                'up__k_neighbors': randint(3, 30),
+                'up__k_neighbors': randint(3, min_samples_min_class),
             }
         },
 
@@ -1407,7 +1406,7 @@ MODEL_LIST = \
                 'model__bootstrap': [False],
                 'model__max_leaf_nodes': randint(5, 40),
                 'up__sampling_strategy': ['minority', 'not minority', 'not majority', 0.99, 0.995, 0.999, 0.9, 0.8],
-                'up__k_neighbors': randint(3, 30),
+                'up__k_neighbors': randint(3, min_samples_min_class),
                 'up__m_neighbors': randint(3, 30),
                 'up__kind': ['borderline-2']
             }
@@ -1431,7 +1430,7 @@ MODEL_LIST = \
                 'model__bootstrap': [False],
                 'model__max_leaf_nodes': randint(5, 40),
                 'up__sampling_strategy': ['minority', 'not minority', 'not majority', 0.99, 0.995, 0.999, 0.9, 0.8],
-                'up__k_neighbors': randint(3, 30),
+                'up__k_neighbors': randint(3, min_samples_min_class),
                 'up__m_neighbors': randint(3, 30),
                 'up__out_step': loguniform(1e-6, 1e-3)
             }
