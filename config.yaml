@@ -3,19 +3,19 @@ run:
   n_jobs: -1
 
 dataset:
-  languages: ['po']#, 'en', 'fr', 'po', 'it', 'ge']   # 'en, 'it', 'fr', 'po', 'ru', 'ge'
+  languages: ['fr']#, 'en', 'fr', 'po', 'it', 'ge']   # 'en, 'it', 'fr', 'po', 'ru', 'ge'
   subtask: 2                        # 1, 2, 3
   data_dir: 'data'                  # Relative path to directory with data
 
 preprocessing:
-  split: 'train_and_dev'                    # Split of the data to use
+  split: 'train_and_dev'                  # Split of the data to use
   analysis_unit: ['raw_text']             # 'title', 'title_and_first_paragraph', 'title_and_5_sentences', 'title_and_10_sentences',
                                     # 'title_and_first_sentence_each_paragraph', 'raw_text', 'all'
   load_preproc_input_data: True     # Whether or not to rerun the script that produces the units of analysis
   spacy_model_size: 'small'         # small or large. small should be enough for preprocessing, it is mostly tokenizing so far
   use_tfidf: True                   # True := TFIDFVectorizer, False := CountVectorizer
-  min_df: 0.05                      # [0, 1.0] minimum document frequency for a term to be included
-  max_df: 0.95                      # [0, 1.0] maximum document frequency for a term to be included
+  min_df: 0.01                      # [0, 1.0] minimum document frequency for a term to be included
+  max_df: 0.8                      # [0, 1.0] maximum document frequency for a term to be included
   max_features: 10000               # Maximum number of features
   ngram_range: [1,3]                # ngrams to use around a word. 1 is the word itself
   min_var: 0.0                        # Minimum variance a vector should have to be used in the trainset
@@ -23,11 +23,11 @@ preprocessing:
 
   tune_preprocessing_params: True  # If True, will do LHS over the ranges of the parameters next
   param_search:
-    n_samples: 10
-    min_df_range: [0, 0.05]
-    max_df_range: [0.7, 0.95]
+    n_samples: 1
+    min_df_range: [0.008, 0.012]
+    max_df_range: [0.78, 0.8]
     min_var_range: [0, 0.01]
-    corr_threshold_range: [0.95, 1]
+    corr_threshold_range: [0.987, 1]
 
 training:
   default_params: False             # If True, it runs cross validation with outer_folds folds. If False, it runs nested cross validation
@@ -36,9 +36,10 @@ training:
   #model_list: ['DummyProbSampling', 'DummyUniformSampling', 'DummyMostFrequent', 'LogisticRegression', 'LogisticRegressionRidge', 'LogisticRegressionRidgeDual', 'LogisticRegressionLasso', 'LogisticRegressionElasticNet', 'RidgeClassifier', 'SVM', 'LinearSVM', 'LinearSVMDual', 'RandomForest', 'XGBoost', 'RandomForestV2', 'ComplementNaiveBayes', 'NaiveBayes']
 
   # Best model list
-  model_list: ['LogisticRegressionRidgeDual_narrow', 'LogisticRegressionRidgeDual', 'LogisticRegressionRidgeDual_ROS', 'LogisticRegressionRidgeDual_ROS_v2', 'LogisticRegressionRidgeDual_SMOTE', 'LogisticRegressionRidgeDual_SMOTE_v2', 'LogisticRegressionRidgeDual_BorderlineSMOTE', 'LogisticRegressionRidgeDual_BorderlineSMOTE_v2', 'LogisticRegressionRidgeDual_SVMSMOTE', 'LogisticRegressionRidgeDual_SVMSMOTE_v2', 'SVM_sigmoid', 'SVM_sigmoid_broad', 'SVM_sigmoid_ROS', 'SVM_sigmoid_ROS_v2', 'SVM_sigmoid_SMOTE', 'SVM_sigmoid_SMOTE_v2', 'SVM_sigmoid_BorderlineSMOTE', 'SVM_sigmoid_BorderlineSMOTE_v2', 'SVM_sigmoid_SVMSMOTE', 'SVM_sigmoid_SVMSMOTE_v2', 'LinearSVMDual_narrow', 'LinearSVMDual', 'LinearSVMDual_ROS', 'LinearSVMDual_ROS_v2', 'LinearSVMDual_SMOTE', 'LinearSVMDual_SMOTE_v2', 'LinearSVMDual_BorderlineSMOTE', 'LinearSVMDual_BorderlineSMOTE_v2', 'LinearSVMDual_SVMSMOTE', 'LinearSVMDual_SVMSMOTE_v2', 'XGBoost_broad', 'ComplementNaiveBayes_narrow', 'ComplementNaiveBayes_broad', 'ComplementNaiveBayes_ROS', 'ComplementNaiveBayes_ROS_v2', 'ComplementNaiveBayes_SMOTE', 'ComplementNaiveBayes_SMOTE_v2', 'ComplementNaiveBayes_BorderlineSMOTE', 'ComplementNaiveBayes_BorderlineSMOTE_v2', 'ComplementNaiveBayes_SVMSMOTE_v1', 'ComplementNaiveBayes_SVMSMOTE_v2']
-  #model_list: ['RandomForest', 'RandomForest_ROS', 'RandomForest_ROS_v2', 'RandomForest_SMOTE', 'RandomForest_SMOTE_v2', 'RandomForest_BorderlineSMOTE', 'RandomForest_BorderlineSMOTE_v2', 'RandomForest_SVMSMOTE', 'RandomForest_SVMSMOTE_v2']
-
+  #model_list: ['LogisticRegressionRidgeDual', 'LogisticRegressionRidgeDual_ROS', 'LogisticRegressionRidgeDual_SMOTE', 'LogisticRegressionRidgeDual_BorderlineSMOTE', 'LogisticRegressionRidgeDual_SVMSMOTE', 'SVM_sigmoid', 'SVM_sigmoid_ROS', 'SVM_sigmoid_SMOTE', 'SVM_sigmoid_BorderlineSMOTE', 'SVM_sigmoid_SVMSMOTE', 'LinearSVMDual', 'LinearSVMDual_ROS', 'LinearSVMDual_SMOTE', 'LinearSVMDual_BorderlineSMOTE', 'XGBoost_broad', 'ComplementNaiveBayes', 'ComplementNaiveBayes_ROS', 'ComplementNaiveBayes_SMOTE', 'ComplementNaiveBayes_BorderlineSMOTE', 'ComplementNaiveBayes_SVMSMOTE', 'RandomForest', 'RandomForest_ROS', 'RandomForest_SMOTE', 'RandomForest_BorderlineSMOTE', 'RandomForest_SVMSMOTE']
+  #model_list: ['LogisticRegression', 'LogisticRegression_ROS', 'LogisticRegression_SMOTE', 'LogisticRegression_BorderlineSMOTE', 'LogisticRegression_SVMSMOTE', 'LogisticRegressionRidgeDual', 'LogisticRegressionRidgeDual_ROS', 'LogisticRegressionRidgeDual_SMOTE', 'LogisticRegressionRidgeDual_BorderlineSMOTE', 'LogisticRegressionRidgeDual_SVMSMOTE', 'RakelD_LogisticRegression', 'LogisticRegressionLasso', 'LogisticRegressionLasso_ROS', 'LogisticRegressionLasso_SMOTE', 'LogisticRegressionLasso_BorderlineSMOTE', 'LogisticRegressionLasso_SVMSMOTE', 'LogisticRegressionElasticNet', 'LogisticRegressionElasticNet_ROS', 'LogisticRegressionElasticNet_SMOTE', 'LogisticRegressionElasticNet_BorderlineSMOTE', 'LogisticRegressionElasticNet_SVMSMOTE', 'RidgeClassifier', 'RidgeClassifier_ROS', 'RidgeClassifier_SMOTE', 'RidgeClassifier_BorderlineSMOTE', 'RidgeClassifier_SVMSMOTE', 'SVM_rbf', 'SVM_rbf_ROS', 'SVM_rbf_SMOTE', 'SVM_rbf_BorderlineSMOTE', 'SVM_rbf_SVMSMOTE', 'SVM_sigmoid', 'SVM_sigmoid_ROS', 'SVM_sigmoid_SMOTE', 'SVM_sigmoid_BorderlineSMOTE', 'SVM_sigmoid_SVMSMOTE', 'RakelD_SVM', 'LinearSVMDual', 'LinearSVMDual_ROS', 'LinearSVMDual_SMOTE', 'LinearSVMDual_BorderlineSMOTE', 'LinearSVMDual_SVMSMOTE', 'RakelD_LinearSVM', 'kNN', 'kNN_ROS', 'kNN_SMOTE', 'kNN_BorderlineSMOTE', 'kNN_SVMSMOTE', 'XGBoost_narrow', 'XGBoost_broad', 'XGBoost_narrow_ROS', 'XGBoost_broad_ROS', 'XGBoost_narrow_SMOTE', 'XGBoost_broad_SMOTE', 'XGBoost_narrow_BorderlineSMOTE', 'XGBoost_broad_BorderlineSMOTE', 'XGBoost_narrow_SVMSMOTE', 'XGBoost_broad_SVMSMOTE', 'ComplementNaiveBayes', 'ComplementNaiveBayes_ROS', 'ComplementNaiveBayes_SMOTE', 'ComplementNaiveBayes_BorderlineSMOTE', 'ComplementNaiveBayes_SVMSMOTE', 'RakelD_ComplementNB', 'NaiveBayes', 'NaiveBayes_ROS', 'NaiveBayes_SMOTE', 'NaiveBayes_BorderlineSMOTE', 'NaiveBayes_SVMSMOTE', 'RandomForest', 'RandomForest_ROS', 'RandomForest_SMOTE', 'RandomForest_BorderlineSMOTE', 'RandomForest_SVMSMOTE', 'BRkNNaClassifier', 'BRkNNbClassifier', 'MLkNN', 'MLARAM']
+  model_list: ['LogisticRegression', 'LogisticRegression_ROS', 'LogisticRegression_SMOTE', 'LogisticRegression_BorderlineSMOTE', 'LogisticRegressionRidgeDual_ROS', 'LogisticRegressionRidgeDual_SMOTE', 'LogisticRegressionRidgeDual_BorderlineSMOTE', 'LogisticRegressionRidgeDual_SVMSMOTE',]
+  #model_list: ['RandomForest', 'RandomForest_ROS', 'RandomForest_SMOTE', 'RandomForest_BorderlineSMOTE', 'RandomForest_SVMSMOTE']
 
   # Best performing model list
   # Regressions
@@ -59,11 +60,11 @@ training:
   # Naive Bayes
   #model_list: ['NaiveBayes', 'NaiveBayes_ROS_v1', 'NaiveBayes_ROS_v2', 'NaiveBayes_ROS_v3', 'NaiveBayes_SMOTE_v1', 'NaiveBayes_SMOTE_v2', 'NaiveBayes_SMOTE_v3', 'NaiveBayes_BorderlineSMOTE_v1', 'NaiveBayes_BorderlineSMOTE_v2', 'NaiveBayes_BorderlineSMOTE_v3', 'ComplementNaiveBayes', 'ComplementNaiveBayes_ROS_v1', 'ComplementNaiveBayes_ROS_v2', 'ComplementNaiveBayes_SMOTE_v1', 'ComplementNaiveBayes_SMOTE_v2', 'ComplementNaiveBayes_BorderlineSMOTE_v1', 'ComplementNaiveBayes_BorderlineSMOTE_v2', 'ComplementNaiveBayes_BorderlineSMOTE_v3', 'NaiveBayes_SVMSMOTE_v1', 'NaiveBayes_SVMSMOTE_v2', 'NaiveBayes_SVMSMOTE_v3', 'ComplementNaiveBayes_SVMSMOTE_v1', 'ComplementNaiveBayes_SVMSMOTE_v2', 'ComplementNaiveBayes_SVMSMOTE_v3'] # models that will probably fail
 
-  model_hyperparam_module: 'training.hyperparam_space_config_best_models'           # .py file with models and distribution of hyperparams to tune and benchmark
+  model_hyperparam_module: 'training.hyperparam_space_config_french'           # .py file with models and distribution of hyperparams to tune and benchmark
   nested_cv:                        # Total training runs are outer_folds(inner_folds * num_search_iters + 1)
     outer_folds: 3                  # Number of outer fold: Number of "best" models after tuning
     inner_folds: 3                  # Number of inner folds: Number of folds to validate each hyperparam combination
-    n_search_iter: 60               # Number of search iterations per outer fold (it is measured with cv of #inner_folds)
+    n_search_iter: 3               # Number of search iterations per outer fold (it is measured with cv of #inner_folds)
     ranking_score: 'f1_micro'       # Metric to choose best performing model in each inner fold
   metric_to_report: 'f1_micro'      # Metric to report
   return_train_metrics: True        # Whether to return the metrics on the train set or not
@@ -72,6 +73,6 @@ training:
 
 metric_logging:
   logging_path: './mlruns'          # Directory to store metrs. ir must be named 'mlruns'
-  experiment_base_name: 'en_tune_best_models_tune_preproc_v3' # Name of the experiment under which to store metrics
+  experiment_base_name: 'small_test_2' # Name of the experiment under which to store metrics
   rewrite_experiment: False         # Whether to delete/overwrite runs under experiment_name. In most of the cases it should be False
   logging_level: 'outer_cv'         # Which performance data to log ('model_wide', 'outer_cv', or 'inner_cv')

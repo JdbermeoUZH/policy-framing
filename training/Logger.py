@@ -71,9 +71,13 @@ class Logger:
 
     def _log_base_estimator_info(
             self,
-            estimator: MultiLabelEstimator
+            estimator: MultiLabelEstimator,
+            model_type: str,
+            model_subtype: str
     ) -> None:
         log_param('model_name', estimator.get_model_name())
+        log_param('model_type', model_type)
+        log_param('model_subtype', model_subtype)
         log_param('base_estimator_name', estimator.get_base_estimator_name())
         log_param('multilabel_type', estimator.get_multilabel_model_type())
 
@@ -84,6 +88,8 @@ class Logger:
             spacy_model_used: str,
             preprocessing_pipeline: Pipeline,
             estimator: MultiLabelEstimator,
+            model_type: str,
+            model_subtype: str,
             cv_results: dict,
             hyperparam_distrs_filepath: Optional[str] = None
     ) -> None:
@@ -93,7 +99,7 @@ class Logger:
             self._log_preprocessing_params(unit_of_analysis=unit_of_analysis, spacy_model_used=spacy_model_used,
                                            preprocessing_pipeline=preprocessing_pipeline)
             # Log model information
-            self._log_base_estimator_info(estimator=estimator)
+            self._log_base_estimator_info(estimator=estimator, model_type=model_type, model_subtype=model_subtype)
 
             # Log model wide performance
             log_param('analysis_level', 'model_wide')
@@ -113,7 +119,9 @@ class Logger:
             spacy_model_used: str,
             preprocessing_pipeline: Pipeline,
             estimator: MultiLabelEstimator,
-            cv_results: dict
+            cv_results: dict,
+            model_type: str,
+            model_subtype: str
     ) -> None:
         n_outer_fold = len(cv_results['estimator'])
 
@@ -125,7 +133,7 @@ class Logger:
                 self._log_preprocessing_params(unit_of_analysis=unit_of_analysis, spacy_model_used=spacy_model_used,
                                                preprocessing_pipeline=preprocessing_pipeline)
                 # Log model information
-                self._log_base_estimator_info(estimator=estimator)
+                self._log_base_estimator_info(estimator=estimator, model_type=model_type, model_subtype=model_subtype)
 
                 log_param('analysis_level', 'outer_cv')
 
@@ -146,7 +154,9 @@ class Logger:
             spacy_model_used: str,
             preprocessing_pipeline: Pipeline,
             estimator: MultiLabelEstimator,
-            cv_results: dict
+            cv_results: dict,
+            model_type: str,
+            model_subtype: str
     ) -> None:
 
         # Average performance across inner folds of the different hyper-param samples
@@ -166,7 +176,7 @@ class Logger:
                     self._log_preprocessing_params(unit_of_analysis=unit_of_analysis, spacy_model_used=spacy_model_used,
                                                    preprocessing_pipeline=preprocessing_pipeline)
                     # Log model information
-                    self._log_base_estimator_info(estimator=estimator)
+                    self._log_base_estimator_info(estimator=estimator, model_type=model_type, model_subtype=model_subtype)
 
                     log_param('analysis_level', 'inner_cv')
 

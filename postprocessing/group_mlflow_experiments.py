@@ -54,6 +54,7 @@ def group_experiments(runs_df: pd.DataFrame, grouping_cols: tuple[str] = ('unit_
 if __name__ == '__main__':
     args = parse_arguments()
     runs_df = pd.read_csv(args.df_filepath)
+    runs_df.dropna(inplace=True)
 
     os.makedirs(args.output_dir, exist_ok=True)
     os.chdir(args.output_dir)
