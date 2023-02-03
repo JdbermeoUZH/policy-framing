@@ -69,16 +69,18 @@ def report_train_test_performance(results_cv, report_metric: str = 'f1_micro'):
 if __name__ == "__main__":
     # Load script arguments and configuration file
     args, config = parse_arguments_and_load_config_file()
-    dataset_config = config['dataset']
-    preprocessing_config = config['preprocessing']
-    training_config = config['training']
-    estimators_config = import_module(config['training']['model_hyperparam_module'])
-    metric_log_config = config['metric_logging']
-    run_config = config['run']
 
-    preprocessing_tune_config = None
-    if preprocessing_config['tune_preprocessing_params']:
-        preprocessing_tune_config = preprocessing_config['param_search']
+    dataset_config = config['dataset']
+
+    preprocessing_config = config['preprocessing']
+    preprocessing_params_config = import_module(preprocessing_config['preprocessing_hyperparam_module']).PREPROCESSING
+
+    training_config = config['training']
+    estimators_config = import_module(training_config['model_hyperparam_module'])
+
+    metric_log_config = config['metric_logging']
+
+    run_config = config['run']
 
     if run_config['supress_warnings']:
         helper_fns.supress_all_warnings()
@@ -112,21 +114,6 @@ if __name__ == "__main__":
 
         y_train = mlb.transform(train_data.train_df.frames.str.lower().str.split(','))
 
-        # Create additional object that will be used during the experiments
-        ###################################################################
-
-        # Define the vectorizing pipeline(s) to use
-        bow_pipeline = BOWPipeline(
-            tokenizer=lambda string: basic_tokenizing_and_cleaning(string, spacy_nlp_model=nlp),
-            use_tfidf=preprocessing_config['use_tfidf'],
-            min_df=preprocessing_config['min_df'],
-            max_df=preprocessing_config['max_df'],
-            max_features=preprocessing_config['max_features'],
-            ngram_range=tuple(preprocessing_config['ngram_range']),
-            min_var=preprocessing_config['min_var'],
-            corr_threshold=preprocessing_config['corr_threshold']
-        )
-
         # Iterate over each family of models in specified in yaml and .py config files
         # Estimate performance on the model using the different units of analysis
         units_of_analysis = UNITS_OF_ANALYSES if preprocessing_config['analysis_unit'] == 'all' \
@@ -136,14 +123,37 @@ if __name__ == "__main__":
         # Run the experiments
         #####################
         for unit_of_analysis in units_of_analysis:
+
             notify_current_unit_of_analysis = f"Unit of Analysis: {unit_of_analysis}"
             print(notify_current_unit_of_analysis)
             print("#" * len(notify_current_unit_of_analysis))
 
             # Whether to generate a list of preprocessing pipelines with multiple parameters or not
-            if preprocessing_tune_config:
+            # Define the vectorizing pipeline(s) to use
+            if preprocessing_config['use_same_params_across_units']:
+                preprocessing_params = preprocessing_params_config['all']['fixed_params']
+                preprocessing_params_search_space = preprocessing_params_config['all']['param_search']
+            else:
+                preprocessing_params = preprocessing_params_config[unit_of_analysis]['fixed_params']
+                preprocessing_params_search_space = preprocessing_params_config[unit_of_analysis]['param_search']
+
+            bow_pipeline = BOWPipeline(
+                tokenizer=lambda string: basic_tokenizing_and_cleaning(string, spacy_nlp_model=nlp),
+                use_tfidf=preprocessing_params['use_tfidf'],
+                min_df=preprocessing_params['min_df'],
+                max_df=preprocessing_params['max_df'],
+                max_features=preprocessing_params['max_features'],
+                ngram_range=tuple(preprocessing_params['ngram_range']),
+                min_var=preprocessing_params['min_var'],
+                corr_threshold=preprocessing_params['corr_threshold']
+            )
+
+            tune_preprocessing_params = preprocessing_config['param_search']['tune_preprocessing_params']
+            if tune_preprocessing_params:
                 vectorizing_pipelines = bow_pipeline.sample_pipelines_from_hypeparameter_space(
-                    **preprocessing_tune_config)
+                    n_samples=preprocessing_config['param_search']['n_samples'],
+                    **preprocessing_params_search_space
+                )
             else:
                 vectorizing_pipelines = (bow_pipeline.pipeline,)
 
@@ -224,7 +234,7 @@ if __name__ == "__main__":
 
                     else:
                         # Estimate performance with nested cross validation
-                        if preprocessing_tune_config:
+                        if tune_preprocessing_params:
                             n_search_iter = training_config['nested_cv']['n_search_iter']
                         else:
                             has_n_search_iter = 'n_search_iter' in estimators_config.MODEL_LIST[model_name].keys()
