@@ -1,5 +1,6 @@
 import os
-from types import ModuleType, GeneratorType
+import random
+from types import GeneratorType
 
 import yaml
 import argparse
@@ -154,6 +155,7 @@ if __name__ == "__main__":
                     n_samples=preprocessing_config['param_search']['n_samples'],
                     **preprocessing_params_search_space
                 )
+                random.shuffle(training_config['model_list'])
             else:
                 vectorizing_pipelines = (bow_pipeline.pipeline,)
 
