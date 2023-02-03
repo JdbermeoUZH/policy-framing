@@ -12,8 +12,8 @@ from sklearn.naive_bayes import ComplementNB, MultinomialNB
 from imblearn.over_sampling import SMOTE, BorderlineSMOTE, SVMSMOTE, RandomOverSampler
 from imblearn.pipeline import Pipeline
 
-min_samples_min_class = 3
-up_sampling_prop_list = [0.99, 0.9925, 0.995, 0.999, 0.9, 0.95, 0.85]
+min_samples_min_class = 11
+up_sampling_prop_list = []
 
 MODEL_LIST = \
     {
@@ -219,7 +219,7 @@ MODEL_LIST = \
             'hyperparam_space': {
                 'preproc__with_std': [True],
                 'model__class_weight': ['balanced'],
-                'model__C': loguniform(1e-2, 100),
+                'model__C': loguniform(1e-2, 1e3),
             }
         },
 
@@ -234,7 +234,7 @@ MODEL_LIST = \
             'n_search_iter': 60,
             'hyperparam_space': {
                 'preproc__with_std': [True],
-                'model__C': loguniform(1e-2, 100),
+                'model__C': loguniform(1e-2, 1e3),
                 'up__sampling_strategy': ['minority', 'not minority', 'not majority'] + up_sampling_prop_list,
                 'up__shrinkage': loguniform(1e-6, 1)
             }
@@ -252,7 +252,7 @@ MODEL_LIST = \
             'hyperparam_space': {
                 'preproc__with_std': [True],
                 'model__class_weight': ['balanced'],
-                'model__C': loguniform(1e-2, 100),
+                'model__C': loguniform(1e-2, 1e3),
                 'up__sampling_strategy': ['minority', 'not minority', 'not majority'] + up_sampling_prop_list,
                 'up__k_neighbors': randint(min(min_samples_min_class - 1, 7), min_samples_min_class) 
             }
@@ -270,7 +270,7 @@ MODEL_LIST = \
             'hyperparam_space': {
                 'preproc__with_std': [True],
                 'model__class_weight': ['balanced'],
-                'model__C': loguniform(1e-2, 100),
+                'model__C': loguniform(1e-2, 1e3),
                 'up__sampling_strategy': ['minority', 'not minority', 'not majority'] + up_sampling_prop_list,
                 'up__k_neighbors': randint(min(min_samples_min_class - 1, 5), min_samples_min_class),
                 'up__m_neighbors': randint(14, 30),
@@ -289,7 +289,7 @@ MODEL_LIST = \
             'hyperparam_space': {
                 'preproc__with_std': [True],
                 'model__class_weight': ['balanced', None],
-                'model__C': loguniform(1e-2, 100),
+                'model__C': loguniform(1e-2, 1e3),
                 'up__sampling_strategy': ['minority', 'not minority', 'not majority'] + up_sampling_prop_list,
                 'up__k_neighbors': randint(min(min_samples_min_class - 1, 5), min_samples_min_class),
                 'up__m_neighbors': randint(14, 30),
@@ -311,7 +311,7 @@ MODEL_LIST = \
             'hyperparam_space': {
                 'preproc__with_std': [True],
                 'model__class_weight': ['balanced'],
-                'model__C': loguniform(1e-3, 1e2),
+                'model__C': loguniform(1e-3, 1e3),
             }
         },
 
@@ -326,7 +326,7 @@ MODEL_LIST = \
             'n_search_iter': 60,
             'hyperparam_space': {
                 'preproc__with_std': [True],
-                'model__C': loguniform(1e-3, 1e2),
+                'model__C': loguniform(1e-3, 1e3),
                 'up__sampling_strategy': ['minority', 'not minority', 'not majority'] + up_sampling_prop_list,
                 'up__shrinkage': loguniform(1e-6, 1)
             }
@@ -344,7 +344,7 @@ MODEL_LIST = \
             'hyperparam_space': {
                 'preproc__with_std': [True],
                 'model__class_weight': ['balanced'],
-                'model__C': loguniform(1e-3, 1e2),
+                'model__C': loguniform(1e-3, 1e3),
                 'up__sampling_strategy': ['minority', 'not minority', 'not majority'] + up_sampling_prop_list,
                 'up__k_neighbors': randint(min(min_samples_min_class - 1, 7), min_samples_min_class) 
             }
@@ -362,7 +362,7 @@ MODEL_LIST = \
             'hyperparam_space': {
                 'preproc__with_std': [True],
                 'model__class_weight': ['balanced'],
-                'model__C': loguniform(1e-3, 1e2),
+                'model__C': loguniform(1e-3, 1e3),
                 'up__sampling_strategy': ['minority', 'not minority', 'not majority'] + up_sampling_prop_list,
                 'up__k_neighbors': randint(min(min_samples_min_class - 1, 5), min_samples_min_class),
                 'up__m_neighbors': randint(14, 30),
@@ -381,7 +381,7 @@ MODEL_LIST = \
             'hyperparam_space': {
                 'preproc__with_std': [True],
                 'model__class_weight': ['balanced', None],
-                'model__C': loguniform(1e-3, 1e2),
+                'model__C': loguniform(1e-3, 1e3),
                 'up__sampling_strategy': ['minority', 'not minority', 'not majority'] + up_sampling_prop_list,
                 'up__k_neighbors': randint(min(min_samples_min_class - 1, 5), min_samples_min_class),
                 'up__m_neighbors': randint(14, 30),
@@ -1154,7 +1154,7 @@ MODEL_LIST = \
             'model_type': 'NaiveBayes',
             'model_subtype': 'No Upsampling',
             'hyperparam_space': {
-                'alpha': loguniform(1e-5, 1),
+                'alpha': loguniform(5e-3, 10),
                 'norm': [False]
             }
         },
@@ -1167,7 +1167,7 @@ MODEL_LIST = \
             'model_type': 'NaiveBayes',
             'model_subtype': 'Random Oversampling',
             'hyperparam_space': {
-                'model__alpha': loguniform(1e-5, 1),
+                'model__alpha': loguniform(5e-3, 10),
                 'model__norm': [False],
                 'up__sampling_strategy': ['minority', 'not minority', 'not majority'] + up_sampling_prop_list,
                 'up__shrinkage': loguniform(1e-6, 500)
@@ -1182,7 +1182,7 @@ MODEL_LIST = \
             'model_type': 'NaiveBayes',
             'model_subtype': 'SMOTE',
             'hyperparam_space': {
-                'model__alpha': loguniform(1e-5, 1),
+                'model__alpha': loguniform(5e-3, 10),
                 'model__norm': [False],
                 'up__sampling_strategy': ['minority', 'not minority', 'not majority'] + up_sampling_prop_list,
                 'up__k_neighbors': randint(min(min_samples_min_class - 1, 3), min_samples_min_class)
@@ -1197,7 +1197,7 @@ MODEL_LIST = \
             'model_type': 'NaiveBayes',
             'model_subtype': 'BorderlineSMOTE',
             'hyperparam_space': {
-                'model__alpha': loguniform(1e-5, 1),
+                'model__alpha': loguniform(5e-3, 10),
                 'model__norm': [False],
                 'up__sampling_strategy': ['minority', 'not minority', 'not majority'] + up_sampling_prop_list,
                 'up__k_neighbors': randint(min(min_samples_min_class - 1, 3), min_samples_min_class),
@@ -1214,7 +1214,7 @@ MODEL_LIST = \
             'model_type': 'NaiveBayes',
             'model_subtype': 'SVMSMOTE',
             'hyperparam_space': {
-                'model__alpha': loguniform(1e-5, 1),
+                'model__alpha': loguniform(5e-3, 10),
                 'model__norm': [False],
                 'up__sampling_strategy': ['minority', 'not minority', 'not majority'] + up_sampling_prop_list,
                 'up__k_neighbors': randint(min(min_samples_min_class - 1, 3), min_samples_min_class),
@@ -1234,7 +1234,7 @@ MODEL_LIST = \
             'hyperparam_space': {
                 'preproc__with_std': [True, False],
                 'model__base_classifier': [ComplementNB(norm=False)],
-                'model__base_classifier__alpha': loguniform(1e-5, 1),
+                'model__base_classifier__alpha': loguniform(5e-3, 10),
                 'model__base_classifier_require_dense': [False],
                 'model__labelset_size': range(1, 6)
             }
@@ -1248,7 +1248,7 @@ MODEL_LIST = \
             'model_type': 'NaiveBayes',
             'model_subtype': 'No Upsampling',
             'hyperparam_space': {
-                'alpha': loguniform(1e-5, 2),
+                'alpha': loguniform(5e-3, 10),
                 'fit_prior': [False],
             }
         },
@@ -1261,7 +1261,7 @@ MODEL_LIST = \
             'model_type': 'NaiveBayes',
             'model_subtype': 'Random Oversampling',
             'hyperparam_space': {
-                'model__alpha': loguniform(1e-5, 2),
+                'model__alpha': loguniform(5e-3, 10),
                 'model__fit_prior': [False],
                 'up__sampling_strategy': ['minority', 'not minority', 'not majority'] + up_sampling_prop_list,
                 'up__shrinkage': loguniform(1e-6, 500)
@@ -1276,7 +1276,7 @@ MODEL_LIST = \
             'model_type': 'NaiveBayes',
             'model_subtype': 'SMOTE',
             'hyperparam_space': {
-                'model__alpha': loguniform(1e-5, 2),
+                'model__alpha': loguniform(5e-3, 10),
                 'model__fit_prior': [False],
                 'up__sampling_strategy': ['minority', 'not minority', 'not majority'] + up_sampling_prop_list,
                 'up__k_neighbors': randint(min(min_samples_min_class - 1, 3), min_samples_min_class)
@@ -1291,7 +1291,7 @@ MODEL_LIST = \
             'model_type': 'NaiveBayes',
             'model_subtype': 'BorderlineSMOTE',
             'hyperparam_space': {
-                'model__alpha': loguniform(1e-5, 2),
+                'model__alpha': loguniform(5e-3, 10),
                 'model__fit_prior': [False],
                 'up__sampling_strategy': ['minority', 'not minority', 'not majority'] + up_sampling_prop_list,
                 'up__k_neighbors': randint(min(min_samples_min_class - 1, 3), min_samples_min_class),
@@ -1308,7 +1308,7 @@ MODEL_LIST = \
             'model_type': 'NaiveBayes',
             'model_subtype': 'SVMSMOTE',
             'hyperparam_space': {
-                'model__alpha': loguniform(1e-5, 2),
+                'model__alpha': loguniform(5e-3, 10),
                 'model__fit_prior': [False],
                 'up__sampling_strategy': ['minority', 'not minority', 'not majority'] + up_sampling_prop_list,
                 'up__k_neighbors': randint(min(min_samples_min_class - 1, 3), min_samples_min_class),
