@@ -9,14 +9,14 @@ dataset:
 
 preprocessing:
   split: 'train_and_dev'                  # Split of the data to use
-  analysis_unit: ['title', 'title_and_first_paragraph', 'title_and_5_sentences', 'title_and_10_sentences']             # 'title', 'title_and_first_paragraph', 'title_and_5_sentences', 'title_and_10_sentences', 'title_and_first_sentence_each_paragraph', 'raw_text', 'all'
+  analysis_unit: ['title_and_first_sentence_each_paragraph']             # 'title', 'title_and_first_paragraph', 'title_and_5_sentences', 'title_and_10_sentences', 'title_and_first_sentence_each_paragraph', 'raw_text', 'all'
   load_preproc_input_data: True           # Whether or not to rerun the script that produces the units of analysis
   spacy_model_size: 'small'               # small or large. small should be enough for preprocessing, it is mostly tokenizing so far
   preprocessing_hyperparam_module: 'training.french.preprocesing_params_config'
   use_same_params_across_units: False     # Use the same preprocessing parameters for all units of analysis
   param_search:
-    tune_preprocessing_params: True      # If True, will do LHS over the search space of the preprocessing parameters
-    n_samples: 15
+    tune_preprocessing_params: False      # If True, will do LHS over the search space of the preprocessing parameters
+    n_samples: 7
 
 training:
   mlb_cls_independent: True       # If True, and 'independent' multilabel model is used. If False, a 'chain' mlb model is used. 'independent' learns probabilities indep. for each class
@@ -41,6 +41,6 @@ training:
 
 metric_logging:
   logging_path: './mlruns'          # Directory to store metrs. ir must be named 'mlruns'
-  experiment_base_name: 'benchmark_tune_2' # Name of the experiment under which to store metrics
+  experiment_base_name: 'benchmark_fixed' # Name of the experiment under which to store metrics
   rewrite_experiment: False         # Whether to delete/overwrite runs under experiment_name. In most of the cases it should be False
   logging_level: 'outer_cv'         # Which performance data to log ('model_wide', 'outer_cv', or 'inner_cv')
