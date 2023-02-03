@@ -3,7 +3,7 @@ run:
   n_jobs: -1
 
 dataset:
-  languages: ['en']#, 'en', 'fr', 'po', 'it', 'ge']   # 'en, 'it', 'fr', 'po', 'ru', 'ge'
+  languages: ['ge']#, 'en', 'fr', 'po', 'it', 'ge']   # 'en, 'it', 'fr', 'po', 'ru', 'ge'
   subtask: 2                        # 1, 2, 3
   data_dir: './data'               # Relative path to directory with data
 
@@ -22,6 +22,8 @@ preprocessing:
 evaluate:
   train_set: 'train_and_dev'        # May be 'train_and_dev' or 'train'
   eval_set: 'test'                  # May be 'test' or 'dev'
+  #train_set: 'train'
+  #eval_set: 'dev' 
   output_dir: './predictions'
 
   models:
