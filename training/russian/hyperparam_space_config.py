@@ -1319,7 +1319,7 @@ MODEL_LIST = \
         ######################################################################################################
 
         'RandomForest': {
-            'model': RandomForestClassifier(class_weight="balanced_subsample"),
+            'model': RandomForestClassifier(class_weight="balanced_subsample", n_jobs=-1),
             'n_search_iter': 60,
             'model_type': 'RandomForest',
             'model_subtype': 'No Upsampling',
@@ -1337,7 +1337,7 @@ MODEL_LIST = \
         'RandomForest_ROS': {
             'model': Pipeline(
                 [('up', RandomOverSampler()),
-                 ('model', RandomForestClassifier())]),
+                 ('model', RandomForestClassifier(n_jobs=-1))]),
             'n_search_iter': 60,
             'model_type': 'RandomForest',
             'model_subtype': 'Random Oversampling',
@@ -1359,7 +1359,7 @@ MODEL_LIST = \
         'RandomForest_SMOTE': {
             'model': Pipeline(
                 [('up', SMOTE()),
-                 ('model', RandomForestClassifier())]),
+                 ('model', RandomForestClassifier(n_jobs=-1))]),
             'n_search_iter': 60,
             'model_type': 'RandomForest',
             'model_subtype': 'SMOTE',
@@ -1381,7 +1381,7 @@ MODEL_LIST = \
         'RandomForest_BorderlineSMOTE': {
             'model': Pipeline(
                 [('up', BorderlineSMOTE()),
-                 ('model', RandomForestClassifier())]),
+                 ('model', RandomForestClassifier(n_jobs=-1))]),
             'n_search_iter': 60,
             'model_type': 'RandomForest',
             'model_subtype': 'BorderlineSMOTE',
@@ -1405,7 +1405,7 @@ MODEL_LIST = \
         'RandomForest_SVMSMOTE': {
             'model': Pipeline(
                 [('up', SVMSMOTE()),
-                 ('model', RandomForestClassifier())]),
+                 ('model', RandomForestClassifier(n_jobs=-1))]),
             'n_search_iter': 150,
             'model_type': 'RandomForest',
             'model_subtype': 'SVMSMOTE',
