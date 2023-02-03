@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-#SBATCH --output=evaulation_jobs/%2jen_tune_best_models_tune_preproc.out
+#SBATCH --output=evaluation_jobs/%2j_ge_evaluate.out
 #SBATCH --time=38:10:00
 #SBATCH --cpus-per-task=32
 #SBATCH --mem=61600
