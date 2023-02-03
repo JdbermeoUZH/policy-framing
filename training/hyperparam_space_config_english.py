@@ -13,7 +13,7 @@ from imblearn.over_sampling import SMOTE, BorderlineSMOTE, SVMSMOTE, RandomOverS
 from imblearn.pipeline import Pipeline
 
 min_samples_min_class = 14
-up_sampling_prop_list = [0.99, 0.9925, 0.995, 0.999, 0.9, 0.95, 0.85]
+up_sampling_prop_list = [0.95, 0.99, 0.9925, 0.995, 0.999]
 
 MODEL_LIST = \
     {
