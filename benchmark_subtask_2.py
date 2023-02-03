@@ -97,7 +97,7 @@ if __name__ == "__main__":
             data_dir=dataset_config['data_dir'],
             language=language,
             subtask=dataset_config['subtask'],
-            split=preprocessing_config['split'],
+            train_split=preprocessing_config['split'],
             load_preprocessed_units_of_analysis=preprocessing_config['load_preproc_input_data'],
             units_of_analysis_dir=os.path.join(dataset_config['data_dir'], 'preprocessed')
         )
@@ -110,7 +110,7 @@ if __name__ == "__main__":
         mlb = MultiLabelBinarizer()
         mlb.fit([LABELS])
 
-        y_train = mlb.transform(train_data.df.frames.str.lower().str.split(','))
+        y_train = mlb.transform(train_data.train_df.frames.str.lower().str.split(','))
 
         # Create additional object that will be used during the experiments
         ###################################################################
@@ -156,7 +156,7 @@ if __name__ == "__main__":
                     print('-' * len(pipline_i_notification_str) + '\n')
 
                 try:
-                    X_train = vectorizing_pipeline_i.fit_transform(train_data.df[unit_of_analysis])
+                    X_train = vectorizing_pipeline_i.fit_transform(train_data.train_df[unit_of_analysis])
                 except ValueError as value_e:
                     print(f'ERROR: {value_e}')
                     print('The parameters used where')
@@ -164,20 +164,33 @@ if __name__ == "__main__":
                     print('\n\n')
                     continue
 
-                # Iterate over models
+                # Iterate over models types
                 for model_name in training_config['model_list']:
+
+                    model_type = estimators_config.MODEL_LIST[model_name]['model_type']
+                    model_subtype = estimators_config.MODEL_LIST[model_name]['model_subtype']
+                    if 'wrap_mlb_clf' in estimators_config.MODEL_LIST[model_name].keys():
+                        wrap_mlb_clf = estimators_config.MODEL_LIST[model_name]['wrap_mlb_clf']
+                    else:
+                        wrap_mlb_clf = True
+
                     notify_current_model_str = f"Currently running estimates for model: {model_name}"
                     print(notify_current_model_str)
                     print("-"*len(notify_current_model_str))
 
                     # Define the object that will log performance with MLFlow
-                    experiment_name = f"{metric_log_config['experiment_base_name']}_{language}_" \
-                                      f"{unit_of_analysis}_{model_name}"
+                    if metric_log_config['logging_level'] in ['outer_cv', 'model_wide']:
+                        experiment_name = f"{metric_log_config['experiment_base_name']}_{language}_" \
+                                          f"{unit_of_analysis}_{model_type}"
+                    else:
+                        experiment_name = f"{metric_log_config['experiment_base_name']}_{language}_" \
+                                          f"{unit_of_analysis}_{model_name}"
+
                     metric_logger = Logger(
                         logging_dir=metric_log_config['logging_path'],
                         experiment_name=experiment_name,
                         rewrite_experiment=metric_log_config['rewrite_experiment'],
-                        logging_level=metric_log_config['logging_level']
+                        logging_level=metric_log_config['logging_level'],
                     )
 
                     # Define model
@@ -186,7 +199,8 @@ if __name__ == "__main__":
                         base_estimator=estimators_config.MODEL_LIST[model_name]['model'],
                         base_estimator_hyperparam_dist=estimators_config.MODEL_LIST[model_name]['hyperparam_space'],
                         treat_labels_as_independent=training_config['mlb_cls_independent'],
-                        scoring_functions=scoring_functions
+                        scoring_functions=scoring_functions,
+                        wrap_mlb_clf=wrap_mlb_clf
                     )
 
                     some_log_params = {
@@ -194,7 +208,9 @@ if __name__ == "__main__":
                         'unit_of_analysis': unit_of_analysis,
                         'spacy_model_used': SPACY_MODELS[language][preprocessing_config['spacy_model_size']],
                         'preprocessing_pipeline': vectorizing_pipeline_i,
-                        'estimator': multilabel_cls
+                        'estimator': multilabel_cls,
+                        'model_type': model_type,
+                        'model_subtype': model_subtype
                     }
 
                     if training_config['default_params']:

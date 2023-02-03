@@ -15,11 +15,13 @@ DEFAULT_SCORING_FUNCTIONS = ('f1_micro', 'f1_macro', 'accuracy', 'precision_micr
                              'precision_macro', 'recall_micro', 'recall_macro')
 
 
-def _recode_param_nams(hyper_param_dist: dict, mlb_independent_fit: bool) -> dict:
-    if not mlb_independent_fit:
+def _recode_param_nams(hyper_param_dist: dict, estimator_type: str) -> dict:
+    if estimator_type == 'chain':
         new_dict = {f'base_estimator__{k}': v for k, v in hyper_param_dist.items()}
-    else:
+    elif estimator_type == 'independent':
         new_dict = {f'estimator__{k}': v for k, v in hyper_param_dist.items()}
+    else:
+        new_dict = hyper_param_dist
 
     return new_dict
 
@@ -32,16 +34,22 @@ class MultiLabelEstimator:
             base_estimator_hyperparam_dist: dict,
             treat_labels_as_independent: bool = True,
             scoring_functions: Tuple[str, ...] = DEFAULT_SCORING_FUNCTIONS,
-            random_seed: str = 123
+            random_seed: str = 123,
+            wrap_mlb_clf: bool = True
     ):
         self.model_name = model_name
-        self.estimator_type = 'independent' if treat_labels_as_independent else 'chain'
         self.base_estimator_name = base_estimator.__str__()
-        self.multi_label_estimator = \
-            MultiOutputClassifier(base_estimator) if treat_labels_as_independent else ClassifierChain(base_estimator)
+
+        if wrap_mlb_clf:
+            self.estimator_type = 'independent' if treat_labels_as_independent else 'chain'
+            self.multi_label_estimator = \
+                MultiOutputClassifier(base_estimator) if treat_labels_as_independent else ClassifierChain(base_estimator)
+        else:
+            self.estimator_type = 'mutilabel'
+            self.multi_label_estimator = base_estimator
 
         self.estimator_hyperparam_dists = _recode_param_nams(
-            base_estimator_hyperparam_dist, treat_labels_as_independent)
+            base_estimator_hyperparam_dist, self.estimator_type)
 
         self.scoring_functions = scoring_functions
         self.random_seed = random_seed
@@ -116,6 +124,33 @@ class MultiLabelEstimator:
 
         return cv_results
 
+    def tune_model(
+            self,
+            X, y,
+            n_iterations: int = 10,
+            n_folds: int = 3,
+            ranking_score: str = 'f1_micro',
+            scoring_functions: Optional[Union[Tuple[str], List[str]]] = None,
+            shuffle_folds: bool = True,
+            return_train_score: bool = False,
+            n_jobs: int = -1
+    ):
+        # Define inner loop random search routine
+        rs_cv = RandomizedSearchCV(
+            estimator=self.multi_label_estimator,
+            param_distributions=self.estimator_hyperparam_dists,
+            n_iter=n_iterations,
+            cv=MultilabelStratifiedKFold(n_splits=n_folds, shuffle=shuffle_folds, random_state=self.random_seed),
+            scoring=scoring_functions,
+            refit=ranking_score,
+            return_train_score=return_train_score,
+            n_jobs=n_jobs
+        )
+
+        search_results = rs_cv.fit(X, y)
+
+        return search_results
+
     def get_stratified_splits(
             self,
             X, y,
@@ -146,7 +181,7 @@ def main() -> dict:
     # Test with dataset in english of subtask 2
 
     # Load the data
-    en_train = FramingArticleDataset(data_dir=DATA_DIR, language='ge', subtask=2, split='train',
+    en_train = FramingArticleDataset(data_dir=DATA_DIR, language='ge', subtask=2, train_split='train',
                                      load_preprocessed_units_of_analysis=True,
                                      units_of_analysis_dir=os.path.join(DATA_DIR, 'preprocessed'))
 
@@ -163,7 +198,7 @@ def main() -> dict:
         corr_threshold=.9
     )
 
-    X_train = vectorizing_pipeline.pipeline.fit_transform(en_train.df.title_and_first_paragraph)
+    X_train = vectorizing_pipeline.pipeline.fit_transform(en_train.train_df.title_and_first_paragraph)
 
     # Preprocess labels
     labels = ('fairness_and_equality', 'security_and_defense', 'crime_and_punishment', 'morality',
@@ -173,7 +208,7 @@ def main() -> dict:
               'political', 'public_opinion', 'external_regulation_and_reputation')
     mlb = MultiLabelBinarizer()
     mlb.fit([labels])
-    y_train = mlb.transform(en_train.df.frames.str.lower().str.split(','))
+    y_train = mlb.transform(en_train.train_df.frames.str.lower().str.split(','))
 
     # Run the nested cross validation estimator for SVM with RBF kernel
     svm = SVC()
