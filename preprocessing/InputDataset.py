@@ -221,8 +221,8 @@ class FramingArticleDataset(BaseArticleDataset):
             self.eval_df, nlp, min_token_paragraph, min_sentences_paragraph)
 
     def extract_title_and_first_sentence_each_paragraph(self, nlp: spacy.Language) -> None:
-        self.train_df = _extract_title_and_first_paragraph(self.train_df, nlp)
-        self.eval_df = _extract_title_and_first_paragraph(self.eval_df, nlp)
+        self.train_df = _extract_title_and_first_sentence_each_paragraph(self.train_df, nlp)
+        self.eval_df = _extract_title_and_first_sentence_each_paragraph(self.eval_df, nlp)
 
     def extract_all_units_of_analysis(self, nlp: spacy.Language) -> None:
         self.extract_title_and_first_n_sentences(nlp=nlp, n_sentences=5)
@@ -238,6 +238,7 @@ class FramingArticleDataset(BaseArticleDataset):
 
 def main(input_data_dir: str, subtask: int, output_path_dir: str, train_split: str, eval_split: str):
     languages = ('en', 'ru', 'it', 'fr', 'po', 'ge')
+
 
     SPACY_MODELS = {
         'en': {'small': 'en_core_web_sm', 'large': 'en_core_web_trf'},
@@ -268,4 +269,4 @@ if __name__ == "__main__":
     output_path_ = os.path.join('..', 'data', 'preprocessed')
     os.makedirs(output_path_, exist_ok=True)
     # Extract units of analyses for all languages
-    main(input_data_dir='../data/data', subtask=2, output_path_dir=output_path_, train_split='train', eval_split='test')
+    main(input_data_dir='../data/data', subtask=2, output_path_dir=output_path_, train_split='train_and_dev', eval_split='test')
