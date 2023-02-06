@@ -5,4 +5,12 @@
 #SBATCH --mem=61600
 module load mamba
 source activate Framing_py39
-srun python benchmark_subtask_2.py --config_path_yaml config.yaml
+srun python benchmark_subtask_2.py \
+  --config_path_yaml config.yaml\
+  --tune_preprocessing_params 1\
+  --analysis_unit raw_text title\
+  --n_samples 2\
+  --experiment_base_name test_cmd_line_args\
+  --model_list LogisticRegression LogisticRegression\
+  --mlb_cls_independent 0\
+  --default_params 1
