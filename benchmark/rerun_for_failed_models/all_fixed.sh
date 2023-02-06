@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+#SBATCH --output=../benchmark_jobs/%2j_benchmark_rerun_failed_models_fixed.out
+#SBATCH --time=43:59:59
+#SBATCH --cpus-per-task=32
+#SBATCH --mem=61600
+module load mamba
+source activate Framing_py39
+cd ../../
+srun python benchmark_subtask_2.py \
+  --config_path_yaml config.yaml\
+  --analysis_unit title title_and_first_paragraph title_and_5_sentences title_and_10_sentences title_and_first_sentence_each_paragraph raw_text\
+  --experiment_base_name benchmark_fixed\
+  --tune_preprocessing_params 0\
+  --model_list BRkNNaClassifier BRkNNbClassifier MLkNN

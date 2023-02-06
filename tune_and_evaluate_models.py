@@ -34,14 +34,18 @@ LABELS = ('Economic', 'Capacity_and_resources', 'Morality', 'Fairness_and_equali
 
 def parse_arguments_and_load_config_file() -> Tuple[argparse.Namespace, dict]:
     parser = argparse.ArgumentParser(description='Subtask-2')
-    parser.add_argument('--config_path_yaml', type=str,
-                        help='Path to YAML configuration file overall benchmarking parameters')
-    parser.add_argument('--language', type=str, default=None,
-                        help='Path to YAML configuration file overall benchmarking parameters')
-    parser.add_argument('--train_set', type=str, default=None,
-                        help='Path to YAML configuration file overall benchmarking parameters')
-    parser.add_argument('--eval_set', type=str, default=None,
-                        help='Path to YAML configuration file overall benchmarking parameters')
+    parser.add_argument('--config_path_yaml', type=str)
+    parser.add_argument('--languages', type=str, default=None, nargs="*")
+    parser.add_argument('--analysis_unit', type=str, default=None, nargs="*")
+    parser.add_argument('--tune_preprocessing_params', type=int, default=None)
+    parser.add_argument('--n_samples', type=int, default=None)
+    parser.add_argument('--experiment_base_name', type=str, default=None)
+    parser.add_argument('--model_list', type=str, default=None, nargs="*")
+    parser.add_argument('--mlb_cls_independent', type=int, default=None)
+    parser.add_argument('--default_params', type=int, default=None)
+
+    #tune_preprocessing_params
+    #n_samples
     arguments = parser.parse_args()
 
     # Load parameters of configuration file
@@ -52,14 +56,30 @@ def parse_arguments_and_load_config_file() -> Tuple[argparse.Namespace, dict]:
             print(exc)
             raise exc
 
-    if arguments.language is not None:
-        yaml_config_params['dataset']['language'] = [arguments.language]
+    if arguments.languages is not None:
+        yaml_config_params['dataset']['languages'] = arguments.languages
 
-    if arguments.train_set is not None:
-        yaml_config_params['evaluate']['train_set'] = arguments.train_set
+    if arguments.analysis_unit is not None:
+        yaml_config_params['preprocessing']['analysis_unit'] = arguments.analysis_unit
 
-    if arguments.eval_set is not None:
-        yaml_config_params['evaluate']['eval_set'] = arguments.eval_set
+    if arguments.tune_preprocessing_params is not None:
+        yaml_config_params['preprocessing']['param_search']['tune_preprocessing_params'] =\
+            arguments.tune_preprocessing_params == 1
+
+    if arguments.n_samples is not None:
+        yaml_config_params['preprocessing']['param_search']['n_samples'] = arguments.n_samples
+
+    if arguments.experiment_base_name is not None:
+        yaml_config_params['metric_logging']['experiment_base_name'] = arguments.experiment_base_name
+
+    if arguments.model_list is not None:
+        yaml_config_params['training']['model_list'] = arguments.model_list
+
+    if arguments.mlb_cls_independent is not None:
+        yaml_config_params['training']['mlb_cls_independent'] = arguments.mlb_cls_independent == 1
+
+    if arguments.mlb_cls_independent is not None:
+        yaml_config_params['training']['default_params'] = arguments.default_params == 1
 
     return arguments, yaml_config_params
 
