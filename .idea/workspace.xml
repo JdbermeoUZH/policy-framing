@@ -5,7 +5,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3359b6ce-9e44-4da3-956d-9609d831df93" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/benchmark_subtask_2.py" beforeDir="false" afterPath="$PROJECT_DIR$/benchmark_subtask_2.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/benchmark/benchmark_1st_sent_each_p_fixed.sh" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/benchmark/benchmark_1st_sent_each_p_tune_1.sh" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/benchmark/benchmark_1st_sent_each_p_tune_2.sh" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/benchmark/benchmark_raw_text_fixed.sh" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/benchmark/benchmark_raw_text_tune_1.sh" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/benchmark/benchmark_raw_text_tune_2.sh" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/benchmark/benchmark_small_units_fixed.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/compute.sh" beforeDir="false" afterPath="$PROJECT_DIR$/compute.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/training/german/hyperparam_space_config.py" beforeDir="false" afterPath="$PROJECT_DIR$/training/german/hyperparam_space_config.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -58,30 +67,30 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/home/juanbermeo/SynologyDriveRA/Framing/training/italian&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;,
-    &quot;two.files.diff.last.used.file&quot;: &quot;/home/juanbermeo/SynologyDriveRA/Framing/training/hyperparam_space_config_italian_other_units_of_analysis.py&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "last_opened_file_path": "/home/juanbermeo/SynologyDriveRA/Framing/benchmark",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable",
+    "two.files.diff.last.used.file": "/home/juanbermeo/SynologyDriveRA/Framing/training/hyperparam_space_config_italian_other_units_of_analysis.py",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/benchmark" />
       <recent name="$PROJECT_DIR$/training/italian" />
       <recent name="$PROJECT_DIR$/training/french" />
       <recent name="$PROJECT_DIR$/training/english" />
       <recent name="$PROJECT_DIR$/training/polish" />
-      <recent name="$PROJECT_DIR$/training/german" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/training/russian" />
@@ -140,9 +149,6 @@
       <module name="Framing" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
       <option name="SDK_HOME" value="" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <option name="IS_MODULE_SDK" value="true" />
@@ -150,7 +156,7 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/benchmark_subtask_2.py" />
-      <option name="PARAMETERS" value="--config_path_yaml config.yaml --languages en --tune_preprocessing_params 1 --analysis_unit raw_text title --n_samples 2 --experiment_base_name test_cmd_line_args --model_list LogisticRegression LogisticRegression --mlb_cls_independent 0 --default_params 1" />
+      <option name="PARAMETERS" value="--config_path_yaml config.yaml --languages ge --tune_preprocessing_params 0 --analysis_unit raw_text title --n_samples 1 --experiment_base_name test_cmd_line_args --model_list MLkNN" />
       <option name="SHOW_COMMAND_LINE" value="true" />
       <option name="EMULATE_TERMINAL" value="false" />
       <option name="MODULE_MODE" value="false" />
@@ -299,8 +305,8 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.hyperparam_space_config" />
         <item itemvalue="Python.benchmark_subtask_2" />
+        <item itemvalue="Python.hyperparam_space_config" />
         <item itemvalue="Python.hyperparam_space_config_best_models" />
         <item itemvalue="Python.gather_mlruns_as_single_csv" />
         <item itemvalue="Python.InputDataset" />
@@ -360,7 +366,7 @@
       <workItem from="1675083967180" duration="24217000" />
       <workItem from="1675332325608" duration="526000" />
       <workItem from="1675346650160" duration="64000" />
-      <workItem from="1675665238952" duration="899000" />
+      <workItem from="1675665238952" duration="2567000" />
     </task>
     <servers />
   </component>
@@ -481,6 +487,11 @@
           <line>124</line>
           <option name="timeStamp" value="71" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/benchmark_subtask_2.py</url>
+          <line>120</line>
+          <option name="timeStamp" value="72" />
+        </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="jupyter-line">
           <url>notebook:///home/juanbermeo/SynologyDriveRA/Framing/documentation/analyses/Default classifiers/Default classifier performance.ipynb</url>
           <line>1</line>
@@ -507,7 +518,7 @@
     <SUITE FILE_PATH="coverage/Framing$gather_mlruns_as_single_csv.coverage" NAME="gather_mlruns_as_single_csv Coverage Results" MODIFIED="1675157249144" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/postprocessing" />
     <SUITE FILE_PATH="coverage/Framing$group_mlflow_experiments.coverage" NAME="group_mlflow_experiments Coverage Results" MODIFIED="1675443922760" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/postprocessing" />
     <SUITE FILE_PATH="coverage/Framing$basic_preprocessing.coverage" NAME="basic_preprocessing Coverage Results" MODIFIED="1665060979164" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/Framing$benchmark_subtask_2.coverage" NAME="benchmark_subtask_2 Coverage Results" MODIFIED="1675443930205" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/Framing$benchmark_subtask_2.coverage" NAME="benchmark_subtask_2 Coverage Results" MODIFIED="1675666386543" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/Framing$estimators_config.coverage" NAME="estimators_config Coverage Results" MODIFIED="1668605093322" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/training" />
     <SUITE FILE_PATH="coverage/Framing$CorrelationFilter.coverage" NAME="CorrelationFilter Coverage Results" MODIFIED="1666189198964" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/preprocessing" />
   </component>
