@@ -5,7 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3359b6ce-9e44-4da3-956d-9609d831df93" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/benchmark_subtask_2.py" beforeDir="false" afterPath="$PROJECT_DIR$/benchmark_subtask_2.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -91,7 +91,7 @@
       <recent name="$PROJECT_DIR$/training/german" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.hyperparam_space_config">
+  <component name="RunManager" selected="Python.benchmark_subtask_2">
     <configuration name="InputDataset" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="Framing" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -150,7 +150,7 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/benchmark_subtask_2.py" />
-      <option name="PARAMETERS" value="--config_path_yaml config.yaml" />
+      <option name="PARAMETERS" value="--config_path_yaml config.yaml --languages en --tune_preprocessing_params 1 --analysis_unit raw_text title --n_samples 2 --experiment_base_name test_cmd_line_args --model_list LogisticRegression LogisticRegression --mlb_cls_independent 0 --default_params 1" />
       <option name="SHOW_COMMAND_LINE" value="true" />
       <option name="EMULATE_TERMINAL" value="false" />
       <option name="MODULE_MODE" value="false" />
@@ -206,9 +206,6 @@
       <module name="Framing" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
       <option name="SDK_HOME" value="" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/training/german" />
       <option name="IS_MODULE_SDK" value="true" />
@@ -363,6 +360,7 @@
       <workItem from="1675083967180" duration="24217000" />
       <workItem from="1675332325608" duration="526000" />
       <workItem from="1675346650160" duration="64000" />
+      <workItem from="1675665238952" duration="899000" />
     </task>
     <servers />
   </component>
@@ -374,19 +372,7 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State>
-              <option name="FILTERS">
-                <map>
-                  <entry key="branch">
-                    <value>
-                      <list>
-                        <option value="tune_polish" />
-                      </list>
-                    </value>
-                  </entry>
-                </map>
-              </option>
-            </State>
+            <State />
           </value>
         </entry>
       </map>

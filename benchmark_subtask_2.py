@@ -41,10 +41,13 @@ def parse_arguments_and_load_config_file() -> Tuple[argparse.Namespace, dict]:
     parser = argparse.ArgumentParser(description='Subtask-2')
     parser.add_argument('--config_path_yaml', type=str)
     parser.add_argument('--languages', type=str, default=None, nargs="*")
+    parser.add_argument('--analysis_unit', type=str, default=None, nargs="*")
     parser.add_argument('--tune_preprocessing_params', type=int, default=None)
     parser.add_argument('--n_samples', type=int, default=None)
     parser.add_argument('--experiment_base_name', type=str, default=None)
-
+    parser.add_argument('--model_list', type=str, default=None, nargs="*")
+    parser.add_argument('--mlb_cls_independent', type=int, default=None)
+    parser.add_argument('--default_params', type=int, default=None)
 
     #tune_preprocessing_params
     #n_samples
@@ -61,6 +64,9 @@ def parse_arguments_and_load_config_file() -> Tuple[argparse.Namespace, dict]:
     if arguments.languages is not None:
         yaml_config_params['dataset']['languages'] = arguments.languages
 
+    if arguments.analysis_unit is not None:
+        yaml_config_params['preprocessing']['analysis_unit'] = arguments.analysis_unit
+
     if arguments.tune_preprocessing_params is not None:
         yaml_config_params['preprocessing']['param_search']['tune_preprocessing_params'] =\
             arguments.tune_preprocessing_params == 1
@@ -70,6 +76,15 @@ def parse_arguments_and_load_config_file() -> Tuple[argparse.Namespace, dict]:
 
     if arguments.experiment_base_name is not None:
         yaml_config_params['metric_logging']['experiment_base_name'] = arguments.experiment_base_name
+
+    if arguments.model_list is not None:
+        yaml_config_params['training']['model_list'] = arguments.model_list
+
+    if arguments.mlb_cls_independent is not None:
+        yaml_config_params['training']['mlb_cls_independent'] = arguments.mlb_cls_independent == 1
+
+    if arguments.mlb_cls_independent is not None:
+        yaml_config_params['training']['default_params'] = arguments.default_params == 1
 
     return arguments, yaml_config_params
 
