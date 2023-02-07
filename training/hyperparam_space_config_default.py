@@ -17,6 +17,36 @@ up_sampling_prop_list = [0.95, 0.99, 0.9925, 0.995, 0.999]
 
 MODEL_LIST = \
     {
+        'DummyProbSampling': {
+            'model': DummyClassifier(strategy='stratified'),
+            'n_search_iter': 1,
+            'model_type': 'Dummy Classifier',
+            'model_subtype': 'No Upsampling',
+            'hyperparam_space': {
+                'estimator__strategy': ['stratified'],
+            }
+        },
+
+        'DummyUniformSampling': {
+            'model': DummyClassifier(strategy='uniform'),
+            'n_search_iter': 1,
+            'model_type': 'Dummy Classifier',
+            'model_subtype': 'No Upsampling',
+            'hyperparam_space': {
+                'estimator__strategy': ['uniform'],
+            }
+        },
+
+        'DummyMostFrequent': {
+            'model': DummyClassifier(strategy='prior'),
+            'n_search_iter': 1,
+            'model_type': 'Dummy Classifier',
+            'model_subtype': 'No Upsampling',
+            'hyperparam_space': {
+                'estimator__strategy': ['prior'],
+            }
+        },
+
         'LogisticRegression': {
             'model': Pipeline(
                 [('preproc', StandardScaler(with_mean=False, with_std=True)),
@@ -152,7 +182,7 @@ MODEL_LIST = \
         'RakelD_LogisticRegression': {
             'model': Pipeline([
                 ('preproc', StandardScaler(with_mean=False, with_std=True)),
-                ('model', RakelD())
+                ('model', RakelD(base_classifier=LogisticRegression(penalty='l2', max_iter=100000)))
             ]),
             'n_search_iter': 60,
             'wrap_mlb_clf': False,
@@ -169,7 +199,7 @@ MODEL_LIST = \
             'model': Pipeline(
                 [('preproc', StandardScaler(with_mean=False, with_std=True)),
                  ('model', LogisticRegression(penalty='l1', solver='liblinear',
-                                              max_iter=100000))]
+                                              max_iter=1000))]
             ),
             'n_search_iter': 60,
             'model_type': 'LogisticRegressionLasso',
@@ -184,7 +214,7 @@ MODEL_LIST = \
                 [('preproc', StandardScaler(with_mean=False, with_std=True)),
                  ('up', RandomOverSampler()),
                  ('model', LogisticRegression(penalty='l1', solver='liblinear',
-                                              max_iter=100000))]),
+                                              max_iter=1000))]),
             'model_type': 'LogisticRegressionLasso',
             'model_subtype': 'Random Oversampling',
             'n_search_iter': 60,
@@ -198,7 +228,7 @@ MODEL_LIST = \
                 [('preproc', StandardScaler(with_mean=False, with_std=True)),
                  ('up', SMOTE()),
                  ('model', LogisticRegression(penalty='l1', solver='liblinear',
-                                              max_iter=100000))]),
+                                              max_iter=1000))]),
             'n_search_iter': 60,
             'model_type': 'LogisticRegressionLasso',
             'model_subtype': 'SMOTE',
@@ -212,7 +242,7 @@ MODEL_LIST = \
                 [('preproc', StandardScaler(with_mean=False, with_std=True)),
                  ('up', BorderlineSMOTE()),
                  ('model', LogisticRegression(penalty='l1', solver='liblinear',
-                                              max_iter=100000))]),
+                                              max_iter=1000))]),
             'n_search_iter': 60,
             'model_type': 'LogisticRegressionLasso',
             'model_subtype': 'BorderlineSMOTE',
@@ -225,7 +255,7 @@ MODEL_LIST = \
             'model': Pipeline(
                 [('up', SVMSMOTE()), ('preproc', StandardScaler(with_mean=False, with_std=True)),
                  ('model', LogisticRegression(penalty='l1', solver='liblinear',
-                                              max_iter=100000))]),
+                                              max_iter=1000))]),
             'n_search_iter': 150,
             'model_type': 'LogisticRegressionLasso',
             'model_subtype': 'SVMSMOTE',
@@ -430,74 +460,10 @@ MODEL_LIST = \
             }
         },
 
-        ######################################################################################################
-        'SVM_sigmoid': {
-            'model': Pipeline(
-                [('preproc', StandardScaler(with_mean=False, with_std=True)),
-                 ('model', SVC(kernel='sigmoid', ))]),
-            'n_search_iter': 60,
-            'model_type': 'SVM',
-            'model_subtype': 'No Upsampling',
-            'hyperparam_space': {
-                'preproc__with_std': [True],
-            }
-        },
-
-        'SVM_sigmoid_ROS': {
-            'model': Pipeline(
-                [('preproc', StandardScaler(with_mean=False, with_std=True)),
-                 ('up', RandomOverSampler()),
-                 ('model', SVC(kernel='sigmoid'))]),
-            'n_search_iter': 60,
-            'model_type': 'SVM',
-            'model_subtype': 'Random Oversampling',
-            'hyperparam_space': {
-                'preproc__with_std': [True],
-            }
-        },
-
-        'SVM_sigmoid_SMOTE': {
-            'model': Pipeline(
-                [('preproc', StandardScaler(with_mean=False, with_std=True)),
-                 ('up', SMOTE()),
-                 ('model', SVC(kernel='sigmoid'))]),
-            'n_search_iter': 60,
-            'model_type': 'SVM',
-            'model_subtype': 'SMOTE',
-            'hyperparam_space': {
-                'preproc__with_std': [True]
-            }
-        },
-
-        'SVM_sigmoid_BorderlineSMOTE': {
-            'model': Pipeline(
-                [('preproc', StandardScaler(with_mean=False, with_std=True)),
-                 ('up', BorderlineSMOTE()),
-                 ('model', SVC(kernel='sigmoid'))]),
-            'n_search_iter': 60,
-            'model_type': 'SVM',
-            'model_subtype': 'BorderlineSMOTE',
-            'hyperparam_space': {
-                'preproc__with_std': [True]
-            }
-        },
-
-        'SVM_sigmoid_SVMSMOTE': {
-            'model': Pipeline(
-                [('up', SVMSMOTE()), ('preproc', StandardScaler(with_mean=False, with_std=True)),
-                 ('model', SVC(kernel='sigmoid'))]),
-            'n_search_iter': 150,
-            'model_type': 'SVM',
-            'model_subtype': 'SVMSMOTE',
-            'hyperparam_space': {
-                'preproc__with_std': [True]
-            }
-        },
-
         'RakelD_SVM': {
             'model': Pipeline([
                 ('preproc', StandardScaler(with_mean=False, with_std=True)),
-                ('model', RakelD())
+                ('model', RakelD(base_classifier=SVC()))
             ]),
             'n_search_iter': 60,
             'wrap_mlb_clf': False,
@@ -507,12 +473,11 @@ MODEL_LIST = \
                 'preproc__with_std': [True]
             }
         },
-
         ######################################################################################################
         'LinearSVM': {
             'model': Pipeline(
                 [('preproc', StandardScaler(with_mean=False, with_std=True)),
-                 ('model', LinearSVC(penalty='l2', max_iter=50000, ))]),
+                 ('model', LinearSVC(max_iter=50000))]),
             'n_search_iter': 60,
             'model_type': 'LinearSVM',
             'model_subtype': 'No Upsampling',
@@ -525,7 +490,7 @@ MODEL_LIST = \
             'model': Pipeline(
                 [('preproc', StandardScaler(with_mean=False, with_std=True)),
                  ('up', RandomOverSampler()),
-                 ('model', LinearSVC(penalty='l2', max_iter=50000))]),
+                 ('model', LinearSVC(max_iter=50000))]),
             'n_search_iter': 60,
             'model_type': 'LinearSVM',
             'model_subtype': 'Random Oversampling',
@@ -538,7 +503,7 @@ MODEL_LIST = \
             'model': Pipeline(
                 [('preproc', StandardScaler(with_mean=False, with_std=True)),
                  ('up', SMOTE()),
-                 ('model', LinearSVC(penalty='l2', max_iter=50000))]),
+                 ('model', LinearSVC(max_iter=50000))]),
             'n_search_iter': 60,
             'model_type': 'LinearSVM',
             'model_subtype': 'SMOTE',
@@ -551,7 +516,7 @@ MODEL_LIST = \
             'model': Pipeline(
                 [('preproc', StandardScaler(with_mean=False, with_std=True)),
                  ('up', BorderlineSMOTE()),
-                 ('model', LinearSVC(penalty='l2', max_iter=50000))]),
+                 ('model', LinearSVC(max_iter=50000))]),
             'n_search_iter': 60,
             'model_type': 'LinearSVM',
             'model_subtype': 'BorderlineSMOTE',
@@ -564,7 +529,7 @@ MODEL_LIST = \
             'model': Pipeline(
                 [('preproc', StandardScaler(with_mean=False, with_std=True)),
                  ('up', SVMSMOTE()),
-                 ('model', LinearSVC(penalty='l2', max_iter=50000))]),
+                 ('model', LinearSVC(max_iter=50000))]),
             'n_search_iter': 60,
             'model_type': 'LinearSVM',
             'model_subtype': 'BorderlineSMOTE',
@@ -576,7 +541,7 @@ MODEL_LIST = \
         'RakelD_LineaSVM': {
             'model': Pipeline([
                 ('preproc', StandardScaler(with_mean=False, with_std=True)),
-                ('model', RakelD())
+                ('model', RakelD(base_classifier=LinearSVC(max_iter=50000)))
             ]),
             'n_search_iter': 60,
             'wrap_mlb_clf': False,
@@ -780,15 +745,13 @@ MODEL_LIST = \
         'RakelD_ComplementNB': {
             'model': Pipeline([
                 ('preproc', StandardScaler(with_mean=False, with_std=True)),
-                ('model', RakelD())
+                ('model', RakelD(ComplementNB()))
             ]),
             'n_search_iter': 60,
             'wrap_mlb_clf': False,
             'model_type': 'ComplementNB',
             'model_subtype': 'RakelD Partitioning of labels',
             'hyperparam_space': {
-                'model__base_classifier': [ComplementNB()],
-                'model__base_classifier_require_dense': [False],
             }
         },
 

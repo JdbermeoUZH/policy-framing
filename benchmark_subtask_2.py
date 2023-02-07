@@ -152,7 +152,7 @@ if __name__ == "__main__":
 
         # Iterate over each family of models in specified in yaml and .py config files
         # Estimate performance on the model using the different units of analysis
-        units_of_analysis = UNITS_OF_ANALYSES if preprocessing_config['analysis_unit'] == 'all' \
+        units_of_analysis = UNITS_OF_ANALYSES if preprocessing_config['analysis_unit'][0] == 'all' \
             else [unit for unit in preprocessing_config['analysis_unit'] if unit in UNITS_OF_ANALYSES]
 
         #####################
