@@ -261,13 +261,19 @@ if __name__ == "__main__":
                     }
 
                     if training_config['default_params']:
-                        results_cv = multilabel_cls.cross_validation(
-                            X=X_train, y=y_train,
-                            k_outer=training_config['nested_cv']['outer_folds'],
-                            return_train_score=training_config['return_train_metrics'],
-                            n_jobs=run_config['n_jobs']
-                        )
-                        metric_logger.log_model_wide_performance(cv_results=results_cv, **some_log_params)
+                        try:
+                            results_cv = multilabel_cls.cross_validation(
+                                X=X_train, y=y_train,
+                                k_outer=training_config['nested_cv']['outer_folds'],
+                                return_train_score=training_config['return_train_metrics'],
+                                n_jobs=run_config['n_jobs']
+                            )
+                            metric_logger.log_model_wide_performance(cv_results=results_cv, **some_log_params)
+
+                        except Exception as e:
+                            print(f'Error while trying to fit model: {model_name}')
+                            print(e)
+                            continue
 
                     else:
                         # Estimate performance with nested cross validation
