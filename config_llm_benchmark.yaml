@@ -1,0 +1,23 @@
+dataset:
+  data_dir: ['data', 'preprocessed']                                              # Relative path to directory with data
+
+preprocessing:
+  single_train_test_split_filepath: ['multilingual_train_test_ds.hf']
+  data_split_to_use: 'train_and_dev'
+  analysis_unit: 'title_and_first_paragraph'                                      # 'title', 'title_and_first_paragraph', 'title_and_5_sentences', 'title_and_10_sentences', 'title_and_first_sentence_each_paragraph', 'raw_text', 'all'
+  n_folds: 3
+  max_length_padding: 128
+
+model:
+  model_name: 'xlm-roberta-large'
+  fine_tune: True                                                                 # If False, will use a zero-shot pipeline
+
+training:
+  n_epochs: 10
+  fp16: True
+  minibatch_size: 1
+  gradient_accumulation_steps: 2
+  best_metric_to_checkpoint: 'f1_micro'
+
+
+
