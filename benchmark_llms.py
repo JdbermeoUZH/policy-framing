@@ -35,6 +35,7 @@ def parse_arguments_and_load_config_file() -> Tuple[argparse.Namespace, dict]:
     parser.add_argument('--model_name', type=str, default=None)
     parser.add_argument('--analysis_unit', type=str, default=None)
     parser.add_argument('--max_length_padding', type=int, default=None)
+    parser.add_argument('--n_epochs', type=int, default=None)
     parser.add_argument('--fp16', type=int, default=None)
     parser.add_argument('--minibatch_size', type=int, default=None)
     parser.add_argument('--gradient_accumulation_steps', type=int, default=None)
@@ -57,6 +58,9 @@ def parse_arguments_and_load_config_file() -> Tuple[argparse.Namespace, dict]:
 
     if arguments.analysis_unit is not None:
         yaml_config_params['preprocessing']['analysis_unit'] = arguments.analysis_unit
+
+    if arguments.n_epochs is not None:
+        yaml_config_params['training']['n_epochs'] = arguments.n_epochs
 
     if arguments.fp16 is not None:
         yaml_config_params['training']['fp16'] = arguments.fp16 == 1
