@@ -6,7 +6,7 @@ preprocessing:
   data_split_to_use: 'train_and_dev'
   analysis_unit: 'title_and_first_paragraph'                                      # 'title', 'title_and_first_paragraph', 'title_and_5_sentences', 'title_and_10_sentences', 'title_and_first_sentence_each_paragraph', 'raw_text', 'all'
   n_folds: 3
-  max_length_padding: 128
+  max_length_padding: 512
 
 model:
   model_name: 'xlm-roberta-large'
@@ -15,7 +15,7 @@ model:
 training:
   n_epochs: 10
   fp16: True
-  minibatch_size: 1
+  minibatch_size: 8
   gradient_accumulation_steps: 2
   best_metric_to_checkpoint: 'f1'
 
