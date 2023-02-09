@@ -19,6 +19,7 @@ training:
   gradient_accumulation_steps: 2
   best_metric_to_checkpoint: 'f1'
   warmup_ratio: 0.2
+  dataloader_num_workers: 2
 
 output:
   metrics_output_dir: ['llm_tuning_results']

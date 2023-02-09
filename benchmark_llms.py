@@ -242,7 +242,8 @@ if __name__ == "__main__":
             load_best_model_at_end=True,
             metric_for_best_model=training_config['best_metric_to_checkpoint'],
             fp16=training_config['fp16'],
-            warmup_ratio=training_config['warmup_ratio']
+            warmup_ratio=training_config['warmup_ratio'],
+            dataloader_num_workers=training_config['dataloader_num_workers']
         )
 
         trainer = Trainer(
@@ -260,11 +261,10 @@ if __name__ == "__main__":
 
         # Evaluate the model on each test set individually
         metrics_ = []
+        msg_str = "Evaluation metrics for each dataset"
+        print(msg_str + '\n' + ''.join(['#'] * len(msg_str)) + '\n')
 
         for language in LANGUAGES:
-            msg_str = "Evaluation metrics for each dataset"
-            print(msg_str + '\n' + ''.join(['#'] * len(msg_str)) + '\n')
-
             msg_str = f"For the dataset: {language}"
             print(msg_str + '\n' + ''.join(['-'] * len(msg_str)))
 
@@ -293,7 +293,7 @@ if __name__ == "__main__":
         os.makedirs(output_dir, exist_ok=True)
         metrics_path = os.path.join(
             output_dir,
-            f"{model_config['model_name']-{preprocessing_config['analysis_unit']}}_metrics.csv"
+            f"{model_config['model_name']}-{preprocessing_config['analysis_unit']}_metrics.csv"
         )
         pd.DataFrame(metrics_).to_csv(metrics_path)
 
