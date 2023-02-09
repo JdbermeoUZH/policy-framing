@@ -13,7 +13,7 @@ model:
   fine_tune: True                                                                 # If False, will use a zero-shot pipeline
 
 training:
-  n_epochs: 10
+  n_epochs: 20
   fp16: True
   minibatch_size: 4
   gradient_accumulation_steps: 2
@@ -22,7 +22,7 @@ training:
   dataloader_num_workers: 0
 
 output:
-  metrics_output_dir: ['llm_tuning_results','no_warmup']
+  metrics_output_dir: ['llm_tuning_results','report']
 
 
 
