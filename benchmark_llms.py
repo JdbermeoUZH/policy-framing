@@ -288,8 +288,8 @@ if __name__ == "__main__":
                 'accuracy': evaluation_results_i['eval_accuracy']
             })
 
-        output_dir = os.path.join(output_config['metrics_output_dir'], model_config['model_name'])
-        os.makedirs(output_config['metrics_output_dir'], exist_ok=True)
+        output_dir = os.path.join(*output_config['metrics_output_dir'], model_config['model_name'])
+        os.makedirs(os.path.join(*output_config['metrics_output_dir']), exist_ok=True)
         os.makedirs(output_dir, exist_ok=True)
         metrics_path = os.path.join(
             output_dir,
