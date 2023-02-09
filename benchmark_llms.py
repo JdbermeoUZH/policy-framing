@@ -11,8 +11,8 @@ from sklearn.metrics import f1_score, roc_auc_score, accuracy_score, precision_s
 from iterstrat.ml_stratifiers import MultilabelStratifiedKFold
 from sklearn.preprocessing import MultiLabelBinarizer
 from datasets import Dataset, DatasetDict, load_from_disk
-from transformers import AutoTokenizer, AutoModelForSequenceClassification, TrainingArguments, Trainer, EvalPrediction
-
+from transformers import AutoTokenizer, AutoModelForSequenceClassification, DataCollatorWithPadding
+from transformers import TrainingArguments, Trainer, EvalPrediction
 
 
 LANGUAGES = ('en', 'it', 'fr', 'po', 'ru', 'ge')
@@ -199,7 +199,6 @@ if __name__ == "__main__":
     training_config = config['training']
     output_config = config['output']
 
-
     # Load Multi-lingual Dataset. It will be stratified per language and label
     dataset = load_hf_dataset(
         single_train_test_split_filepath=os.path.join(*preprocessing_config['single_train_test_split_filepath']),
@@ -228,6 +227,7 @@ if __name__ == "__main__":
         # Tokenize/Encode the dataset
         encoded_dataset = dataset.map(lambda ex: preprocess_data(ex, 'raw_text'), batched=True,
                                       remove_columns=dataset['train'].column_names)
+        data_collator = DataCollatorWithPadding(tokenizer=tokenizer)
 
         # Define Training parameters and Trainer
         training_args = TrainingArguments(
@@ -252,7 +252,7 @@ if __name__ == "__main__":
             train_dataset=encoded_dataset["train"],
             eval_dataset=encoded_dataset["test"],
             tokenizer=tokenizer,
-            # data_collator=data_collator,
+            data_collator=data_collator,
             compute_metrics=compute_metrics
         )
 
