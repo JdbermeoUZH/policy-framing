@@ -33,6 +33,7 @@ def parse_arguments_and_load_config_file() -> Tuple[argparse.Namespace, dict]:
     parser = argparse.ArgumentParser(description='Subtask-2')
     parser.add_argument('--config_path_yaml', type=str)
     parser.add_argument('--model_name', type=str, default=None)
+    parser.add_argument('--analysis_unit', type=str, default=None)
     parser.add_argument('--max_length_padding', type=int, default=None)
     parser.add_argument('--fp16', type=int, default=None)
     parser.add_argument('--minibatch_size', type=int, default=None)
@@ -53,6 +54,9 @@ def parse_arguments_and_load_config_file() -> Tuple[argparse.Namespace, dict]:
 
     if arguments.max_length_padding is not None:
         yaml_config_params['preprocessing']['max_length_padding'] = arguments.max_length_padding
+
+    if arguments.analysis_unit is not None:
+        yaml_config_params['preprocessing']['analysis_unit'] = arguments.analysis_unit
 
     if arguments.fp16 is not None:
         yaml_config_params['training']['fp16'] = arguments.fp16 == 1
