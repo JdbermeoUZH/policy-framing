@@ -144,6 +144,7 @@ def multi_label_metrics(predictions, labels, threshold=0.5):
 
     return metrics
 
+
 def compute_metrics(p: EvalPrediction):
     preds = p.predictions[0] if isinstance(p.predictions,
             tuple) else p.predictions
@@ -236,7 +237,8 @@ if __name__ == "__main__":
             weight_decay=0.01,
             load_best_model_at_end=True,
             metric_for_best_model=training_config['best_metric_to_checkpoint'],
-            fp16=training_config['fp16']
+            fp16=training_config['fp16'],
+            warmup_ratio=training_config['warmup_ratio']
         )
 
         trainer = Trainer(

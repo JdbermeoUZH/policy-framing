@@ -18,6 +18,7 @@ training:
   minibatch_size: 8
   gradient_accumulation_steps: 2
   best_metric_to_checkpoint: 'f1'
+  warmup_ratio: 0.1
 
 
 
