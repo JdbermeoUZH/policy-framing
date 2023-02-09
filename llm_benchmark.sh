@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-#SBATCH --output=llm_benchmark_jobs/%2j_xlm_roberta_512_minib_4_gradsteps_2_warmup_0.1.out
+#SBATCH --output=llm_benchmark_jobs/%2j_xlm_roberta_512_minib_4_gradsteps_2_warmup_0.2_test.out
 #SBATCH --ntasks=1
 #SBATCH --time=04:00:00
 #SBATCH --cpus-per-task=4
