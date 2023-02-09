@@ -5,9 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3359b6ce-9e44-4da3-956d-9609d831df93" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/benchmark_llms.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/config_llm_benchmark.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/documentation/analyses/Dataset structure and quality/Token Distribution per Unit of Analysis.ipynb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config_llm_benchmark.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/config_llm_benchmark.yaml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/notebooks/llms/Fine tune LLM.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/notebooks/llms/Fine tune LLM.ipynb" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -18,8 +18,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Jupyter Notebook" />
         <option value="Python Script" />
+        <option value="Jupyter Notebook" />
       </list>
     </option>
   </component>
@@ -121,6 +121,9 @@
       <module name="Framing" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
       <option name="SDK_HOME" value="" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <option name="IS_MODULE_SDK" value="true" />
@@ -393,7 +396,8 @@
       <workItem from="1675792196689" duration="260000" />
       <workItem from="1675792465732" duration="16254000" />
       <workItem from="1675861436010" duration="11618000" />
-      <workItem from="1675934744802" duration="5332000" />
+      <workItem from="1675934744802" duration="14813000" />
+      <workItem from="1675953100651" duration="1020000" />
     </task>
     <servers />
   </component>
