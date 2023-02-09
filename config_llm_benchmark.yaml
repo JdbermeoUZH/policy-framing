@@ -20,5 +20,8 @@ training:
   best_metric_to_checkpoint: 'f1'
   warmup_ratio: 0.1
 
+outputs:
+  metrics_output_dir: ['llm_tuning_results']
+
 
 

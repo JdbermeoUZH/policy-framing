@@ -7,7 +7,7 @@ from typing import Tuple
 import torch
 import pandas as pd
 import numpy as np
-from sklearn.metrics import f1_score, roc_auc_score, accuracy_score, precision_score
+from sklearn.metrics import f1_score, roc_auc_score, accuracy_score, precision_score, recall_score
 from iterstrat.ml_stratifiers import MultilabelStratifiedKFold
 from sklearn.preprocessing import MultiLabelBinarizer
 from datasets import Dataset, DatasetDict, load_from_disk
@@ -130,16 +130,18 @@ def multi_label_metrics(predictions, labels, threshold=0.5):
     # finally, compute metrics
     y_true = labels
     f1_micro_average = f1_score(y_true=y_true, y_pred=y_pred, average='micro')
-    roc_auc = roc_auc_score(y_true, y_pred, average = 'micro')
+    roc_auc = roc_auc_score(y_true, y_pred, average='micro')
     accuracy = accuracy_score(y_true, y_pred)
-    precision = precision_score(y_true, y_pred, average = 'micro')
+    precision = precision_score(y_true, y_pred, average='micro')
+    recall = recall_score(y_true, y_pred, average='micro')
 
     # return as dictionary
     metrics = {
         'f1': f1_micro_average,
         'precision': precision,
         'roc_auc': roc_auc,
-        'accuracy': accuracy
+        'accuracy': accuracy,
+        'recall': recall
     }
 
     return metrics
@@ -195,6 +197,8 @@ if __name__ == "__main__":
     model_config = config['model']
     preprocessing_config = config['preprocessing']
     training_config = config['training']
+    output_config = config['output']
+
 
     # Load Multi-lingual Dataset. It will be stratified per language and label
     dataset = load_hf_dataset(
@@ -254,4 +258,42 @@ if __name__ == "__main__":
         # Train the model
         trainer.train()
 
+        # Evaluate the model on each test set individually
+        metrics_ = []
+
+        for language in LANGUAGES:
+            msg_str = "Evaluation metrics for each dataset"
+            print(msg_str + '\n' + ''.join(['#'] * len(msg_str)) + '\n')
+
+            msg_str = f"For the dataset: {language}"
+            print(msg_str + '\n' + ''.join(['-'] * len(msg_str)))
+
+            trainer = Trainer(
+                model,
+                training_args,
+                train_dataset=encoded_dataset["train"],
+                eval_dataset=encoded_dataset[f"test_{language}"],
+                tokenizer=tokenizer,
+                # data_collator=data_collator,
+                compute_metrics=compute_metrics
+            )
+
+            evaluation_results_i = trainer.evaluate()
+
+            metrics_.append({
+                'language': language, 'f1-mico': evaluation_results_i['eval_f1'],
+                'precision-micro': evaluation_results_i['eval_precision'],
+                'recall-micro': evaluation_results_i['eval_recall'],
+                'roc-auc': evaluation_results_i['eval_roc_auc'],
+                'accuracy': evaluation_results_i['eval_accuracy']
+            })
+
+        output_dir = os.path.join(output_config['metrics_output_dir'], model_config['model_name'])
+        os.makedirs(output_config['metrics_output_dir'], exist_ok=True)
+        os.makedirs(output_dir, exist_ok=True)
+        metrics_path = os.path.join(
+            output_dir,
+            f"{model_config['model_name']-{preprocessing_config['analysis_unit']}}_metrics.csv"
+        )
+        pd.DataFrame(metrics_).to_csv(metrics_path)
 
