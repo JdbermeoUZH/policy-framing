@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-#SBATCH --output=llm_jobs/%2j_test.out
+#SBATCH --output=llm_jobs/%2j_gptJ.out
 #SBATCH --ntasks=1
 #SBATCH --time=04:00:00
 #SBATCH --cpus-per-task=4
@@ -12,9 +12,9 @@ cat config_llm_benchmark.yaml
 source activate Framing_HF_2
 srun python benchmark_llms.py \
   --config_path_yaml config_llm_benchmark.yaml\
-  --model_name distilbert-base-multilingual-cased\
-  --gradient_accumulation_steps 1\
-  --max_length_padding 16\
-  --minibatch_size 128\
+  --model_name EleutherAI/gpt-j-6B\
+  --gradient_accumulation_steps 2\
+  --max_length_padding 512\
+  --minibatch_size 2\
   --n_epochs 1\
-  --analysis_unit title
+  --analysis_unit raw_text
