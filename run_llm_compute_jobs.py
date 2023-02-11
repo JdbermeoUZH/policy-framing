@@ -33,6 +33,7 @@ if __name__ == '__main__':
             os.environ['model_name'] = model_name
             os.environ['gradient_accumulation_steps'] = str(model_params['gradient_accumulation_steps'])
             os.environ['minibatch_size'] = str(model_params['minibatch_size'])
+            os.environ['n_epochs'] = str(model_params['n_epochs'])
 
             print("run slurm job")
             os.system('sbatch modifiable_llm_benchmark.sh')

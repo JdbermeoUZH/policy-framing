@@ -22,8 +22,8 @@ training:
   dataloader_num_workers: 0
 
 output:
-  metrics_output_dir: ['llm_tuning_results','tests']
-  file_prefix: ''
+  metrics_output_dir: ['tuning_results_llms','multilingual', 'truncated_512_tokens']
+  file_prefix: 'multilingual_fit_trunc_512_tokens'
 
 
 
