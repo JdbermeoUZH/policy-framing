@@ -302,7 +302,7 @@ if __name__ == "__main__":
                 metrics_.append({
                     'language': language,
                     'unit_of_analysis': preprocessing_config['analysis_unit'],
-                    f'fold_{fold_i}': f'fold_{fold_i}',
+                    f'fold': f'fold_{fold_i}',
                     'f1-mico': evaluation_results_i['eval_f1'],
                     'precision-micro': evaluation_results_i['eval_precision'],
                     'recall-micro': evaluation_results_i['eval_recall'],
