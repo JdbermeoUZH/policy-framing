@@ -9,7 +9,7 @@ preprocessing:
   max_length_padding: 512
 
 model:
-  model_name: 'xlm-roberta-large'
+  model_name: 'xlm-roberta-large'                                                 # distilbert-base-multilingual-cased, bert-base-multilingual-cased
   fine_tune: True                                                                 # If False, will use a zero-shot pipeline
 
 training:
