@@ -321,7 +321,7 @@ if __name__ == "__main__":
         raw_metrics_df.to_csv(os.path.join(output_dir, f"{output_config['file_prefix']}_raw_{base_metrics_name}"))
 
         agg_metrics_df = raw_metrics_df.groupby(['language', 'unit_of_analysis'])\
-            [['f1-mico', 'precision-micro', 'recall-micro', 'roc-auc', 'accuracy']].agg('mean', 'std')
+            [['f1-mico', 'precision-micro', 'recall-micro', 'roc-auc', 'accuracy']].agg(['mean', 'std'])
 
         agg_metrics_df.columns = agg_metrics_df.columns.get_level_values(0) + '_' + \
                                  agg_metrics_df.columns.get_level_values(1)
