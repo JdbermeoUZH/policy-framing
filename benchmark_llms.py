@@ -259,7 +259,7 @@ if __name__ == "__main__":
 
             # Tokenize/Encode the dataset
             encoded_dataset = dataset.map(
-                lambda ex: preprocess_data(ex, preprocessing_config['data_split_to_use']), batched=True,
+                lambda ex: preprocess_data(ex, preprocessing_config['analysis_unit']), batched=True,
                 remove_columns=dataset[f'train_fold_{fold_i}'].column_names)
             data_collator = DataCollatorWithPadding(tokenizer=tokenizer)
 
@@ -301,7 +301,7 @@ if __name__ == "__main__":
 
                 metrics_.append({
                     'language': language,
-                    'unit_of_analysis': preprocessing_config['data_split_to_use'],
+                    'unit_of_analysis': preprocessing_config['analysis_unit'],
                     f'fold_{fold_i}': f'fold_{fold_i}',
                     'f1-mico': evaluation_results_i['eval_f1'],
                     'precision-micro': evaluation_results_i['eval_precision'],
