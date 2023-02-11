@@ -252,6 +252,7 @@ if __name__ == "__main__":
 
         # Fit and measure the model performance on each fold of the dataset
         n_folds = max([int(key.split('_')[-1]) for key in dataset.keys() if len(key.split('_')) == 3])
+        metrics_ = []
 
         for fold_i in range(1, n_folds):
             msg_str = f"Fitting fold: {fold_i}"
@@ -277,7 +278,6 @@ if __name__ == "__main__":
             trainer.train()
 
             # Evaluate the model on each test set individually
-            metrics_ = []
             msg_str = "Evaluation metrics for each dataset"
             print(msg_str + '\n' + ''.join(['#'] * len(msg_str)) + '\n')
 
@@ -313,9 +313,12 @@ if __name__ == "__main__":
         output_dir = os.path.join(*output_config['metrics_output_dir'], model_config['model_name'])
         os.makedirs(os.path.join(*output_config['metrics_output_dir']), exist_ok=True)
         os.makedirs(output_dir, exist_ok=True)
-        metrics_path = os.path.join(
-            output_dir,
-            f"{output_config['file_prefix']}_raw_{model_config['model_name']}-{preprocessing_config['analysis_unit']}_metrics.csv"
-        )
-        pd.DataFrame(metrics_).to_csv(metrics_path)
+        base_metrics_name = f"{model_config['model_name']}-{preprocessing_config['analysis_unit']}_metrics.csv"
+
+        raw_metrics_df = pd.DataFrame(metrics_)
+        raw_metrics_df.to_csv(os.path.join(output_dir, f"{output_config['file_prefix']}_raw_{base_metrics_name}"))
+
+        raw_metrics_df.groupby(['language', 'unit_of_analysis'])\
+            [['f1-mico', 'precision-micro', 'recall-micro', 'roc-auc', 'accuracy']].agg(np.mean, np.std)\
+            .to_csv(os.path.join(output_dir, f"{output_config['file_prefix']}_agg_{base_metrics_name}"))
 
