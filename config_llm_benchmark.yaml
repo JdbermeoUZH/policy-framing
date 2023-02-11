@@ -22,7 +22,7 @@ training:
   dataloader_num_workers: 0
 
 output:
-  metrics_output_dir: ['llm_tuning_results','report']
+  metrics_output_dir: ['llm_tuning_results','tests']
   file_prefix: ''
 
 

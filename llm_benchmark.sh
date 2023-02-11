@@ -12,9 +12,9 @@ cat config_llm_benchmark.yaml
 source activate Framing_HF_2
 srun python benchmark_llms.py \
   --config_path_yaml config_llm_benchmark.yaml\
-  --model_name distilbert-base-multilingual-cased\
-  --gradient_accumulation_steps 2\
-  --max_length_padding 512\
-  --minibatch_size 2056\
+  --model_name bert-base-multilingual-cased\
+  --gradient_accumulation_steps 1\
+  --max_length_padding 16\
+  --minibatch_size 4\
   --n_epochs 1\
   --analysis_unit title
