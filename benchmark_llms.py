@@ -165,6 +165,7 @@ def compute_metrics(p: EvalPrediction):
 def load_hf_dataset(single_train_test_split_filepath: str, data_dir_path: str):
     if single_train_test_split_filepath is None or single_train_test_split_filepath.strip() == '':
 
+        # TODO: Update with function used to generate the HF dataset
         all_languages_df = join_datasets(
             data_dir=data_dir_path,
             type_of_splits_to_join=preprocessing_config['data_split_to_use']
@@ -232,11 +233,6 @@ if __name__ == "__main__":
             label2id=label2id
         )
 
-        # Tokenize/Encode the dataset
-        encoded_dataset = dataset.map(lambda ex: preprocess_data(ex, 'raw_text'), batched=True,
-                                      remove_columns=dataset['train'].column_names)
-        data_collator = DataCollatorWithPadding(tokenizer=tokenizer)
-
         # Define Training parameters and Trainer
         training_args = TrainingArguments(
             f"{model_config['model_name']}-{preprocessing_config['analysis_unit']}-sem_eval-task-3-subtask-2",
@@ -254,54 +250,72 @@ if __name__ == "__main__":
             dataloader_num_workers=training_config['dataloader_num_workers']
         )
 
-        trainer = Trainer(
-            model,
-            training_args,
-            train_dataset=encoded_dataset["train"],
-            eval_dataset=encoded_dataset["test"],
-            tokenizer=tokenizer,
-            data_collator=data_collator,
-            compute_metrics=compute_metrics
-        )
+        # Fit and measure the model performance on each fold of the dataset
+        n_folds = max([int(key.split('_')[-1]) for key in dataset.keys() if len(key.split('_')) == 3])
 
-        # Train the model
-        trainer.train()
+        for fold_i in range(1, n_folds):
+            msg_str = f"Fitting fold: {fold_i}"
+            print(msg_str + '\n' + ''.join(['-'] * len(msg_str)) + '\n')
 
-        # Evaluate the model on each test set individually
-        metrics_ = []
-        msg_str = "Evaluation metrics for each dataset"
-        print(msg_str + '\n' + ''.join(['#'] * len(msg_str)) + '\n')
-
-        for language in LANGUAGES:
-            msg_str = f"For the dataset: {language}"
-            print(msg_str + '\n' + ''.join(['-'] * len(msg_str)))
+            # Tokenize/Encode the dataset
+            encoded_dataset = dataset.map(
+                lambda ex: preprocess_data(ex, preprocessing_config['data_split_to_use']), batched=True,
+                remove_columns=dataset[f'train_fold_{fold_i}'].column_names)
+            data_collator = DataCollatorWithPadding(tokenizer=tokenizer)
 
             trainer = Trainer(
                 model,
                 training_args,
-                train_dataset=encoded_dataset["train"],
-                eval_dataset=encoded_dataset[f"test_{language}"],
+                train_dataset=encoded_dataset[f"train_fold_{fold_i}"],
+                eval_dataset=encoded_dataset[f"test_fold_{fold_i}"],
                 tokenizer=tokenizer,
-                # data_collator=data_collator,
+                data_collator=data_collator,
                 compute_metrics=compute_metrics
             )
 
-            evaluation_results_i = trainer.evaluate()
+            # Train the model
+            trainer.train()
 
-            metrics_.append({
-                'language': language, 'f1-mico': evaluation_results_i['eval_f1'],
-                'precision-micro': evaluation_results_i['eval_precision'],
-                'recall-micro': evaluation_results_i['eval_recall'],
-                'roc-auc': evaluation_results_i['eval_roc_auc'],
-                'accuracy': evaluation_results_i['eval_accuracy']
-            })
+            # Evaluate the model on each test set individually
+            metrics_ = []
+            msg_str = "Evaluation metrics for each dataset"
+            print(msg_str + '\n' + ''.join(['#'] * len(msg_str)) + '\n')
+
+            for language in LANGUAGES:
+                msg_str = f"For the dataset: {language}"
+                print(msg_str + '\n' + ''.join(['-'] * len(msg_str)))
+
+                trainer = Trainer(
+                    model,
+                    training_args,
+                    train_dataset=encoded_dataset[f"train_fold_{fold_i}_{language}"],
+                    eval_dataset=encoded_dataset[f"test_fold_{fold_i}_{language}"],
+                    tokenizer=tokenizer,
+                    # data_collator=data_collator,
+                    compute_metrics=compute_metrics
+                )
+
+                evaluation_results_i = trainer.evaluate()
+
+                print('\n')
+
+                metrics_.append({
+                    'language': language,
+                    'unit_of_analysis': preprocessing_config['data_split_to_use'],
+                    f'fold_{fold_i}': f'fold_{fold_i}',
+                    'f1-mico': evaluation_results_i['eval_f1'],
+                    'precision-micro': evaluation_results_i['eval_precision'],
+                    'recall-micro': evaluation_results_i['eval_recall'],
+                    'roc-auc': evaluation_results_i['eval_roc_auc'],
+                    'accuracy': evaluation_results_i['eval_accuracy']
+                })
 
         output_dir = os.path.join(*output_config['metrics_output_dir'], model_config['model_name'])
         os.makedirs(os.path.join(*output_config['metrics_output_dir']), exist_ok=True)
         os.makedirs(output_dir, exist_ok=True)
         metrics_path = os.path.join(
             output_dir,
-            f"{model_config['model_name']}-{preprocessing_config['analysis_unit']}_metrics.csv"
+            f"{output_config['file_prefix']}_raw_{model_config['model_name']}-{preprocessing_config['analysis_unit']}_metrics.csv"
         )
         pd.DataFrame(metrics_).to_csv(metrics_path)
 
