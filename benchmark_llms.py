@@ -223,6 +223,11 @@ if __name__ == "__main__":
         msg_str = f"Fine tuning the model: {model_config['model_name']}"
         print(msg_str + '\n' + ''.join(['#'] * len(msg_str)))
 
+        print(f'\t analysis_unit: {preprocessing_config["analysis_unit"]}')
+        print(f'\t gradient_accumulation_steps: {training_config["n_epochs"]}')
+        print(f'\t minibatch_size: {training_config["minibatch_size"]}')
+        print(f'\t n_epochs: {training_config["n_epochs"]}')
+
         # Define tokenizer and model
         tokenizer = AutoTokenizer.from_pretrained(model_config['model_name'])
         model = AutoModelForSequenceClassification.from_pretrained(
@@ -242,6 +247,7 @@ if __name__ == "__main__":
             per_device_train_batch_size=training_config['minibatch_size'],
             per_device_eval_batch_size=training_config['minibatch_size'],
             num_train_epochs=training_config['n_epochs'],
+            gradient_accumulation_steps=training_config['gradient_accumulation_steps'],
             weight_decay=0.01,
             load_best_model_at_end=True,
             metric_for_best_model=training_config['best_metric_to_checkpoint'],

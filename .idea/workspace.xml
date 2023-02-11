@@ -5,11 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3359b6ce-9e44-4da3-956d-9609d831df93" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/modifiable_llm_benchmark.sh" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/llm_benchmark.sh" beforeDir="false" afterPath="$PROJECT_DIR$/llm_benchmark.sh" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/notebooks/llms/Fine tune LLM.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/notebooks/llms/Fine tune LLM.ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/run_llm_compute_jobs.py" beforeDir="false" afterPath="$PROJECT_DIR$/run_llm_compute_jobs.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -399,7 +395,7 @@
       <workItem from="1675975707168" duration="1745000" />
       <workItem from="1676120688334" duration="7361000" />
       <workItem from="1676129308554" duration="19000" />
-      <workItem from="1676129800404" duration="6947000" />
+      <workItem from="1676129800404" duration="8512000" />
     </task>
     <servers />
   </component>
