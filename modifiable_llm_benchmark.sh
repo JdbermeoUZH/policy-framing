@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-#SBATCH --output=llm_benchmark_jobs/%2j_${model_name}_minib_${minibatch_size}_gradsteps_${gradient_accumulation_steps}_warmup_0.2_data_collator_$analysis_unit.out
+#SBATCH --output=llm_jobs/%2j_${model_name}_minib_${minibatch_size}_gradsteps_${gradient_accumulation_steps}_warmup_0.2_data_collator_${analysis_unit}.out
 #SBATCH --ntasks=1
 #SBATCH --time=05:00:00
 #SBATCH --cpus-per-task=4
@@ -8,7 +8,7 @@
 
 module load gpu
 module load mamba
-cat llm_benchmark.sh
+cat modifiable_llm_benchmark.sh
 cat config_llm_benchmark.yaml
 source activate Framing_HF_2
 

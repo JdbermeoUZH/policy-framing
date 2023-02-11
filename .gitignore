@@ -9,3 +9,4 @@ __pycache__/
 /best_xlm_model/
 /llm_tuning_results/
 /*sem_eval-task-3-subtask-2/
+/tuning_results_llms/
