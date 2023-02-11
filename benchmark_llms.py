@@ -254,7 +254,7 @@ if __name__ == "__main__":
         n_folds = max([int(key.split('_')[-1]) for key in dataset.keys() if len(key.split('_')) == 3])
         metrics_ = []
 
-        for fold_i in range(1, n_folds):
+        for fold_i in range(1, n_folds + 1):
             msg_str = f"Fitting fold: {fold_i}"
             print(msg_str + '\n' + ''.join(['-'] * len(msg_str)) + '\n')
 
@@ -310,15 +310,21 @@ if __name__ == "__main__":
                     'accuracy': evaluation_results_i['eval_accuracy']
                 })
 
+        # Save metrics in a csv file
         output_dir = os.path.join(*output_config['metrics_output_dir'], model_config['model_name'])
         os.makedirs(os.path.join(*output_config['metrics_output_dir']), exist_ok=True)
         os.makedirs(output_dir, exist_ok=True)
+
         base_metrics_name = f"{model_config['model_name']}-{preprocessing_config['analysis_unit']}_metrics.csv"
 
-        raw_metrics_df = pd.DataFrame(metrics_)
+        raw_metrics_df = pd.DataFrame(metrics_).set_index(['language', 'fold']).sort_index()
         raw_metrics_df.to_csv(os.path.join(output_dir, f"{output_config['file_prefix']}_raw_{base_metrics_name}"))
 
-        raw_metrics_df.groupby(['language', 'unit_of_analysis'])\
-            [['f1-mico', 'precision-micro', 'recall-micro', 'roc-auc', 'accuracy']].agg(np.mean, np.std)\
-            .to_csv(os.path.join(output_dir, f"{output_config['file_prefix']}_agg_{base_metrics_name}"))
+        agg_metrics_df = raw_metrics_df.groupby(['language', 'unit_of_analysis'])\
+            [['f1-mico', 'precision-micro', 'recall-micro', 'roc-auc', 'accuracy']].agg('mean', 'std')
+
+        agg_metrics_df.columns = agg_metrics_df.columns.get_level_values(0) + '_' + \
+                                 agg_metrics_df.columns.get_level_values(1)
+
+        agg_metrics_df.to_csv(os.path.join(output_dir, f"{output_config['file_prefix']}_agg_{base_metrics_name}"))
 
