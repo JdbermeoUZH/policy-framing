@@ -230,13 +230,7 @@ if __name__ == "__main__":
 
         # Define tokenizer and model
         tokenizer = AutoTokenizer.from_pretrained(model_config['model_name'])
-        model = AutoModelForSequenceClassification.from_pretrained(
-            model_config['model_name'],
-            problem_type="multi_label_classification",
-            num_labels=len(LABELS),
-            id2label=id2label,
-            label2id=label2id
-        )
+        data_collator = DataCollatorWithPadding(tokenizer=tokenizer)
 
         # Define Training parameters and Trainer
         training_args = TrainingArguments(
@@ -261,6 +255,14 @@ if __name__ == "__main__":
         metrics_ = []
 
         for fold_i in range(1, n_folds + 1):
+            model = AutoModelForSequenceClassification.from_pretrained(
+                model_config['model_name'],
+                problem_type="multi_label_classification",
+                num_labels=len(LABELS),
+                id2label=id2label,
+                label2id=label2id
+            )
+
             msg_str = f"Fitting fold: {fold_i}"
             print(msg_str + '\n' + ''.join(['-'] * len(msg_str)) + '\n')
 
@@ -268,7 +270,6 @@ if __name__ == "__main__":
             encoded_dataset = dataset.map(
                 lambda ex: preprocess_data(ex, preprocessing_config['analysis_unit']), batched=True,
                 remove_columns=dataset[f'train_fold_{fold_i}'].column_names)
-            data_collator = DataCollatorWithPadding(tokenizer=tokenizer)
 
             trainer = Trainer(
                 model,
@@ -297,7 +298,7 @@ if __name__ == "__main__":
                     train_dataset=encoded_dataset[f"train_fold_{fold_i}_{language}"],
                     eval_dataset=encoded_dataset[f"test_fold_{fold_i}_{language}"],
                     tokenizer=tokenizer,
-                    # data_collator=data_collator,
+                    data_collator=data_collator,
                     compute_metrics=compute_metrics
                 )
 
@@ -315,6 +316,10 @@ if __name__ == "__main__":
                     'roc-auc': evaluation_results_i['eval_roc_auc'],
                     'accuracy': evaluation_results_i['eval_accuracy']
                 })
+
+            del model
+            del trainer
+            del encoded_dataset
 
         # Save metrics in a csv file
         output_dir = os.path.join(*output_config['metrics_output_dir'], model_config['model_name'])
