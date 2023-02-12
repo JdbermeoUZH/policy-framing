@@ -279,6 +279,8 @@ def measure_performance_chunked_dataset(language_: str, fold_i_: int, output_dir
     for step, batch in enumerate(tqdm(dataloader)):
         ids_batch = batch.pop('id')
 
+        batch.to('cuda')
+
         with torch.no_grad():
             out = model(**batch)
             pred_labels = torch.sigmoid(out['logits'])
