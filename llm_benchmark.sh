@@ -22,5 +22,5 @@ srun python benchmark_llms.py \
   --max_length_padding 512\
   --minibatch_size 16\
   --n_epochs 1\
-  --analysis_unit train_test_title_and_first_sentence_each_paragraph\
-  --truncated True
+  --analysis_unit title_and_first_sentence_each_paragraph\
+  --truncated 1
