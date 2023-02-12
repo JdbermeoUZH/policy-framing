@@ -403,12 +403,14 @@ if __name__ == "__main__":
                 unit_of_analysis += '_chunked'
                 metrics['mean_predicted_score'] = []
                 metrics['majority_voting'] = []
+                col_to_remove_at_inference = [col for col in dataset['train_fold_1'].column_names if col != 'id']
             else:
                 metrics['truncated_single_instance'] = []
+                col_to_remove_at_inference = dataset[f'train_fold_{fold_i}'].column_names
 
             encoded_dataset = dataset.map(
                 lambda ex: preprocess_data(ex, unit_of_analysis), batched=True,
-                remove_columns=dataset[f'train_fold_{fold_i}'].column_names)
+                remove_columns=col_to_remove_at_inference)
 
             trainer = Trainer(
                 model,

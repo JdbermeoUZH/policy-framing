@@ -2,12 +2,12 @@ dataset:
   data_dir: ['data', 'preprocessed']                                              # Relative path to directory with data
 
 preprocessing:
-  single_train_test_split_filepath: ['multilingual_train_test_ds.hf']
+  single_train_test_split_filepath: ['multilingual_train_test_title_and_first_sentence_each_paragraph_max_words_length_500_min_words_length_30_chunk_word_overlap_250.hf']
   data_split_to_use: 'train_and_dev'
-  analysis_unit: 'title_and_first_paragraph'                                      # 'title', 'title_and_first_paragraph', 'title_and_5_sentences', 'title_and_10_sentences', 'title_and_first_sentence_each_paragraph', 'raw_text', 'all'
+  analysis_unit: 'title_and_first_sentence_each_paragraph'                                      # 'title', 'title_and_first_paragraph', 'title_and_5_sentences', 'title_and_10_sentences', 'title_and_first_sentence_each_paragraph', 'raw_text', 'all'
   n_folds: 3
   max_length_padding: 512
-  truncated: True
+  truncated: False
 
 model:
   model_name: 'distilbert-base-multilingual-cased'                                                 # distilbert-base-multilingual-cased, bert-base-multilingual-cased
@@ -16,7 +16,7 @@ model:
   fp16: True
 
 training:
-  n_epochs: 20
+  n_epochs: 1
   minibatch_size: 4
   gradient_accumulation_steps: 2
   best_metric_to_checkpoint: 'f1'

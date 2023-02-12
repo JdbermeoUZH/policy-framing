@@ -6,6 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="3359b6ce-9e44-4da3-956d-9609d831df93" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config_llm_benchmark.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/config_llm_benchmark.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -91,7 +92,7 @@
       <recent name="$PROJECT_DIR$/training/french" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.run_llm_compute_jobs">
+  <component name="RunManager" selected="Python.benchmark_llms">
     <configuration default="true" type="PythonConfigurationType" factoryName="Python">
       <module name="Framing" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -327,8 +328,8 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.run_llm_compute_jobs" />
         <item itemvalue="Python.benchmark_llms" />
+        <item itemvalue="Python.run_llm_compute_jobs" />
         <item itemvalue="Python.gather_mlruns_as_single_csv" />
         <item itemvalue="Python.hyperparam_space_config_default" />
         <item itemvalue="Python.hyperparam_space_config" />
@@ -400,7 +401,7 @@
       <workItem from="1676129308554" duration="19000" />
       <workItem from="1676129800404" duration="9887000" />
       <workItem from="1676228250485" duration="168000" />
-      <workItem from="1676228750534" duration="9608000" />
+      <workItem from="1676228750534" duration="10424000" />
     </task>
     <servers />
   </component>
@@ -551,6 +552,26 @@
           <line>339</line>
           <option name="timeStamp" value="85" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/benchmark_llms.py</url>
+          <line>212</line>
+          <option name="timeStamp" value="86" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/benchmark_llms.py</url>
+          <line>400</line>
+          <option name="timeStamp" value="87" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/benchmark_llms.py</url>
+          <line>408</line>
+          <option name="timeStamp" value="88" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/benchmark_llms.py</url>
+          <line>412</line>
+          <option name="timeStamp" value="89" />
+        </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="jupyter-line">
           <url>notebook:///home/juanbermeo/SynologyDriveRA/Framing/documentation/analyses/Default classifiers/Default classifier performance.ipynb</url>
           <line>1</line>
@@ -579,7 +600,7 @@
     <SUITE FILE_PATH="coverage/Framing$basic_preprocessing.coverage" NAME="basic_preprocessing Coverage Results" MODIFIED="1665060979164" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/Framing$benchmark_subtask_2.coverage" NAME="benchmark_subtask_2 Coverage Results" MODIFIED="1676127087366" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/Framing$estimators_config.coverage" NAME="estimators_config Coverage Results" MODIFIED="1668605093322" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/training" />
-    <SUITE FILE_PATH="coverage/Framing$benchmark_llms.coverage" NAME="benchmark_llms Coverage Results" MODIFIED="1676133345500" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/Framing$benchmark_llms.coverage" NAME="benchmark_llms Coverage Results" MODIFIED="1676239823312" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/Framing$CorrelationFilter.coverage" NAME="CorrelationFilter Coverage Results" MODIFIED="1666189198964" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/preprocessing" />
   </component>
 </project>
