@@ -29,12 +29,12 @@ LLMS = {
         'max_length_padding': 512
     },
 
-    #'EleutherAI/gpt-neo-125M': {
-    #    'gradient_accumulation_steps': 2,
-    #    'minibatch_size': 2,
-    #    'n_epochs': 20,
-    #    'max_length_padding': 512
-    #},
+    'EleutherAI/gpt-neo-125M': {
+        'gradient_accumulation_steps': 4,
+        'minibatch_size': 2,
+        'n_epochs': 30,
+        'max_length_padding': 512
+    },
 
     #'AshtonIsNotHere/xlm-roberta-long-base-4096': {
     #    'gradient_accumulation_steps': 8,
