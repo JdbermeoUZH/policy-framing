@@ -231,6 +231,9 @@ if __name__ == "__main__":
         # Define tokenizer and model
         tokenizer = AutoTokenizer.from_pretrained(model_config['model_name'])
         data_collator = DataCollatorWithPadding(tokenizer=tokenizer)
+        
+        if tokenizer.pad_token is None:
+            tokenizer.pad_token = tokenizer.eos_token
 
         # Define Training parameters and Trainer
         training_args = TrainingArguments(
@@ -262,6 +265,9 @@ if __name__ == "__main__":
                 id2label=id2label,
                 label2id=label2id
             )
+
+            if tokenizer.pad_token == tokenizer.eos_token:  
+                model.config.pad_token_id = tokenizer.pad_token_id
 
             msg_str = f"Fitting fold: {fold_i}"
             print(msg_str + '\n' + ''.join(['-'] * len(msg_str)) + '\n')
