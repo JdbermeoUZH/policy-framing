@@ -4,9 +4,10 @@
 #SBATCH --time=05:00:00
 #SBATCH --cpus-per-task=4
 #SBATCH --mem=64GB
-#SBATCH --gres gpu:1
+#SBATCH --constraint=GPUMEM80GB
+#SBATCH --gres=gpu:A100:1
 
-module load a100
+module load gpu
 module load mamba
 cat modifiable_llm_benchmark.sh
 cat config_llm_benchmark.yaml
