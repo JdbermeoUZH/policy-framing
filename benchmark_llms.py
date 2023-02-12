@@ -75,7 +75,7 @@ def parse_arguments_and_load_config_file() -> Tuple[argparse.Namespace, dict]:
         yaml_config_params['preprocessing']['analysis_unit'] = arguments.analysis_unit
 
     if arguments.truncated is not None:
-        yaml_config_params['preprocessing']['truncated'] = arguments.truncated
+        yaml_config_params['preprocessing']['truncated'] = arguments.truncated == 1
 
     if arguments.n_epochs is not None:
         yaml_config_params['training']['n_epochs'] = arguments.n_epochs
