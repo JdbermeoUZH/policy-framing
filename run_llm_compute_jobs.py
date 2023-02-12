@@ -1,29 +1,29 @@
 import os
 
 LLMS = {
-    #'xlm-roberta-large': {
-    #    'gradient_accumulation_steps': 2,
-    #    'minibatch_size': 4,
-    #    'n_epochs': 20,
-    #    'max_length_padding': 512,
-    #    'run_on': 'GPUMEM16GB'
-    #},
+    'xlm-roberta-large': {
+        'gradient_accumulation_steps': 2,
+        'minibatch_size': 4,
+        'n_epochs': 20,
+        'max_length_padding': 512,
+        'run_on': 'GPUMEM16GB'
+    },
 
-    #'bert-base-multilingual-cased': {
-    #    'gradient_accumulation_steps': 2,
-    #    'minibatch_size': 16,
-    #    'n_epochs': 100,
-    #    'max_length_padding': 512,
-    #    'run_on': 'GPUMEM16GB'
-    #},
+    'bert-base-multilingual-cased': {
+        'gradient_accumulation_steps': 2,
+        'minibatch_size': 16,
+        'n_epochs': 100,
+        'max_length_padding': 512,
+        'run_on': 'GPUMEM16GB'
+    },
 
-    #'distilbert-base-multilingual-cased': {
-    #    'gradient_accumulation_steps': 1,
-    #    'minibatch_size': 64,
-    #    'n_epochs': 100,
-    #    'max_length_padding': 512,
-    #     'run_on': 'GPUMEM16GB'
-    #}
+    'distilbert-base-multilingual-cased': {
+        'gradient_accumulation_steps': 1,
+        'minibatch_size': 64,
+        'n_epochs': 100,
+        'max_length_padding': 512,
+         'run_on': 'GPUMEM16GB'
+    },
 
     'gpt2': {
         'gradient_accumulation_steps': 2,
