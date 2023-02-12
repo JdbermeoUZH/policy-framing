@@ -7,6 +7,8 @@ from typing import Tuple
 import torch
 import pandas as pd
 import numpy as np
+from tqdm import tqdm
+from torch.utils.data import DataLoader
 from sklearn.metrics import f1_score, roc_auc_score, accuracy_score, precision_score, recall_score
 from iterstrat.ml_stratifiers import MultilabelStratifiedKFold
 from sklearn.preprocessing import MultiLabelBinarizer
@@ -142,6 +144,12 @@ def multi_label_metrics(predictions, labels, threshold=0.5):
 
     # finally, compute metrics
     y_true = labels
+    metrics = _compute_multi_label_metrics(y_pred, y_true)
+
+    return metrics
+
+
+def _compute_multi_label_metrics(y_pred, y_true):
     f1_micro_average = f1_score(y_true=y_true, y_pred=y_pred, average='micro')
     roc_auc = roc_auc_score(y_true, y_pred, average='micro')
     accuracy = accuracy_score(y_true, y_pred)
@@ -156,7 +164,6 @@ def multi_label_metrics(predictions, labels, threshold=0.5):
         'accuracy': accuracy,
         'recall': recall
     }
-
     return metrics
 
 
@@ -203,6 +210,99 @@ def preprocess_data(examples, unit_of_analysis):
     return encoding
 
 
+def measure_performance_truncated_dataset(language_: str, fold_i_: int, metrics_list: list):
+
+        trainer_ = Trainer(
+            model,
+            training_args,
+            train_dataset=encoded_dataset[f"train_fold_{fold_i_}_{language_}"],
+            eval_dataset=encoded_dataset[f"test_fold_{fold_i_}_{language_}"],
+            tokenizer=tokenizer,
+            data_collator=data_collator,
+            compute_metrics=compute_metrics
+        )
+
+        evaluation_results_i = trainer_.evaluate()
+
+        print('\n')
+
+        metrics_list.append({
+            'language': language_,
+            'unit_of_analysis': preprocessing_config['analysis_unit'],
+            f'fold': f'fold_{fold_i_}',
+            'f1-mico': evaluation_results_i['eval_f1'],
+            'precision-micro': evaluation_results_i['eval_precision'],
+            'recall-micro': evaluation_results_i['eval_recall'],
+            'roc-auc': evaluation_results_i['eval_roc_auc'],
+            'accuracy': evaluation_results_i['eval_accuracy']
+        })
+
+        del trainer_
+
+
+def measure_and_record_metrics(preds_df: pd.DataFrame, true_label_df_: pd.DataFrame, metrics_list: list,
+                               language_: str, fold_i_: int):
+
+    metrics_dict = _compute_multi_label_metrics(
+        y_pred=(preds_df > 0.5).astype(int).values, y_true=true_label_df_.astype(int).values)
+
+    metrics_list.append({
+        'language': language_,
+        'unit_of_analysis': preprocessing_config['analysis_unit'],
+        f'fold': f'fold_{fold_i_}',
+        'f1-mico': metrics_dict['f1'],
+        'precision-micro': metrics_dict['precision'],
+        'recall-micro': metrics_dict['recall'],
+        'roc-auc': metrics_dict['roc_auc'],
+        'accuracy': metrics_dict['accuracy']
+    })
+
+
+def measure_performance_chunked_dataset(language_: str, fold_i_: int, output_dir_: str):
+    # Create DataLoader to iterate for samples of the fold on the intended language
+    dataloader = DataLoader(encoded_dataset[f"test_fold_{fold_i_}_{language_}"],
+                            collate_fn=data_collator, batch_size=training_config['minibatch_size'])
+    ids_list, true_labels_list, pred_labels_list = [], [], []
+
+    # Evaluate predictions
+    for step, batch in enumerate(tqdm(dataloader)):
+        ids_batch = batch.pop('id')
+
+        with torch.no_grad():
+            out = model(**batch)
+            pred_labels = torch.sigmoid(out['logits'])
+
+        ids_list.append(ids_batch.to('cpu').numpy())
+        pred_labels_list.append(pred_labels.to('cpu').numpy())
+        true_labels_list.append(batch['labels'].to('cpu').numpy())
+
+    # Stack the predictions into single dataframe
+    preds_df = pd.DataFrame(np.concatenate(pred_labels_list), index=np.concatenate(ids_list)) \
+        .sort_index()
+    preds_df.index.names = ['id']
+    true_label_df = pd.DataFrame(np.concatenate(true_labels_list), index=np.concatenate(ids_list)) \
+        .reset_index().drop_duplicates().set_index('index').sort_index()
+    true_label_df.index.names = ['id']
+
+    # Get summary predictions of the model
+    mean_score_pred_df = preds_df.groupby(level=0).mean()
+    majority_voting_df = (preds_df > 0.5).astype(int).groupby(level=0).mean()
+
+    # Store the predicted scores
+    pred_scores_dir = os.path.join(output_dir_, 'prediction_scores')
+    os.makedirs(pred_scores_dir, exist_ok=True)
+    preds_df.to_csv(os.path.join(
+        pred_scores_dir, f"{output_config['file_prefix']}_"
+                         f"pred_scores_test_fold_{fold_i_}_{language_}.csv"))
+
+    # Measure the metrics and store them in a dictionary
+    measure_and_record_metrics(preds_df=mean_score_pred_df, true_label_df_=true_label_df,
+                               metrics_list=metrics['mean_predicted_score'], language_=language_, fold_i_=fold_i_)
+
+    measure_and_record_metrics(preds_df=majority_voting_df, true_label_df_=true_label_df,
+                               metrics_list=metrics['majority_voting'], language_=language_, fold_i_=fold_i_)
+
+
 if __name__ == "__main__":
     # Load script arguments and configuration file
     args, config = parse_arguments_and_load_config_file()
@@ -212,6 +312,11 @@ if __name__ == "__main__":
     preprocessing_config = config['preprocessing']
     training_config = config['training']
     output_config = config['output']
+
+    # Create output directory that will be used to store results
+    output_dir = os.path.join(*output_config['metrics_output_dir'], model_config['model_name'])
+    os.makedirs(os.path.join(*output_config['metrics_output_dir']), exist_ok=True)
+    os.makedirs(output_dir, exist_ok=True)
 
     # Load Multi-lingual Dataset. It will be stratified per language and label
     dataset = load_hf_dataset(
@@ -260,7 +365,7 @@ if __name__ == "__main__":
 
         # Fit and measure the model performance on each fold of the dataset
         n_folds = max([int(key.split('_')[-1]) for key in dataset.keys() if len(key.split('_')) == 3])
-        metrics_ = []
+        metrics = {}
 
         for fold_i in range(1, n_folds + 1):
             model = AutoModelForSequenceClassification.from_pretrained(
@@ -280,8 +385,18 @@ if __name__ == "__main__":
             print(msg_str + '\n' + ''.join(['-'] * len(msg_str)) + '\n')
 
             # Tokenize/Encode the dataset
+            unit_of_analysis = preprocessing_config['analysis_unit']
+
+            if not preprocessing_config['truncated']:
+                # This means the text was split into chunks of certain length
+                unit_of_analysis += '_chunked'
+                metrics['mean_predicted_score'] = []
+                metrics['majority_voting'] = []
+            else:
+                metrics['truncated_single_instance'] = []
+
             encoded_dataset = dataset.map(
-                lambda ex: preprocess_data(ex, preprocessing_config['analysis_unit']), batched=True,
+                lambda ex: preprocess_data(ex, unit_of_analysis), batched=True,
                 remove_columns=dataset[f'train_fold_{fold_i}'].column_names)
 
             trainer = Trainer(
@@ -305,51 +420,31 @@ if __name__ == "__main__":
                 msg_str = f"For the dataset: {language}"
                 print(msg_str + '\n' + ''.join(['-'] * len(msg_str)))
 
-                trainer = Trainer(
-                    model,
-                    training_args,
-                    train_dataset=encoded_dataset[f"train_fold_{fold_i}_{language}"],
-                    eval_dataset=encoded_dataset[f"test_fold_{fold_i}_{language}"],
-                    tokenizer=tokenizer,
-                    data_collator=data_collator,
-                    compute_metrics=compute_metrics
-                )
+                if preprocessing_config['truncated']:
+                    measure_performance_truncated_dataset(
+                        language_=language, fold_i_=fold_i, metrics_list=metrics['truncated_single_instance']
+                    )
 
-                evaluation_results_i = trainer.evaluate()
-
-                print('\n')
-
-                metrics_.append({
-                    'language': language,
-                    'unit_of_analysis': preprocessing_config['analysis_unit'],
-                    f'fold': f'fold_{fold_i}',
-                    'f1-mico': evaluation_results_i['eval_f1'],
-                    'precision-micro': evaluation_results_i['eval_precision'],
-                    'recall-micro': evaluation_results_i['eval_recall'],
-                    'roc-auc': evaluation_results_i['eval_roc_auc'],
-                    'accuracy': evaluation_results_i['eval_accuracy']
-                })
+                else:
+                    # Measure performance when examples are split into chunks
+                    measure_performance_chunked_dataset(language_=language, fold_i_=fold_i, output_dir_=output_dir)
 
             del model
-            del trainer
             del encoded_dataset
 
-        # Save metrics in a csv file
-        output_dir = os.path.join(*output_config['metrics_output_dir'], model_config['model_name'])
-        os.makedirs(os.path.join(*output_config['metrics_output_dir']), exist_ok=True)
-        os.makedirs(output_dir, exist_ok=True)
+        for measurement_type, metrics_list in metrics.items():
+            # Save metrics in a csv file
+            base_metrics_name = f"{measurement_type}_{model_config['model_name'].replace('/','_')}" \
+                                f"-{preprocessing_config['analysis_unit']}_metrics.csv"
 
-        base_metrics_name = f"{model_config['model_name'].replace('/','_')}" \
-                            f"-{preprocessing_config['analysis_unit']}_metrics.csv"
+            raw_metrics_df = pd.DataFrame(metrics_list).set_index(['language', 'fold']).sort_index()
+            raw_metrics_df.to_csv(os.path.join(output_dir, f"{output_config['file_prefix']}_raw_{base_metrics_name}"))
 
-        raw_metrics_df = pd.DataFrame(metrics_).set_index(['language', 'fold']).sort_index()
-        raw_metrics_df.to_csv(os.path.join(output_dir, f"{output_config['file_prefix']}_raw_{base_metrics_name}"))
+            agg_metrics_df = raw_metrics_df.groupby(['language', 'unit_of_analysis'])\
+                [['f1-mico', 'precision-micro', 'recall-micro', 'roc-auc', 'accuracy']].agg(['mean', 'std'])
 
-        agg_metrics_df = raw_metrics_df.groupby(['language', 'unit_of_analysis'])\
-            [['f1-mico', 'precision-micro', 'recall-micro', 'roc-auc', 'accuracy']].agg(['mean', 'std'])
+            agg_metrics_df.columns = agg_metrics_df.columns.get_level_values(0) + '_' + \
+                                     agg_metrics_df.columns.get_level_values(1)
 
-        agg_metrics_df.columns = agg_metrics_df.columns.get_level_values(0) + '_' + \
-                                 agg_metrics_df.columns.get_level_values(1)
-
-        agg_metrics_df.to_csv(os.path.join(output_dir, f"{output_config['file_prefix']}_agg_{base_metrics_name}"))
+            agg_metrics_df.to_csv(os.path.join(output_dir, f"{output_config['file_prefix']}_agg_{base_metrics_name}"))
 

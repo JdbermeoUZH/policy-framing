@@ -7,6 +7,7 @@ preprocessing:
   analysis_unit: 'title_and_first_paragraph'                                      # 'title', 'title_and_first_paragraph', 'title_and_5_sentences', 'title_and_10_sentences', 'title_and_first_sentence_each_paragraph', 'raw_text', 'all'
   n_folds: 3
   max_length_padding: 512
+  truncated: True
 
 model:
   model_name: 'distilbert-base-multilingual-cased'                                                 # distilbert-base-multilingual-cased, bert-base-multilingual-cased
@@ -23,8 +24,8 @@ training:
   dataloader_num_workers: 0
 
 output:
-  metrics_output_dir: ['tuning_results_llms','multilingual', 'truncated_512_tokens']
-  file_prefix: 'multilingual_fit_trunc_512_tokens'
+  metrics_output_dir: ['tuning_results_llms', 'multilingual', 'chunked_text']
+  file_prefix: 'multilingual_fit_chunked'
 
 
 
