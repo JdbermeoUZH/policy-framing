@@ -37,6 +37,7 @@ def parse_arguments_and_load_config_file() -> Tuple[argparse.Namespace, dict]:
     parser.add_argument('--max_length_padding', type=int, default=None)
     parser.add_argument('--n_epochs', type=int, default=None)
     parser.add_argument('--fp16', type=int, default=None)
+    parser.add_argument('--load_in_8bit', type=int, default=None)
     parser.add_argument('--minibatch_size', type=int, default=None)
     parser.add_argument('--gradient_accumulation_steps', type=int, default=None)
 
@@ -53,6 +54,12 @@ def parse_arguments_and_load_config_file() -> Tuple[argparse.Namespace, dict]:
     if arguments.model_name is not None:
         yaml_config_params['model']['model_name'] = arguments.model_name
 
+    if arguments.fp16 is not None:
+        yaml_config_params['model']['fp16'] = arguments.fp16 == 1
+
+    if arguments.load_in_8bit is not None:
+        yaml_config_params['model']['load_in_8bit'] = arguments.load_in_8bit == 1
+
     if arguments.max_length_padding is not None:
         yaml_config_params['preprocessing']['max_length_padding'] = arguments.max_length_padding
 
@@ -62,8 +69,6 @@ def parse_arguments_and_load_config_file() -> Tuple[argparse.Namespace, dict]:
     if arguments.n_epochs is not None:
         yaml_config_params['training']['n_epochs'] = arguments.n_epochs
 
-    if arguments.fp16 is not None:
-        yaml_config_params['training']['fp16'] = arguments.fp16 == 1
 
     if arguments.minibatch_size is not None:
         yaml_config_params['training']['minibatch_size'] = arguments.minibatch_size
@@ -334,7 +339,8 @@ if __name__ == "__main__":
         os.makedirs(os.path.join(*output_config['metrics_output_dir']), exist_ok=True)
         os.makedirs(output_dir, exist_ok=True)
 
-        base_metrics_name = f"{model_config['model_name']}-{preprocessing_config['analysis_unit']}_metrics.csv"
+        base_metrics_name = f"{model_config['model_name'].replace('/','_')}" \
+                            f"-{preprocessing_config['analysis_unit']}_metrics.csv"
 
         raw_metrics_df = pd.DataFrame(metrics_).set_index(['language', 'fold']).sort_index()
         raw_metrics_df.to_csv(os.path.join(output_dir, f"{output_config['file_prefix']}_raw_{base_metrics_name}"))
