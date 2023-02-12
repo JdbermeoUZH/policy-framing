@@ -23,4 +23,5 @@ srun python benchmark_llms.py \
   --minibatch_size 16\
   --n_epochs 1\
   --analysis_unit train_test_title_and_first_sentence_each_paragraph\
-  --truncated True
+  --truncated False\
+  --single_train_test_split_filepath multilingual_train_test_title_and_first_sentence_each_paragraph_max_words_length_500_min_words_length_30_chunk_word_overlap_250.hf
