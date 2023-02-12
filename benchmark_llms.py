@@ -337,19 +337,21 @@ if __name__ == "__main__":
         data_dir_path=os.path.join(*dataset_config['data_dir'])
     )
 
-    print('Dataset loaded')
+    msg_str = f"Using the dataset: {preprocessing_config['single_train_test_split_filepath']}"
+    print(msg_str + '\n' + ''.join(['#'] * len(msg_str)) + '\n')
 
     if model_config['fine_tune']:
         id2label = {idx: label for idx, label in enumerate(mlb.classes_)}
         label2id = {label: idx for idx, label in enumerate(mlb.classes_)}
 
         msg_str = f"Fine tuning the model: {model_config['model_name']}"
-        print(msg_str + '\n' + ''.join(['#'] * len(msg_str)))
+        print(msg_str + '\n' + ''.join(['#'] * len(msg_str)) + '\n')
 
         print(f'\t analysis_unit: {preprocessing_config["analysis_unit"]}')
         print(f'\t gradient_accumulation_steps: {training_config["n_epochs"]}')
         print(f'\t minibatch_size: {training_config["minibatch_size"]}')
         print(f'\t n_epochs: {training_config["n_epochs"]}')
+        print(f'\t truncated: {preprocessing_config["truncated"]}')
 
         # Define tokenizer and model
         tokenizer = AutoTokenizer.from_pretrained(model_config['model_name'])

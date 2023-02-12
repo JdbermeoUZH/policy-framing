@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-#SBATCH --output=llm_jobs/%2j_${model_name}_minib_${minibatch_size}_gradsteps_${gradient_accumulation_steps}_warmup_0.2_data_collator_${analysis_unit}.out
+#SBATCH --output=llm_jobs/%2j.out
 #SBATCH --ntasks=1
 #SBATCH --time=05:00:00
 #SBATCH --cpus-per-task=4
@@ -20,4 +20,6 @@ srun python benchmark_llms.py \
   --max_length_padding $max_length_padding\
   --minibatch_size $minibatch_size\
   --n_epochs $n_epochs\
-  --analysis_unit $analysis_unit
+  --analysis_unit $analysis_unit\
+  --truncated $truncated\
+  --single_train_test_split_filepath $single_train_test_split_filepath
