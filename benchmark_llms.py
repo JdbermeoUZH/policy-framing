@@ -248,7 +248,7 @@ if __name__ == "__main__":
             weight_decay=0.01,
             load_best_model_at_end=True,
             metric_for_best_model=training_config['best_metric_to_checkpoint'],
-            fp16=training_config['fp16'],
+            fp16=model_config['fp16'] if not model_config['load_in_8bit'] else False,
             warmup_ratio=training_config['warmup_ratio'],
             dataloader_num_workers=training_config['dataloader_num_workers']
         )
@@ -263,7 +263,9 @@ if __name__ == "__main__":
                 problem_type="multi_label_classification",
                 num_labels=len(LABELS),
                 id2label=id2label,
-                label2id=label2id
+                label2id=label2id,
+                load_in_8bit=model_config['load_in_8bit'],
+                device_map='auto' if model_config['load_in_8bit'] else None
             )
 
             if tokenizer.pad_token == tokenizer.eos_token:  

@@ -11,10 +11,11 @@ preprocessing:
 model:
   model_name: 'distilbert-base-multilingual-cased'                                                 # distilbert-base-multilingual-cased, bert-base-multilingual-cased
   fine_tune: True                                                                 # If False, will use a zero-shot pipeline
+  load_in_8bit: True                                                              # Use for very large models, i.e: BlOOM, GPT-Neo, etc.
+  fp16: True
 
 training:
   n_epochs: 20
-  fp16: True
   minibatch_size: 4
   gradient_accumulation_steps: 2
   best_metric_to_checkpoint: 'f1'
