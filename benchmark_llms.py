@@ -42,6 +42,9 @@ def parse_arguments_and_load_config_file() -> Tuple[argparse.Namespace, dict]:
     parser.add_argument('--load_in_8bit', type=int, default=None)
     parser.add_argument('--minibatch_size', type=int, default=None)
     parser.add_argument('--gradient_accumulation_steps', type=int, default=None)
+    parser.add_argument('--truncated', type=int, default=None)
+    parser.add_argument('--metrics_output_dir', type=str, default=None, nargs="*")
+    parser.add_argument('--single_train_test_split_filepath', type=str, default=None, nargs="*")
 
     arguments = parser.parse_args()
 
@@ -62,21 +65,29 @@ def parse_arguments_and_load_config_file() -> Tuple[argparse.Namespace, dict]:
     if arguments.load_in_8bit is not None:
         yaml_config_params['model']['load_in_8bit'] = arguments.load_in_8bit == 1
 
+    if arguments.single_train_test_split_filepath is not None:
+        yaml_config_params['preprocessing']['single_train_test_split_filepath'] = arguments.single_train_test_split_filepath
+
     if arguments.max_length_padding is not None:
         yaml_config_params['preprocessing']['max_length_padding'] = arguments.max_length_padding
 
     if arguments.analysis_unit is not None:
         yaml_config_params['preprocessing']['analysis_unit'] = arguments.analysis_unit
 
+    if arguments.truncated is not None:
+        yaml_config_params['preprocessing']['truncated'] = arguments.truncated
+
     if arguments.n_epochs is not None:
         yaml_config_params['training']['n_epochs'] = arguments.n_epochs
-
 
     if arguments.minibatch_size is not None:
         yaml_config_params['training']['minibatch_size'] = arguments.minibatch_size
 
     if arguments.gradient_accumulation_steps is not None:
         yaml_config_params['training']['gradient_accumulation_steps'] = arguments.gradient_accumulation_steps
+
+    if arguments.metrics_output_dir is not None:
+        yaml_config_params['output']['metrics_output_dir'] = arguments.metrics_output_dir
 
     return arguments, yaml_config_params
 
