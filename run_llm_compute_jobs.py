@@ -29,19 +29,19 @@ LLMS = {
         'max_length_padding': 512
     },
 
-    'EleutherAI/gpt-neo-125M': {
-        'gradient_accumulation_steps': 2,
-        'minibatch_size': 2,
-        'n_epochs': 20,
-        'max_length_padding': 512
-    },
+    #'EleutherAI/gpt-neo-125M': {
+    #    'gradient_accumulation_steps': 2,
+    #    'minibatch_size': 2,
+    #    'n_epochs': 20,
+    #    'max_length_padding': 512
+    #},
 
-    'AshtonIsNotHere/xlm-roberta-long-base-4096': {
-        'gradient_accumulation_steps': 8,
-        'minibatch_size': 1,
-        'n_epochs': 20,
-        'max_length_padding': 4096
-    },
+    #'AshtonIsNotHere/xlm-roberta-long-base-4096': {
+    #    'gradient_accumulation_steps': 8,
+    #    'minibatch_size': 1,
+    #    'n_epochs': 20,
+    #    'max_length_padding': 4096
+    #},
 }
 
 UNITS_OF_ANALYSES = ('title', 'title_and_first_paragraph', 'title_and_5_sentences', 'title_and_10_sentences',
