@@ -16,7 +16,7 @@ srun python benchmark_llms.py \
   --config_path_yaml config_llm_benchmark.yaml\
   --model_name $model_name\
   --gradient_accumulation_steps $gradient_accumulation_steps\
-  --max_length_padding 512\
+  --max_length_padding $max_length_padding\
   --minibatch_size $minibatch_size\
   --n_epochs $n_epochs\
   --analysis_unit $analysis_unit
