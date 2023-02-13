@@ -24,7 +24,7 @@ training:
   dataloader_num_workers: 0
 
 output:
-  metrics_output_dir: ['tuning_results_llms', 'multilingual']
+  metrics_output_dir: ['tuning_results_llms', 'multilingual', 'chunked']
   file_prefix: 'multilingual_fit_chunked'
 
 
