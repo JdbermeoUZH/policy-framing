@@ -1,0 +1,70 @@
+model_type,model_subtype,model_name,title,title and first paragraph,title and 5 sentences,title and 10 sentences,title and first sentence each paragraph,raw text
+Binary Relevance kNN,Natively Multilabel,BRkNNaClassifier,0.28 $\pm$ 0.13,0.18 $\pm$ 0.08,0.08 $\pm$ 0.04,0.15 $\pm$ 0.09,0.11 $\pm$ 0.02,0.07 $\pm$ 0.05
+Binary Relevance kNN,Natively Multilabel,BRkNNbClassifier,0.37 $\pm$ 0.02,0.38 $\pm$ 0.02,0.27 $\pm$ 0.02,0.27 $\pm$ 0.05,0.28 $\pm$ 0.05,0.20 $\pm$ 0.02
+ComplementNB,RakelD Partitioning of labels,RakelD_ComplementNB,0.54 $\pm$ 0.01,0.44 $\pm$ 0.02,0.44 $\pm$ 0.01,0.45 $\pm$ 0.02,0.57 $\pm$ 0.05,0.68 $\pm$ 0.07
+Dummy Classifier,No Upsampling,DummyMostFrequent,0.20 $\pm$ 0.06,0.20 $\pm$ 0.06,0.20 $\pm$ 0.06,0.20 $\pm$ 0.06,0.20 $\pm$ 0.06,0.20 $\pm$ 0.06
+Dummy Classifier,No Upsampling,DummyProbSampling,0.39 $\pm$ 0.03,0.38 $\pm$ 0.02,0.40 $\pm$ 0.01,0.37 $\pm$ 0.02,0.37 $\pm$ 0.01,0.41 $\pm$ 0.02
+Dummy Classifier,No Upsampling,DummyUniformSampling,0.52 $\pm$ 0.01,0.52 $\pm$ 0.01,0.50 $\pm$ 0.02,0.50 $\pm$ 0.03,0.48 $\pm$ 0.03,0.48 $\pm$ 0.03
+KNN,BorderlineSMOTE,kNN_BorderlineSMOTE,0.76 $\pm$ 0.02,**0.82 $\pm$ 0.08**,0.75 $\pm$ 0.02,0.77 $\pm$ 0.06,0.66 $\pm$ 0.05,0.68 $\pm$ 0.03
+KNN,No Upsampling,kNN,0.39 $\pm$ 0.10,0.45 $\pm$ 0.13,0.18 $\pm$ 0.03,0.26 $\pm$ 0.08,0.21 $\pm$ 0.05,0.13 $\pm$ 0.00
+KNN,Random Oversampling,kNN_ROS,0.46 $\pm$ 0.12,0.65 $\pm$ 0.11,0.36 $\pm$ 0.06,0.40 $\pm$ 0.11,0.37 $\pm$ 0.08,0.20 $\pm$ 0.01
+KNN,SMOTE,kNN_SMOTE,0.76 $\pm$ 0.01,0.77 $\pm$ 0.06,0.76 $\pm$ 0.02,0.79 $\pm$ 0.04,0.68 $\pm$ 0.08,0.71 $\pm$ 0.04
+KNN,SVMSMOTE,kNN_SVMSMOTE,0.79 $\pm$ 0.05,0.76 $\pm$ 0.12,0.72 $\pm$ 0.01,0,0.63 $\pm$ 0.11,0
+LinearSVM,BorderlineSMOTE,LinearSVM_BorderlineSMOTE,0.42 $\pm$ 0.09,0.41 $\pm$ 0.02,0.37 $\pm$ 0.03,0.39 $\pm$ 0.01,0.48 $\pm$ 0.04,0.52 $\pm$ 0.02
+LinearSVM,BorderlineSMOTE,LinearSVM_SVMSMOTE,0.41 $\pm$ 0.09,0.41 $\pm$ 0.02,0.37 $\pm$ 0.03,0,0.48 $\pm$ 0.04,0
+LinearSVM,No Upsampling,LinearSVM,0.41 $\pm$ 0.09,0.41 $\pm$ 0.02,0.37 $\pm$ 0.03,0.39 $\pm$ 0.01,0.48 $\pm$ 0.04,0.52 $\pm$ 0.02
+LinearSVM,RakelD Partitioning of labels,RakelD_LineaSVM,0.43 $\pm$ 0.07,0.40 $\pm$ 0.01,0.38 $\pm$ 0.03,0.38 $\pm$ 0.00,0.46 $\pm$ 0.02,0.51 $\pm$ 0.01
+LinearSVM,Random Oversampling,LinearSVM_ROS,0.42 $\pm$ 0.10,0.41 $\pm$ 0.02,0.37 $\pm$ 0.03,0.39 $\pm$ 0.01,0.48 $\pm$ 0.04,0.52 $\pm$ 0.02
+LinearSVM,SMOTE,LinearSVM_SMOTE,0.42 $\pm$ 0.10,0.41 $\pm$ 0.02,0.37 $\pm$ 0.03,0.39 $\pm$ 0.01,0.48 $\pm$ 0.04,0.52 $\pm$ 0.02
+LogisticRegression,BorderlineSMOTE,LogisticRegression_BorderlineSMOTE,0.42 $\pm$ 0.09,0.40 $\pm$ 0.02,0.38 $\pm$ 0.03,0.38 $\pm$ 0.01,0.49 $\pm$ 0.03,0.54 $\pm$ 0.02
+LogisticRegression,No Upsampling,LogisticRegression,0.41 $\pm$ 0.09,0.42 $\pm$ 0.02,0.34 $\pm$ 0.03,0.39 $\pm$ 0.01,0.50 $\pm$ 0.03,0.53 $\pm$ 0.02
+LogisticRegression,Random Oversampling,LogisticRegression_ROS,0.42 $\pm$ 0.10,0.41 $\pm$ 0.02,0.37 $\pm$ 0.03,0.39 $\pm$ 0.01,0.49 $\pm$ 0.03,0.54 $\pm$ 0.02
+LogisticRegression,SMOTE,LogisticRegression_SMOTE,0.42 $\pm$ 0.10,0.41 $\pm$ 0.02,0.37 $\pm$ 0.02,0.38 $\pm$ 0.00,0.49 $\pm$ 0.02,0.54 $\pm$ 0.02
+LogisticRegression,SVMSMOTE,LogisticRegression_SVMSMOTE,0.44 $\pm$ 0.07,0.41 $\pm$ 0.02,0.37 $\pm$ 0.03,0.40 $\pm$ 0.00,0.47 $\pm$ 0.03,0.53 $\pm$ 0.01
+LogisticRegressionElasticNet,BorderlineSMOTE,LogisticRegressionElasticNet_BorderlineSMOTE,0.38 $\pm$ 0.07,0.41 $\pm$ 0.04,0.39 $\pm$ 0.01,0.40 $\pm$ 0.02,0.49 $\pm$ 0.03,0.50 $\pm$ 0.02
+LogisticRegressionElasticNet,No Upsampling,LogisticRegressionElasticNet,0.35 $\pm$ 0.05,0.39 $\pm$ 0.04,0.36 $\pm$ 0.01,0.38 $\pm$ 0.01,0.47 $\pm$ 0.04,0.49 $\pm$ 0.02
+LogisticRegressionElasticNet,Random Oversampling,LogisticRegressionElasticNet_ROS,0.38 $\pm$ 0.06,0.41 $\pm$ 0.03,0.39 $\pm$ 0.01,0.41 $\pm$ 0.02,0.51 $\pm$ 0.04,0.52 $\pm$ 0.03
+LogisticRegressionElasticNet,SMOTE,LogisticRegressionElasticNet_SMOTE,0.37 $\pm$ 0.06,0.40 $\pm$ 0.03,0.38 $\pm$ 0.01,0.40 $\pm$ 0.02,0.51 $\pm$ 0.04,0.50 $\pm$ 0.02
+LogisticRegressionElasticNet,SVMSMOTE,LogisticRegressionElasticNet_SVMSMOTE,0.39 $\pm$ 0.04,0.43 $\pm$ 0.02,0.40 $\pm$ 0.02,0.40 $\pm$ 0.01,0.49 $\pm$ 0.04,0.50 $\pm$ 0.02
+LogisticRegressionLasso,BorderlineSMOTE,LogisticRegressionLasso_BorderlineSMOTE,0.24 $\pm$ 0.07,0.34 $\pm$ 0.03,0.32 $\pm$ 0.02,0.36 $\pm$ 0.03,0.39 $\pm$ 0.01,0.48 $\pm$ 0.04
+LogisticRegressionLasso,No Upsampling,LogisticRegressionLasso,0.25 $\pm$ 0.07,0.34 $\pm$ 0.04,0.31 $\pm$ 0.02,0.35 $\pm$ 0.04,0.38 $\pm$ 0.02,0.46 $\pm$ 0.03
+LogisticRegressionLasso,Random Oversampling,LogisticRegressionLasso_ROS,0.25 $\pm$ 0.07,0.35 $\pm$ 0.04,0.31 $\pm$ 0.02,0.35 $\pm$ 0.02,0.40 $\pm$ 0.01,0.48 $\pm$ 0.04
+LogisticRegressionLasso,SMOTE,LogisticRegressionLasso_SMOTE,0.24 $\pm$ 0.06,0.35 $\pm$ 0.03,0.32 $\pm$ 0.02,0.35 $\pm$ 0.02,0.40 $\pm$ 0.02,0.49 $\pm$ 0.03
+LogisticRegressionLasso,SVMSMOTE,LogisticRegressionLasso_SVMSMOTE,0.24 $\pm$ 0.05,0.35 $\pm$ 0.01,0.32 $\pm$ 0.02,0.37 $\pm$ 0.03,0.39 $\pm$ 0.03,0.49 $\pm$ 0.03
+LogisticRegressionRidge,BorderlineSMOTE,LogisticRegressionRidge_BorderlineSMOTE,0.39 $\pm$ 0.09,0.38 $\pm$ 0.03,0.35 $\pm$ 0.02,0.39 $\pm$ 0.00,0.43 $\pm$ 0.01,0.50 $\pm$ 0.02
+LogisticRegressionRidge,No Upsampling,LogisticRegressionRidge,0.36 $\pm$ 0.08,0.36 $\pm$ 0.03,0.34 $\pm$ 0.02,0.38 $\pm$ 0.01,0.42 $\pm$ 0.01,0.50 $\pm$ 0.02
+LogisticRegressionRidge,RakelD Partitioning of labels,RakelD_LogisticRegression,0.38 $\pm$ 0.11,0.35 $\pm$ 0.01,0.33 $\pm$ 0.05,0.33 $\pm$ 0.03,0.37 $\pm$ 0.02,0.42 $\pm$ 0.02
+LogisticRegressionRidge,Random Oversampling,LogisticRegressionRidge_ROS,0.40 $\pm$ 0.10,0.38 $\pm$ 0.03,0.36 $\pm$ 0.02,0.39 $\pm$ 0.00,0.43 $\pm$ 0.02,0.51 $\pm$ 0.02
+LogisticRegressionRidge,SMOTE,LogisticRegressionRidge_SMOTE,0.40 $\pm$ 0.09,0.37 $\pm$ 0.03,0.35 $\pm$ 0.02,0.39 $\pm$ 0.00,0.43 $\pm$ 0.02,0.51 $\pm$ 0.02
+LogisticRegressionRidge,SVMSMOTE,LogisticRegressionRidge_SVMSMOTE,0.42 $\pm$ 0.07,0.38 $\pm$ 0.02,0.36 $\pm$ 0.03,0.39 $\pm$ 0.01,0.44 $\pm$ 0.01,0.49 $\pm$ 0.02
+Multi-label ARAM,Natively Multilabel,MLARAM,0.17 $\pm$ 0.05,0.25 $\pm$ 0.13,0.25 $\pm$ 0.13,0.25 $\pm$ 0.13,0.26 $\pm$ 0.14,0.25 $\pm$ 0.13
+Multilabel k Nearest Neighbours,Natively Multilabel,MLkNN,0.37 $\pm$ 0.04,0.29 $\pm$ 0.04,0.36 $\pm$ 0.06,0.34 $\pm$ 0.07,0.37 $\pm$ 0.06,0.32 $\pm$ 0.03
+NaiveBayes,BorderlineSMOTE,ComplementNaiveBayes_BorderlineSMOTE,0.55 $\pm$ 0.01,0.57 $\pm$ 0.03,0.55 $\pm$ 0.01,0.59 $\pm$ 0.02,0.62 $\pm$ 0.01,0.71 $\pm$ 0.01
+NaiveBayes,BorderlineSMOTE,NaiveBayes_BorderlineSMOTE,0.54 $\pm$ 0.01,0.56 $\pm$ 0.02,0.55 $\pm$ 0.01,0.59 $\pm$ 0.01,0.62 $\pm$ 0.01,0.72 $\pm$ 0.02
+NaiveBayes,No Upsampling,ComplementNaiveBayes,0.69 $\pm$ 0.03,0.59 $\pm$ 0.03,0.59 $\pm$ 0.04,0.58 $\pm$ 0.02,0.56 $\pm$ 0.02,0.51 $\pm$ 0.04
+NaiveBayes,No Upsampling,NaiveBayes,0.22 $\pm$ 0.05,0.23 $\pm$ 0.05,0.25 $\pm$ 0.04,0.28 $\pm$ 0.05,0.29 $\pm$ 0.05,0.38 $\pm$ 0.05
+NaiveBayes,Random Oversampling,ComplementNaiveBayes_ROS,0.46 $\pm$ 0.02,0.57 $\pm$ 0.02,0.57 $\pm$ 0.02,0.61 $\pm$ 0.02,0.61 $\pm$ 0.01,0.71 $\pm$ 0.01
+NaiveBayes,Random Oversampling,NaiveBayes_ROS,0.49 $\pm$ 0.04,0.57 $\pm$ 0.02,0.55 $\pm$ 0.01,0.61 $\pm$ 0.02,0.60 $\pm$ 0.01,0.72 $\pm$ 0.02
+NaiveBayes,SMOTE,ComplementNaiveBayes_SMOTE,0.53 $\pm$ 0.01,0.57 $\pm$ 0.04,0.55 $\pm$ 0.01,0.59 $\pm$ 0.03,0.62 $\pm$ 0.02,0.72 $\pm$ 0.02
+NaiveBayes,SMOTE,NaiveBayes_SMOTE,0.54 $\pm$ 0.01,0.57 $\pm$ 0.02,0.56 $\pm$ 0.01,0.59 $\pm$ 0.01,0.62 $\pm$ 0.02,0.73 $\pm$ 0.02
+RandomForest,BorderlineSMOTE,RandomForest_BorderlineSMOTE,0.37 $\pm$ 0.14,0.27 $\pm$ 0.03,0.29 $\pm$ 0.03,0.30 $\pm$ 0.04,0.32 $\pm$ 0.02,0.34 $\pm$ 0.01
+RandomForest,No Upsampling,RandomForest,0.38 $\pm$ 0.15,0.25 $\pm$ 0.04,0.26 $\pm$ 0.03,0.28 $\pm$ 0.05,0.28 $\pm$ 0.00,0.32 $\pm$ 0.02
+RandomForest,Random Oversampling,RandomForest_ROS,0.44 $\pm$ 0.12,0.32 $\pm$ 0.02,0.32 $\pm$ 0.03,0.33 $\pm$ 0.03,0.30 $\pm$ 0.02,0.34 $\pm$ 0.04
+RandomForest,SMOTE,RandomForest_SMOTE,0.38 $\pm$ 0.15,0.28 $\pm$ 0.04,0.29 $\pm$ 0.03,0.29 $\pm$ 0.03,0.32 $\pm$ 0.01,0.34 $\pm$ 0.02
+RandomForest,SVMSMOTE,RandomForest_SVMSMOTE,0.40 $\pm$ 0.14,0.29 $\pm$ 0.03,0.29 $\pm$ 0.02,0.31 $\pm$ 0.05,0.30 $\pm$ 0.01,0.33 $\pm$ 0.02
+RidgeClassifier,BorderlineSMOTE,RidgeClassifier_BorderlineSMOTE,0.42 $\pm$ 0.11,0.38 $\pm$ 0.03,0.36 $\pm$ 0.02,0.38 $\pm$ 0.01,0.43 $\pm$ 0.01,0.50 $\pm$ 0.02
+RidgeClassifier,No Upsampling,RidgeClassifier,0.41 $\pm$ 0.10,0.38 $\pm$ 0.03,0.36 $\pm$ 0.02,0.38 $\pm$ 0.01,0.43 $\pm$ 0.01,0.50 $\pm$ 0.02
+RidgeClassifier,Random Oversampling,RidgeClassifier_ROS,0.41 $\pm$ 0.10,0.38 $\pm$ 0.03,0.36 $\pm$ 0.02,0.38 $\pm$ 0.01,0.43 $\pm$ 0.01,0.50 $\pm$ 0.02
+RidgeClassifier,SMOTE,RidgeClassifier_SMOTE,0.42 $\pm$ 0.11,0.38 $\pm$ 0.03,0.36 $\pm$ 0.02,0.38 $\pm$ 0.01,0.43 $\pm$ 0.01,0.50 $\pm$ 0.02
+RidgeClassifier,SVMSMOTE,RidgeClassifier_SVMSMOTE,0.44 $\pm$ 0.08,0.39 $\pm$ 0.03,0.37 $\pm$ 0.03,0.38 $\pm$ 0.01,0.44 $\pm$ 0.01,0.49 $\pm$ 0.02
+SVM,BorderlineSMOTE,SVM_rbf_BorderlineSMOTE,0.35 $\pm$ 0.08,0.25 $\pm$ 0.03,0.22 $\pm$ 0.04,0.21 $\pm$ 0.05,0.29 $\pm$ 0.05,0.49 $\pm$ 0.06
+SVM,No Upsampling,SVM_rbf,0.25 $\pm$ 0.10,0.21 $\pm$ 0.05,0.25 $\pm$ 0.05,0.28 $\pm$ 0.06,0.39 $\pm$ 0.07,0.59 $\pm$ 0.03
+SVM,RakelD Partitioning of labels,RakelD_SVM,0.20 $\pm$ 0.04,0.27 $\pm$ 0.13,0.18 $\pm$ 0.10,0.18 $\pm$ 0.07,0.32 $\pm$ 0.05,0.51 $\pm$ 0.03
+SVM,Random Oversampling,SVM_rbf_ROS,0.30 $\pm$ 0.08,0.25 $\pm$ 0.05,0.28 $\pm$ 0.04,0.34 $\pm$ 0.04,0.39 $\pm$ 0.07,0.64 $\pm$ 0.02
+SVM,SMOTE,SVM_rbf_SMOTE,0.36 $\pm$ 0.10,0.25 $\pm$ 0.03,0.22 $\pm$ 0.04,0.21 $\pm$ 0.05,0.29 $\pm$ 0.06,0.47 $\pm$ 0.09
+SVM,SVMSMOTE,SVM_rbf_SVMSMOTE,0.53 $\pm$ 0.02,0.27 $\pm$ 0.05,0.22 $\pm$ 0.05,0.20 $\pm$ 0.05,0.25 $\pm$ 0.04,0.41 $\pm$ 0.12
+XGBoost,BorderlineSMOTE,XGBoost_narrow_BorderlineSMOTE,0.30 $\pm$ 0.02,0.39 $\pm$ 0.04,0.39 $\pm$ 0.01,0.39 $\pm$ 0.04,0.42 $\pm$ 0.01,0.44 $\pm$ 0.04
+XGBoost,No Upsampling,XGBoost_narrow,0.29 $\pm$ 0.09,0.40 $\pm$ 0.03,0.39 $\pm$ 0.01,0.38 $\pm$ 0.04,0.40 $\pm$ 0.01,0.41 $\pm$ 0.03
+XGBoost,Random Oversampling,XGBoost_narrow_ROS,0.33 $\pm$ 0.05,0.41 $\pm$ 0.02,0.38 $\pm$ 0.01,0.41 $\pm$ 0.05,0.41 $\pm$ 0.01,0.45 $\pm$ 0.03
+XGBoost,SMOTE,XGBoost_narrow_SMOTE,0.30 $\pm$ 0.01,0.40 $\pm$ 0.04,0.40 $\pm$ 0.01,0.40 $\pm$ 0.03,0.43 $\pm$ 0.01,0.44 $\pm$ 0.04
+XGBoost,SVMSMOTE,XGBoost_narrow_SVMSMOTE,0.30 $\pm$ 0.02,0.40 $\pm$ 0.04,0.39 $\pm$ 0.01,0.39 $\pm$ 0.04,0.43 $\pm$ 0.00,0.44 $\pm$ 0.03
