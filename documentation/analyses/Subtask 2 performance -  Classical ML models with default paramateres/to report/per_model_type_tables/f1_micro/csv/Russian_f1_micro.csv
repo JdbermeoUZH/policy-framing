@@ -1,0 +1,17 @@
+model_type,title,title and first paragraph,title and 5 sentences,title and 10 sentences,title and first sentence each paragraph,raw text
+Binary Relevance kNN,0.09 $\pm$ 0.00,0.09 $\pm$ 0.00,0.09 $\pm$ 0.00,0.09 $\pm$ 0.00,0.09 $\pm$ 0.00,0.09 $\pm$ 0.00
+ComplementNB,0.33 $\pm$ 0.00,0.33 $\pm$ 0.02,0.38 $\pm$ 0.03,0.39 $\pm$ 0.01,0.40 $\pm$ 0.04,0.36 $\pm$ 0.00
+Dummy Classifier,0.30 $\pm$ 0.01,0.29 $\pm$ 0.02,0.26 $\pm$ 0.01,0.28 $\pm$ 0.01,0.27 $\pm$ 0.02,0.30 $\pm$ 0.01
+KNN,0.35 $\pm$ 0.01,0.36 $\pm$ 0.01,0.36 $\pm$ 0.01,0.35 $\pm$ 0.01,0.36 $\pm$ 0.01,0.35 $\pm$ 0.01
+LinearSVM,0.29 $\pm$ 0.03,0.31 $\pm$ 0.02,0.32 $\pm$ 0.02,0.33 $\pm$ 0.01,0.36 $\pm$ 0.04,0.36 $\pm$ 0.02
+LogisticRegression,0.30 $\pm$ 0.02,0.32 $\pm$ 0.02,0.31 $\pm$ 0.02,0.31 $\pm$ 0.02,0.38 $\pm$ 0.01,0.38 $\pm$ 0.01
+LogisticRegressionElasticNet,0.31 $\pm$ 0.02,0.33 $\pm$ 0.03,0.35 $\pm$ 0.02,0.39 $\pm$ 0.02,0.38 $\pm$ 0.02,0.43 $\pm$ 0.03
+LogisticRegressionLasso,0.24 $\pm$ 0.03,0.32 $\pm$ 0.03,0.31 $\pm$ 0.03,0.33 $\pm$ 0.05,0.33 $\pm$ 0.05,0.37 $\pm$ 0.01
+LogisticRegressionRidge,0.25 $\pm$ 0.02,0.28 $\pm$ 0.02,0.31 $\pm$ 0.03,0.31 $\pm$ 0.01,0.30 $\pm$ 0.00,0.33 $\pm$ 0.01
+Multi-label ARAM,0.09 $\pm$ 0.02,0.08 $\pm$ 0.00,0.08 $\pm$ 0.00,0.08 $\pm$ 0.00,0.09 $\pm$ 0.02,0.07 $\pm$ 0.01
+Multilabel k Nearest Neighbours,0.21 $\pm$ 0.01,0.27 $\pm$ 0.04,0.28 $\pm$ 0.05,0.27 $\pm$ 0.06,0.23 $\pm$ 0.03,0.24 $\pm$ 0.04
+NaiveBayes,0.39 $\pm$ 0.01,0.45 $\pm$ 0.03,0.47 $\pm$ 0.00,0.50 $\pm$ 0.01,0.51 $\pm$ 0.02,**0.52 $\pm$ 0.02**
+RandomForest,0.22 $\pm$ 0.01,0.18 $\pm$ 0.00,0.19 $\pm$ 0.01,0.22 $\pm$ 0.03,0.21 $\pm$ 0.02,0.27 $\pm$ 0.02
+RidgeClassifier,0.25 $\pm$ 0.01,0.29 $\pm$ 0.02,0.31 $\pm$ 0.03,0.31 $\pm$ 0.01,0.31 $\pm$ 0.02,0.34 $\pm$ 0.01
+SVM,0.17 $\pm$ 0.03,0.04 $\pm$ 0.02,0.04 $\pm$ 0.02,0.04 $\pm$ 0.03,0.08 $\pm$ 0.02,0.08 $\pm$ 0.01
+XGBoost,0.26 $\pm$ 0.04,0.28 $\pm$ 0.04,0.30 $\pm$ 0.03,0.33 $\pm$ 0.04,0.31 $\pm$ 0.03,0.39 $\pm$ 0.03

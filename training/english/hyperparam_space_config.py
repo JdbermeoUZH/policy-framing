@@ -1257,7 +1257,7 @@ MODEL_LIST = \
         'NaiveBayes_ROS': {
             'model': Pipeline(
                 [('up', RandomOverSampler()),
-                 ('model', ComplementNB())]),
+                 ('model', MultinomialNB())]),
             'n_search_iter': 60,
             'model_type': 'NaiveBayes',
             'model_subtype': 'Random Oversampling',
@@ -1272,7 +1272,7 @@ MODEL_LIST = \
         'NaiveBayes_SMOTE': {
             'model': Pipeline(
                 [('up', SMOTE()),
-                 ('model', ComplementNB())]),
+                 ('model', MultinomialNB())]),
             'n_search_iter': 60,
             'model_type': 'NaiveBayes',
             'model_subtype': 'SMOTE',
@@ -1287,7 +1287,7 @@ MODEL_LIST = \
         'NaiveBayes_BorderlineSMOTE': {
             'model': Pipeline(
                 [('up', BorderlineSMOTE()),
-                 ('model', ComplementNB())]),
+                 ('model', MultinomialNB())]),
             'n_search_iter': 60,
             'model_type': 'NaiveBayes',
             'model_subtype': 'BorderlineSMOTE',
@@ -1304,7 +1304,7 @@ MODEL_LIST = \
         'NaiveBayes_SVMSMOTE': {
             'model': Pipeline(
                 [('up', SVMSMOTE()),
-                 ('model', ComplementNB())]),
+                 ('model', MultinomialNB())]),
             'n_search_iter': 150,
             'model_type': 'NaiveBayes',
             'model_subtype': 'SVMSMOTE',
