@@ -71,7 +71,7 @@ UNITS_OF_ANALYSES = ('title', 'title_and_first_paragraph', 'title_and_5_sentence
 
 
 if __name__ == '__main__':
-    truncated = 1
+    truncated = 0
 
     for model_name, model_params in LLMS.items():
         print(model_name)

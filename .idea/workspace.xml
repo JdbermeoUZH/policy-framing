@@ -5,9 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3359b6ce-9e44-4da3-956d-9609d831df93" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/documentation/analyses/Subtask 2 performance - LLMs/split_into_windows_of_500_words_w_250_word_overlap/performance on chunked datasets.ipynb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/benchmark_llms.py" beforeDir="false" afterPath="$PROJECT_DIR$/benchmark_llms.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/notebooks/llms/Fine tune LLM.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/notebooks/llms/Fine tune LLM.ipynb" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -403,7 +402,7 @@
       <workItem from="1676129800404" duration="9887000" />
       <workItem from="1676228250485" duration="168000" />
       <workItem from="1676228750534" duration="15395000" />
-      <workItem from="1676299803069" duration="1675000" />
+      <workItem from="1676299803069" duration="4620000" />
     </task>
     <servers />
   </component>
@@ -543,12 +542,12 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/benchmark_llms.py</url>
-          <line>392</line>
+          <line>399</line>
           <option name="timeStamp" value="83" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/benchmark_llms.py</url>
-          <line>386</line>
+          <line>393</line>
           <option name="timeStamp" value="84" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
@@ -563,17 +562,12 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/benchmark_llms.py</url>
-          <line>403</line>
-          <option name="timeStamp" value="87" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/benchmark_llms.py</url>
-          <line>413</line>
+          <line>416</line>
           <option name="timeStamp" value="88" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/benchmark_llms.py</url>
-          <line>417</line>
+          <line>420</line>
           <option name="timeStamp" value="89" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="jupyter-line">

@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 #SBATCH --output=llm_jobs/%2j.out
 #SBATCH --ntasks=1
-#SBATCH --time=05:00:00
+#SBATCH --time=08:00:00
 #SBATCH --cpus-per-task=4
 #SBATCH --mem=64GB
 #SBATCH --constraint=GPUMEM80GB
