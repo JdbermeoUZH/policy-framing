@@ -22,5 +22,7 @@ srun python benchmark_llms.py \
   --max_length_padding 512\
   --minibatch_size 16\
   --n_epochs 1\
-  --analysis_unit title_and_first_sentence_each_paragraph\
-  --truncated 1
+  --analysis_unit raw_text\
+  --truncated 0\
+  --single_train_test_split_filepath multilingual_train_test_raw_text_max_words_length_500_min_words_length_30_chunk_word_overlap_250.hf\
+  --metrics_output_dir tuning_results_llms multilingual test_cluster
