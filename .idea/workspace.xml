@@ -6,7 +6,15 @@
   <component name="ChangeListManager">
     <list default="true" id="3359b6ce-9e44-4da3-956d-9609d831df93" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/notebooks/llms/Fine tune LLM.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/notebooks/llms/Fine tune LLM.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/documentation/analyses/Default classifiers/Default classifier performance.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/documentation/analyses/Subtask 2 performance -  Classical ML models with default paramateres/max_df_0.95_min_df_0.05/Default classifier performance.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/documentation/analyses/Default classifiers/Performance table.md" beforeDir="false" afterPath="$PROJECT_DIR$/documentation/analyses/Subtask 2 performance -  Classical ML models with default paramateres/max_df_0.95_min_df_0.05/Performance table.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/documentation/analyses/Default classifiers/Sanity Check.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/documentation/analyses/Subtask 2 performance -  Classical ML models with default paramateres/max_df_0.95_min_df_0.05/Sanity Check.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/documentation/analyses/Default classifiers/runs.csv" beforeDir="false" afterPath="$PROJECT_DIR$/documentation/analyses/Subtask 2 performance -  Classical ML models with default paramateres/max_df_0.95_min_df_0.05/runs.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/documentation/analyses/Default classifiers/runsDefaultCV10.csv" beforeDir="false" afterPath="$PROJECT_DIR$/documentation/analyses/Subtask 2 performance -  Classical ML models with default paramateres/max_df_0.95_min_df_0.05/runsDefaultCV10.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/documentation/analyses/Default classifiers/runsDefaultCV3.csv" beforeDir="false" afterPath="$PROJECT_DIR$/documentation/analyses/Subtask 2 performance -  Classical ML models with default paramateres/max_df_0.95_min_df_0.05/runsDefaultCV3.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/llm_benchmark_2.sh" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/llm_benchmark_A100.sh" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/llm_benchmark_V100.sh" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -85,11 +93,11 @@
       <recent name="$PROJECT_DIR$/training/italian" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/documentation/analyses/Default classifiers/max_df_0.95_min_df_0.05" />
       <recent name="$PROJECT_DIR$/notebooks/llms" />
       <recent name="$PROJECT_DIR$/training/russian" />
       <recent name="$PROJECT_DIR$/training/polish" />
       <recent name="$PROJECT_DIR$/training/italian" />
-      <recent name="$PROJECT_DIR$/training/french" />
     </key>
   </component>
   <component name="RunManager" selected="Python.benchmark_llms">
@@ -413,7 +421,19 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="main" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
           </value>
         </entry>
       </map>
@@ -486,16 +506,6 @@
           <url>file://$PROJECT_DIR$/training/Logger.py</url>
           <line>192</line>
           <option name="timeStamp" value="55" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/postprocessing/gather_mlruns_as_single_csv.py</url>
-          <line>55</line>
-          <option name="timeStamp" value="56" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/postprocessing/gather_mlruns_as_single_csv.py</url>
-          <line>56</line>
-          <option name="timeStamp" value="57" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/postprocessing/gather_mlruns_as_single_csv.py</url>
