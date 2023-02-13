@@ -306,7 +306,7 @@ def measure_performance_chunked_dataset(language_: str, fold_i_: int, output_dir
     os.makedirs(pred_scores_dir, exist_ok=True)
     preds_df.to_csv(os.path.join(
         pred_scores_dir, f"{output_config['file_prefix']}_"
-                         f"pred_scores_test_fold_{fold_i_}_{language_}.csv"))
+                         f"pred_scores_test_fold_{preprocessing_config['analysis_unit']}_{fold_i_}_{language_}.csv"))
 
     # Measure the metrics and store them in a dictionary
     measure_and_record_metrics(preds_df=mean_score_pred_df, true_label_df_=true_label_df,
@@ -352,7 +352,6 @@ if __name__ == "__main__":
         print(f'\t minibatch_size: {training_config["minibatch_size"]}')
         print(f'\t n_epochs: {training_config["n_epochs"]}')
         print(f'\t truncated: {preprocessing_config["truncated"]}')
-
         # Define tokenizer and model
         tokenizer = AutoTokenizer.from_pretrained(model_config['model_name'])
         data_collator = DataCollatorWithPadding(tokenizer=tokenizer)
@@ -382,6 +381,13 @@ if __name__ == "__main__":
         n_folds = max([int(key.split('_')[-1]) for key in dataset.keys() if len(key.split('_')) == 3])
         metrics = {}
 
+        if not preprocessing_config['truncated']:
+            # This means the text was split into chunks of certain length
+            metrics['mean_predicted_score'] = []
+            metrics['majority_voting'] = []
+        else:
+            metrics['truncated_single_instance'] = []
+
         for fold_i in range(1, n_folds + 1):
             model = AutoModelForSequenceClassification.from_pretrained(
                 model_config['model_name'],
@@ -401,15 +407,11 @@ if __name__ == "__main__":
 
             # Tokenize/Encode the dataset
             unit_of_analysis = preprocessing_config['analysis_unit']
-
             if not preprocessing_config['truncated']:
                 # This means the text was split into chunks of certain length
                 unit_of_analysis += '_chunked'
-                metrics['mean_predicted_score'] = []
-                metrics['majority_voting'] = []
-                col_to_remove_at_inference = [col for col in dataset['train_fold_1'].column_names if col != 'id']
+                col_to_remove_at_inference = [col for col in dataset[f'train_fold_{fold_i}'].column_names if col != 'id']
             else:
-                metrics['truncated_single_instance'] = []
                 col_to_remove_at_inference = dataset[f'train_fold_{fold_i}'].column_names
 
             encoded_dataset = dataset.map(

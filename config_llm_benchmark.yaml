@@ -6,7 +6,7 @@ preprocessing:
   data_split_to_use: 'train_and_dev'
   analysis_unit: 'title_and_first_sentence_each_paragraph'                                      # 'title', 'title_and_first_paragraph', 'title_and_5_sentences', 'title_and_10_sentences', 'title_and_first_sentence_each_paragraph', 'raw_text', 'all'
   n_folds: 3
-  max_length_padding: 512
+  max_length_padding: 32
   truncated: False
 
 model:
@@ -24,7 +24,7 @@ training:
   dataloader_num_workers: 0
 
 output:
-  metrics_output_dir: ['tuning_results_llms', 'multilingual']
+  metrics_output_dir: ['tuning_results_llms', 'multilingual', 'test_local']
   file_prefix: 'multilingual_fit_chunked'
 
 

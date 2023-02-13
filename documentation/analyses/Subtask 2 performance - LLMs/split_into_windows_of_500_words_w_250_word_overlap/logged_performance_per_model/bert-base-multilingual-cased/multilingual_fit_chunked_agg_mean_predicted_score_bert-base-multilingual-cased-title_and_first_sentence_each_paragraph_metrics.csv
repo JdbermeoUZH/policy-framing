@@ -1,0 +1,7 @@
+language,unit_of_analysis,f1-mico_mean,f1-mico_std,precision-micro_mean,precision-micro_std,recall-micro_mean,recall-micro_std,roc-auc_mean,roc-auc_std,accuracy_mean,accuracy_std
+en,title_and_first_sentence_each_paragraph,0.688550840672538,,0.7226890756302521,,0.6574923547400612,,0.7813323842665822,,0.10526315789473684,
+fr,title_and_first_sentence_each_paragraph,0.5989583333333334,,0.6284153005464481,,0.572139303482587,,0.7431944941120375,,0.1267605633802817,
+ge,title_and_first_sentence_each_paragraph,0.5975609756097561,,0.65625,,0.5485074626865671,,0.7034816725197541,,0.05172413793103448,
+it,title_and_first_sentence_each_paragraph,0.5616045845272205,,0.6068111455108359,,0.5226666666666666,,0.7002168752005132,,0.0891089108910891,
+po,title_and_first_sentence_each_paragraph,0.6688,,0.7411347517730497,,0.60932944606414,,0.7386611063955419,,0.0625,
+ru,title_and_first_sentence_each_paragraph,0.5475285171102661,,0.6050420168067226,,0.5,,0.71875,,0.15625,
