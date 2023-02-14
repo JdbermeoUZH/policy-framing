@@ -104,6 +104,8 @@ if __name__ == "__main__":
 
     training_config = config['training']
     estimators_config = import_module(training_config['model_hyperparam_module'])
+    model_list = training_config['model_list'] if training_config['model_list'] not in ['all', ['all']] \
+        else list(estimators_config.MODEL_LIST.keys())
 
     metric_log_config = config['metric_logging']
 

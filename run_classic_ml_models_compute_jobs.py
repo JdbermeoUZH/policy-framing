@@ -3,43 +3,35 @@ import os
 
 from utils.constants import LANGUAGES, UNITS_OF_ANALYSES
 
+map_language_names = {'en': 'english', 'it': 'italian', 'fr': 'french', 'po': 'polish', 'ru': 'russian', 'ge': 'german'}
 
 if __name__ == '__main__':
     truncated = 0
 
-    for model_name, model_params in LLMS.items():
-        print(model_name)
-        print(model_params)
+    for language in LANGUAGES:
+        print(f'Launching jobs for language: {map_language_names["language"]}')
+
         for analysis_unit in UNITS_OF_ANALYSES:
+            print(f'launching job for unit: {analysis_unit}')
+
+            os.environ['languages'] = language
             os.environ['analysis_unit'] = analysis_unit
-            os.environ['model_name'] = model_name
-            os.environ['gradient_accumulation_steps'] = str(model_params['gradient_accumulation_steps'])
-            os.environ['minibatch_size'] = str(model_params['minibatch_size'])
-            os.environ['n_epochs'] = str(model_params['n_epochs'])
-            os.environ['max_length_padding'] = str(model_params['max_length_padding'])
+            os.environ['preprocessing_hyperparam_module'] = f'training.{language}.preprocesing_params_config.py'
+            os.environ['model_hyperparam_module'] = f'training.{language}.hyperparam_space_config_default'
+            os.environ['model_list'] = 'all'
+            os.environ['default_params'] = str(0)
 
-            os.environ['truncated'] = str(truncated)
+            # Launch job with fixed preprocessing params
+            os.environ['tune_preprocessing_params'] = str(0)
+            os.environ['experiment_base_name'] = 'benchmark_fixed_preproc_params'
+            os.system('sbatch modifiable_benchmark_classic_ml_model.sh')
 
-            if truncated == 0:
-                os.environ['single_train_test_split_filepath'] = f'multilingual_train_test_{analysis_unit}_' \
-                                                                 f'max_words_length_500_min_words_length_30_chunk_word_overlap_250.hf'
-            elif truncated == 1:
-                os.environ['single_train_test_split_filepath'] = 'multilingual_train_test_ds.hf'
+            # Launch 2 job of 15 iterations each to fine-tune the preprocessing parameters
+            os.environ['tune_preprocessing_params'] = str(1)
+            os.environ['n_samples'] = str(10)
 
-            else:
-                raise RuntimeError('truncated must be 0 or 1')
+            os.environ['experiment_base_name'] = 'benchmark_tune_preproc_params_1'
+            os.system('sbatch modifiable_benchmark_classic_ml_model.sh')
 
-            print("run slurm job")
-
-            if model_params['run_on'] == 'GPUMEM16GB':
-                os.system('sbatch modifiable_llm_benchmark.sh')
-
-            elif model_params['run_on'] == 'GPUMEM32GB':
-                os.system('sbatch modifiable_llm_benchmark_V10032GB.sh')
-
-            elif model_params['run_on'] == 'GPUMEM80GB':
-                os.system('sbatch modifiable_llm_benchmark_A100.sh')
-
-            else:
-                os.system('sbatch modifiable_llm_benchmark.sh')
-
+            os.environ['experiment_base_name'] = 'benchmark_tune_preproc_params_2'
+            os.system('sbatch modifiable_benchmark_classic_ml_model.sh')
