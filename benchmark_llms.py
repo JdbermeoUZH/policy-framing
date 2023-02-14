@@ -16,19 +16,11 @@ from datasets import Dataset, DatasetDict, load_from_disk
 from transformers import AutoTokenizer, AutoModelForSequenceClassification, DataCollatorWithPadding
 from transformers import TrainingArguments, Trainer, EvalPrediction
 
+from utils.constants import LANGUAGES, LABELS
 
-LANGUAGES = ('en', 'it', 'fr', 'po', 'ru', 'ge')
-
-LABELS = ('fairness_and_equality', 'security_and_defense', 'crime_and_punishment', 'morality',
-          'policy_prescription_and_evaluation', 'capacity_and_resources', 'economic', 'cultural_identity',
-          'health_and_safety', 'quality_of_life', 'legality_constitutionality_and_jurisprudence',
-          'political', 'public_opinion', 'external_regulation_and_reputation')
 
 mlb = MultiLabelBinarizer()
 mlb.fit([LABELS])
-
-UNITS_OF_ANALYSES = ('title', 'title_and_first_paragraph', 'title_and_5_sentences', 'title_and_10_sentences',
-                     'title_and_first_sentence_each_paragraph', 'raw_text')
 
 
 def parse_arguments_and_load_config_file() -> Tuple[argparse.Namespace, dict]:

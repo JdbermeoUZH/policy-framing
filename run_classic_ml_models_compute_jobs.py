@@ -1,73 +1,7 @@
 import os
 
-from utils.constants import UNITS_OF_ANALYSES
 
-
-LLMS = {
-    'xlm-roberta-large': {
-        'gradient_accumulation_steps': 2,
-        'minibatch_size': 4,
-        'n_epochs': 20,
-        'max_length_padding': 512,
-        'run_on': 'GPUMEM16GB'
-    },
-
-    'bert-base-multilingual-cased': {
-        'gradient_accumulation_steps': 2,
-        'minibatch_size': 16,
-        'n_epochs': 100,
-        'max_length_padding': 512,
-        'run_on': 'GPUMEM16GB'
-    },
-
-    'distilbert-base-multilingual-cased': {
-        'gradient_accumulation_steps': 1,
-        'minibatch_size': 64,
-        'n_epochs': 100,
-        'max_length_padding': 512,
-         'run_on': 'GPUMEM16GB'
-    },
-
-    'gpt2': {
-        'gradient_accumulation_steps': 2,
-        'minibatch_size': 4,
-        'n_epochs': 20,
-        'max_length_padding': 512,
-        'run_on': 'GPUMEM16GB'
-    },
-
-    'EleutherAI/gpt-neo-125M': {
-        'gradient_accumulation_steps': 4,
-        'minibatch_size': 2,
-        'n_epochs': 30,
-        'max_length_padding': 512,
-        'run_on': 'GPUMEM16GB'
-    },
-
-    'AshtonIsNotHere/xlm-roberta-long-base-4096': {
-        'gradient_accumulation_steps': 2,
-        'minibatch_size': 4,
-        'n_epochs': 20,
-        'max_length_padding': 4096,
-        'run_on': 'GPUMEM32GB'
-    },
-
-    'facebook/mbart-large-50': {
-        'gradient_accumulation_steps': 2,
-        'minibatch_size': 4,
-        'n_epochs': 20,
-        'max_length_padding': 512,
-        'run_on': 'GPUMEM32GB'
-    },
-
-    'EleutherAI/gpt-neo-1.3B': {
-        'gradient_accumulation_steps': 4,
-        'minibatch_size': 2,
-        'n_epochs': 20,
-        'max_length_padding': 512,
-        'run_on': 'GPUMEM80GB'
-    },
-}
+from utils.constants import LANGUAGES, UNITS_OF_ANALYSES
 
 
 if __name__ == '__main__':

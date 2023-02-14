@@ -16,25 +16,7 @@ from training.Logger import Logger
 from training.MultiLabelEstimator import MultiLabelEstimator
 from utils.metrics_config import scoring_functions
 from utils import helper_fns
-
-LANGUAGES = ('en', 'it', 'fr', 'po', 'ru', 'ge')
-
-SPACY_MODELS = {
-    'en': {'small': 'en_core_web_sm', 'large': 'en_core_web_trf'},
-    'it': {'small': 'it_core_news_sm', 'large': 'it_core_news_lg'},
-    'fr': {'small': 'fr_core_news_sm', 'large': 'fr_dep_news_trf'},
-    'po': {'small': 'pl_core_news_sm', 'large': 'pl_core_news_lg'},
-    'ru': {'small': 'ru_core_news_sm', 'large': 'ru_core_news_lg'},
-    'ge': {'small': 'de_core_news_sm', 'large': 'de_dep_news_trf'}
-}
-
-LABELS = ('fairness_and_equality', 'security_and_defense', 'crime_and_punishment', 'morality',
-          'policy_prescription_and_evaluation', 'capacity_and_resources', 'economic', 'cultural_identity',
-          'health_and_safety', 'quality_of_life', 'legality_constitutionality_and_jurisprudence',
-          'political', 'public_opinion', 'external_regulation_and_reputation')
-
-UNITS_OF_ANALYSES = ('title', 'title_and_first_paragraph', 'title_and_5_sentences', 'title_and_10_sentences',
-                     'title_and_first_sentence_each_paragraph', 'raw_text')
+from utils.constants import LABELS, UNITS_OF_ANALYSES, SPACY_MODELS
 
 
 def parse_arguments_and_load_config_file() -> Tuple[argparse.Namespace, dict]:
@@ -43,11 +25,13 @@ def parse_arguments_and_load_config_file() -> Tuple[argparse.Namespace, dict]:
     parser.add_argument('--languages', type=str, default=None, nargs="*")
     parser.add_argument('--analysis_unit', type=str, default=None, nargs="*")
     parser.add_argument('--tune_preprocessing_params', type=int, default=None)
+    parser.add_argument('--preprocessing_hyperparam_module', type=str, default=None)
     parser.add_argument('--n_samples', type=int, default=None)
     parser.add_argument('--experiment_base_name', type=str, default=None)
     parser.add_argument('--model_list', type=str, default=None, nargs="*")
     parser.add_argument('--mlb_cls_independent', type=int, default=None)
     parser.add_argument('--default_params', type=int, default=None)
+    parser.add_argument('--model_hyperparam_module', type=str, default=None)
 
     #tune_preprocessing_params
     #n_samples
@@ -67,6 +51,10 @@ def parse_arguments_and_load_config_file() -> Tuple[argparse.Namespace, dict]:
     if arguments.analysis_unit is not None:
         yaml_config_params['preprocessing']['analysis_unit'] = arguments.analysis_unit
 
+    if arguments.preprocessing_hyperparam_module is not None:
+        yaml_config_params['preprocessing']['preprocessing_hyperparam_module'] =\
+            arguments.preprocessing_hyperparam_module
+
     if arguments.tune_preprocessing_params is not None:
         yaml_config_params['preprocessing']['param_search']['tune_preprocessing_params'] =\
             arguments.tune_preprocessing_params == 1
@@ -85,6 +73,9 @@ def parse_arguments_and_load_config_file() -> Tuple[argparse.Namespace, dict]:
 
     if arguments.mlb_cls_independent is not None:
         yaml_config_params['training']['default_params'] = arguments.default_params == 1
+
+    if arguments.model_hyperparam_module is not None:
+        yaml_config_params['training']['model_hyperparam_module'] = arguments.model_hyperparam_module
 
     return arguments, yaml_config_params
 
