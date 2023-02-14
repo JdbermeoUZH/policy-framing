@@ -1,9 +1,9 @@
-| model_name                         | title          | title and first paragraph   | title and 5 sentences   | title and 10 sentences   | title and first sentence each paragraph   | raw text       |
-|:-----------------------------------|:---------------|:----------------------------|:------------------------|:-------------------------|:------------------------------------------|:---------------|
-| EleutherAI-gpt-neo-1.3B            | 0.66 $\pm$ nan | 0.69 $\pm$ nan              | 0.69 $\pm$ nan          | 0.69 $\pm$ nan           | 0.67 $\pm$ nan                            | 0              |
-| EleutherAI-gpt-neo-125M            | 0.48 $\pm$ nan | 0.56 $\pm$ nan              | 0.67 $\pm$ nan          | 0.66 $\pm$ nan           | 0.65 $\pm$ nan                            | 0.69 $\pm$ nan |
-| bert-base-multilingual-cased       | 0.67 $\pm$ nan | 0.68 $\pm$ nan              | 0.71 $\pm$ nan          | 0.73 $\pm$ nan           | 0.74 $\pm$ nan                            | 0.76 $\pm$ nan |
-| distilbert-base-multilingual-cased | 0.65 $\pm$ nan | 0.69 $\pm$ nan              | 0.69 $\pm$ nan          | 0.76 $\pm$ nan           | **0.77 $\pm$ nan**                        | 0.72 $\pm$ nan |
-| facebook-mbart-large-50            | 0.68 $\pm$ nan | 0.72 $\pm$ nan              | 0.73 $\pm$ nan          | 0.73 $\pm$ nan           | 0.72 $\pm$ nan                            | 0.73 $\pm$ nan |
-| gpt2                               | 0.59 $\pm$ nan | 0.69 $\pm$ nan              | 0.65 $\pm$ nan          | 0.63 $\pm$ nan           | 0.68 $\pm$ nan                            | 0.68 $\pm$ nan |
-| xlm-roberta-large                  | 0.72 $\pm$ nan | 0.67 $\pm$ nan              | 0.72 $\pm$ nan          | 0.73 $\pm$ nan           | 0.74 $\pm$ nan                            | 0.68 $\pm$ nan |
+| model_name                         | title           | title and first paragraph   | title and 5 sentences   | title and 10 sentences   | title and first sentence each paragraph   | raw text            |
+|:-----------------------------------|:----------------|:----------------------------|:------------------------|:-------------------------|:------------------------------------------|:--------------------|
+| EleutherAI-gpt-neo-1.3B            | 0.56 $\pm$ 0.10 | 0.63 $\pm$ 0.05             | 0.63 $\pm$ 0.06         | 0.64 $\pm$ 0.06          | 0.69 $\pm$ 0.04                           | 0.68 $\pm$ 0.04     |
+| EleutherAI-gpt-neo-125M            | 0.48 $\pm$ 0.01 | 0.53 $\pm$ 0.03             | 0.60 $\pm$ 0.06         | 0.61 $\pm$ 0.07          | 0.60 $\pm$ 0.05                           | 0.65 $\pm$ 0.05     |
+| bert-base-multilingual-cased       | 0.61 $\pm$ 0.07 | 0.63 $\pm$ 0.02             | 0.67 $\pm$ 0.05         | 0.69 $\pm$ 0.04          | 0.68 $\pm$ 0.05                           | 0.67 $\pm$ 0.08     |
+| distilbert-base-multilingual-cased | 0.59 $\pm$ 0.04 | 0.64 $\pm$ 0.06             | 0.68 $\pm$ 0.07         | 0.67 $\pm$ 0.08          | 0.67 $\pm$ 0.09                           | 0.67 $\pm$ 0.05     |
+| facebook-mbart-large-50            | 0.61 $\pm$ 0.06 | 0.67 $\pm$ 0.04             | 0.67 $\pm$ 0.07         | 0.70 $\pm$ 0.02          | 0.69 $\pm$ 0.05                           | **0.73 $\pm$ 0.01** |
+| gpt2                               | 0.51 $\pm$ 0.07 | 0.59 $\pm$ 0.10             | 0.59 $\pm$ 0.05         | 0.58 $\pm$ 0.06          | 0.61 $\pm$ 0.06                           | 0.62 $\pm$ 0.06     |
+| xlm-roberta-large                  | 0.62 $\pm$ 0.11 | 0.64 $\pm$ 0.03             | 0.67 $\pm$ 0.04         | 0.68 $\pm$ 0.05          | 0.68 $\pm$ 0.06                           | 0.64 $\pm$ 0.03     |

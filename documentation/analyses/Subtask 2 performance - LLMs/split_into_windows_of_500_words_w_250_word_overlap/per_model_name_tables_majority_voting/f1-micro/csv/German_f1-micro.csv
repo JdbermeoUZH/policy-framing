@@ -1,8 +1,8 @@
 model_name,title,title and first paragraph,title and 5 sentences,title and 10 sentences,title and first sentence each paragraph,raw text
-EleutherAI-gpt-neo-1.3B,0.47 $\pm$ nan,0.53 $\pm$ nan,0.54 $\pm$ nan,0.58 $\pm$ nan,0.58 $\pm$ nan,0
-EleutherAI-gpt-neo-125M,0.38 $\pm$ nan,0.45 $\pm$ nan,0.48 $\pm$ nan,0.50 $\pm$ nan,0.47 $\pm$ nan,0.56 $\pm$ nan
-bert-base-multilingual-cased,0.51 $\pm$ nan,0.58 $\pm$ nan,0.61 $\pm$ nan,0.62 $\pm$ nan,0.59 $\pm$ nan,0.60 $\pm$ nan
-distilbert-base-multilingual-cased,0.48 $\pm$ nan,0.57 $\pm$ nan,0.58 $\pm$ nan,0.62 $\pm$ nan,0.58 $\pm$ nan,0.58 $\pm$ nan
-facebook-mbart-large-50,0.54 $\pm$ nan,0.61 $\pm$ nan,0.59 $\pm$ nan,0.63 $\pm$ nan,**0.66 $\pm$ nan**,**0.66 $\pm$ nan**
-gpt2,0.44 $\pm$ nan,0.47 $\pm$ nan,0.50 $\pm$ nan,0.54 $\pm$ nan,0.52 $\pm$ nan,0.55 $\pm$ nan
-xlm-roberta-large,0.56 $\pm$ nan,0.61 $\pm$ nan,0.61 $\pm$ nan,0.64 $\pm$ nan,0.63 $\pm$ nan,0.63 $\pm$ nan
+EleutherAI-gpt-neo-1.3B,0.48 $\pm$ 0.00,0.56 $\pm$ 0.02,0.56 $\pm$ 0.02,0.58 $\pm$ 0.00,0.57 $\pm$ 0.02,0.61 $\pm$ 0.02
+EleutherAI-gpt-neo-125M,0.39 $\pm$ 0.01,0.46 $\pm$ 0.01,0.48 $\pm$ 0.00,0.50 $\pm$ 0.02,0.51 $\pm$ 0.04,0.53 $\pm$ 0.02
+bert-base-multilingual-cased,0.52 $\pm$ 0.03,0.58 $\pm$ 0.02,0.59 $\pm$ 0.01,0.63 $\pm$ 0.01,0.59 $\pm$ 0.01,0.62 $\pm$ 0.03
+distilbert-base-multilingual-cased,0.50 $\pm$ 0.02,0.56 $\pm$ 0.00,0.55 $\pm$ 0.03,0.59 $\pm$ 0.02,0.58 $\pm$ 0.01,0.60 $\pm$ 0.02
+facebook-mbart-large-50,0.55 $\pm$ 0.01,0.60 $\pm$ 0.02,0.61 $\pm$ 0.02,0.63 $\pm$ 0.00,**0.64 $\pm$ 0.01**,**0.64 $\pm$ 0.03**
+gpt2,0.47 $\pm$ 0.03,0.52 $\pm$ 0.04,0.52 $\pm$ 0.04,0.55 $\pm$ 0.03,0.53 $\pm$ 0.01,0.56 $\pm$ 0.00
+xlm-roberta-large,0.55 $\pm$ 0.02,0.61 $\pm$ 0.00,0.62 $\pm$ 0.03,**0.64 $\pm$ 0.01**,**0.64 $\pm$ 0.02**,**0.64 $\pm$ 0.02**
