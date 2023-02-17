@@ -7,7 +7,7 @@ map_language_names = {'en': 'english', 'it': 'italian', 'fr': 'french', 'po': 'p
 
 if __name__ == '__main__':
     for language in LANGUAGES:
-        print(f'Launching jobs for language: {map_language_names["language"]}')
+        print(f'Launching jobs for language: {map_language_names[language]}')
 
         for analysis_unit in UNITS_OF_ANALYSES:
             print(f'launching job for unit: {analysis_unit}')
