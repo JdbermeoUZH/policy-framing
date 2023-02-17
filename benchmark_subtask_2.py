@@ -70,7 +70,7 @@ def parse_arguments_and_load_config_file() -> Tuple[argparse.Namespace, dict]:
     if arguments.mlb_cls_independent is not None:
         yaml_config_params['training']['mlb_cls_independent'] = arguments.mlb_cls_independent == 1
 
-    if arguments.mlb_cls_independent is not None:
+    if arguments.default_params is not None:
         yaml_config_params['training']['default_params'] = arguments.default_params == 1
 
     if arguments.model_hyperparam_module is not None:
@@ -274,13 +274,15 @@ if __name__ == "__main__":
                     }
 
                     if training_config['default_params']:
+                        print('Running with default params')
                         try:
                             results_cv = multilabel_cls.cross_validation(
                                 X=X_train, y=y_train,
                                 k_outer=training_config['nested_cv']['outer_folds'],
                                 return_train_score=training_config['return_train_metrics'],
                                 n_jobs=run_config['n_jobs'],
-                                precomputed_outer_fold_dir=precomputed_outer_fold_dir
+                                precomputed_outer_fold_dir=precomputed_outer_fold_dir,
+                                X_index=train_data.train_df.index
                             )
                             metric_logger.log_model_wide_performance(cv_results=results_cv, **some_log_params)
 
