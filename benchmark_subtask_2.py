@@ -287,7 +287,8 @@ if __name__ == "__main__":
                         except Exception as e:
                             print(f'Error while trying to fit model: {model_name}')
                             print(e)
-                            continue
+                            #continue
+                            raise e
 
                     else:
                         # Estimate performance with nested cross validation
