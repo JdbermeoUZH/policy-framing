@@ -12,16 +12,20 @@ if __name__ == '__main__':
         for analysis_unit in UNITS_OF_ANALYSES:
             print(f'launching job for unit: {analysis_unit}')
 
+            language_model_params = f'training.{map_language_names[language]}'
+
             os.environ['languages'] = language
             os.environ['analysis_unit'] = analysis_unit
-            os.environ['preprocessing_hyperparam_module'] = f'training.{language}.preprocesing_params_config.py'
-            os.environ['model_hyperparam_module'] = f'training.{language}.hyperparam_space_config_default'
+            os.environ['preprocessing_hyperparam_module'] = f'{language_model_params}.preprocesing_params_config.py'
+            os.environ['model_hyperparam_module'] = f'{language_model_params}.hyperparam_space_config_default'
             os.environ['model_list'] = 'all'
             os.environ['default_params'] = str(0)
+            os.environ['n_samples'] = str(0)
 
             # Launch job with fixed preprocessing params
             os.environ['tune_preprocessing_params'] = str(0)
             os.environ['experiment_base_name'] = 'benchmark_fixed_preproc_params'
+
             os.system('sbatch modifiable_benchmark_classic_ml_model.sh')
 
             # Launch 2 job of 15 iterations each to fine-tune the preprocessing parameters
