@@ -9,7 +9,7 @@ source activate Framing_py39
 
 srun python benchmark_subtask_2.py \
   --config_path_yaml config.yaml\
-  --language $language\
+  --languages $languages\
   --analysis_unit $analysis_unit\
   --preprocessing_hyperparam_module $preprocessing_hyperparam_module\
   --tune_preprocessing_params $tune_preprocessing_params\
