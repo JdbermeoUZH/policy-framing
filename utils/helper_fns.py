@@ -1,6 +1,9 @@
+import random
 import difflib
-from termcolor import colored
 import warnings
+
+import numpy as np
+from termcolor import colored
 
 
 def supress_all_warnings():
@@ -8,6 +11,11 @@ def supress_all_warnings():
         pass
 
     warnings.warn = warn
+
+
+def set_seed(seed: int):
+    random.seed(seed)
+    np.random.seed(seed)
 
 
 # Let's define a function that lets us examine the effects of processing

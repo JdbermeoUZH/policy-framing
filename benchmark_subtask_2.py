@@ -1,4 +1,5 @@
 import os
+import pprint
 import random
 from types import GeneratorType
 
@@ -33,8 +34,6 @@ def parse_arguments_and_load_config_file() -> Tuple[argparse.Namespace, dict]:
     parser.add_argument('--default_params', type=int, default=None)
     parser.add_argument('--model_hyperparam_module', type=str, default=None)
 
-    #tune_preprocessing_params
-    #n_samples
     arguments = parser.parse_args()
 
     # Load parameters of configuration file
@@ -97,6 +96,13 @@ if __name__ == "__main__":
     # Load script arguments and configuration file
     args, config = parse_arguments_and_load_config_file()
 
+    print('command line args:')
+    pprint.pprint(args)
+    print('\n\n')
+
+    print('config args: ')
+    pprint.pprint(config)
+    print('\n\n')
     dataset_config = config['dataset']
 
     preprocessing_config = config['preprocessing']
@@ -110,6 +116,13 @@ if __name__ == "__main__":
     metric_log_config = config['metric_logging']
 
     run_config = config['run']
+
+    if preprocessing_config['outer_fold_dir'] != '' and preprocessing_config['outer_fold_dir'] != ['']:
+        precomputed_folds_basedir = os.path.join(*preprocessing_config['outer_fold_dir'])
+    else:
+        precomputed_folds_basedir = None
+
+    helper_fns.set_seed(run_config['seed'])
 
     if run_config['supress_warnings']:
         helper_fns.supress_all_warnings()
@@ -205,10 +218,11 @@ if __name__ == "__main__":
                     continue
 
                 # Iterate over models types
-                for model_name in training_config['model_list']:
+                for model_name in model_list:
 
                     model_type = estimators_config.MODEL_LIST[model_name]['model_type']
                     model_subtype = estimators_config.MODEL_LIST[model_name]['model_subtype']
+
                     if 'wrap_mlb_clf' in estimators_config.MODEL_LIST[model_name].keys():
                         wrap_mlb_clf = estimators_config.MODEL_LIST[model_name]['wrap_mlb_clf']
                     else:
@@ -240,8 +254,14 @@ if __name__ == "__main__":
                         base_estimator_hyperparam_dist=estimators_config.MODEL_LIST[model_name]['hyperparam_space'],
                         treat_labels_as_independent=training_config['mlb_cls_independent'],
                         scoring_functions=scoring_functions,
-                        wrap_mlb_clf=wrap_mlb_clf
+                        wrap_mlb_clf=wrap_mlb_clf,
+                        random_seed=run_config['seed']
                     )
+
+                    if precomputed_folds_basedir is not None:
+                        precomputed_outer_fold_dir = os.path.join(precomputed_folds_basedir, language, 'test')
+                    else:
+                        precomputed_outer_fold_dir = None
 
                     some_log_params = {
                         'language': language,
@@ -259,7 +279,8 @@ if __name__ == "__main__":
                                 X=X_train, y=y_train,
                                 k_outer=training_config['nested_cv']['outer_folds'],
                                 return_train_score=training_config['return_train_metrics'],
-                                n_jobs=run_config['n_jobs']
+                                n_jobs=run_config['n_jobs'],
+                                precomputed_outer_fold_dir=precomputed_outer_fold_dir
                             )
                             metric_logger.log_model_wide_performance(cv_results=results_cv, **some_log_params)
 
@@ -285,7 +306,9 @@ if __name__ == "__main__":
                                 k_inner=training_config['nested_cv']['outer_folds'],
                                 ranking_score=training_config['nested_cv']['ranking_score'],
                                 return_train_score=training_config['return_train_metrics'],
-                                n_jobs=run_config['n_jobs']
+                                n_jobs=run_config['n_jobs'],
+                                precomputed_outer_fold_dir=precomputed_outer_fold_dir,
+                                X_index=train_data.train_df.index
                             )
 
                             # Log the results of the experiment
@@ -302,10 +325,11 @@ if __name__ == "__main__":
                         except Exception as e:
                             print(f'Error while trying to fit model: {model_name}')
                             print(e)
-                            continue
-
+                            #continue
+                            raise e
                     # Print model wide train and test error
-                    report_train_test_performance(results_cv=results_cv, report_metric=training_config['metric_to_report'])
+                    report_train_test_performance(
+                        results_cv=results_cv, report_metric=training_config['metric_to_report'])
 
                     print('\n')
                 print('\n')

@@ -6,8 +6,6 @@ from utils.constants import LANGUAGES, UNITS_OF_ANALYSES
 map_language_names = {'en': 'english', 'it': 'italian', 'fr': 'french', 'po': 'polish', 'ru': 'russian', 'ge': 'german'}
 
 if __name__ == '__main__':
-    truncated = 0
-
     for language in LANGUAGES:
         print(f'Launching jobs for language: {map_language_names["language"]}')
 
@@ -35,3 +33,5 @@ if __name__ == '__main__':
 
             os.environ['experiment_base_name'] = 'benchmark_tune_preproc_params_2'
             os.system('sbatch modifiable_benchmark_classic_ml_model.sh')
+            break
+        break

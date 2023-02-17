@@ -1,21 +1,23 @@
 run:
   supress_warnings: True
   n_jobs: -1
+  seed: 0
 
 dataset:
-  languages: ['fr']  # 'en, 'it', 'fr', 'po', 'ru', 'ge'
+  languages: ['en', 'it', 'fr', 'po', 'ru', 'ge']
   subtask: 2                        # 1, 2, 3
   data_dir: 'data'                  # Relative path to directory with data
 
 preprocessing:
-  split: 'train_and_dev'                  # Split of the data to use
-  analysis_unit: ['all']             # 'title', 'title_and_first_paragraph', 'title_and_5_sentences', 'title_and_10_sentences', 'title_and_first_sentence_each_paragraph', 'raw_text', 'all'
-  load_preproc_input_data: True           # Whether or not to rerun the script that produces the units of analysis
-  spacy_model_size: 'small'               # small or large. small should be enough for preprocessing, it is mostly tokenizing so far
+  split: 'train_and_dev'                                # Split of the data to use
+  analysis_unit: ['raw_text']                                # 'title', 'title_and_first_paragraph', 'title_and_5_sentences', 'title_and_10_sentences', 'title_and_first_sentence_each_paragraph', 'raw_text', 'all'
+  load_preproc_input_data: True                         # Whether or not to rerun the script that produces the units of analysis
+  spacy_model_size: 'small'                             # small or large. small should be enough for preprocessing, it is mostly tokenizing so far
   preprocessing_hyperparam_module: 'training.preprocesing_params_config'
-  use_same_params_across_units: True     # Use the same preprocessing parameters for all units of analysis
+  use_same_params_across_units: True                    # Use the same preprocessing parameters for all units of analysis
+  outer_fold_dir: ['data', 'preprocessed', 'folds']     # Path to directory with pre-splitted folds used to benchmark the model
   param_search:
-    tune_preprocessing_params: False      # If True, will do LHS over the search space of the preprocessing parameters
+    tune_preprocessing_params: False                    # If True, will do LHS over the search space of the preprocessing parameters
     n_samples: 7
 
 training:
@@ -31,7 +33,7 @@ training:
     n_search_iter: 60               # Number of search iterations per outer fold (it is measured with cv of #inner_folds)
     ranking_score: 'f1_micro'       # Metric to choose best performing model in each inner fold
 
-  model_list: ['all']               # Names of models to fit. If set to 'all' or ['all'], will fit all models in `model_hyperparam_module`
+  model_list: ['ComplementNaiveBayes']               # Names of models to fit. If set to 'all' or ['all'], will fit all models in `model_hyperparam_module`
 
   # Default model list
   #model_list: ['DummyProbSampling', 'DummyUniformSampling', 'DummyMostFrequent', 'LogisticRegression', 'LogisticRegression_ROS', 'LogisticRegression_SMOTE', 'LogisticRegression_BorderlineSMOTE', 'LogisticRegression_SVMSMOTE', 'LogisticRegressionRidge', 'LogisticRegressionRidge_ROS', 'LogisticRegressionRidge_SMOTE', 'LogisticRegressionRidge_BorderlineSMOTE', 'LogisticRegressionRidge_SVMSMOTE', 'RakelD_LogisticRegression', 'LogisticRegressionLasso', 'LogisticRegressionLasso_ROS', 'LogisticRegressionLasso_SMOTE', 'LogisticRegressionLasso_BorderlineSMOTE', 'LogisticRegressionLasso_SVMSMOTE', 'LogisticRegressionElasticNet', 'LogisticRegressionElasticNet_ROS', 'LogisticRegressionElasticNet_SMOTE', 'LogisticRegressionElasticNet_BorderlineSMOTE', 'LogisticRegressionElasticNet_SVMSMOTE', 'RidgeClassifier', 'RidgeClassifier_ROS', 'RidgeClassifier_SMOTE', 'RidgeClassifier_BorderlineSMOTE', 'RidgeClassifier_SVMSMOTE', 'SVM_rbf', 'SVM_rbf_ROS', 'SVM_rbf_SMOTE', 'SVM_rbf_BorderlineSMOTE', 'SVM_rbf_SVMSMOTE', 'RakelD_SVM', 'LinearSVM', 'LinearSVM_ROS', 'LinearSVM_SMOTE', 'LinearSVM_BorderlineSMOTE', 'LinearSVM_SVMSMOTE', 'RakelD_LineaSVM', 'kNN', 'kNN_ROS', 'kNN_SMOTE', 'kNN_BorderlineSMOTE', 'kNN_SVMSMOTE', 'XGBoost_narrow', 'XGBoost_narrow_ROS', 'XGBoost_narrow_SMOTE', 'XGBoost_narrow_BorderlineSMOTE', 'XGBoost_narrow_SVMSMOTE', 'ComplementNaiveBayes', 'ComplementNaiveBayes_ROS', 'ComplementNaiveBayes_SMOTE', 'ComplementNaiveBayes_BorderlineSMOTE', 'ComplementNaiveBayes_SVMSMOTE', 'RakelD_ComplementNB', 'NaiveBayes', 'NaiveBayes_ROS', 'NaiveBayes_SMOTE', 'NaiveBayes_BorderlineSMOTE', 'NaiveBayes_SVMSMOTE', 'RandomForest', 'RandomForest_ROS', 'RandomForest_SMOTE', 'RandomForest_BorderlineSMOTE', 'RandomForest_SVMSMOTE', 'BRkNNaClassifier', 'BRkNNbClassifier', 'MLkNN', 'MLARAM']
@@ -42,6 +44,6 @@ training:
 
 metric_logging:
   logging_path: './mlruns'          # Directory to store metrs. ir must be named 'mlruns'
-  experiment_base_name: 'default_models' # Name of the experiment under which to store metrics
+  experiment_base_name: 'test' # Name of the experiment under which to store metrics
   rewrite_experiment: False         # Whether to delete/overwrite runs under experiment_name. In most of the cases it should be False
   logging_level: 'outer_cv'         # Which performance data to log ('model_wide', 'outer_cv', or 'inner_cv')

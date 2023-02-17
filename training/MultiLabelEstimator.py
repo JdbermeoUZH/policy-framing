@@ -1,10 +1,13 @@
 import os
+import glob
 from typing import Tuple, Optional, List, Union
 
 import spacy
+import numpy as np
+import pandas as pd
 from scipy.stats import loguniform
 from sklearn.base import ClassifierMixin
-from sklearn.model_selection import RandomizedSearchCV, cross_validate
+from sklearn.model_selection import RandomizedSearchCV, cross_validate, PredefinedSplit
 from sklearn.multioutput import MultiOutputClassifier, ClassifierChain
 from iterstrat.ml_stratifiers import MultilabelStratifiedKFold
 
@@ -64,7 +67,9 @@ class MultiLabelEstimator:
             scoring_functions: Optional[Union[Tuple[str], List[str]]] = None,
             shuffle_folds: bool = True,
             return_train_score: bool = False,
-            n_jobs: int = -1
+            n_jobs: int = -1,
+            precomputed_outer_fold_dir: str = None,
+            X_index = None
     ) -> dict:
         # Verify dimensions match
         assert X.shape[0] == y.shape[0]
@@ -87,18 +92,43 @@ class MultiLabelEstimator:
             n_jobs=n_jobs
         )
 
+        outer_fold_cv_splitter = self._get_outer_fold_cv_splitter(
+            X_index, k_outer, precomputed_outer_fold_dir, shuffle_folds)
+
         # Define Outer-loop routine and execute it
         nested_cv_results = cross_validate(
             search_routine,
             X, y,
             scoring=scoring_functions,
-            cv=MultilabelStratifiedKFold(n_splits=k_outer, shuffle=shuffle_folds, random_state=self.random_seed),
+            cv=outer_fold_cv_splitter,
             return_estimator=True,
             return_train_score=return_train_score,
             n_jobs=n_jobs
         )
 
         return nested_cv_results
+
+    def _get_outer_fold_cv_splitter(self, X_index, k_outer: int, precomputed_outer_fold_dir: str, shuffle_folds):
+        if precomputed_outer_fold_dir is not None:
+            idx_fold_membership = np.full(X_index.shape, -1)
+
+            for test_fold_filepath in glob.glob(os.path.join(precomputed_outer_fold_dir, '*')):
+                # Load the datasets for each fold and create the id for each fold group
+                fold_i = int(test_fold_filepath.split('_')[-2])
+
+                # Fold numbering started at 1
+                fold_i -= 1
+
+                # Load indexes
+                fold_i_index = pd.read_csv(test_fold_filepath)[['id']].set_index('id').index
+
+                idx_fold_membership = np.where(X_index.isin(fold_i_index), fold_i, idx_fold_membership)
+
+            outer_fold_cv_splitter = PredefinedSplit(idx_fold_membership)
+        else:
+            outer_fold_cv_splitter = MultilabelStratifiedKFold(n_splits=k_outer, shuffle=shuffle_folds,
+                                                               random_state=self.random_seed)
+        return outer_fold_cv_splitter
 
     def cross_validation(
             self,
@@ -108,15 +138,20 @@ class MultiLabelEstimator:
             shuffle_folds: bool = True,
             return_train_score: bool = False,
             n_jobs: int = -1,
+            precomputed_outer_fold_dir: str = None,
+            X_index=None
     ) -> dict:
         # If no soring functions are specified, use default ones of the object
         scoring_functions = self.scoring_functions if not scoring_functions else scoring_functions
+
+        cv_splitter = self._get_outer_fold_cv_splitter(
+            X_index, k_outer, precomputed_outer_fold_dir, shuffle_folds)
 
         cv_results = cross_validate(
             self.multi_label_estimator,
             X, y,
             scoring=scoring_functions,
-            cv=MultilabelStratifiedKFold(n_splits=k_outer, shuffle=shuffle_folds, random_state=self.random_seed),
+            cv=cv_splitter,
             return_estimator=False,
             return_train_score=return_train_score,
             n_jobs=n_jobs
