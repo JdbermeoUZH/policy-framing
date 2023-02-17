@@ -17,7 +17,7 @@ if __name__ == '__main__':
             os.environ['languages'] = language
             os.environ['analysis_unit'] = analysis_unit
             os.environ['preprocessing_hyperparam_module'] = f'{language_model_params}.preprocesing_params_config'
-            os.environ['model_hyperparam_module'] = f'{language_model_params}.hyperparam_space_config_default'
+            os.environ['model_hyperparam_module'] = f'{language_model_params}.hyperparam_space_config'
             os.environ['model_list'] = 'all'
             os.environ['default_params'] = str(0)
             os.environ['n_samples'] = str(0)
