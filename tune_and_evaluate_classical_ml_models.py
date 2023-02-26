@@ -74,43 +74,37 @@ if __name__ == "__main__":
     args, config = parse_arguments_and_load_config_file()
 
     run_config = config['run']
+
     dataset_config = config['dataset']
+
     preprocessing_config = config['preprocessing']
     preprocessing_params_config = import_module(preprocessing_config['preprocessing_hyperparam_module']).PREPROCESSING
+
     train_config = config['training']
     estimators_config = import_module(train_config['model_hyperparam_module'])
+    model_list = train_config['model_list'] if train_config['model_list'] not in ['all', ['all']] \
+        else list(estimators_config.MODEL_LIST.keys())
+
     output_config = config['output']
 
-    os.makedirs(output_config['output_dir'], exist_ok=True)
+    output_dir = os.path.join(*output_config['output_dir'])
 
-    best_model_dir_path = os.path.join(output_config['output_dir'], 'best_models')
-    os.makedirs(best_model_dir_path, exist_ok=True)
+    os.makedirs(output_dir, exist_ok=True)
+    os.makedirs(os.path.join(output_dir, 'performance'), exist_ok=True)
 
-    predicted_instances_dir_path = os.path.join(output_config['output_dir'], 'predicted_instances')
+    predicted_instances_dir_path = os.path.join(output_dir, 'predicted_instances')
     os.makedirs(predicted_instances_dir_path, exist_ok=True)
-    predicted_instances_train_dir_path = os.path.join(predicted_instances_dir_path, "train")
-    predicted_instances_test_dir_path = os.path.join(predicted_instances_dir_path, "test")
-    os.makedirs(predicted_instances_train_dir_path, exist_ok=True)
-    os.makedirs(predicted_instances_test_dir_path, exist_ok=True)
 
     if run_config['supress_warnings']:
         helper_fns.supress_all_warnings()
 
     # Iterate over the datasets specified
     for language in dataset_config['languages']:
-        # Create dirs where outputs will be stored
-        best_model_dir_path = os.path.join(best_model_dir_path, language)
-        os.makedirs(best_model_dir_path, exist_ok=True)
-
-        predicted_instances_train_dir_path = os.path.join(predicted_instances_train_dir_path, language, units_of_analysis)
-        os.makedirs(predicted_instances_train_dir_path, exist_ok=True)
-
-        predicted_instances_test_dir_path = os.path.join(predicted_instances_test_dir_path, language, units_of_analysis)
-        os.makedirs(predicted_instances_test_dir_path, exist_ok=True)
-
         # Load the train and test splits
-        train_df = pd.read_csv(os.path.join(dataset_config, f'final_evaluation_train_{language}.csv'), index_col='id')
-        test_df = pd.read_csv(os.path.join(dataset_config, f'final_evaluation_test_{language}.csv'), index_col='id')
+        data_dir = os.path.join(*dataset_config['data_dir'])
+
+        train_df = pd.read_csv(os.path.join(data_dir, f'final_evaluation_train_{language}.csv'), index_col='id')
+        test_df = pd.read_csv(os.path.join(data_dir, f'final_evaluation_test_{language}.csv'), index_col='id')
 
         # Tune and measure performance for each unit of analysis listed
         units_of_analysis = UNITS_OF_ANALYSES if preprocessing_config['analysis_unit'][0] == 'all' \
@@ -118,6 +112,18 @@ if __name__ == "__main__":
 
         for unit_of_analysis in units_of_analysis:
             metrics = []
+
+            # Create dirs where outputs will be stored
+            if output_config['store_best_models']:
+                best_model_dir_path = os.path.join(output_dir, 'best_models', language, unit_of_analysis)
+                os.makedirs(best_model_dir_path, exist_ok=True)
+
+            if output_config['store_predictions']:
+                predicted_instances_train_dir_path = os.path.join(predicted_instances_dir_path, "train", language, unit_of_analysis)
+                os.makedirs(predicted_instances_train_dir_path, exist_ok=True)
+
+                predicted_instances_test_dir_path = os.path.join(predicted_instances_dir_path, "test", language, unit_of_analysis)
+                os.makedirs(predicted_instances_test_dir_path, exist_ok=True)
 
             # Define the vectorizing pipeline(s) to use
             if preprocessing_config['use_same_params_across_units']:
@@ -142,19 +148,17 @@ if __name__ == "__main__":
             )
 
             # Vectorize input data
-            unit_of_analysis = preprocessing_config['analysis_unit']
             X_train = bow_pipeline.pipeline.fit_transform(train_df[unit_of_analysis])
             X_test = bow_pipeline.pipeline.transform(test_df[unit_of_analysis])
 
             # One hot encode the multilabel target
             mlb = MultiLabelBinarizer()
             mlb.fit([LABELS])
-            y_train_0 = mlb.transform(train_df.frames.str.split(','))
-            y_train = train_df.label
-            y_test = test_df.label
+            y_train = mlb.transform(train_df.frames.str.split(','))
+            y_test = mlb.transform(test_df.frames.str.split(','))
 
             # Tune models and get their predictions on the eval set
-            for model_name in train_config['model_list']:
+            for model_name in model_list:
                 notify_current_model_str = f"Currently tunning: {model_name}"
                 print(notify_current_model_str)
                 print("-" * len(notify_current_model_str))
@@ -174,7 +178,7 @@ if __name__ == "__main__":
                         X=X_train,
                         y=y_train,
                         n_iterations=estimators_config.MODEL_LIST[model_name]['n_search_iter'],
-                        n_folds=train_config['n_folds'],
+                        n_folds=train_config['n_folds_tunning_eval'],
                         ranking_score=train_config['ranking_metric'],
                     )
                 except Exception as e:
@@ -187,19 +191,21 @@ if __name__ == "__main__":
                 y_train_pred = best_model.predict(X_train)
                 y_test_pred = best_model.predict(X_test)
 
-                # Persist the best model
-                dump(best_model, os.path.join(best_model_dir_path, f'{model_name}.joblib'))
+                if output_config['store_best_models']:
+                    # Persist the best model
+                    dump(best_model, os.path.join(best_model_dir_path, f'{model_name}.joblib'))
 
-                # Store the predictions
-                pd.DataFrame(y_train_pred, columns=LABELS, index=train_df.index)\
-                    .to_csv(os.path.join(predicted_instances_train_dir_path, f"{language}_{model_name}_y_train.csv"))
+                if output_config['store_predictions']:
+                    # Store the predictions
+                    pd.DataFrame(y_train_pred, columns=LABELS, index=train_df.index)\
+                        .to_csv(os.path.join(predicted_instances_train_dir_path, f"{language}_{model_name}_y_train.csv"))
 
-                pd.DataFrame(y_test_pred, columns=LABELS, index=test_df.index).to_csv(os.path.join(
-                    predicted_instances_test_dir_path, f"{language}_{model_name}_y_test.csv"))
+                    pd.DataFrame(y_test_pred, columns=LABELS, index=test_df.index).to_csv(os.path.join(
+                        predicted_instances_test_dir_path, f"{language}_{model_name}_y_test.csv"))
 
                 # Calculate metrics of the model
                 metrics_train = compute_multi_label_metrics(y_train, y_train_pred, prefix='train')
-                metrics_test = compute_multi_label_metrics(y_train, y_train_pred, prefix='test')
+                metrics_test = compute_multi_label_metrics(y_test, y_test_pred, prefix='test')
 
                 # Add metrics of the model
                 metrics.append(
@@ -211,8 +217,8 @@ if __name__ == "__main__":
                     }
                 )
 
-                # Save performance metrics
-                metrics_filename = f'{output_config["output_dir"]}_{language}_{units_of_analysis}_metrics.csv'
-                pd.DataFrame(metrics)\
-                    .set_index(['language', 'unit_of_analysis', 'model_type', 'model_subtype']).sort_index()\
-                    .to_csv(os.path.join(output_config['output_dir'], 'performance', metrics_filename))
+            # Save performance metrics
+            metrics_filename = f'{output_config["metric_file_prefix"]}_{language}_{unit_of_analysis}_metrics.csv'
+            pd.DataFrame(metrics)\
+                .set_index(['language', 'unit_of_analysis', 'model_type', 'model_subtype']).sort_index()\
+                .to_csv(os.path.join(output_dir, 'performance', metrics_filename))

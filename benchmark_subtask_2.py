@@ -155,7 +155,7 @@ if __name__ == "__main__":
         mlb = MultiLabelBinarizer()
         mlb.fit([LABELS])
 
-        y_train = mlb.transform(train_data.train_df.frames.str.lower().str.split(','))
+        y_train = mlb.transform(train_data.train_df.frames.str.split(','))
 
         # Iterate over each family of models in specified in yaml and .py config files
         # Estimate performance on the model using the different units of analysis

@@ -10,10 +10,10 @@ SPACY_MODELS = {
     'ge': {'small': 'de_core_news_sm', 'large': 'de_dep_news_trf'}
 }
 
-LABELS = ('fairness_and_equality', 'security_and_defense', 'crime_and_punishment', 'morality',
-          'policy_prescription_and_evaluation', 'capacity_and_resources', 'economic', 'cultural_identity',
-          'health_and_safety', 'quality_of_life', 'legality_constitutionality_and_jurisprudence',
-          'political', 'public_opinion', 'external_regulation_and_reputation')
+LABELS = ('Fairness_and_equality', 'Security_and_defense', 'Crime_and_punishment', 'Morality',
+          'Policy_prescription_and_evaluation', 'Capacity_and_resources', 'Economic', 'Cultural_identity',
+          'Health_and_safety', 'Quality_of_life', 'Legality_Constitutionality_and_jurisprudence',
+          'Political', 'Public_opinion', 'External_regulation_and_reputation')
 
 UNITS_OF_ANALYSES = ('title', 'title_and_first_paragraph', 'title_and_5_sentences', 'title_and_10_sentences',
                      'title_and_first_sentence_each_paragraph', 'raw_text')

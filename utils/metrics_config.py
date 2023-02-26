@@ -15,14 +15,24 @@ scoring_functions = {
     'roc_auc_score_macro': make_scorer(roc_auc_score, average='macro', zero_division=0)
 }
 
+metric_functions = {
+    'f1_micro': lambda y_true, y_pred: f1_score(y_true=y_true, y_pred=y_pred, average='weighted', zero_division=0),
+    'f1_macro': lambda y_true, y_pred: f1_score(y_true=y_true, y_pred=y_pred, average='macro', zero_division=0),
+    'accuracy': lambda y_true, y_pred: accuracy_score(y_true=y_true, y_pred=y_pred),
+    'precision_micro': lambda y_true, y_pred: precision_score(y_true=y_true, y_pred=y_pred, average='weighted', zero_division=0),
+    'precision_macro': lambda y_true, y_pred: precision_score(y_true=y_true, y_pred=y_pred, average='macro', zero_division=0),
+    'recall_micro': lambda y_true, y_pred: recall_score(y_true=y_true, y_pred=y_pred, average='weighted', zero_division=0),
+    'recall_macro': lambda y_true, y_pred: recall_score(y_true=y_true, y_pred=y_pred, average='macro', zero_division=0)
+}
+
 
 def compute_multi_label_metrics(y_true, y_pred, prefix: str = None):
     metrics = {}
-    for metric_name, scorer in scoring_functions.items():
+    for metric_name, metric_fn in metric_functions.items():
 
         if prefix is None:
-            metrics[metric_name] = scorer(y_true, y_pred)
+            metrics[metric_name] = metric_fn(y_true=y_true, y_pred=y_pred)
         else:
-            metrics[f'{prefix}_{metric_name}'] = scorer(y_true, y_pred)
+            metrics[f'{prefix}_{metric_name}'] = metric_fn(y_true=y_true, y_pred=y_pred)
 
     return metrics
