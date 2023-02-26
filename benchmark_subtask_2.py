@@ -76,6 +76,14 @@ def parse_arguments_and_load_config_file() -> Tuple[argparse.Namespace, dict]:
     if arguments.model_hyperparam_module is not None:
         yaml_config_params['training']['model_hyperparam_module'] = arguments.model_hyperparam_module
 
+    print('command line args:')
+    pprint.pprint(arguments)
+    print('\n\n')
+
+    print('config args: ')
+    pprint.pprint(yaml_config_params)
+    print('\n\n')
+
     return arguments, yaml_config_params
 
 
@@ -96,13 +104,6 @@ if __name__ == "__main__":
     # Load script arguments and configuration file
     args, config = parse_arguments_and_load_config_file()
 
-    print('command line args:')
-    pprint.pprint(args)
-    print('\n\n')
-
-    print('config args: ')
-    pprint.pprint(config)
-    print('\n\n')
     dataset_config = config['dataset']
 
     preprocessing_config = config['preprocessing']

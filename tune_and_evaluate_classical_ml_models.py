@@ -1,5 +1,6 @@
 import os
 import yaml
+import pprint
 import argparse
 from typing import Tuple
 from importlib import import_module
@@ -14,32 +15,15 @@ from preprocessing.InputDataset import FramingArticleDataset
 from preprocessing.BOWPipeline import BOWPipeline, basic_tokenizing_and_cleaning
 from utils.metrics_config import scoring_functions
 from utils import helper_fns
-
-LANGUAGES = ('en', 'it', 'fr', 'po', 'ru', 'ge')
-
-SPACY_MODELS = {
-    'en': {'small': 'en_core_web_sm', 'large': 'en_core_web_trf'},
-    'it': {'small': 'it_core_news_sm', 'large': 'it_core_news_lg'},
-    'fr': {'small': 'fr_core_news_sm', 'large': 'fr_dep_news_trf'},
-    'po': {'small': 'pl_core_news_sm', 'large': 'pl_core_news_lg'},
-    'ru': {'small': 'ru_core_news_sm', 'large': 'ru_core_news_lg'},
-    'ge': {'small': 'de_core_news_sm', 'large': 'de_dep_news_trf'}
-}
-
-LABELS = ('Economic', 'Capacity_and_resources', 'Morality', 'Fairness_and_equality',
-          'Legality_Constitutionality_and_jurisprudence', 'Policy_prescription_and_evaluation', 'Crime_and_punishment',
-          'Security_and_defense', 'Health_and_safety', 'Quality_of_life', 'Cultural_identity', 'Public_opinion',
-          'Political', 'External_regulation_and_reputation')
-
-
+from utils.constants import LABELS, UNITS_OF_ANALYSES, SPACY_MODELS, LANGUAGES
+from utils.metrics_config import compute_multi_label_metrics
+compute_multi_label_metrics
 def parse_arguments_and_load_config_file() -> Tuple[argparse.Namespace, dict]:
     parser = argparse.ArgumentParser(description='Subtask-2')
     parser.add_argument('--config_path_yaml', type=str)
     parser.add_argument('--languages', type=str, default=None, nargs="*")
     parser.add_argument('--analysis_unit', type=str, default=None, nargs="*")
-    parser.add_argument('--tune_preprocessing_params', type=int, default=None)
     parser.add_argument('--n_samples', type=int, default=None)
-    parser.add_argument('--experiment_base_name', type=str, default=None)
     parser.add_argument('--model_list', type=str, default=None, nargs="*")
     parser.add_argument('--mlb_cls_independent', type=int, default=None)
     parser.add_argument('--default_params', type=int, default=None)
@@ -62,15 +46,8 @@ def parse_arguments_and_load_config_file() -> Tuple[argparse.Namespace, dict]:
     if arguments.analysis_unit is not None:
         yaml_config_params['preprocessing']['analysis_unit'] = arguments.analysis_unit
 
-    if arguments.tune_preprocessing_params is not None:
-        yaml_config_params['preprocessing']['param_search']['tune_preprocessing_params'] =\
-            arguments.tune_preprocessing_params == 1
-
     if arguments.n_samples is not None:
         yaml_config_params['preprocessing']['param_search']['n_samples'] = arguments.n_samples
-
-    if arguments.experiment_base_name is not None:
-        yaml_config_params['metric_logging']['experiment_base_name'] = arguments.experiment_base_name
 
     if arguments.model_list is not None:
         yaml_config_params['training']['model_list'] = arguments.model_list
@@ -81,108 +58,129 @@ def parse_arguments_and_load_config_file() -> Tuple[argparse.Namespace, dict]:
     if arguments.mlb_cls_independent is not None:
         yaml_config_params['training']['default_params'] = arguments.default_params == 1
 
+    print('command line args:')
+    pprint.pprint(arguments)
+    print('\n\n')
+
+    print('config args: ')
+    pprint.pprint(yaml_config_params)
+    print('\n\n')
+
     return arguments, yaml_config_params
 
 
 if __name__ == "__main__":
     # Load script arguments and configuration file
     args, config = parse_arguments_and_load_config_file()
+
+    run_config = config['run']
     dataset_config = config['dataset']
     preprocessing_config = config['preprocessing']
-    run_config = config['run']
-    evaluate_config = config['evaluate']
-    models_config = evaluate_config['models']
-    estimators_config = import_module(models_config['hyperparam_module'])
+    preprocessing_params_config = import_module(preprocessing_config['preprocessing_hyperparam_module']).PREPROCESSING
+    train_config = config['training']
+    estimators_config = import_module(train_config['model_hyperparam_module'])
+    output_config = config['output']
 
-    os.makedirs(evaluate_config['output_dir'], exist_ok=True)
-    best_model_dir_path = os.path.join(evaluate_config['output_dir'], 'best_models')
+    os.makedirs(output_config['output_dir'], exist_ok=True)
+
+    best_model_dir_path = os.path.join(output_config['output_dir'], 'best_models')
     os.makedirs(best_model_dir_path, exist_ok=True)
 
-    predicted_instances_dir_path = os.path.join(evaluate_config['output_dir'], 'predicted_instances')
+    predicted_instances_dir_path = os.path.join(output_config['output_dir'], 'predicted_instances')
     os.makedirs(predicted_instances_dir_path, exist_ok=True)
-
-    predicted_instances_train_dir_path = os.path.join(
-        predicted_instances_dir_path, f"on_trainset_{evaluate_config['train_set']}")
-    predicted_instances_test_dir_path = os.path.join(
-        predicted_instances_dir_path, f"on_evalset_{evaluate_config['eval_set']}")
+    predicted_instances_train_dir_path = os.path.join(predicted_instances_dir_path, "train")
+    predicted_instances_test_dir_path = os.path.join(predicted_instances_dir_path, "test")
     os.makedirs(predicted_instances_train_dir_path, exist_ok=True)
     os.makedirs(predicted_instances_test_dir_path, exist_ok=True)
 
     if run_config['supress_warnings']:
         helper_fns.supress_all_warnings()
 
-    # Preprocess the data to train the models
+    # Iterate over the datasets specified
     for language in dataset_config['languages']:
+        # Create dirs where outputs will be stored
         best_model_dir_path = os.path.join(best_model_dir_path, language)
         os.makedirs(best_model_dir_path, exist_ok=True)
-        predicted_instances_train_dir_path = os.path.join(predicted_instances_train_dir_path, language)
+
+        predicted_instances_train_dir_path = os.path.join(predicted_instances_train_dir_path, language, units_of_analysis)
         os.makedirs(predicted_instances_train_dir_path, exist_ok=True)
-        predicted_instances_test_dir_path = os.path.join(predicted_instances_test_dir_path, language)
+
+        predicted_instances_test_dir_path = os.path.join(predicted_instances_test_dir_path, language, units_of_analysis)
         os.makedirs(predicted_instances_test_dir_path, exist_ok=True)
 
-        nlp = spacy.load(SPACY_MODELS[language][preprocessing_config['spacy_model_size']])
-        print(evaluate_config['train_set'])
-        print(evaluate_config['eval_set'])
-        dataset = FramingArticleDataset(    
-            data_dir=dataset_config['data_dir'],
-            language=language,
-            subtask=dataset_config['subtask'],
-            train_split=evaluate_config['train_set'],
-            eval_split=evaluate_config['eval_set'],
-            load_preprocessed_units_of_analysis=preprocessing_config['load_preproc_input_data'],
-            units_of_analysis_dir=os.path.join(dataset_config['data_dir'], 'preprocessed')
-        )
+        # Load the train and test splits
+        train_df = pd.read_csv(os.path.join(dataset_config, f'final_evaluation_train_{language}.csv'), index_col='id')
+        test_df = pd.read_csv(os.path.join(dataset_config, f'final_evaluation_test_{language}.csv'), index_col='id')
 
-        # If not extracted already, extract the different units of analysis
-        if not preprocessing_config['load_preproc_input_data']:
-            dataset.extract_all_units_of_analysis(nlp=nlp)
+        # Tune and measure performance for each unit of analysis listed
+        units_of_analysis = UNITS_OF_ANALYSES if preprocessing_config['analysis_unit'][0] == 'all' \
+            else [unit for unit in preprocessing_config['analysis_unit'] if unit in UNITS_OF_ANALYSES]
 
-        # Define the vectorizing pipeline(s) to use
-        bow_pipeline = BOWPipeline(
-            tokenizer=lambda string: basic_tokenizing_and_cleaning(string, spacy_nlp_model=nlp),
-            use_tfidf=preprocessing_config['use_tfidf'],
-            min_df=preprocessing_config['min_df'],
-            max_df=preprocessing_config['max_df'],
-            max_features=preprocessing_config['max_features'],
-            ngram_range=tuple(preprocessing_config['ngram_range']),
-            min_var=preprocessing_config['min_var'],
-            corr_threshold=preprocessing_config['corr_threshold']
-        )
+        for unit_of_analysis in units_of_analysis:
+            metrics = []
 
-        # Vectorize input data
-        unit_of_analysis = preprocessing_config['analysis_unit']
-        X_train = bow_pipeline.pipeline.fit_transform(dataset.train_df[unit_of_analysis])
-        X_test = bow_pipeline.pipeline.transform(dataset.eval_df[unit_of_analysis])
+            # Define the vectorizing pipeline(s) to use
+            if preprocessing_config['use_same_params_across_units']:
+                preprocessing_params = preprocessing_params_config['all']['fixed_params']
+                preprocessing_params_search_space = preprocessing_params_config['all']['param_search']
 
-        # One hot encode the multilabel target
-        mlb = MultiLabelBinarizer()
-        mlb.fit([LABELS])
-        y_train = mlb.transform(dataset.train_df.frames.str.split(','))
+            else:
+                preprocessing_params = preprocessing_params_config[unit_of_analysis]['fixed_params']
+                preprocessing_params_search_space = preprocessing_params_config[unit_of_analysis]['param_search']
 
-        # Tune models and get their predictions on the eval set
-        for model_name in models_config['model_list']:
-            notify_current_model_str = f"Currently tunning: {model_name}"
-            print(notify_current_model_str)
-            print("-" * len(notify_current_model_str))
+            nlp = spacy.load(SPACY_MODELS[language][preprocessing_config['spacy_model_size']])
 
-            # Define model
-            multilabel_cls = MultiLabelEstimator(
-                model_name=model_name,
-                base_estimator=estimators_config.MODEL_LIST[model_name]['model'],
-                base_estimator_hyperparam_dist=estimators_config.MODEL_LIST[model_name]['hyperparam_space'],
-                treat_labels_as_independent=models_config['mlb_cls_independent'],
-                scoring_functions=scoring_functions
+            bow_pipeline = BOWPipeline(
+                tokenizer=lambda string: basic_tokenizing_and_cleaning(string, spacy_nlp_model=nlp),
+                use_tfidf=preprocessing_params['use_tfidf'],
+                min_df=preprocessing_params['min_df'],
+                max_df=preprocessing_params['max_df'],
+                max_features=preprocessing_params['max_features'],
+                ngram_range=tuple(preprocessing_params['ngram_range']),
+                min_var=preprocessing_params['min_var'],
+                corr_threshold=preprocessing_params['corr_threshold']
             )
 
-            # Tune the model
-            try:
-                search_results = multilabel_cls.tune_model(
-                    X=X_train,
-                    y=y_train,
-                    n_iterations=estimators_config.MODEL_LIST[model_name]['n_search_iter'],
-                    n_folds=models_config['n_folds'],
-                    ranking_score=models_config['ranking_score'],
+            # Vectorize input data
+            unit_of_analysis = preprocessing_config['analysis_unit']
+            X_train = bow_pipeline.pipeline.fit_transform(train_df[unit_of_analysis])
+            X_test = bow_pipeline.pipeline.transform(test_df[unit_of_analysis])
+
+            # One hot encode the multilabel target
+            mlb = MultiLabelBinarizer()
+            mlb.fit([LABELS])
+            y_train_0 = mlb.transform(train_df.frames.str.split(','))
+            y_train = train_df.label
+            y_test = test_df.label
+
+            # Tune models and get their predictions on the eval set
+            for model_name in train_config['model_list']:
+                notify_current_model_str = f"Currently tunning: {model_name}"
+                print(notify_current_model_str)
+                print("-" * len(notify_current_model_str))
+
+                # Define model
+                multilabel_cls = MultiLabelEstimator(
+                    model_name=model_name,
+                    base_estimator=estimators_config.MODEL_LIST[model_name]['model'],
+                    base_estimator_hyperparam_dist=estimators_config.MODEL_LIST[model_name]['hyperparam_space'],
+                    treat_labels_as_independent=train_config['mlb_cls_independent'],
+                    scoring_functions=scoring_functions
                 )
+
+                # Tune the model
+                try:
+                    search_results = multilabel_cls.tune_model(
+                        X=X_train,
+                        y=y_train,
+                        n_iterations=estimators_config.MODEL_LIST[model_name]['n_search_iter'],
+                        n_folds=train_config['n_folds'],
+                        ranking_score=train_config['ranking_metric'],
+                    )
+                except Exception as e:
+                    print(f'Error while trying to fit model: {model_name}')
+                    print(e)
+                    continue
 
                 # Evaluate the model on the eval set and store predictions
                 best_model = search_results.best_estimator_
@@ -193,13 +191,28 @@ if __name__ == "__main__":
                 dump(best_model, os.path.join(best_model_dir_path, f'{model_name}.joblib'))
 
                 # Store the predictions
-                pd.DataFrame(y_train_pred, columns=LABELS, index=dataset.train_df.index).to_csv(os.path.join(
-                    predicted_instances_train_dir_path, f"{language}_{model_name}_y_{evaluate_config['train_set']}.csv"))
+                pd.DataFrame(y_train_pred, columns=LABELS, index=train_df.index)\
+                    .to_csv(os.path.join(predicted_instances_train_dir_path, f"{language}_{model_name}_y_train.csv"))
 
-                pd.DataFrame(y_test_pred, columns=LABELS, index=dataset.eval_df.index).to_csv(os.path.join(
-                    predicted_instances_test_dir_path, f"{language}_{model_name}_y_{evaluate_config['eval_set']}.csv"))
+                pd.DataFrame(y_test_pred, columns=LABELS, index=test_df.index).to_csv(os.path.join(
+                    predicted_instances_test_dir_path, f"{language}_{model_name}_y_test.csv"))
 
-            except Exception as e:
-                print(f'Error while trying to fit model: {model_name}')
-                print(e)
-                continue
+                # Calculate metrics of the model
+                metrics_train = compute_multi_label_metrics(y_train, y_train_pred, prefix='train')
+                metrics_test = compute_multi_label_metrics(y_train, y_train_pred, prefix='test')
+
+                # Add metrics of the model
+                metrics.append(
+                    {
+                        'language': language, 'unit_of_analysis': unit_of_analysis,
+                        'model_type': estimators_config.MODEL_LIST[model_name]['model_type'],
+                        'model_subtype': estimators_config.MODEL_LIST[model_name]['model_subtype'],
+                        'model_name': model_name, **metrics_train, **metrics_test
+                    }
+                )
+
+                # Save performance metrics
+                metrics_filename = f'{output_config["output_dir"]}_{language}_{units_of_analysis}_metrics.csv'
+                pd.DataFrame(metrics)\
+                    .set_index(['language', 'unit_of_analysis', 'model_type', 'model_subtype']).sort_index()\
+                    .to_csv(os.path.join(output_config['output_dir'], 'performance', metrics_filename))
