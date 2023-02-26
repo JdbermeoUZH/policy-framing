@@ -7,5 +7,4 @@ module load mamba
 source activate Framing_py39
 srun python benchmark_subtask_2.py \
   --config_path_yaml config.yaml\
-  --mlb_cls_independent 0\
   --default_params 1
