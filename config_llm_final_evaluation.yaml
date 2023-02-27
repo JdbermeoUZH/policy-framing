@@ -21,8 +21,8 @@ training:
   fit_only_on_specific_language: False
 
 output:
-  metrics_output_dir: ['..', 'final_evaluation', 'llm']
-  file_prefix: 'multilingual_fit_chunked'
+  metrics_output_dir: ['..', 'final_evaluation', 'llm', 'truncated']
+  file_prefix: 'multilingual_fit_truncated' #'multilingual_fit_chunked'
 
 
 
