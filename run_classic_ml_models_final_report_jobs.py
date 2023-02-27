@@ -19,22 +19,24 @@ if __name__ == '__main__':
 
             os.environ['languages'] = language
             os.environ['analysis_unit'] = ' '.join(analysis_unit_group)
-            os.environ['preprocessing_hyperparam_module'] = f'{language_model_params}.preprocesing_params_config'
-            os.environ['model_hyperparam_module'] = f'{language_model_params}.hyperparam_space_config'
             os.environ['model_list'] = 'all'
 
             # Run the tunning
+            os.environ['preprocessing_hyperparam_module'] = f'{language_model_params}.preprocesing_params_config'
+            os.environ['model_hyperparam_module'] = f'{language_model_params}.hyperparam_space_config'
+            os.environ['default_params'] = str(0)
             os.environ['output_dir'] = ' '.join(['..', 'final_evaluation', 'classical_ml_models', 'tunned'])
             os.environ['metric_file_prefix'] = 'tunned'
-            os.environ['default_params'] = str(0)
 
             os.system('sbatch evaluate.sh')
 
             # Run models with default params
-
+            os.environ['preprocessing_hyperparam_module'] = f'training.default_params.preprocesing_params_config'
+            os.environ['model_hyperparam_module'] = f'training.default_params.hyperparam_space_config'
+            os.environ['default_params'] = str(1)
             os.environ['output_dir'] = ' '.join(['..', 'final_evaluation', 'classical_ml_models', 'default_parameters'])
             os.environ['metric_file_prefix'] = 'default_parameters'
-            os.environ['default_params'] = str(1)
+
             os.system('sbatch evaluate.sh')
 
 
