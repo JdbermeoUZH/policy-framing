@@ -4,7 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3359b6ce-9e44-4da3-956d-9609d831df93" name="Changes" comment="" />
+    <list default="true" id="3359b6ce-9e44-4da3-956d-9609d831df93" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/evaluate.sh" beforeDir="false" afterPath="$PROJECT_DIR$/evaluate.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/run_classic_ml_models_final_report_jobs.py" beforeDir="false" afterPath="$PROJECT_DIR$/run_classic_ml_models_final_report_jobs.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tune_and_evaluate_classical_ml_models.py" beforeDir="false" afterPath="$PROJECT_DIR$/tune_and_evaluate_classical_ml_models.py" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -82,11 +86,11 @@
       <recent name="$PROJECT_DIR$/documentation/analyses/Subtask 2 performance - Tunnned classical ML Models" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/training/default_params" />
       <recent name="$PROJECT_DIR$/documentation/analyses/Default classifiers/max_df_0.95_min_df_0.05" />
       <recent name="$PROJECT_DIR$/notebooks/llms" />
       <recent name="$PROJECT_DIR$/training/russian" />
       <recent name="$PROJECT_DIR$/training/polish" />
-      <recent name="$PROJECT_DIR$/training/italian" />
     </key>
   </component>
   <component name="RunManager" selected="Python.run_classic_ml_models_compute_jobs">
@@ -406,7 +410,7 @@
       <workItem from="1676666938842" duration="3314000" />
       <workItem from="1676709943331" duration="604000" />
       <workItem from="1677227323644" duration="1097000" />
-      <workItem from="1677483946259" duration="674000" />
+      <workItem from="1677483946259" duration="1364000" />
     </task>
     <servers />
   </component>

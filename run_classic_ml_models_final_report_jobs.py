@@ -23,6 +23,7 @@ if __name__ == '__main__':
 
             # Run the tunning
             os.environ['preprocessing_hyperparam_module'] = f'{language_model_params}.preprocesing_params_config'
+            os.environ['use_same_params_across_units'] = str(0)
             os.environ['model_hyperparam_module'] = f'{language_model_params}.hyperparam_space_config'
             os.environ['default_params'] = str(0)
             os.environ['output_dir'] = ' '.join(['..', 'final_evaluation', 'classical_ml_models', 'tunned'])
@@ -32,6 +33,7 @@ if __name__ == '__main__':
 
             # Run models with default params
             os.environ['preprocessing_hyperparam_module'] = f'training.default_params.preprocesing_params_config'
+            os.environ['use_same_params_across_units'] = str(1)
             os.environ['model_hyperparam_module'] = f'training.default_params.hyperparam_space_config'
             os.environ['default_params'] = str(1)
             os.environ['output_dir'] = ' '.join(['..', 'final_evaluation', 'classical_ml_models', 'default_parameters'])

@@ -10,6 +10,7 @@ srun python tune_and_evaluate_classical_ml_models.py\
  --languages $languages\
  --analysis_unit $analysis_unit\
  --preprocessing_hyperparam_module $preprocessing_hyperparam_module\
+ --use_same_params_across_units $use_same_params_across_units\
  --model_hyperparam_module $model_hyperparam_module\
  --default_params $default_params\
  --model_list $model_list\

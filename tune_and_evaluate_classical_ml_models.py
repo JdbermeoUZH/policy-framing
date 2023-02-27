@@ -25,6 +25,7 @@ def parse_arguments_and_load_config_file() -> Tuple[argparse.Namespace, dict]:
     parser.add_argument('--languages', type=str, default=None, nargs="*")
     parser.add_argument('--analysis_unit', type=str, default=None, nargs="*")
     parser.add_argument('--preprocessing_hyperparam_module', type=str, default=None)
+    parser.add_argument('--use_same_params_across_units', type=int, default=None)
     parser.add_argument('--model_hyperparam_module', type=str, default=None)
     parser.add_argument('--model_list', type=str, default=None, nargs="*")
     parser.add_argument('--mlb_cls_independent', type=int, default=None)
@@ -51,6 +52,9 @@ def parse_arguments_and_load_config_file() -> Tuple[argparse.Namespace, dict]:
     if arguments.preprocessing_hyperparam_module is not None:
         yaml_config_params['preprocessing']['preprocessing_hyperparam_module'] =\
             arguments.preprocessing_hyperparam_module
+
+    if arguments.use_same_params_across_units is not None:
+        yaml_config_params['preprocessing']['use_same_params_across_units'] = arguments.use_same_params_across_units == 1
 
     if arguments.model_hyperparam_module is not None:
         yaml_config_params['training']['model_hyperparam_module'] = arguments.model_hyperparam_module
