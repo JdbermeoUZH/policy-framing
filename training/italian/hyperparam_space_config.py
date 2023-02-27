@@ -876,7 +876,7 @@ MODEL_LIST = \
 
         ######################################################################################################
         'XGBoost_narrow': {
-            'model': XGBClassifier(verbosity=0, tree_method='hist', booster='gbtree', gamma=0, use_label_encoder=False),
+            'model': XGBClassifier(verbosity=0, tree_method='hist', booster='gbtree', gamma=0),
             'model_type': 'XGBoost',
             'model_subtype': 'No Upsampling',
             'n_search_iter': 60,
@@ -897,7 +897,7 @@ MODEL_LIST = \
         },
 
         'XGBoost_broad': {
-            'model': XGBClassifier(verbosity=0, tree_method='hist', booster='gbtree', gamma=0, use_label_encoder=False),
+            'model': XGBClassifier(verbosity=0, tree_method='hist', booster='gbtree', gamma=0),
             'n_search_iter': 60,
             'model_type': 'XGBoost',
             'model_subtype': 'No Upsampling',
@@ -919,8 +919,7 @@ MODEL_LIST = \
         'XGBoost_narrow_ROS': {
             'model': Pipeline(
                 [('up', RandomOverSampler()), ('preproc', StandardScaler(with_mean=False)),
-                 ('model', XGBClassifier(verbosity=0, tree_method='hist', booster='gbtree', gamma=0,
-                                         use_label_encoder=False))]),
+                 ('model', XGBClassifier(verbosity=0, tree_method='hist', booster='gbtree', gamma=0))]),
 
             # silent=True,
             'n_search_iter': 60,
@@ -947,8 +946,7 @@ MODEL_LIST = \
         'XGBoost_broad_ROS': {
             'model': Pipeline(
                 [('up', RandomOverSampler()), ('preproc', StandardScaler(with_mean=False)),
-                 ('model', XGBClassifier(verbosity=0, tree_method='hist', use_label_encoder=False,
-                                         booster='gbtree', gamma=0))]),
+                 ('model', XGBClassifier(verbosity=0, tree_method='hist',booster='gbtree', gamma=0))]),
 
             # silent=True,
             'n_search_iter': 60,
@@ -975,8 +973,7 @@ MODEL_LIST = \
         'XGBoost_narrow_SMOTE': {
             'model': Pipeline(
                 [('up', SMOTE()), ('preproc', StandardScaler(with_mean=False)),
-                 ('model', XGBClassifier(verbosity=0, tree_method='hist', use_label_encoder=False,
-                                         booster='gbtree', gamma=0))]),
+                 ('model', XGBClassifier(verbosity=0, tree_method='hist',booster='gbtree', gamma=0))]),
 
             # silent=True,
             'n_search_iter': 60,
@@ -1003,8 +1000,7 @@ MODEL_LIST = \
         'XGBoost_broad_SMOTE': {
             'model': Pipeline(
                 [('up', SMOTE()), ('preproc', StandardScaler(with_mean=False)),
-                 ('model', XGBClassifier(verbosity=0, tree_method='hist', use_label_encoder=False,
-                                         booster='gbtree', gamma=0))]),
+                 ('model', XGBClassifier(verbosity=0, tree_method='hist',booster='gbtree', gamma=0))]),
 
             # silent=True,
             'n_search_iter': 60,
@@ -1031,8 +1027,7 @@ MODEL_LIST = \
         'XGBoost_narrow_BorderlineSMOTE': {
             'model': Pipeline(
                 [('up', BorderlineSMOTE()), ('preproc', StandardScaler(with_mean=False)),
-                 ('model', XGBClassifier(verbosity=0, tree_method='hist', use_label_encoder=False,
-                                         booster='gbtree', gamma=0))]),
+                 ('model', XGBClassifier(verbosity=0, tree_method='hist',booster='gbtree', gamma=0))]),
             # silent=True,
             'n_search_iter': 60,
             'model_type': 'XGBoost',
@@ -1060,8 +1055,7 @@ MODEL_LIST = \
         'XGBoost_broad_BorderlineSMOTE': {
             'model': Pipeline(
                 [('up', BorderlineSMOTE()), ('preproc', StandardScaler(with_mean=False)),
-                 ('model', XGBClassifier(verbosity=0, tree_method='hist', use_label_encoder=False,
-                                         booster='gbtree', gamma=0))]),
+                 ('model', XGBClassifier(verbosity=0, tree_method='hist',booster='gbtree', gamma=0))]),
 
             # silent=True,
             'n_search_iter': 60,
@@ -1090,8 +1084,7 @@ MODEL_LIST = \
         'XGBoost_narrow_SVMSMOTE': {
             'model': Pipeline(
                 [('up', SVMSMOTE()), ('preproc', StandardScaler(with_mean=False)),
-                 ('model', XGBClassifier(verbosity=0, tree_method='hist', use_label_encoder=False,
-                                         booster='gbtree', gamma=0))]),
+                 ('model', XGBClassifier(verbosity=0, tree_method='hist',booster='gbtree', gamma=0))]),
 
             # silent=True,
             'n_search_iter': 150,
@@ -1120,8 +1113,7 @@ MODEL_LIST = \
         'XGBoost_broad_SVMSMOTE': {
             'model': Pipeline(
                 [('up', SVMSMOTE()), ('preproc', StandardScaler(with_mean=False)),
-                 ('model', XGBClassifier(verbosity=0, tree_method='hist', use_label_encoder=False,
-                                         booster='gbtree', gamma=0))]),
+                 ('model', XGBClassifier(verbosity=0, tree_method='hist',booster='gbtree', gamma=0))]),
 
             # silent=True,
             'n_search_iter': 150,

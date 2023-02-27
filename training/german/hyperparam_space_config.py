@@ -302,7 +302,7 @@ MODEL_LIST = \
         'LogisticRegressionElasticNet': {
             'model': Pipeline(
                 [('preproc', StandardScaler(with_mean=False)),
-                 ('model', LogisticRegression(penalty='elasticnet', l1_ratio=0.5, max_iter=1000,
+                 ('model', LogisticRegression(penalty='elasticnet', l1_ratio=0.5, max_iter=1000,  solver='saga',
                                               class_weight='balanced'))]
             ),
             'n_search_iter': 60,
@@ -919,8 +919,7 @@ MODEL_LIST = \
         'XGBoost_narrow_ROS': {
             'model': Pipeline(
                 [('up', RandomOverSampler()), ('preproc', StandardScaler(with_mean=False)),
-                 ('model', XGBClassifier(verbosity=0, tree_method='hist', booster='gbtree', gamma=0,
-                                         use_label_encoder=False))]),
+                 ('model', XGBClassifier(verbosity=0, tree_method='hist', booster='gbtree', gamma=0))]),
 
             # silent=True,
             'n_search_iter': 60,
