@@ -1,0 +1,28 @@
+dataset:
+  data_dir: ['data', 'preprocessed', '80_20_split']                                             # Relative path to directory with data
+
+preprocessing:
+  single_train_test_split_filepath: ['multilingual_train_test_80_20_split_title_and_5_sentences_max_words_length_500_min_words_length_30_chunk_word_overlap_250.hf']
+  analysis_unit: 'title_and_5_sentences'                                      # 'title', 'title_and_first_paragraph', 'title_and_5_sentences', 'title_and_10_sentences', 'title_and_first_sentence_each_paragraph', 'raw_text', 'all'
+  max_length_padding: 32
+  truncated: False
+
+model:
+  model_name: 'distilbert-base-multilingual-cased'                                                 # distilbert-base-multilingual-cased, bert-base-multilingual-cased
+  fine_tune: True                                                                 # If False, will use a zero-shot pipeline
+  load_in_8bit: False                                                             # Only supported at the moment for inference
+  fp16: True
+
+training:
+  n_epochs: 1
+  minibatch_size: 4
+  gradient_accumulation_steps: 2
+  warmup_ratio: 0.2
+  fit_only_on_specific_language: False
+
+output:
+  metrics_output_dir: ['..', 'final_evaluation', 'llm']
+  file_prefix: 'multilingual_fit_chunked'
+
+
+
