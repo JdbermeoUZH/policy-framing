@@ -77,8 +77,8 @@ LLMS = {
     },
 }
 
-AVOID = ['xlm-roberta-large', 'bert-base-multilingual-cased', 'distilbert-base-multilingual-cased',
-         'facebook/mbart-large-50', 'AshtonIsNotHere/xlm-roberta-long-base-4096']
+AVOID = ['xlm-roberta-large', 'bert-base-multilingual-cased', 'distilbert-base-multilingual-cased', 'gpt2',
+         'EleutherAI/gpt-neo-125M', 'facebook/mbart-large-50', 'AshtonIsNotHere/xlm-roberta-long-base-4096']
 
 if __name__ == '__main__':
     truncated = 0

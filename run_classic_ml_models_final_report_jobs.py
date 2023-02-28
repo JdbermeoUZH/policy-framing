@@ -7,11 +7,11 @@ map_language_names = {'en': 'english', 'it': 'italian', 'fr': 'french', 'po': 'p
 #unit_of_analysis_groups = (('raw_text', 'title'), ('title_and_first_sentence_each_paragraph', 'title_and_first_paragraph'),
 #                           ('title_and_5_sentences', 'title_and_10_sentences'))
 
-unit_of_analysis_groups = (('title_and_10_sentences', ), )
+unit_of_analysis_groups = (('raw_text', ), )
 
 if __name__ == '__main__':
 
-    for language in ['ge', 'po']:#LANGUAGES:
+    for language in ['po']:#LANGUAGES:
         print(f'Launching jobs for language: {map_language_names[language]}')
 
         for analysis_unit_group in unit_of_analysis_groups:
