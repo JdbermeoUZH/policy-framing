@@ -4,12 +4,14 @@ import os
 from utils.constants import LANGUAGES, UNITS_OF_ANALYSES
 
 map_language_names = {'en': 'english', 'it': 'italian', 'fr': 'french', 'po': 'polish', 'ru': 'russian', 'ge': 'german'}
-unit_of_analysis_groups = (('raw_text', 'title'), ('title_and_first_sentence_each_paragraph', 'title_and_first_paragraph'),
-                           ('title_and_5_sentences', 'title_and_10_sentences'))
+#unit_of_analysis_groups = (('raw_text', 'title'), ('title_and_first_sentence_each_paragraph', 'title_and_first_paragraph'),
+#                           ('title_and_5_sentences', 'title_and_10_sentences'))
+
+unit_of_analysis_groups = (('title_and_10_sentences', ))
 
 if __name__ == '__main__':
 
-    for language in LANGUAGES:
+    for language in ['ge', 'po']:#LANGUAGES:
         print(f'Launching jobs for language: {map_language_names[language]}')
 
         for analysis_unit_group in unit_of_analysis_groups:
@@ -29,7 +31,7 @@ if __name__ == '__main__':
             os.environ['output_dir'] = ' '.join(['..', 'final_evaluation', 'classical_ml_models', 'tunned_default_preproc_params'])
             os.environ['metric_file_prefix'] = 'tunned'
 
-            #os.system('sbatch evaluate.sh')
+            os.system('sbatch evaluate.sh')
 
             # Run models with default params
             os.environ['preprocessing_hyperparam_module'] = f'training.default_params.preprocesing_params_config'
