@@ -4,8 +4,8 @@ PREPROCESSING = {
     'all': {
         'fixed_params': {
             'use_tfidf': True,
-            'min_df': 0.01,
-            'max_df': 0.8,
+            'min_df': 1,
+            'max_df': 1.0,
             'max_features': 10000,
             'ngram_range': [1, 3],
             'min_var': 0.0,

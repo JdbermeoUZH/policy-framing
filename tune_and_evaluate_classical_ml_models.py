@@ -7,6 +7,7 @@ from importlib import import_module
 
 import pandas as pd
 import spacy
+import spacy
 from joblib import dump
 from sklearn.preprocessing import MultiLabelBinarizer
 
@@ -149,11 +150,9 @@ if __name__ == "__main__":
             # Define the vectorizing pipeline(s) to use
             if preprocessing_config['use_same_params_across_units']:
                 preprocessing_params = preprocessing_params_config['all']['fixed_params']
-                preprocessing_params_search_space = preprocessing_params_config['all']['param_search']
 
             else:
                 preprocessing_params = preprocessing_params_config[unit_of_analysis]['fixed_params']
-                preprocessing_params_search_space = preprocessing_params_config[unit_of_analysis]['param_search']
 
             nlp = spacy.load(SPACY_MODELS[language][preprocessing_config['spacy_model_size']])
 
@@ -223,8 +222,8 @@ if __name__ == "__main__":
                     continue
 
                 # Evaluate the model on the eval set and store predictions
-                y_train_pred = best_model.predict(X_train)
-                y_test_pred = best_model.predict(X_test)
+                y_train_pred = best_model.predict(X_train.copy())
+                y_test_pred = best_model.predict(X_test.copy())
 
                 if output_config['store_best_models']:
                     # Persist the best model
