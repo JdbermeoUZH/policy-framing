@@ -1,0 +1,13 @@
+| model_type                   |   title |   title and first paragraph |   title and 5 sentences |   title and 10 sentences |   title and first sentence each paragraph | raw text   |
+|:-----------------------------|--------:|----------------------------:|------------------------:|-------------------------:|------------------------------------------:|:-----------|
+| KNN                          |   0.048 |                       0.048 |                   0.024 |                    0.071 |                                     0     | 0.048      |
+| LinearSVM                    |   0     |                       0.071 |                   0.024 |                    0.048 |                                     0     | **0.143**  |
+| LogisticRegression           |   0     |                       0.048 |                   0.048 |                    0.095 |                                     0     | 0.095      |
+| LogisticRegressionElasticNet |   0.024 |                       0.024 |                   0.024 |                    0.071 |                                     0.024 | 0.119      |
+| LogisticRegressionLasso      |   0.024 |                       0.024 |                   0.024 |                    0.024 |                                     0.071 | 0.095      |
+| LogisticRegressionRidge      |   0     |                       0.071 |                   0     |                    0.024 |                                     0     | 0.024      |
+| NaiveBayes                   |   0.024 |                       0     |                   0.024 |                    0.048 |                                     0.048 | 0.071      |
+| RandomForest                 |   0     |                       0     |                   0     |                    0     |                                     0     | 0.024      |
+| RidgeClassifier              |   0     |                       0.048 |                   0.048 |                    0.048 |                                     0     | 0.071      |
+| SVM                          |   0.024 |                       0     |                   0.024 |                    0.024 |                                     0.024 | 0.119      |
+| XGBoost                      |   0.024 |                       0.024 |                   0     |                    0.024 |                                     0.024 | 0.024      |

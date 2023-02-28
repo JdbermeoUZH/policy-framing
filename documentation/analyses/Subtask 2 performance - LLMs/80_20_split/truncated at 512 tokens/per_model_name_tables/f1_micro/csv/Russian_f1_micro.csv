@@ -1,0 +1,8 @@
+model_name,title,title and first paragraph,title and 5 sentences,title and 10 sentences,title and first sentence each paragraph,raw text
+EleutherAI-gpt-neo-1.3B,0.296,0.308,0.397,0.381,0.371,0.298
+EleutherAI-gpt-neo-125M,0.172,0.169,0.203,0.252,0.192,0.125
+bert-base-multilingual-cased,0.386,0.426,0.487,0.447,0.515,0.464
+distilbert-base-multilingual-cased,0.340,0.372,0.497,0.497,0.455,0.517
+facebook-mbart-large-50,0.424,0.441,0.446,0.521,**0.573**,0.529
+gpt2,0.061,0.073,0.062,0.039,0.191,0.171
+xlm-roberta-large,0.464,0.489,0.464,0.533,0.521,0.553

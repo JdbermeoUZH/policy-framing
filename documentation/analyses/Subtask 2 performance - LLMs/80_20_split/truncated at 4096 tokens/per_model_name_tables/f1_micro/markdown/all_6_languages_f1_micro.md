@@ -1,0 +1,8 @@
+| language   | model_name                                 |   title |   title and first paragraph |   title and 5 sentences |   title and 10 sentences | title and first sentence each paragraph   | raw text   |
+|:-----------|:-------------------------------------------|--------:|----------------------------:|------------------------:|-------------------------:|:------------------------------------------|:-----------|
+| en         | AshtonIsNotHere-xlm-roberta-long-base-4096 |   0.628 |                       0.679 |                   0.685 |                    0.688 | **0.704**                                 | 0.684      |
+| fr         | AshtonIsNotHere-xlm-roberta-long-base-4096 |   0.417 |                       0.461 |                   0.481 |                    0.502 | 0.526                                     | **0.537**  |
+| ge         | AshtonIsNotHere-xlm-roberta-long-base-4096 |   0.554 |                       0.589 |                   0.612 |                    0.619 | 0.618                                     | **0.669**  |
+| it         | AshtonIsNotHere-xlm-roberta-long-base-4096 |   0.542 |                       0.555 |                   0.548 |                    0.585 | 0.532                                     | **0.650**  |
+| po         | AshtonIsNotHere-xlm-roberta-long-base-4096 |   0.538 |                       0.591 |                   0.591 |                    0.628 | 0.621                                     | **0.711**  |
+| ru         | AshtonIsNotHere-xlm-roberta-long-base-4096 |   0.392 |                       0.471 |                   0.469 |                    0.503 | **0.534**                                 | 0.519      |

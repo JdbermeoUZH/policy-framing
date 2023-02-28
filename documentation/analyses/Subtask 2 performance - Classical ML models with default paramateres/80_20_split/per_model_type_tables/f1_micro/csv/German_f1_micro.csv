@@ -1,0 +1,13 @@
+model_type,title,title and first paragraph,title and 5 sentences,title and 10 sentences,title and first sentence each paragraph,raw text
+Dummy Classifier,0.434,0.453,0.449,0.423,0.474,0.443
+KNN,0.440,0.513,0.509,0.518,0.443,0.407
+LinearSVM,0.338,0.365,0.395,0.382,0.426,0.459
+LogisticRegression,0.340,0.401,0.409,0.413,0.441,0.466
+LogisticRegressionElasticNet,0.284,0.392,0.419,0.397,0.431,0.491
+LogisticRegressionLasso,0.217,0.402,0.429,0.389,0.467,0.521
+LogisticRegressionRidge,0.350,0.481,0.470,0.437,0.461,0.449
+NaiveBayes,0.376,0.555,0.556,0.572,0.551,**0.585**
+RandomForest,0.324,0.550,0.409,0.405,0.418,0.436
+RidgeClassifier,0.347,0.504,0.460,0.436,0.451,0.457
+SVM,0.417,0.199,0.274,0.359,0.320,0.424
+XGBoost,0.290,0.543,0.402,0.395,0.442,0.501

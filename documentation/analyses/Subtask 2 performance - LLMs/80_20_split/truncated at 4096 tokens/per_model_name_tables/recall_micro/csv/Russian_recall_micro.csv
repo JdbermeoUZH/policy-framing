@@ -1,0 +1,2 @@
+model_name,title,title and first paragraph,title and 5 sentences,title and 10 sentences,title and first sentence each paragraph,raw text
+AshtonIsNotHere-xlm-roberta-long-base-4096,0.326,0.419,0.395,0.442,0.453,**0.477**

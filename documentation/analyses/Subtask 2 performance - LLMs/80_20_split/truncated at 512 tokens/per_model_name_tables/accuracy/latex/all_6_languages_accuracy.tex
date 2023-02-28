@@ -1,0 +1,48 @@
+\begin{tabular}{llllllll}
+\toprule
+language &                         model\_name &     title & title and first paragraph & title and 5 sentences & title and 10 sentences & title and first sentence each paragraph &  raw text \\
+\midrule
+      en &            EleutherAI-gpt-neo-1.3B &     0.058 &                     0.136 &                 0.117 &                  0.078 &                                   0.146 &     0.097 \\
+      en &            EleutherAI-gpt-neo-125M &     0.068 &                     0.087 &                 0.107 &                  0.097 &                                   0.078 &     0.019 \\
+      en &       bert-base-multilingual-cased &     0.097 &                     0.136 &                 0.126 &                  0.097 &                                   0.126 &     0.117 \\
+      en & distilbert-base-multilingual-cased &     0.087 &                     0.097 &                 0.117 &                  0.058 &                                   0.068 &     0.087 \\
+      en &            facebook-mbart-large-50 &     0.097 &                     0.126 &             **0.155** &                  0.126 &                                   0.136 &     0.117 \\
+      en &                               gpt2 &     0.049 &                     0.078 &                 0.087 &                  0.068 &                                   0.058 &     0.039 \\
+      en &                  xlm-roberta-large &     0.049 &                     0.117 &             **0.155** &                  0.126 &                                   0.068 &     0.097 \\
+      fr &            EleutherAI-gpt-neo-1.3B &     0.024 &                     0.095 &                 0.071 &                  0.048 &                                   0.071 &     0.071 \\
+      fr &            EleutherAI-gpt-neo-125M &     0.071 &                     0.024 &                 0.048 &                  0.071 &                                   0.048 &     0.000 \\
+      fr &       bert-base-multilingual-cased &     0.048 &                     0.095 &                 0.071 &                  0.071 &                               **0.167** &     0.048 \\
+      fr & distilbert-base-multilingual-cased &     0.048 &                     0.048 &                 0.048 &                  0.048 &                                   0.048 &     0.071 \\
+      fr &            facebook-mbart-large-50 &     0.000 &                     0.095 &                 0.024 &                  0.024 &                                   0.095 &     0.071 \\
+      fr &                               gpt2 &     0.000 &                     0.071 &                 0.024 &                  0.024 &                                   0.071 &     0.071 \\
+      fr &                  xlm-roberta-large &     0.095 &                     0.071 &                 0.071 &                  0.071 &                                   0.095 &     0.095 \\
+      ge &            EleutherAI-gpt-neo-1.3B &     0.000 &                     0.029 &                 0.000 &                  0.057 &                                   0.029 &     0.057 \\
+      ge &            EleutherAI-gpt-neo-125M &     0.000 &                     0.000 &                 0.000 &                  0.000 &                                   0.000 &     0.000 \\
+      ge &       bert-base-multilingual-cased &     0.029 &                     0.029 &                 0.086 &                  0.000 &                                   0.000 &     0.000 \\
+      ge & distilbert-base-multilingual-cased &     0.000 &                     0.029 &                 0.000 &                  0.000 &                                   0.029 &     0.029 \\
+      ge &            facebook-mbart-large-50 &     0.057 &                 **0.114** &                 0.029 &                  0.029 &                                   0.029 &     0.086 \\
+      ge &                               gpt2 &     0.029 &                     0.000 &                 0.000 &                  0.000 &                                   0.029 &     0.000 \\
+      ge &                  xlm-roberta-large &     0.057 &                     0.086 &                 0.029 &                  0.029 &                                   0.057 &     0.029 \\
+      it &            EleutherAI-gpt-neo-1.3B &     0.050 &                     0.133 &                 0.117 &                  0.183 &                                   0.133 &     0.200 \\
+      it &            EleutherAI-gpt-neo-125M &     0.017 &                     0.067 &                 0.033 &                  0.050 &                                   0.067 &     0.067 \\
+      it &       bert-base-multilingual-cased &     0.083 &                     0.117 &                 0.100 &                  0.167 &                                   0.100 & **0.267** \\
+      it & distilbert-base-multilingual-cased &     0.017 &                     0.100 &                 0.117 &                  0.100 &                                   0.033 &     0.117 \\
+      it &            facebook-mbart-large-50 &     0.117 &                     0.117 &                 0.133 &                  0.083 &                                   0.133 &     0.183 \\
+      it &                               gpt2 &     0.050 &                     0.083 &                 0.050 &                  0.083 &                                   0.100 &     0.050 \\
+      it &                  xlm-roberta-large &     0.117 &                     0.200 &                 0.167 &                  0.150 &                                   0.117 &     0.200 \\
+      po &            EleutherAI-gpt-neo-1.3B &     0.026 &                     0.000 &                 0.026 &                  0.026 &                                   0.051 &     0.051 \\
+      po &            EleutherAI-gpt-neo-125M &     0.000 &                     0.000 &                 0.000 &                  0.051 &                                   0.000 &     0.026 \\
+      po &       bert-base-multilingual-cased &     0.000 &                     0.026 &                 0.051 &                  0.026 &                                   0.051 & **0.103** \\
+      po & distilbert-base-multilingual-cased &     0.000 &                     0.000 &                 0.051 &                  0.026 &                                   0.051 &     0.026 \\
+      po &            facebook-mbart-large-50 &     0.000 &                     0.026 &                 0.051 &                  0.077 &                                   0.051 &     0.051 \\
+      po &                               gpt2 &     0.000 &                     0.026 &                 0.000 &                  0.026 &                                   0.051 &     0.026 \\
+      po &                  xlm-roberta-large &     0.000 &                     0.051 &                 0.026 &                  0.026 &                                   0.077 &     0.077 \\
+      ru &            EleutherAI-gpt-neo-1.3B &     0.053 &                     0.079 &                 0.079 &                  0.158 &                                   0.158 &     0.053 \\
+      ru &            EleutherAI-gpt-neo-125M &     0.026 &                     0.026 &                 0.053 &                  0.053 &                                   0.105 &     0.026 \\
+      ru &       bert-base-multilingual-cased &     0.105 &                     0.132 &                 0.211 &                  0.158 &                               **0.237** &     0.211 \\
+      ru & distilbert-base-multilingual-cased &     0.105 &                     0.158 &                 0.132 &                  0.211 &                                   0.132 &     0.184 \\
+      ru &            facebook-mbart-large-50 &     0.158 &                     0.211 &                 0.132 &                  0.211 &                                   0.158 &     0.184 \\
+      ru &                               gpt2 &     0.000 &                     0.000 &                 0.026 &                  0.000 &                                   0.079 &     0.026 \\
+      ru &                  xlm-roberta-large & **0.237** &                     0.211 &                 0.211 &                  0.211 &                                   0.211 &     0.211 \\
+\bottomrule
+\end{tabular}

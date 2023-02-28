@@ -1,0 +1,55 @@
+model_type,model_subtype,title,title and first paragraph,title and 5 sentences,title and 10 sentences,title and first sentence each paragraph,raw text
+KNN,BorderlineSMOTE,0.408,0.504,0.466,0.572,0.471,0.465
+KNN,No Upsampling,0.434,0.435,0.466,0.492,0.501,0.614
+KNN,Random Oversampling,0.461,0.260,0.099,0.490,0.419,0.529
+KNN,SMOTE,0.234,0.484,0.099,0.557,0.461,0.560
+KNN,SVMSMOTE,0.451,0.420,0.496,0.515,0.099,0.491
+LinearSVM,BorderlineSMOTE,0.460,0.484,0.508,0.599,0.536,0.614
+LinearSVM,No Upsampling,0.462,0.470,0.516,0.545,0.536,0.660
+LinearSVM,Random Oversampling,0.472,0.465,0.518,0.556,0.534,0.661
+LinearSVM,SMOTE,0.435,0.519,0.519,0.540,0.537,0.664
+LogisticRegression,BorderlineSMOTE,0.476,0.463,0.471,0.492,0.549,0.578
+LogisticRegression,No Upsampling,0.466,0.471,0.509,0.520,0.580,0.627
+LogisticRegression,Random Oversampling,0.460,0.508,0.501,0.499,0.530,0.601
+LogisticRegression,SMOTE,0.456,0.480,0.492,0.522,0.563,0.643
+LogisticRegression,SVMSMOTE,0.479,0.464,0.474,0.485,0.559,0.602
+LogisticRegressionElasticNet,BorderlineSMOTE,0.491,0.463,0.509,0.517,0.532,0.643
+LogisticRegressionElasticNet,No Upsampling,0.454,0.506,0.500,0.554,0.639,0.642
+LogisticRegressionElasticNet,Random Oversampling,0.465,0.494,0.512,0.558,0.650,0.636
+LogisticRegressionElasticNet,SMOTE,0.497,0.457,0.492,0.558,0.600,0.579
+LogisticRegressionElasticNet,SVMSMOTE,0.548,0.473,0.488,0.531,0.668,0.585
+LogisticRegressionLasso,BorderlineSMOTE,0.471,0.508,0.479,0.506,0.523,0.522
+LogisticRegressionLasso,No Upsampling,0.471,0.505,0.484,0.526,0.533,0.535
+LogisticRegressionLasso,Random Oversampling,0.490,0.515,0.542,0.551,0.556,0.528
+LogisticRegressionLasso,SMOTE,0.476,0.556,0.490,0.550,0.552,0.565
+LogisticRegressionLasso,SVMSMOTE,0.573,0.555,0.605,0.521,0.570,0.616
+LogisticRegressionRidge,BorderlineSMOTE,0.459,0.461,0.501,0.516,0.530,0.626
+LogisticRegressionRidge,No Upsampling,0.467,0.476,0.520,0.546,0.544,0.615
+LogisticRegressionRidge,Random Oversampling,0.475,0.469,0.517,0.563,0.560,0.640
+LogisticRegressionRidge,SMOTE,0.458,0.494,0.522,0.532,0.550,0.633
+LogisticRegressionRidge,SVMSMOTE,0.446,0.459,0.514,0.531,0.535,0.581
+NaiveBayes,BorderlineSMOTE,0.487,0.488,0.546,0.568,0.542,0.528
+NaiveBayes,No Upsampling,0.481,0.524,0.539,0.527,0.551,0.546
+NaiveBayes,Random Oversampling,0.481,0.496,0.526,0.555,0.597,0.616
+NaiveBayes,SMOTE,0.471,0.488,0.557,0.548,0.602,0.595
+NaiveBayes,SVMSMOTE,0.481,0.485,0.543,0.527,0.487,0.548
+RandomForest,BorderlineSMOTE,0.485,0.538,0.532,0.662,0.414,0.597
+RandomForest,No Upsampling,0.473,0.493,0.477,0.540,0.532,0.667
+RandomForest,Random Oversampling,0.449,0.577,0.590,0.606,0.482,0.641
+RandomForest,SMOTE,0.499,0.550,0.615,0.583,0.559,0.575
+RandomForest,SVMSMOTE,0.557,0.521,0.596,0.545,0.572,0.602
+RidgeClassifier,BorderlineSMOTE,0.455,0.493,0.513,0.536,0.602,**0.722**
+RidgeClassifier,No Upsampling,0.470,0.485,0.535,0.581,0.601,0.568
+RidgeClassifier,Random Oversampling,0.455,0.482,0.527,0.514,0.606,0.604
+RidgeClassifier,SMOTE,0.477,0.483,0.522,0.561,0.606,0.579
+RidgeClassifier,SVMSMOTE,0.462,0.468,0.551,0.528,0.607,0.604
+SVM,BorderlineSMOTE,0.486,0.506,0.551,0.628,0.612,0.631
+SVM,No Upsampling,0.457,0.508,0.575,0.637,0.636,0.590
+SVM,Random Oversampling,0.488,0.516,0.549,0.624,0.651,0.609
+SVM,SMOTE,0.459,0.559,0.647,0.641,0.637,0.605
+SVM,SVMSMOTE,0.532,0.575,0.595,0.647,0.628,0.602
+XGBoost,BorderlineSMOTE,0.353,0.402,0.462,0.479,0.512,0.509
+XGBoost,No Upsampling,0.341,0.417,0.448,0.453,0.492,0.537
+XGBoost,Random Oversampling,0.369,0.416,0.437,0.482,0.460,0.591
+XGBoost,SMOTE,0.351,0.439,0.433,0.468,0.488,0.624
+XGBoost,SVMSMOTE,0.357,0.419,0.441,0.481,0.458,0.527

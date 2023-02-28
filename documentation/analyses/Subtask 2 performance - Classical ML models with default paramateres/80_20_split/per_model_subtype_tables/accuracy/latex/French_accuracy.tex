@@ -1,0 +1,60 @@
+\begin{tabular}{llllllll}
+\toprule
+                  model\_type &       model\_subtype & title & title and first paragraph & title and 5 sentences & title and 10 sentences & title and first sentence each paragraph &  raw text \\
+\midrule
+            Dummy Classifier &       No Upsampling & 0.000 &                     0.000 &                 0.000 &                  0.000 &                                   0.000 &     0.000 \\
+                         KNN &     BorderlineSMOTE & 0.000 &                     0.000 &                 0.000 &                  0.000 &                                   0.000 &     0.000 \\
+                         KNN &       No Upsampling & 0.024 &                     0.024 &                 0.024 &                  0.000 &                                   0.000 &     0.000 \\
+                         KNN & Random Oversampling & 0.048 &                     0.000 &                 0.000 &                  0.000 &                                   0.000 &     0.024 \\
+                         KNN &               SMOTE & 0.000 &                     0.000 &                 0.000 &                  0.000 &                                   0.000 &     0.000 \\
+                         KNN &            SVMSMOTE & 0.000 &                         0 &                     0 &                      0 &                                       0 &     0.000 \\
+                   LinearSVM &     BorderlineSMOTE & 0.000 &                     0.048 &                 0.048 &                  0.071 &                                   0.024 &     0.071 \\
+                   LinearSVM &       No Upsampling & 0.000 &                     0.048 &                 0.048 &                  0.071 &                                   0.024 &     0.071 \\
+                   LinearSVM & Random Oversampling & 0.000 &                     0.048 &                 0.048 &                  0.071 &                                   0.024 &     0.071 \\
+                   LinearSVM &               SMOTE & 0.000 &                     0.048 &                 0.048 &                  0.071 &                                   0.024 &     0.071 \\
+          LogisticRegression &     BorderlineSMOTE & 0.000 &                     0.048 &                 0.048 &                  0.071 &                                   0.024 &     0.071 \\
+          LogisticRegression &       No Upsampling & 0.000 &                     0.048 &                 0.048 &                  0.048 &                                   0.024 &     0.071 \\
+          LogisticRegression & Random Oversampling & 0.000 &                     0.048 &                 0.048 &                  0.071 &                                   0.024 &     0.071 \\
+          LogisticRegression &               SMOTE & 0.000 &                     0.048 &                 0.048 &                  0.048 &                                   0.048 &     0.071 \\
+          LogisticRegression &            SVMSMOTE & 0.024 &                     0.048 &                 0.024 &                  0.071 &                                   0.048 &     0.071 \\
+LogisticRegressionElasticNet &     BorderlineSMOTE & 0.000 &                     0.071 &                 0.024 &                  0.071 &                                   0.071 &     0.119 \\
+LogisticRegressionElasticNet &       No Upsampling & 0.000 &                     0.071 &                 0.024 &                  0.048 &                                   0.071 &     0.119 \\
+LogisticRegressionElasticNet & Random Oversampling & 0.000 &                     0.071 &                 0.000 &                  0.048 &                                   0.071 & **0.143** \\
+LogisticRegressionElasticNet &               SMOTE & 0.000 &                     0.071 &                 0.024 &                  0.071 &                                   0.071 &     0.119 \\
+LogisticRegressionElasticNet &            SVMSMOTE & 0.000 &                     0.048 &                 0.000 &                  0.095 &                                   0.071 &     0.095 \\
+     LogisticRegressionLasso &     BorderlineSMOTE & 0.000 &                     0.071 &                 0.024 &                  0.024 &                                   0.024 &     0.119 \\
+     LogisticRegressionLasso &       No Upsampling & 0.000 &                     0.071 &                 0.024 &                  0.024 &                                   0.024 &     0.119 \\
+     LogisticRegressionLasso & Random Oversampling & 0.000 &                     0.048 &                 0.024 &                  0.024 &                                   0.024 &     0.119 \\
+     LogisticRegressionLasso &               SMOTE & 0.000 &                     0.071 &                 0.024 &                  0.024 &                                   0.024 &     0.095 \\
+     LogisticRegressionLasso &            SVMSMOTE & 0.000 &                     0.071 &                 0.024 &                  0.048 &                                   0.024 &     0.095 \\
+     LogisticRegressionRidge &     BorderlineSMOTE & 0.000 &                     0.048 &                 0.024 &                  0.048 &                                   0.000 &     0.095 \\
+     LogisticRegressionRidge &       No Upsampling & 0.000 &                     0.048 &                 0.024 &                  0.071 &                                   0.024 &     0.071 \\
+     LogisticRegressionRidge & Random Oversampling & 0.000 &                     0.048 &                 0.024 &                  0.071 &                                   0.000 &     0.095 \\
+     LogisticRegressionRidge &               SMOTE & 0.000 &                     0.024 &                 0.024 &                  0.048 &                                   0.000 &     0.095 \\
+     LogisticRegressionRidge &            SVMSMOTE & 0.000 &                     0.048 &                 0.024 &                  0.071 &                                   0.000 &     0.095 \\
+                  NaiveBayes &     BorderlineSMOTE & 0.024 &                     0.000 &                 0.000 &                  0.000 &                                   0.024 &     0.024 \\
+                  NaiveBayes &       No Upsampling & 0.024 &                     0.024 &                 0.000 &                  0.048 &                                   0.000 &     0.048 \\
+                  NaiveBayes & Random Oversampling & 0.000 &                     0.000 &                 0.000 &                  0.000 &                                   0.024 &     0.000 \\
+                  NaiveBayes &               SMOTE & 0.024 &                     0.000 &                 0.024 &                  0.000 &                                   0.024 &     0.000 \\
+                RandomForest &     BorderlineSMOTE & 0.000 &                     0.048 &                 0.024 &                  0.000 &                                   0.024 &     0.024 \\
+                RandomForest &       No Upsampling & 0.000 &                     0.000 &                 0.000 &                  0.048 &                                   0.024 &     0.024 \\
+                RandomForest & Random Oversampling & 0.000 &                     0.000 &                 0.000 &                  0.024 &                                   0.024 &     0.071 \\
+                RandomForest &               SMOTE & 0.000 &                     0.048 &                 0.024 &                  0.048 &                                   0.000 &     0.048 \\
+                RandomForest &            SVMSMOTE & 0.000 &                     0.024 &                 0.024 &                  0.024 &                                   0.048 &     0.024 \\
+             RidgeClassifier &     BorderlineSMOTE & 0.000 &                     0.048 &                 0.024 &                  0.071 &                                   0.000 &     0.119 \\
+             RidgeClassifier &       No Upsampling & 0.000 &                     0.048 &                 0.024 &                  0.071 &                                   0.000 &     0.119 \\
+             RidgeClassifier & Random Oversampling & 0.000 &                     0.048 &                 0.024 &                  0.071 &                                   0.000 &     0.119 \\
+             RidgeClassifier &               SMOTE & 0.000 &                     0.048 &                 0.024 &                  0.071 &                                   0.000 &     0.119 \\
+             RidgeClassifier &            SVMSMOTE & 0.000 &                     0.048 &                 0.024 &                  0.071 &                                   0.024 &     0.095 \\
+                         SVM &     BorderlineSMOTE & 0.000 &                     0.000 &                 0.000 &                  0.000 &                                   0.000 &     0.000 \\
+                         SVM &       No Upsampling & 0.048 &                     0.000 &                 0.024 &                  0.000 &                                   0.000 &     0.000 \\
+                         SVM & Random Oversampling & 0.024 &                     0.000 &                 0.000 &                  0.000 &                                   0.048 &     0.000 \\
+                         SVM &               SMOTE & 0.000 &                     0.000 &                 0.000 &                  0.000 &                                   0.000 &     0.000 \\
+                         SVM &            SVMSMOTE & 0.000 &                     0.000 &                 0.000 &                  0.000 &                                   0.000 &     0.000 \\
+                     XGBoost &     BorderlineSMOTE & 0.000 &                     0.000 &                 0.000 &                  0.000 &                                   0.048 &     0.024 \\
+                     XGBoost &       No Upsampling & 0.024 &                     0.024 &                 0.000 &                  0.024 &                                   0.024 &     0.000 \\
+                     XGBoost & Random Oversampling & 0.000 &                     0.024 &                 0.024 &                  0.000 &                                   0.048 &     0.024 \\
+                     XGBoost &               SMOTE & 0.000 &                     0.000 &                 0.024 &                  0.000 &                                   0.048 &     0.024 \\
+                     XGBoost &            SVMSMOTE & 0.024 &                     0.000 &                 0.024 &                  0.000 &                                   0.048 &     0.000 \\
+\bottomrule
+\end{tabular}

@@ -1,0 +1,71 @@
+model_type,model_subtype,model_name,title,title and first paragraph,title and 5 sentences,title and 10 sentences,title and first sentence each paragraph,raw text
+KNN,BorderlineSMOTE,kNN_BorderlineSMOTE,0.341,0.328,0.318,0.373,0.379,0.454
+KNN,No Upsampling,kNN,0.388,0.328,0.318,0.350,0.321,0.432
+KNN,Random Oversampling,kNN_ROS,0.252,0.110,0.123,0.549,0.347,0.429
+KNN,SMOTE,kNN_SMOTE,0.116,0.287,0.123,0.410,0.337,0.470
+KNN,SVMSMOTE,kNN_SVMSMOTE,0.391,0.364,0.322,0.363,0.123,0.448
+LinearSVM,BorderlineSMOTE,LinearSVMDual_BorderlineSMOTE,0.441,0.408,0.472,0.478,0.411,0.552
+LinearSVM,BorderlineSMOTE,LinearSVMDual_SVMSMOTE,0.420,0.415,0.422,0.470,0.412,0.507
+LinearSVM,No Upsampling,LinearSVMDual,0.430,0.428,0.458,0.475,0.412,0.507
+LinearSVM,Random Oversampling,LinearSVMDual_ROS,0.425,0.424,0.446,0.486,0.408,0.502
+LinearSVM,SMOTE,LinearSVMDual_SMOTE,0.398,0.422,0.469,0.458,0.414,0.509
+LogisticRegression,BorderlineSMOTE,LogisticRegression_BorderlineSMOTE,0.433,0.444,0.442,0.498,0.488,0.558
+LogisticRegression,No Upsampling,LogisticRegression,0.399,0.403,0.414,0.464,0.426,0.490
+LogisticRegression,Random Oversampling,LogisticRegression_ROS,0.401,0.402,0.431,0.448,0.413,0.501
+LogisticRegression,SMOTE,LogisticRegression_SMOTE,0.394,0.403,0.412,0.457,0.425,0.492
+LogisticRegression,SVMSMOTE,LogisticRegression_SVMSMOTE,0.444,0.437,0.413,0.429,0.419,0.494
+LogisticRegressionElasticNet,BorderlineSMOTE,LogisticRegressionElasticNet_BorderlineSMOTE,0.405,0.431,0.464,0.483,0.457,0.552
+LogisticRegressionElasticNet,No Upsampling,LogisticRegressionElasticNet,0.384,0.402,0.437,0.469,0.475,0.505
+LogisticRegressionElasticNet,Random Oversampling,LogisticRegressionElasticNet_ROS,0.416,0.388,0.437,0.461,0.474,0.494
+LogisticRegressionElasticNet,SMOTE,LogisticRegressionElasticNet_SMOTE,0.268,0.396,0.425,0.467,0.456,0.473
+LogisticRegressionElasticNet,SVMSMOTE,LogisticRegressionElasticNet_SVMSMOTE,0.323,0.404,0.422,0.450,0.479,0.502
+LogisticRegressionLasso,BorderlineSMOTE,LogisticRegressionLasso_BorderlineSMOTE,0.339,0.460,0.468,0.471,0.477,0.481
+LogisticRegressionLasso,No Upsampling,LogisticRegressionLasso,0.346,0.461,0.466,0.439,0.477,0.473
+LogisticRegressionLasso,Random Oversampling,LogisticRegressionLasso_ROS,0.388,0.467,0.464,0.466,0.461,0.479
+LogisticRegressionLasso,SMOTE,LogisticRegressionLasso_SMOTE,0.356,0.400,0.428,0.474,0.467,0.469
+LogisticRegressionLasso,SVMSMOTE,LogisticRegressionLasso_SVMSMOTE,0.365,0.464,0.462,0.449,0.488,0.507
+LogisticRegressionRidge,BorderlineSMOTE,LogisticRegressionRidgeDual_BorderlineSMOTE,0.417,0.424,0.454,0.473,0.437,0.538
+LogisticRegressionRidge,No Upsampling,LogisticRegressionRidgeDual,0.429,0.432,0.472,0.470,0.439,0.503
+LogisticRegressionRidge,Random Oversampling,LogisticRegressionRidgeDual_ROS,0.422,0.401,0.449,0.487,0.432,0.502
+LogisticRegressionRidge,SMOTE,LogisticRegressionRidgeDual_SMOTE,0.412,0.413,0.441,0.498,0.444,0.503
+LogisticRegressionRidge,SVMSMOTE,LogisticRegressionRidgeDual_SVMSMOTE,0.424,0.344,0.423,0.450,0.409,0.498
+NaiveBayes,BorderlineSMOTE,ComplementNaiveBayes_BorderlineSMOTE,0.512,0.457,0.406,0.467,0.470,0.438
+NaiveBayes,BorderlineSMOTE,NaiveBayes_BorderlineSMOTE,0.497,0.393,0.474,0.475,0.452,0.424
+NaiveBayes,No Upsampling,ComplementNaiveBayes,0.409,0.415,0.415,0.426,0.457,0.423
+NaiveBayes,No Upsampling,NaiveBayes,0.504,0.424,0.415,0.429,0.457,0.421
+NaiveBayes,Random Oversampling,ComplementNaiveBayes_ROS,0.504,0.481,0.469,0.440,0.476,0.425
+NaiveBayes,Random Oversampling,NaiveBayes_ROS,0.433,0.422,0.422,0.429,0.454,0.434
+NaiveBayes,SMOTE,ComplementNaiveBayes_SMOTE,0.477,0.380,0.436,0.426,0.484,0.537
+NaiveBayes,SMOTE,NaiveBayes_SMOTE,0.490,0.439,0.438,0.421,0.427,0.503
+NaiveBayes,SVMSMOTE,ComplementNaiveBayes_SVMSMOTE,0.504,0.405,0.421,0.429,0.420,0.424
+NaiveBayes,SVMSMOTE,NaiveBayes_SVMSMOTE,0.504,0.408,0.422,0.429,0.421,0.424
+RandomForest,BorderlineSMOTE,RandomForest_BorderlineSMOTE,0.329,0.381,0.438,0.473,0.252,0.437
+RandomForest,No Upsampling,RandomForest,0.441,0.497,0.501,0.519,0.516,**0.561**
+RandomForest,Random Oversampling,RandomForest_ROS,0.135,0.395,0.281,0.427,0.211,0.423
+RandomForest,SMOTE,RandomForest_SMOTE,0.308,0.337,0.394,0.432,0.345,0.422
+RandomForest,SVMSMOTE,RandomForest_SVMSMOTE,0.283,0.365,0.426,0.416,0.323,0.438
+RidgeClassifier,BorderlineSMOTE,RidgeClassifier_BorderlineSMOTE,0.411,0.439,0.435,0.463,0.462,0.534
+RidgeClassifier,No Upsampling,RidgeClassifier,0.405,0.436,0.443,0.467,0.423,0.479
+RidgeClassifier,Random Oversampling,RidgeClassifier_ROS,0.401,0.432,0.422,0.449,0.422,0.489
+RidgeClassifier,SMOTE,RidgeClassifier_SMOTE,0.425,0.433,0.429,0.455,0.424,0.478
+RidgeClassifier,SVMSMOTE,RidgeClassifier_SVMSMOTE,0.439,0.417,0.452,0.436,0.445,0.510
+SVM,BorderlineSMOTE,SVM_rbf_BorderlineSMOTE,0.485,0.366,0.494,0.469,0.484,0.510
+SVM,BorderlineSMOTE,SVM_sigmoid_BorderlineSMOTE,0.466,0.413,0.468,0.522,0.514,0.533
+SVM,No Upsampling,SVM_rbf,0.226,0.485,0.328,0.510,0.477,0.503
+SVM,No Upsampling,SVM_sigmoid,0.468,0.475,0.500,0.524,0.505,0.524
+SVM,Random Oversampling,SVM_rbf_ROS,0.256,0.470,0.438,0.389,0.464,0.496
+SVM,Random Oversampling,SVM_sigmoid_ROS,0.484,0.454,0.457,0.499,0.504,0.526
+SVM,SMOTE,SVM_rbf_SMOTE,0.341,0.368,0.425,0.489,0.478,0.498
+SVM,SMOTE,SVM_sigmoid_SMOTE,0.466,0.457,0.441,0.460,0.499,0.519
+SVM,SVMSMOTE,SVM_rbf_SVMSMOTE,0.280,0.454,0.440,0.441,0.470,0.509
+SVM,SVMSMOTE,SVM_sigmoid_SVMSMOTE,0.447,0.450,0.464,0.466,0.501,0.507
+XGBoost,BorderlineSMOTE,XGBoost_broad_BorderlineSMOTE,0.354,0.385,0.395,0.467,0.499,0.492
+XGBoost,BorderlineSMOTE,XGBoost_narrow_BorderlineSMOTE,0.411,0.450,0.463,0.501,0.508,0.523
+XGBoost,No Upsampling,XGBoost_broad,0.372,0.417,0.384,0.462,0.499,0.515
+XGBoost,No Upsampling,XGBoost_narrow,0.402,0.468,0.480,0.501,0.504,0.529
+XGBoost,Random Oversampling,XGBoost_broad_ROS,0.301,0.423,0.402,0.464,0.426,0.518
+XGBoost,Random Oversampling,XGBoost_narrow_ROS,0.401,0.467,0.469,0.485,0.481,0.506
+XGBoost,SMOTE,XGBoost_broad_SMOTE,0.302,0.413,0.404,0.438,0.478,0.508
+XGBoost,SMOTE,XGBoost_narrow_SMOTE,0.378,0.430,0.456,0.486,0.492,0.500
+XGBoost,SVMSMOTE,XGBoost_broad_SVMSMOTE,0.333,0.436,0.404,0.469,0.416,0.515
+XGBoost,SVMSMOTE,XGBoost_narrow_SVMSMOTE,0.352,0.451,0.468,0.496,0.484,0.535

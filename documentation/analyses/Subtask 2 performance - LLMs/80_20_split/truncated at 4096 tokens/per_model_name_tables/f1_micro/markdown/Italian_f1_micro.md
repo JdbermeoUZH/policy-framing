@@ -1,0 +1,3 @@
+| model_name                                 |   title |   title and first paragraph |   title and 5 sentences |   title and 10 sentences |   title and first sentence each paragraph | raw text   |
+|:-------------------------------------------|--------:|----------------------------:|------------------------:|-------------------------:|------------------------------------------:|:-----------|
+| AshtonIsNotHere-xlm-roberta-long-base-4096 |   0.542 |                       0.555 |                   0.548 |                    0.585 |                                     0.532 | **0.650**  |

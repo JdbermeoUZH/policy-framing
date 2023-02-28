@@ -1,0 +1,9 @@
+| model_name                         |   title |   title and first paragraph |   title and 5 sentences |   title and 10 sentences |   title and first sentence each paragraph | raw text   |
+|:-----------------------------------|--------:|----------------------------:|------------------------:|-------------------------:|------------------------------------------:|:-----------|
+| EleutherAI-gpt-neo-1.3B            |   0.492 |                       0.522 |                   0.555 |                    0.54  |                                     0.538 | 0.603      |
+| EleutherAI-gpt-neo-125M            |   0.353 |                       0.471 |                   0.45  |                    0.481 |                                     0.524 | 0.450      |
+| bert-base-multilingual-cased       |   0.492 |                       0.562 |                   0.56  |                    0.61  |                                     0.601 | 0.607      |
+| distilbert-base-multilingual-cased |   0.458 |                       0.495 |                   0.54  |                    0.585 |                                     0.527 | 0.602      |
+| facebook-mbart-large-50            |   0.545 |                       0.571 |                   0.596 |                    0.599 |                                     0.621 | **0.655**  |
+| gpt2                               |   0.409 |                       0.47  |                   0.491 |                    0.523 |                                     0.533 | 0.545      |
+| xlm-roberta-large                  |   0.565 |                       0.604 |                   0.608 |                    0.603 |                                     0.586 | **0.655**  |

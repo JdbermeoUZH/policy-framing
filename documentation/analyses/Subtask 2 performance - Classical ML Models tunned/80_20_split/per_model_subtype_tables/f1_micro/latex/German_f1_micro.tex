@@ -1,0 +1,59 @@
+\begin{tabular}{llllllll}
+\toprule
+                  model\_type &       model\_subtype & title & title and first paragraph & title and 5 sentences & title and 10 sentences & title and first sentence each paragraph &  raw text \\
+\midrule
+                         KNN &     BorderlineSMOTE & 0.063 &                     0.347 &                 0.369 &                  0.379 &                                   0.406 &     0.449 \\
+                         KNN &       No Upsampling & 0.099 &                     0.078 &                 0.388 &                  0.332 &                                   0.144 &     0.448 \\
+                         KNN & Random Oversampling & 0.114 &                     0.361 &                 0.388 &                  0.379 &                                   0.400 &     0.449 \\
+                         KNN &               SMOTE & 0.156 &                     0.081 &                 0.370 &                  0.332 &                                   0.417 &     0.417 \\
+                         KNN &            SVMSMOTE &     0 &                     0.347 &                 0.378 &                  0.332 &                                   0.406 &     0.445 \\
+                   LinearSVM &     BorderlineSMOTE & 0.364 &                     0.458 &                 0.453 &                  0.462 &                                   0.429 &     0.452 \\
+                   LinearSVM &       No Upsampling & 0.364 &                     0.424 &                 0.424 &                  0.454 &                                   0.433 &     0.444 \\
+                   LinearSVM & Random Oversampling & 0.351 &                     0.406 &                 0.433 &                  0.454 &                                   0.424 &     0.447 \\
+                   LinearSVM &               SMOTE & 0.364 &                     0.425 &                 0.480 &                  0.454 &                                   0.421 &     0.447 \\
+          LogisticRegression &     BorderlineSMOTE & 0.347 &                     0.465 &                 0.443 &                  0.489 &                                   0.439 &     0.518 \\
+          LogisticRegression &       No Upsampling & 0.343 &                     0.436 &                 0.416 &                  0.468 &                                   0.391 &     0.462 \\
+          LogisticRegression & Random Oversampling & 0.340 &                     0.436 &                 0.430 &                  0.461 &                                   0.417 &     0.467 \\
+          LogisticRegression &               SMOTE & 0.336 &                     0.427 &                 0.407 &                  0.462 &                                   0.411 &     0.474 \\
+          LogisticRegression &            SVMSMOTE & 0.334 &                     0.420 &                 0.412 &                  0.458 &                                   0.430 &     0.472 \\
+LogisticRegressionElasticNet &     BorderlineSMOTE & 0.335 &                     0.466 &                 0.435 &                  0.474 &                                   0.447 &     0.531 \\
+LogisticRegressionElasticNet & Random Oversampling & 0.339 &                     0.455 &                 0.455 &                  0.472 &                                   0.434 &     0.534 \\
+LogisticRegressionElasticNet &               SMOTE & 0.339 &                     0.469 &                 0.455 &                  0.466 &                                   0.427 &     0.529 \\
+LogisticRegressionElasticNet &            SVMSMOTE & 0.326 &                     0.425 &                 0.424 &                  0.388 &                                   0.437 &     0.470 \\
+     LogisticRegressionLasso &     BorderlineSMOTE & 0.308 &                     0.465 &                 0.441 &                  0.463 &                                   0.458 &     0.520 \\
+     LogisticRegressionLasso &       No Upsampling & 0.294 &                     0.436 &                 0.421 &                  0.443 &                                   0.457 &     0.536 \\
+     LogisticRegressionLasso & Random Oversampling & 0.348 &                     0.454 &                 0.419 &                  0.454 &                                   0.432 &     0.542 \\
+     LogisticRegressionLasso &               SMOTE & 0.336 &                     0.462 &                 0.449 &                  0.436 &                                   0.444 &     0.523 \\
+     LogisticRegressionLasso &            SVMSMOTE & 0.311 &                     0.467 &                 0.436 &                  0.419 &                                   0.451 &     0.501 \\
+     LogisticRegressionRidge &     BorderlineSMOTE & 0.346 &                     0.514 &                 0.445 &                  0.476 &                                   0.457 &     0.496 \\
+     LogisticRegressionRidge &       No Upsampling & 0.363 &                     0.427 &                 0.426 &                  0.483 &                                   0.448 &     0.470 \\
+     LogisticRegressionRidge & Random Oversampling & 0.360 &                     0.439 &                 0.429 &                  0.479 &                                   0.447 &     0.467 \\
+     LogisticRegressionRidge &               SMOTE & 0.340 &                     0.404 &                 0.430 &                  0.477 &                                   0.428 &     0.523 \\
+     LogisticRegressionRidge &            SVMSMOTE & 0.353 &                     0.426 &                 0.395 &                  0.410 &                                   0.449 &     0.469 \\
+                  NaiveBayes &     BorderlineSMOTE & 0.335 &                     0.478 &                 0.434 &                  0.469 &                                   0.529 &     0.465 \\
+                  NaiveBayes &       No Upsampling & 0.333 &                     0.481 &                 0.477 &                  0.469 &                                   0.456 &     0.485 \\
+                  NaiveBayes & Random Oversampling & 0.333 &                     0.481 &                 0.480 &                  0.469 &                                   0.451 &     0.488 \\
+                  NaiveBayes &               SMOTE & 0.337 &                     0.441 &                 0.442 &                  0.484 &                                   0.522 &     0.485 \\
+                  NaiveBayes &            SVMSMOTE & 0.335 &                     0.494 &                 0.485 &                  0.469 &                                   0.453 &     0.485 \\
+                RandomForest &     BorderlineSMOTE & 0.290 &                     0.327 &                 0.435 &                  0.453 &                                   0.399 &     0.486 \\
+                RandomForest &       No Upsampling & 0.389 &                     0.522 &                 0.527 &                  0.511 &                                   0.499 &     0.541 \\
+                RandomForest & Random Oversampling & 0.141 &                     0.365 &                 0.299 &                  0.454 &                                   0.350 &     0.506 \\
+                RandomForest &               SMOTE & 0.226 &                     0.378 &                 0.400 &                  0.416 &                                   0.409 &     0.432 \\
+                RandomForest &            SVMSMOTE & 0.272 &                     0.368 &                 0.369 &                  0.447 &                                   0.402 &     0.465 \\
+             RidgeClassifier &     BorderlineSMOTE & 0.342 &                     0.457 &                 0.411 &                  0.449 &                                   0.467 &     0.477 \\
+             RidgeClassifier &       No Upsampling & 0.339 &                     0.460 &                 0.412 &                  0.438 &                                   0.448 &     0.462 \\
+             RidgeClassifier & Random Oversampling & 0.353 &                     0.449 &                 0.407 &                  0.446 &                                   0.485 &     0.450 \\
+             RidgeClassifier &               SMOTE & 0.331 &                     0.459 &                 0.377 &                  0.447 &                                   0.424 &     0.462 \\
+             RidgeClassifier &            SVMSMOTE & 0.329 &                     0.378 &                 0.427 &                  0.364 &                                   0.413 &     0.456 \\
+                         SVM &     BorderlineSMOTE & 0.351 &                     0.500 &                 0.465 &                  0.501 &                                   0.528 &     0.526 \\
+                         SVM &       No Upsampling & 0.351 &                     0.486 &                 0.459 &                  0.444 &                                   0.532 &     0.503 \\
+                         SVM & Random Oversampling & 0.387 &                     0.451 &                 0.396 &                  0.426 &                                   0.467 &     0.499 \\
+                         SVM &               SMOTE & 0.347 &                     0.468 &                 0.447 &                  0.412 &                                   0.486 &     0.470 \\
+                         SVM &            SVMSMOTE & 0.397 &                     0.491 &                 0.459 &                  0.456 &                                   0.508 &     0.501 \\
+                     XGBoost &     BorderlineSMOTE & 0.416 &                     0.535 &                 0.483 &                  0.484 &                                   0.471 &     0.541 \\
+                     XGBoost &       No Upsampling & 0.413 &                     0.536 &                 0.463 &                  0.448 &                                   0.484 &     0.521 \\
+                     XGBoost & Random Oversampling & 0.408 &                     0.550 &                 0.501 &                  0.491 &                                   0.493 &     0.514 \\
+                     XGBoost &               SMOTE & 0.475 &                     0.534 &                 0.490 &                  0.509 &                                   0.487 &     0.552 \\
+                     XGBoost &            SVMSMOTE & 0.471 &                     0.523 &                 0.491 &                  0.483 &                                   0.501 & **0.567** \\
+\bottomrule
+\end{tabular}
