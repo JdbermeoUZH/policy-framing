@@ -216,14 +216,14 @@ if __name__ == "__main__":
                     else:
                         best_model = multilabel_cls.multi_label_estimator.fit(X_train.copy(), y_train.copy())
 
+                    # Evaluate the model on the eval set and store predictions
+                    y_train_pred = best_model.predict(X_train.copy())
+                    y_test_pred = best_model.predict(X_test.copy())
+
                 except Exception as e:
                     print(f'Error while trying to fit model: {model_name}')
                     print(e)
                     continue
-
-                # Evaluate the model on the eval set and store predictions
-                y_train_pred = best_model.predict(X_train.copy())
-                y_test_pred = best_model.predict(X_test.copy())
 
                 if output_config['store_best_models']:
                     # Persist the best model
