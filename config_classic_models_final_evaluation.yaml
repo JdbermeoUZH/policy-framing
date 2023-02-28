@@ -4,23 +4,24 @@ run:
   seed: 0
 
 dataset:
-  languages: ['en', 'it', 'fr', 'po', 'ru', 'ge']
+  languages: ['ge'] #'en', 'it', 'fr', 'po', 'ru', 'ge']
   data_dir: ['data', 'preprocessed', '80_20_split']     # Relative path to directory with data
 
 preprocessing:
-  analysis_unit: ['all']                               # 'title', 'title_and_first_paragraph', 'title_and_5_sentences', 'title_and_10_sentences', 'title_and_first_sentence_each_paragraph', 'raw_text', 'all'
+  analysis_unit: ['title_and_10_sentences']                               # 'title', 'title_and_first_paragraph', 'title_and_5_sentences', 'title_and_10_sentences', 'title_and_first_sentence_each_paragraph', 'raw_text', 'all'
   spacy_model_size: 'small'                            # small or large. small should be enough for preprocessing, it is mostly tokenizing so far
-  preprocessing_hyperparam_module: 'training.default_params.preprocesing_params_config'
+  preprocessing_hyperparam_module: 'training.german.preprocesing_params_config'
   outer_fold_dir: ['data', 'preprocessed', 'folds']    # Path to directory with pre-splitted folds used to benchmark the model
   use_same_params_across_units: True                   # Whether or not to use the same preprocessing parameters across all units of analysis
 
 training:
   mlb_cls_independent: True                             # If True, and 'independent' multilabel model is used. If False, a 'chain' mlb model is used. 'independent' learns probabilities indep. for each class
-  default_params: True                                 # If True, it runs cross validation with outer_folds folds. If False, it runs nested cross validation
+  default_params: False                                 # If True, it runs cross validation with outer_folds folds. If False, it runs nested cross validation
   ranking_metric: 'f1_micro'                            # Metric to rank and choose the best model
   return_train_metrics: True                            # Whether to return the metrics on the train set or not
-  model_hyperparam_module: 'training.default_params.hyperparam_space_config'           # .py file with models and distribution of hyperparams to tune and benchmark
-  model_list: ['RakelD_LogisticRegression', 'RakelD_SVM', 'RakelD_LineaSVM', 'RakelD_ComplementNB','BRkNNaClassifier', 'BRkNNbClassifier', 'MLkNN', 'MLARAM']                                   # Names of models to fit. If set to 'all' or ['all'], will fit all models in `model_hyperparam_module`
+  model_hyperparam_module: 'training.german.hyperparam_space_config'           # .py file with models and distribution of hyperparams to tune and benchmark
+  #model_list: ['ComplementNaiveBayes', 'ComplementNaiveBayes_ROS', 'ComplementNaiveBayes_SMOTE', 'ComplementNaiveBayes_BorderlineSMOTE', 'ComplementNaiveBayes_SVMSMOTE',  'NaiveBayes', 'NaiveBayes_ROS', 'NaiveBayes_SMOTE', 'NaiveBayes_BorderlineSMOTE', 'NaiveBayes_SVMSMOTE', 'LogisticRegressionRidgeDual', 'LogisticRegressionRidgeDual_ROS', 'LogisticRegressionRidgeDual_SMOTE', 'LogisticRegressionRidgeDual_BorderlineSMOTE', 'LogisticRegressionRidgeDual_SVMSMOTE','LinearSVMDual', 'LinearSVMDual_ROS', 'LinearSVMDual_SMOTE', 'LinearSVMDual_BorderlineSMOTE', 'LinearSVMDual_SVMSMOTE']                                   # Names of models to fit. If set to 'all' or ['all'], will fit all models in `model_hyperparam_module`
+  model_list: ['all']
   n_folds_tunning_eval: 5
 
   # Default model list
@@ -30,7 +31,7 @@ training:
   #model_list: ['DummyProbSampling', 'DummyUniformSampling', 'DummyMostFrequent', 'LogisticRegression', 'LogisticRegression_ROS', 'LogisticRegression_SMOTE', 'LogisticRegression_BorderlineSMOTE', 'LogisticRegression_SVMSMOTE', 'LogisticRegressionRidge', 'LogisticRegressionRidge_ROS', 'LogisticRegressionRidge_SMOTE', 'LogisticRegressionRidge_BorderlineSMOTE', 'LogisticRegressionRidge_SVMSMOTE', 'RakelD_LogisticRegression', 'LogisticRegressionLasso', 'LogisticRegressionLasso_ROS', 'LogisticRegressionLasso_SMOTE', 'LogisticRegressionLasso_BorderlineSMOTE', 'LogisticRegressionLasso_SVMSMOTE', 'LogisticRegressionElasticNet', 'LogisticRegressionElasticNet_ROS', 'LogisticRegressionElasticNet_SMOTE', 'LogisticRegressionElasticNet_BorderlineSMOTE', 'LogisticRegressionElasticNet_SVMSMOTE', 'RidgeClassifier', 'RidgeClassifier_ROS', 'RidgeClassifier_SMOTE', 'RidgeClassifier_BorderlineSMOTE', 'RidgeClassifier_SVMSMOTE', 'SVM_rbf', 'SVM_rbf_ROS', 'SVM_rbf_SMOTE', 'SVM_rbf_BorderlineSMOTE', 'SVM_rbf_SVMSMOTE', 'SVM_sigmoid', 'SVM_sigmoid_ROS', 'SVM_sigmoid_SMOTE', 'SVM_sigmoid_BorderlineSMOTE', 'SVM_sigmoid_SVMSMOTE', 'RakelD_SVM', 'LinearSVM', 'LinearSVM_ROS', 'LinearSVM_SMOTE', 'LinearSVM_BorderlineSMOTE', 'LinearSVM_SVMSMOTE', 'RakelD_LineaSVM', 'kNN', 'kNN_ROS', 'kNN_SMOTE', 'kNN_BorderlineSMOTE', 'kNN_SVMSMOTE', 'XGBoost_narrow', 'XGBoost_narrow_ROS', 'XGBoost_narrow_SMOTE', 'XGBoost_narrow_BorderlineSMOTE', 'XGBoost_narrow_SVMSMOTE', 'ComplementNaiveBayes', 'ComplementNaiveBayes_ROS', 'ComplementNaiveBayes_SMOTE', 'ComplementNaiveBayes_BorderlineSMOTE', 'ComplementNaiveBayes_SVMSMOTE', 'RakelD_ComplementNB', 'NaiveBayes', 'NaiveBayes_ROS', 'NaiveBayes_SMOTE', 'NaiveBayes_BorderlineSMOTE', 'NaiveBayes_SVMSMOTE', 'RandomForest', 'RandomForest_ROS', 'RandomForest_SMOTE', 'RandomForest_BorderlineSMOTE', 'RandomForest_SVMSMOTE', 'BRkNNaClassifier', 'BRkNNbClassifier', 'MLkNN', 'MLARAM']
 
 output:
-  output_dir: ['..', 'final_evaluation', 'missing_defaults']
-  metric_file_prefix: 'missing_defaults'
+  output_dir: ['..', 'final_evaluation', 'remaining_tunning_models']
+  metric_file_prefix: 'remaining_tunning_models'
   store_best_models: False
   store_predictions: False

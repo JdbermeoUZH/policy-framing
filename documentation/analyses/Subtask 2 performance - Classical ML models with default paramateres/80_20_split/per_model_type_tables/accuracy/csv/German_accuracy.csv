@@ -1,13 +1,16 @@
 model_type,title,title and first paragraph,title and 5 sentences,title and 10 sentences,title and first sentence each paragraph,raw text
+Binary Relevance kNN,0.000,0.000,0.000,0.000,0.000,0.000
+ComplementNaiveBayes,0.000,0.000,0.000,0.000,0.000,0.000
 Dummy Classifier,0.000,0.000,0.000,0.000,0.000,0.000
 KNN,0.000,0.000,0.000,0.000,0.000,0.000
-LinearSVM,0.000,0.000,0.000,0.000,0.000,**0.029**
-LogisticRegression,0.000,0.000,0.000,**0.029**,0.000,0.000
-LogisticRegressionElasticNet,0.000,**0.029**,0.000,0.000,0.000,**0.029**
+LinearSVM,0.000,0.000,0.000,0.029,0.000,0.029
+LogisticRegression,0.000,0.000,0.000,0.029,0.000,0.000
+LogisticRegressionElasticNet,0.000,0.029,0.000,0.000,0.000,0.029
 LogisticRegressionLasso,0.000,0.000,0.000,0.000,0.000,0.000
-LogisticRegressionRidge,0.000,0.000,0.000,0.000,0.000,0.000
+LogisticRegressionRidge,**0.057**,0.000,0.000,0.000,0.000,0.000
+Multilabel k Nearest Neighbours,0.000,0.000,0.000,0.000,0.000,0.000
 NaiveBayes,0.000,0.000,0.000,0.000,0.000,0.000
-RandomForest,0.000,0.000,0.000,**0.029**,0.000,**0.029**
-RidgeClassifier,0.000,0.000,0.000,0.000,0.000,**0.029**
-SVM,0.000,0.000,**0.029**,0.000,**0.029**,0.000
-XGBoost,0.000,**0.029**,0.000,0.000,0.000,0.000
+RandomForest,0.000,0.000,0.000,0.029,0.000,0.029
+RidgeClassifier,0.000,0.000,0.000,0.000,0.000,0.029
+SVM,0.000,0.000,0.029,0.000,0.029,0.000
+XGBoost,0.000,0.029,0.000,0.000,0.000,0.000

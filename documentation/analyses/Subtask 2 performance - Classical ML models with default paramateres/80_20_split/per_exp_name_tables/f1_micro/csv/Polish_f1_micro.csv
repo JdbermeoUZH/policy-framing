@@ -1,4 +1,7 @@
 model_type,model_subtype,model_name,title,title and first paragraph,title and 5 sentences,title and 10 sentences,title and first sentence each paragraph,raw text
+Binary Relevance kNN,Natively Multilabel,BRkNNaClassifier,0.319,0.238,0.278,0.009,0.078,0.009
+Binary Relevance kNN,Natively Multilabel,BRkNNbClassifier,0.384,0.350,0.319,0.150,0.145,0.111
+ComplementNaiveBayes,RakelD Partitioning of labels,RakelD_ComplementNB,0.503,0.440,0.531,0.525,0.570,0.621
 Dummy Classifier,No Upsampling,DummyMostFrequent,0.281,0.281,0.281,0.281,0.281,0.281
 Dummy Classifier,No Upsampling,DummyProbSampling,0.425,0.454,0.438,0.427,0.425,0.443
 Dummy Classifier,No Upsampling,DummyUniformSampling,0.501,0.438,0.491,0.414,0.461,0.485
@@ -10,6 +13,7 @@ KNN,SVMSMOTE,kNN_SVMSMOTE,0.534,0.428,0.452,0.342,0.328,0
 LinearSVM,BorderlineSMOTE,LinearSVM_BorderlineSMOTE,0.531,0.454,0.503,0.465,0.545,0.550
 LinearSVM,BorderlineSMOTE,LinearSVM_SVMSMOTE,0.531,0.454,0.503,0.465,0.545,0
 LinearSVM,No Upsampling,LinearSVM,0.531,0.454,0.503,0.465,0.545,0.550
+LinearSVM,RakelD Partitioning of labels,RakelD_LineaSVM,0.525,0.453,0.469,0.457,0.544,0.536
 LinearSVM,Random Oversampling,LinearSVM_ROS,0.531,0.454,0.503,0.465,0.545,0.550
 LinearSVM,SMOTE,LinearSVM_SMOTE,0.531,0.454,0.503,0.465,0.545,0.550
 LogisticRegression,BorderlineSMOTE,LogisticRegression_BorderlineSMOTE,0.538,0.452,0.509,0.492,0.496,0.558
@@ -29,9 +33,11 @@ LogisticRegressionLasso,SMOTE,LogisticRegressionLasso_SMOTE,0.412,0.484,0.476,0.
 LogisticRegressionLasso,SVMSMOTE,LogisticRegressionLasso_SVMSMOTE,0.390,0.429,0.491,0.489,0.570,0.566
 LogisticRegressionRidge,BorderlineSMOTE,LogisticRegressionRidge_BorderlineSMOTE,0.546,0.478,0.539,0.498,0.573,0.561
 LogisticRegressionRidge,No Upsampling,LogisticRegressionRidge,0.541,0.473,0.526,0.492,0.575,0.541
+LogisticRegressionRidge,RakelD Partitioning of labels,RakelD_LogisticRegression,0.553,0.449,0.516,0.468,0.519,0.525
 LogisticRegressionRidge,Random Oversampling,LogisticRegressionRidge_ROS,0.536,0.470,0.525,0.504,0.581,0.571
 LogisticRegressionRidge,SMOTE,LogisticRegressionRidge_SMOTE,0.545,0.480,0.537,0.488,0.579,0.574
 LogisticRegressionRidge,SVMSMOTE,LogisticRegressionRidge_SVMSMOTE,0.515,0.472,0.519,0.493,0.554,0.577
+Multilabel k Nearest Neighbours,Natively Multilabel,MLkNN,0.414,0.394,0.504,0.411,0.456,0.386
 NaiveBayes,BorderlineSMOTE,ComplementNaiveBayes_BorderlineSMOTE,0.499,0.539,0.589,0.613,0.615,0.657
 NaiveBayes,BorderlineSMOTE,NaiveBayes_BorderlineSMOTE,0.501,0.555,0.578,0.611,0.606,0.662
 NaiveBayes,No Upsampling,ComplementNaiveBayes,0.511,0.505,0.525,0.521,0.512,0.467
@@ -52,6 +58,7 @@ RidgeClassifier,SMOTE,RidgeClassifier_SMOTE,0.538,0.472,0.526,0.481,0.572,0.582
 RidgeClassifier,SVMSMOTE,RidgeClassifier_SVMSMOTE,0.505,0.464,0.518,0.489,0.566,0.594
 SVM,BorderlineSMOTE,SVM_rbf_BorderlineSMOTE,0.433,0.315,0.342,0.373,0.364,0.380
 SVM,No Upsampling,SVM_rbf,0.326,0.256,0.337,0.406,0.433,0.422
+SVM,RakelD Partitioning of labels,RakelD_SVM,0.303,0.260,0.347,0.340,0.353,0.330
 SVM,Random Oversampling,SVM_rbf_ROS,0.402,0.299,0.351,0.435,0.445,0.437
 SVM,SMOTE,SVM_rbf_SMOTE,0.441,0.323,0.345,0.372,0.373,0.379
 SVM,SVMSMOTE,SVM_rbf_SVMSMOTE,0.489,0.305,0.344,0.352,0.380,0.362

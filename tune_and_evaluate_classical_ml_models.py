@@ -213,6 +213,10 @@ if __name__ == "__main__":
 
                         best_model = search_results.best_estimator_
 
+                        print('\tbest params')
+                        pprint.pprint(search_results.best_params_)
+                        print('\n\n')
+
                     else:
                         best_model = multilabel_cls.multi_label_estimator.fit(X_train.copy(), y_train.copy())
 
@@ -237,26 +241,31 @@ if __name__ == "__main__":
                     pd.DataFrame(y_test_pred, columns=LABELS, index=test_df.index).to_csv(os.path.join(
                         predicted_instances_test_dir_path, f"{language}_{model_name}_y_test.csv"))
 
-                # Calculate metrics of the model
-                metrics_train = compute_multi_label_metrics(y_train, y_train_pred, prefix='train')
-                metrics_test = compute_multi_label_metrics(y_test, y_test_pred, prefix='test')
+                try:
+                    # Calculate metrics of the model
+                    metrics_train = compute_multi_label_metrics(y_train, y_train_pred, prefix='train')
+                    metrics_test = compute_multi_label_metrics(y_test, y_test_pred, prefix='test')
 
-                # Add metrics of the model
-                metrics.append(
-                    {
-                        'language': language, 'unit_of_analysis': unit_of_analysis,
-                        'model_type': estimators_config.MODEL_LIST[model_name]['model_type'],
-                        'model_subtype': estimators_config.MODEL_LIST[model_name]['model_subtype'],
-                        'model_name': model_name, **metrics_train, **metrics_test
-                    }
-                )
+                    # Add metrics of the model
+                    metrics.append(
+                        {
+                            'language': language, 'unit_of_analysis': unit_of_analysis,
+                            'model_type': estimators_config.MODEL_LIST[model_name]['model_type'],
+                            'model_subtype': estimators_config.MODEL_LIST[model_name]['model_subtype'],
+                            'model_name': model_name, **metrics_train, **metrics_test
+                        }
+                    )
 
-                # Save performance metrics
-                metrics_filename = f'{output_config["metric_file_prefix"]}_{language}_{unit_of_analysis}_metrics.csv'
-                pd.DataFrame(metrics) \
-                    .set_index(['language', 'unit_of_analysis', 'model_type', 'model_subtype']).sort_index() \
-                    .to_csv(os.path.join(output_dir, 'performance', metrics_filename))
+                    # Save performance metrics
+                    metrics_filename = f'{output_config["metric_file_prefix"]}_{language}_{unit_of_analysis}_metrics.csv'
+                    pd.DataFrame(metrics) \
+                        .set_index(['language', 'unit_of_analysis', 'model_type', 'model_subtype']).sort_index() \
+                        .to_csv(os.path.join(output_dir, 'performance', metrics_filename))
 
+                except Exception as e:
+                    print(f'Error while trying to measure performance of the model: {model_name}')
+                    print(e)
+                    continue
 
             # Save performance metrics
             metrics_filename = f'{output_config["metric_file_prefix"]}_{language}_{unit_of_analysis}_metrics.csv'

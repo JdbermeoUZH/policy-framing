@@ -9,7 +9,8 @@ LLMS = {
         'minibatch_size': 4,
         'n_epochs': 7,
         'max_length_padding': 512,
-        'run_on': 'GPUMEM16GB'
+        'run_on': 'GPUMEM16GB',
+        'units_of_analysis': ['title', 'title_and_first_paragraph', 'title_and_5_sentences', 'title_and_10_sentences', 'title_and_first_sentence_each_paragraph', 'raw_text']
     },
 
     'bert-base-multilingual-cased': {
@@ -17,7 +18,8 @@ LLMS = {
         'minibatch_size': 16,
         'n_epochs': 65,
         'max_length_padding': 512,
-        'run_on': 'GPUMEM16GB'
+        'run_on': 'GPUMEM16GB',
+        'units_of_analysis': ['title', 'title_and_first_paragraph']
     },
 
     'distilbert-base-multilingual-cased': {
@@ -25,7 +27,8 @@ LLMS = {
         'minibatch_size': 64,
         'n_epochs': 75,
         'max_length_padding': 512,
-         'run_on': 'GPUMEM16GB'
+         'run_on': 'GPUMEM16GB',
+        'units_of_analysis': ['title_and_first_paragraph', 'title_and_5_sentences', 'title_and_10_sentences', 'title_and_first_sentence_each_paragraph', 'raw_text']
     },
 
     'gpt2': {
@@ -33,7 +36,8 @@ LLMS = {
         'minibatch_size': 4,
         'n_epochs': 15,
         'max_length_padding': 512,
-        'run_on': 'GPUMEM16GB'
+        'run_on': 'GPUMEM16GB',
+        'units_of_analysis': ['title', 'title_and_first_paragraph', 'title_and_5_sentences']
     },
 
     'EleutherAI/gpt-neo-125M': {
@@ -41,7 +45,8 @@ LLMS = {
         'minibatch_size': 2,
         'n_epochs': 13,
         'max_length_padding': 512,
-        'run_on': 'GPUMEM16GB'
+        'run_on': 'GPUMEM16GB',
+        'units_of_analysis': ['title', 'title_and_first_paragraph', 'title_and_5_sentences', 'title_and_10_sentences', 'title_and_first_sentence_each_paragraph', 'raw_text']
     },
 
     'AshtonIsNotHere/xlm-roberta-long-base-4096': {
@@ -49,7 +54,8 @@ LLMS = {
         'minibatch_size': 4,
         'n_epochs': 20,
         'max_length_padding': 4096,
-        'run_on': 'GPUMEM32GB'
+        'run_on': 'GPUMEM32GB',
+        'units_of_analysis': ['title', 'title_and_first_paragraph']
     },
 
     'facebook/mbart-large-50': {
@@ -57,7 +63,8 @@ LLMS = {
         'minibatch_size': 4,
         'n_epochs': 7,
         'max_length_padding': 512,
-        'run_on': 'GPUMEM32GB'
+        'run_on': 'GPUMEM32GB',
+        'units_of_analysis': ['title', 'title_and_first_paragraph']
     },
 
     'EleutherAI/gpt-neo-1.3B': {
@@ -65,18 +72,25 @@ LLMS = {
         'minibatch_size': 2,
         'n_epochs': 8,
         'max_length_padding': 512,
-        'run_on': 'GPUMEM80GB'
+        'run_on': 'GPUMEM80GB',
+        'units_of_analysis': ['title', 'title_and_first_paragraph', 'title_and_5_sentences', 'title_and_10_sentences', 'title_and_first_sentence_each_paragraph', 'raw_text']
     },
 }
 
+AVOID = ['facebook/mbart-large-50', 'AshtonIsNotHere/xlm-roberta-long-base-4096']
 
 if __name__ == '__main__':
     truncated = 0
 
     for model_name, model_params in LLMS.items():
+
+        if model_name in AVOID:
+            continue
+
         print(model_name)
         print(model_params)
-        for analysis_unit in UNITS_OF_ANALYSES:
+        for analysis_unit in model_params['units_of_analysis']:
+            print(f'\t{analysis_unit}')
             os.environ['analysis_unit'] = analysis_unit
             os.environ['model_name'] = model_name
             os.environ['gradient_accumulation_steps'] = str(model_params['gradient_accumulation_steps'])

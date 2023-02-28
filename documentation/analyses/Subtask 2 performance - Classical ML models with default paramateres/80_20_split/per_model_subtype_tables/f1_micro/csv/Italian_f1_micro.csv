@@ -1,4 +1,6 @@
 model_type,model_subtype,title,title and first paragraph,title and 5 sentences,title and 10 sentences,title and first sentence each paragraph,raw text
+Binary Relevance kNN,Natively Multilabel,0.193,0.231,0.174,0.183,0.102,0.094
+ComplementNaiveBayes,RakelD Partitioning of labels,0.458,0.449,0.392,0.468,0.418,0.507
 Dummy Classifier,No Upsampling,0.388,0.395,0.376,0.386,0.360,0.379
 KNN,BorderlineSMOTE,0.522,0.472,0.502,0.487,0.459,0.503
 KNN,No Upsampling,0.383,0.146,0.081,0.186,0.128,0.037
@@ -7,6 +9,7 @@ KNN,SMOTE,0.515,0.491,0.502,0.502,0.451,0.503
 KNN,SVMSMOTE,0.523,0.456,0.502,0,0.452,0.500
 LinearSVM,BorderlineSMOTE,0.394,0.392,0.387,0.432,0.420,0.476
 LinearSVM,No Upsampling,0.394,0.384,0.387,0.432,0.420,0.476
+LinearSVM,RakelD Partitioning of labels,0.414,0.386,0.373,0.425,0.404,0.446
 LinearSVM,Random Oversampling,0.394,0.384,0.387,0.432,0.420,0.476
 LinearSVM,SMOTE,0.406,0.401,0.387,0.432,0.420,0.476
 LogisticRegression,BorderlineSMOTE,0.396,0.387,0.387,0.423,0.432,0.475
@@ -26,9 +29,11 @@ LogisticRegressionLasso,SMOTE,0.320,0.417,0.324,0.439,0.434,0.462
 LogisticRegressionLasso,SVMSMOTE,0.343,0.420,0.399,0.457,0.481,0.487
 LogisticRegressionRidge,BorderlineSMOTE,0.428,0.439,0.411,0.456,0.420,0.467
 LogisticRegressionRidge,No Upsampling,0.391,0.418,0.399,0.455,0.398,0.460
+LogisticRegressionRidge,RakelD Partitioning of labels,0.410,0.378,0.402,0.417,0.396,0.413
 LogisticRegressionRidge,Random Oversampling,0.408,0.434,0.416,0.466,0.413,0.465
 LogisticRegressionRidge,SMOTE,0.416,0.438,0.417,0.464,0.424,0.461
 LogisticRegressionRidge,SVMSMOTE,0.431,0.403,0.396,0.448,0.435,0.473
+Multilabel k Nearest Neighbours,Natively Multilabel,0.411,0.415,0.366,0.437,0.304,0.374
 NaiveBayes,BorderlineSMOTE,0.509,0.509,0.549,0.577,0.577,**0.629**
 NaiveBayes,No Upsampling,0.433,0.395,0.396,0.411,0.418,0.401
 NaiveBayes,Random Oversampling,0.502,0.543,0.553,0.577,0.594,0.625
@@ -45,6 +50,7 @@ RidgeClassifier,SMOTE,0.401,0.431,0.412,0.459,0.424,0.463
 RidgeClassifier,SVMSMOTE,0.450,0.418,0.402,0.446,0.435,0.508
 SVM,BorderlineSMOTE,0.226,0.017,0.024,0.059,0.072,0.160
 SVM,No Upsampling,0.160,0.008,0.032,0.142,0.142,0.257
+SVM,RakelD Partitioning of labels,0.128,0.000,0.123,0.042,0.224,0.187
 SVM,Random Oversampling,0.278,0.033,0.041,0.218,0.166,0.338
 SVM,SMOTE,0.229,0.017,0.024,0.067,0.043,0.182
 SVM,SVMSMOTE,0.359,0.017,0.024,0.040,0.024,0.144

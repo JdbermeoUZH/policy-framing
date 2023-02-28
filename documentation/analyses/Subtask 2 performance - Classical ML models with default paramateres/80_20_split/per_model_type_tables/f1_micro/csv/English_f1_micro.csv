@@ -1,11 +1,15 @@
 model_type,title,title and first paragraph,title and 5 sentences,title and 10 sentences,title and first sentence each paragraph,raw text
+Binary Relevance kNN,0.310,0.403,0.347,0.273,0.312,0.334
+ComplementNaiveBayes,0.574,0.626,0.660,0.682,0.681,0.709
 Dummy Classifier,0.427,0.459,0.437,0.433,0.430,0.435
 KNN,0.490,0.540,0.527,0.478,0.466,0.543
-LinearSVM,0.593,0.612,0.639,0.651,0.649,0.679
+LinearSVM,0.599,0.615,0.642,0.654,0.657,0.686
 LogisticRegression,0.594,0.618,0.628,0.653,0.659,0.694
 LogisticRegressionElasticNet,0.604,0.612,0.638,0.640,0.669,0.685
 LogisticRegressionLasso,0.555,0.615,0.624,0.624,0.655,0.645
 LogisticRegressionRidge,0.610,0.629,0.643,0.669,0.659,0.700
+Multi-label ARAM,0.014,0,0,0,0,0
+Multilabel k Nearest Neighbours,0.402,0.560,0.540,0.553,0.533,0.638
 NaiveBayes,0.631,0.695,0.718,0.712,0.713,**0.719**
 RandomForest,0.581,0.616,0.632,0.654,0.663,0.656
 RidgeClassifier,0.602,0.640,0.636,0.660,0.656,0.689
