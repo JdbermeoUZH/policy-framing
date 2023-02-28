@@ -1150,7 +1150,7 @@ MODEL_LIST = \
         'ComplementNaiveBayes': { 
             'model': ComplementNB(),
             'n_search_iter': 60,
-            'model_type': 'NaiveBayes',
+            'model_type': 'ComplementNaiveBayes',
             'model_subtype': 'No Upsampling',
             'hyperparam_space': {
                 'alpha': loguniform(5e-3, 10),
@@ -1163,7 +1163,7 @@ MODEL_LIST = \
                 [('up', RandomOverSampler()),
                  ('model', ComplementNB())]),
             'n_search_iter': 60,
-            'model_type': 'NaiveBayes',
+            'model_type': 'ComplementNaiveBayes',
             'model_subtype': 'Random Oversampling',
             'hyperparam_space': {
                 'model__alpha': loguniform(5e-3, 10),
@@ -1178,7 +1178,7 @@ MODEL_LIST = \
                 [('up', SMOTE()),
                  ('model', ComplementNB())]),
             'n_search_iter': 60,
-            'model_type': 'NaiveBayes',
+            'model_type': 'ComplementNaiveBayes',
             'model_subtype': 'SMOTE',
             'hyperparam_space': {
                 'model__alpha': loguniform(5e-3, 10),
@@ -1193,7 +1193,7 @@ MODEL_LIST = \
                 [('up', BorderlineSMOTE()),
                  ('model', ComplementNB())]),
             'n_search_iter': 60,
-            'model_type': 'NaiveBayes',
+            'model_type': 'ComplementNaiveBayes',
             'model_subtype': 'BorderlineSMOTE',
             'hyperparam_space': {
                 'model__alpha': loguniform(5e-3, 10),
@@ -1210,7 +1210,7 @@ MODEL_LIST = \
                 [('up', SVMSMOTE()),
                  ('model', ComplementNB())]),
             'n_search_iter': 150,
-            'model_type': 'NaiveBayes',
+            'model_type': 'ComplementNaiveBayes',
             'model_subtype': 'SVMSMOTE',
             'hyperparam_space': {
                 'model__alpha': loguniform(5e-3, 10),
@@ -1228,7 +1228,7 @@ MODEL_LIST = \
             ]),
             'n_search_iter': 60,
             'wrap_mlb_clf': False,
-            'model_type': 'ComplementNB',
+            'model_type': 'ComplementNaiveBayes',
             'model_subtype': 'RakelD Partitioning of labels',
             'hyperparam_space': {
                 'preproc__with_std': [True, False],
