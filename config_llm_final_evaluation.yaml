@@ -5,7 +5,7 @@ preprocessing:
   single_train_test_split_filepath: ['multilingual_train_test_80_20_split_title_and_5_sentences_max_words_length_500_min_words_length_30_chunk_word_overlap_250.hf']
   analysis_unit: 'title_and_5_sentences'                                      # 'title', 'title_and_first_paragraph', 'title_and_5_sentences', 'title_and_10_sentences', 'title_and_first_sentence_each_paragraph', 'raw_text', 'all'
   max_length_padding: 32
-  truncated: False
+  truncated: True
 
 model:
   model_name: 'distilbert-base-multilingual-cased'                                                 # distilbert-base-multilingual-cased, bert-base-multilingual-cased
@@ -21,8 +21,8 @@ training:
   fit_only_on_specific_language: False
 
 output:
-  metrics_output_dir: ['..', 'final_evaluation', 'llm', 'truncated']
-  file_prefix: 'multilingual_fit_truncated' #'multilingual_fit_chunked'
+  metrics_output_dir: ['..', 'final_evaluation', 'llm', 'chunked']
+  file_prefix: 'chunked' #'multilingual_fit_chunked'
 
 
 

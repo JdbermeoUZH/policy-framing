@@ -20,7 +20,7 @@ training:
   ranking_metric: 'f1_micro'                            # Metric to rank and choose the best model
   return_train_metrics: True                            # Whether to return the metrics on the train set or not
   model_hyperparam_module: 'training.english.hyperparam_space_config'           # .py file with models and distribution of hyperparams to tune and benchmark
-  model_list: ['LogisticRegression', 'NaiveBayes']                                   # Names of models to fit. If set to 'all' or ['all'], will fit all models in `model_hyperparam_module`
+  model_list: ['all']                                   # Names of models to fit. If set to 'all' or ['all'], will fit all models in `model_hyperparam_module`
   n_folds_tunning_eval: 3
 
   # Default model list
