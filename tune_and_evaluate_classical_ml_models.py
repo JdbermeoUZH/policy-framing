@@ -184,13 +184,21 @@ if __name__ == "__main__":
                 print(notify_current_model_str)
                 print('\t' + "-" * len(notify_current_model_str))
 
+                # For natively multilabel models, disbale the wrap with multilabel class from sklearn
+                if 'wrap_mlb_clf' in estimators_config.MODEL_LIST[model_name].keys():
+                    wrap_mlb_clf = estimators_config.MODEL_LIST[model_name]['wrap_mlb_clf']
+                else:
+                    wrap_mlb_clf = True
+
                 # Define model
                 multilabel_cls = MultiLabelEstimator(
                     model_name=model_name,
                     base_estimator=estimators_config.MODEL_LIST[model_name]['model'],
                     base_estimator_hyperparam_dist=estimators_config.MODEL_LIST[model_name]['hyperparam_space'],
                     treat_labels_as_independent=train_config['mlb_cls_independent'],
-                    scoring_functions=scoring_functions
+                    scoring_functions=scoring_functions,
+                    wrap_mlb_clf=wrap_mlb_clf,
+                    random_seed=run_config['seed']
                 )
 
                 # Tune the model
@@ -207,7 +215,7 @@ if __name__ == "__main__":
                         best_model = search_results.best_estimator_
 
                     else:
-                        best_model = multilabel_cls.multi_label_estimator.fit(X_train, y_train)
+                        best_model = multilabel_cls.multi_label_estimator.fit(X_train.copy(), y_train.copy())
 
                 except Exception as e:
                     print(f'Error while trying to fit model: {model_name}')
