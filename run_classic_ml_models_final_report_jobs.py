@@ -29,7 +29,7 @@ if __name__ == '__main__':
             os.environ['output_dir'] = ' '.join(['..', 'final_evaluation', 'classical_ml_models', 'tunned'])
             os.environ['metric_file_prefix'] = 'tunned'
 
-            os.system('sbatch evaluate.sh')
+            #os.system('sbatch evaluate.sh')
 
             # Run models with default params
             os.environ['preprocessing_hyperparam_module'] = f'training.default_params.preprocesing_params_config'
