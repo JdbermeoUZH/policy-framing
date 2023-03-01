@@ -1,0 +1,10 @@
+| model_name                                 |   title |   title and first paragraph |   title and 5 sentences | title and 10 sentences   |   title and first sentence each paragraph |   raw text |
+|:-------------------------------------------|--------:|----------------------------:|------------------------:|:-------------------------|------------------------------------------:|-----------:|
+| AshtonIsNotHere-xlm-roberta-long-base-4096 |   0.029 |                       0.029 |                   0.029 | 0.057                    |                                     0.057 |      0.029 |
+| EleutherAI-gpt-neo-1.3B                    |   0     |                       0.029 |                   0     | 0.057                    |                                     0.029 |      0.029 |
+| EleutherAI-gpt-neo-125M                    |   0     |                       0     |                   0.029 | 0.000                    |                                     0.029 |      0.029 |
+| bert-base-multilingual-cased               |   0     |                       0.029 |                   0.029 | 0.057                    |                                     0     |      0.029 |
+| distilbert-base-multilingual-cased         |   0.029 |                       0.029 |                   0     | 0.000                    |                                     0.029 |      0     |
+| facebook-mbart-large-50                    |   0.057 |                       0.029 |                   0.029 | 0.029                    |                                     0.057 |      0     |
+| gpt2                                       |   0     |                       0     |                   0.029 | **0.086**                |                                     0     |      0     |
+| xlm-roberta-large                          |   0.029 |                       0.057 |                   0.029 | 0.000                    |                                     0.057 |      0.029 |

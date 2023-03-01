@@ -1,0 +1,9 @@
+model_name,title,title and first paragraph,title and 5 sentences,title and 10 sentences,title and first sentence each paragraph,raw text
+AshtonIsNotHere-xlm-roberta-long-base-4096,0.478,0.474,0.474,0.470,0.452,0.526
+EleutherAI-gpt-neo-1.3B,0.330,0.426,0.404,0.426,0.443,0.526
+EleutherAI-gpt-neo-125M,0.243,0.243,0.348,0.400,0.378,0.465
+bert-base-multilingual-cased,0.413,0.483,0.491,0.517,0.504,0.548
+distilbert-base-multilingual-cased,0.409,0.470,0.487,0.526,0.470,**0.578**
+facebook-mbart-large-50,0.439,0.487,0.483,0.478,0.526,0.565
+gpt2,0.335,0.417,0.457,0.491,0.387,0.496
+xlm-roberta-large,0.439,0.491,0.496,0.491,0.491,0.543

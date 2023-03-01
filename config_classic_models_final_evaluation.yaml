@@ -20,7 +20,6 @@ training:
   ranking_metric: 'f1_micro'                            # Metric to rank and choose the best model
   return_train_metrics: True                            # Whether to return the metrics on the train set or not
   model_hyperparam_module: 'training.german.hyperparam_space_config'           # .py file with models and distribution of hyperparams to tune and benchmark
-  #model_list: ['ComplementNaiveBayes', 'ComplementNaiveBayes_ROS', 'ComplementNaiveBayes_SMOTE', 'ComplementNaiveBayes_BorderlineSMOTE', 'ComplementNaiveBayes_SVMSMOTE',  'NaiveBayes', 'NaiveBayes_ROS', 'NaiveBayes_SMOTE', 'NaiveBayes_BorderlineSMOTE', 'NaiveBayes_SVMSMOTE', 'LogisticRegressionRidgeDual', 'LogisticRegressionRidgeDual_ROS', 'LogisticRegressionRidgeDual_SMOTE', 'LogisticRegressionRidgeDual_BorderlineSMOTE', 'LogisticRegressionRidgeDual_SVMSMOTE','LinearSVMDual', 'LinearSVMDual_ROS', 'LinearSVMDual_SMOTE', 'LinearSVMDual_BorderlineSMOTE', 'LinearSVMDual_SVMSMOTE']                                   # Names of models to fit. If set to 'all' or ['all'], will fit all models in `model_hyperparam_module`
   model_list: ['all']
   n_folds_tunning_eval: 5
 
